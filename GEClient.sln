@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GEClient", "GEClient\GEClient.csproj", "{9A500938-2DB6-4D86-B0F2-A6B429B9A173}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A500938-2DB6-4D86-B0F2-A6B429B9A173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A500938-2DB6-4D86-B0F2-A6B429B9A173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A500938-2DB6-4D86-B0F2-A6B429B9A173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A500938-2DB6-4D86-B0F2-A6B429B9A173}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FCB7F1D-6784-486B-ABAB-1326D1743A17}
+	EndGlobalSection
+EndGlobal

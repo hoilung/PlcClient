@@ -121,10 +121,10 @@
             // 
             // tbx_port
             // 
-            this.tbx_port.Location = new System.Drawing.Point(189, 22);
+            this.tbx_port.Location = new System.Drawing.Point(201, 22);
             this.tbx_port.Mask = "99999";
             this.tbx_port.Name = "tbx_port";
-            this.tbx_port.Size = new System.Drawing.Size(54, 21);
+            this.tbx_port.Size = new System.Drawing.Size(43, 21);
             this.tbx_port.TabIndex = 2;
             this.tbx_port.Text = "18245";
             this.tbx_port.ValidatingType = typeof(int);
@@ -142,7 +142,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(148, 26);
+            this.label2.Location = new System.Drawing.Point(160, 26);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 12);
             this.label2.TabIndex = 4;
@@ -151,7 +151,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 26);
+            this.label1.Location = new System.Drawing.Point(25, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(23, 12);
             this.label1.TabIndex = 3;
@@ -159,7 +159,7 @@
             // 
             // tbx_ip
             // 
-            this.tbx_ip.Location = new System.Drawing.Point(42, 22);
+            this.tbx_ip.Location = new System.Drawing.Point(54, 22);
             this.tbx_ip.Name = "tbx_ip";
             this.tbx_ip.Size = new System.Drawing.Size(100, 21);
             this.tbx_ip.TabIndex = 1;
@@ -185,7 +185,6 @@
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.LabelEdit = true;
             this.lv_data.Location = new System.Drawing.Point(6, 20);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
@@ -269,7 +268,7 @@
             this.tbx_addressOne.Location = new System.Drawing.Point(54, 23);
             this.tbx_addressOne.Name = "tbx_addressOne";
             this.tbx_addressOne.Size = new System.Drawing.Size(100, 21);
-            this.tbx_addressOne.TabIndex = 1;
+            this.tbx_addressOne.TabIndex = 20;
             this.tbx_addressOne.Text = "M100";
             // 
             // cbx_type
@@ -284,7 +283,7 @@
             this.cbx_type.Location = new System.Drawing.Point(203, 23);
             this.cbx_type.Name = "cbx_type";
             this.cbx_type.Size = new System.Drawing.Size(121, 20);
-            this.cbx_type.TabIndex = 2;
+            this.cbx_type.TabIndex = 21;
             // 
             // label5
             // 
@@ -307,7 +306,7 @@
             this.btn_readOne.Location = new System.Drawing.Point(330, 22);
             this.btn_readOne.Name = "btn_readOne";
             this.btn_readOne.Size = new System.Drawing.Size(75, 23);
-            this.btn_readOne.TabIndex = 5;
+            this.btn_readOne.TabIndex = 22;
             this.btn_readOne.Text = "读取";
             this.btn_readOne.UseVisualStyleBackColor = true;
             this.btn_readOne.Click += new System.EventHandler(this.btn_readOne_Click);

@@ -14,7 +14,7 @@ namespace GEClient
         public Main()
         {
             InitializeComponent();
-            this.Text += " v" + this.ProductVersion;
+            this.Text += " v" + this.ProductVersion;            
             changeState(false);
             cbx_type.SelectedIndex = 0;
         }
@@ -59,6 +59,12 @@ namespace GEClient
 
         private void btn_read_Click(object sender, EventArgs e)
         {
+            var index = 0;
+            if (lv_data.SelectedItems.Count > 0)
+            {
+                index = int.Parse(lv_data.SelectedItems[0].Text);
+            }
+
             var array = lv_data.Tag as List<GEDataItem>;
             var st = Stopwatch.StartNew();
             st.Start();
@@ -67,7 +73,12 @@ namespace GEClient
             tssl_tip.Text = $"用时：{st.ElapsedMilliseconds}ms";
 
             NewMethod(array);
-            
+
+            if (index > 0)
+            {
+                lv_data.TopItem = lv_data.Items[index];
+            }
+
         }
 
         private void NewMethod(List<GEDataItem> array)

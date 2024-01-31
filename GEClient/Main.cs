@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace GEClient
@@ -14,7 +16,7 @@ namespace GEClient
         public Main()
         {
             InitializeComponent();
-            this.Text += " v" + this.ProductVersion;            
+            this.Text += " v" + this.ProductVersion;
             changeState(false);
             cbx_type.SelectedIndex = 0;
         }
@@ -135,6 +137,40 @@ namespace GEClient
             st.Stop();
             tssl_tip.Text = $"用时：{st.ElapsedMilliseconds}ms";
             tbx_value.Text = result.ToString();
+        }
+
+        private void lv_data_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                muen_lv.Show(lv_data, e.Location);
+            }
+        }
+
+        private void tm_exportExcel_Click(object sender, EventArgs e)
+        {
+
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "Save File(*.csv)|*.csv";
+            fileDialog.Title = "保存文件";
+            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            fileDialog.DefaultExt = "csv";
+            fileDialog.FileName = DateTime.Now.ToString("yyyyMMdd-HHmmssffff");// DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                var array = lv_data.Tag as List<GEDataItem>;
+                for (int i = 0; i < array.Count; i++)
+                {
+                    stringBuilder.AppendLine($"{i},{array[i].Address},{array[i].DataType},{array[i].Value}");
+                }
+
+                File.WriteAllText(fileDialog.FileName, stringBuilder.ToString());
+                tssl_tip.Text = $"保存文件：{fileDialog.FileName}";
+                MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+
         }
     }
 

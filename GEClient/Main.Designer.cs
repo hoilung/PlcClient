@@ -28,17 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.btn_add = new System.Windows.Forms.Button();
-            this.btn_read = new System.Windows.Forms.Button();
             this.tbx_port = new System.Windows.Forms.MaskedTextBox();
             this.btn_close = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbx_ip = new System.Windows.Forms.TextBox();
             this.btn_open = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.btn_add = new System.Windows.Forms.Button();
+            this.btn_read = new System.Windows.Forms.Button();
             this.lv_data = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -46,20 +47,23 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tbx_address = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tbx_addressOne = new System.Windows.Forms.TextBox();
-            this.cbx_type = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbx_value = new System.Windows.Forms.TextBox();
             this.btn_readOne = new System.Windows.Forms.Button();
+            this.tbx_value = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbx_type = new System.Windows.Forms.ComboBox();
+            this.tbx_addressOne = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssl_tip = new System.Windows.Forms.ToolStripStatusLabel();
+            this.muen_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.muen_lv.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -77,47 +81,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "GE设置";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(411, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 12);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "最大字节:";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(476, 21);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(42, 21);
-            this.numericUpDown1.TabIndex = 7;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            // 
-            // btn_add
-            // 
-            this.btn_add.Location = new System.Drawing.Point(529, 20);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(75, 23);
-            this.btn_add.TabIndex = 6;
-            this.btn_add.Text = "添加";
-            this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
-            // 
-            // btn_read
-            // 
-            this.btn_read.Location = new System.Drawing.Point(610, 20);
-            this.btn_read.Name = "btn_read";
-            this.btn_read.Size = new System.Drawing.Size(75, 23);
-            this.btn_read.TabIndex = 5;
-            this.btn_read.Text = "读取";
-            this.btn_read.UseVisualStyleBackColor = true;
-            this.btn_read.Click += new System.EventHandler(this.btn_read_Click);
             // 
             // tbx_port
             // 
@@ -175,6 +138,47 @@
             this.btn_open.UseVisualStyleBackColor = true;
             this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(411, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 12);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "最大字节:";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(476, 21);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(42, 21);
+            this.numericUpDown1.TabIndex = 7;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            // 
+            // btn_add
+            // 
+            this.btn_add.Location = new System.Drawing.Point(529, 20);
+            this.btn_add.Name = "btn_add";
+            this.btn_add.Size = new System.Drawing.Size(75, 23);
+            this.btn_add.TabIndex = 6;
+            this.btn_add.Text = "添加";
+            this.btn_add.UseVisualStyleBackColor = true;
+            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            // 
+            // btn_read
+            // 
+            this.btn_read.Location = new System.Drawing.Point(610, 20);
+            this.btn_read.Name = "btn_read";
+            this.btn_read.Size = new System.Drawing.Size(75, 23);
+            this.btn_read.TabIndex = 5;
+            this.btn_read.Text = "读取";
+            this.btn_read.UseVisualStyleBackColor = true;
+            this.btn_read.Click += new System.EventHandler(this.btn_read_Click);
+            // 
             // lv_data
             // 
             this.lv_data.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -182,6 +186,7 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
+            this.lv_data.ContextMenuStrip = this.muen_lv;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
@@ -192,6 +197,7 @@
             this.lv_data.TabIndex = 6;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
+            this.lv_data.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lv_data_MouseClick);
             // 
             // columnHeader1
             // 
@@ -237,6 +243,63 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "单个查询";
             // 
+            // btn_readOne
+            // 
+            this.btn_readOne.Location = new System.Drawing.Point(330, 22);
+            this.btn_readOne.Name = "btn_readOne";
+            this.btn_readOne.Size = new System.Drawing.Size(75, 23);
+            this.btn_readOne.TabIndex = 22;
+            this.btn_readOne.Text = "读取";
+            this.btn_readOne.UseVisualStyleBackColor = true;
+            this.btn_readOne.Click += new System.EventHandler(this.btn_readOne_Click);
+            // 
+            // tbx_value
+            // 
+            this.tbx_value.Location = new System.Drawing.Point(413, 23);
+            this.tbx_value.Name = "tbx_value";
+            this.tbx_value.Size = new System.Drawing.Size(109, 21);
+            this.tbx_value.TabIndex = 4;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(160, 27);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 12);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "类型:";
+            // 
+            // cbx_type
+            // 
+            this.cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_type.FormattingEnabled = true;
+            this.cbx_type.Items.AddRange(new object[] {
+            "Bool",
+            "Int16",
+            "Int32",
+            "Float"});
+            this.cbx_type.Location = new System.Drawing.Point(203, 23);
+            this.cbx_type.Name = "cbx_type";
+            this.cbx_type.Size = new System.Drawing.Size(121, 20);
+            this.cbx_type.TabIndex = 21;
+            // 
+            // tbx_addressOne
+            // 
+            this.tbx_addressOne.Location = new System.Drawing.Point(54, 23);
+            this.tbx_addressOne.Name = "tbx_addressOne";
+            this.tbx_addressOne.Size = new System.Drawing.Size(100, 21);
+            this.tbx_addressOne.TabIndex = 20;
+            this.tbx_addressOne.Text = "M100";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 27);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 12);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "地址:";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.statusStrip1);
@@ -254,63 +317,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量查询";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 27);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 12);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "地址:";
-            // 
-            // tbx_addressOne
-            // 
-            this.tbx_addressOne.Location = new System.Drawing.Point(54, 23);
-            this.tbx_addressOne.Name = "tbx_addressOne";
-            this.tbx_addressOne.Size = new System.Drawing.Size(100, 21);
-            this.tbx_addressOne.TabIndex = 20;
-            this.tbx_addressOne.Text = "M100";
-            // 
-            // cbx_type
-            // 
-            this.cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_type.FormattingEnabled = true;
-            this.cbx_type.Items.AddRange(new object[] {
-            "Bool",
-            "Int16",
-            "Int32",
-            "Float"});
-            this.cbx_type.Location = new System.Drawing.Point(203, 23);
-            this.cbx_type.Name = "cbx_type";
-            this.cbx_type.Size = new System.Drawing.Size(121, 20);
-            this.cbx_type.TabIndex = 21;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(160, 27);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 12);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "类型:";
-            // 
-            // tbx_value
-            // 
-            this.tbx_value.Location = new System.Drawing.Point(413, 23);
-            this.tbx_value.Name = "tbx_value";
-            this.tbx_value.Size = new System.Drawing.Size(109, 21);
-            this.tbx_value.TabIndex = 4;
-            // 
-            // btn_readOne
-            // 
-            this.btn_readOne.Location = new System.Drawing.Point(330, 22);
-            this.btn_readOne.Name = "btn_readOne";
-            this.btn_readOne.Size = new System.Drawing.Size(75, 23);
-            this.btn_readOne.TabIndex = 22;
-            this.btn_readOne.Text = "读取";
-            this.btn_readOne.UseVisualStyleBackColor = true;
-            this.btn_readOne.Click += new System.EventHandler(this.btn_readOne_Click);
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -326,6 +332,20 @@
             this.tssl_tip.Name = "tssl_tip";
             this.tssl_tip.Size = new System.Drawing.Size(32, 17);
             this.tssl_tip.Text = "就绪";
+            // 
+            // muen_lv
+            // 
+            this.muen_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tm_exportExcel});
+            this.muen_lv.Name = "muen_lv";
+            this.muen_lv.Size = new System.Drawing.Size(181, 48);
+            // 
+            // tm_exportExcel
+            // 
+            this.tm_exportExcel.Name = "tm_exportExcel";
+            this.tm_exportExcel.Size = new System.Drawing.Size(180, 22);
+            this.tm_exportExcel.Text = "导出Excel";
+            this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
             // 
             // Main
             // 
@@ -350,6 +370,7 @@
             this.groupBox3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.muen_lv.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -383,6 +404,8 @@
         private System.Windows.Forms.Button btn_readOne;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tssl_tip;
+        private System.Windows.Forms.ContextMenuStrip muen_lv;
+        private System.Windows.Forms.ToolStripMenuItem tm_exportExcel;
     }
 }
 

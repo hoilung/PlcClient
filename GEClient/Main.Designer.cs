@@ -45,6 +45,8 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.muen_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.tbx_address = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_readOne = new System.Windows.Forms.Button();
@@ -56,14 +58,15 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssl_tip = new System.Windows.Forms.ToolStripStatusLabel();
-            this.muen_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.lb_address = new System.Windows.Forms.Label();
+            this.cbx_changetype = new System.Windows.Forms.ComboBox();
+            this.btn_changetype = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.muen_lv.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.muen_lv.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -149,12 +152,22 @@
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.numericUpDown1.Location = new System.Drawing.Point(476, 21);
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(42, 21);
             this.numericUpDown1.TabIndex = 7;
             this.numericUpDown1.Value = new decimal(new int[] {
-            8,
+            6,
             0,
             0,
             0});
@@ -190,13 +203,14 @@
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(6, 20);
+            this.lv_data.Location = new System.Drawing.Point(6, 49);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(399, 285);
+            this.lv_data.Size = new System.Drawing.Size(399, 256);
             this.lv_data.TabIndex = 6;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
+            this.lv_data.SelectedIndexChanged += new System.EventHandler(this.lv_data_SelectedIndexChanged);
             this.lv_data.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lv_data_MouseClick);
             // 
             // columnHeader1
@@ -217,6 +231,20 @@
             // 
             this.columnHeader4.Text = "Value";
             this.columnHeader4.Width = 106;
+            // 
+            // muen_lv
+            // 
+            this.muen_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tm_exportExcel});
+            this.muen_lv.Name = "muen_lv";
+            this.muen_lv.Size = new System.Drawing.Size(130, 26);
+            // 
+            // tm_exportExcel
+            // 
+            this.tm_exportExcel.Name = "tm_exportExcel";
+            this.tm_exportExcel.Size = new System.Drawing.Size(129, 22);
+            this.tm_exportExcel.Text = "导出Excel";
+            this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
             // 
             // tbx_address
             // 
@@ -257,7 +285,7 @@
             // 
             this.tbx_value.Location = new System.Drawing.Point(413, 23);
             this.tbx_value.Name = "tbx_value";
-            this.tbx_value.Size = new System.Drawing.Size(109, 21);
+            this.tbx_value.Size = new System.Drawing.Size(191, 21);
             this.tbx_value.TabIndex = 4;
             // 
             // label5
@@ -274,10 +302,15 @@
             this.cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_type.FormattingEnabled = true;
             this.cbx_type.Items.AddRange(new object[] {
-            "Bool",
+            "Boolean",
             "Int16",
             "Int32",
-            "Float"});
+            "Int64",
+            "Float",
+            "Double",
+            "UInt16",
+            "UInt32",
+            "UInt64"});
             this.cbx_type.Location = new System.Drawing.Point(203, 23);
             this.cbx_type.Name = "cbx_type";
             this.cbx_type.Size = new System.Drawing.Size(121, 20);
@@ -302,6 +335,9 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btn_changetype);
+            this.groupBox3.Controls.Add(this.cbx_changetype);
+            this.groupBox3.Controls.Add(this.lb_address);
             this.groupBox3.Controls.Add(this.statusStrip1);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.lv_data);
@@ -333,19 +369,43 @@
             this.tssl_tip.Size = new System.Drawing.Size(32, 17);
             this.tssl_tip.Text = "就绪";
             // 
-            // muen_lv
+            // lb_address
             // 
-            this.muen_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tm_exportExcel});
-            this.muen_lv.Name = "muen_lv";
-            this.muen_lv.Size = new System.Drawing.Size(181, 48);
+            this.lb_address.AutoSize = true;
+            this.lb_address.Location = new System.Drawing.Point(74, 26);
+            this.lb_address.Name = "lb_address";
+            this.lb_address.Size = new System.Drawing.Size(47, 12);
+            this.lb_address.TabIndex = 10;
+            this.lb_address.Text = "Address";
             // 
-            // tm_exportExcel
+            // cbx_changetype
             // 
-            this.tm_exportExcel.Name = "tm_exportExcel";
-            this.tm_exportExcel.Size = new System.Drawing.Size(180, 22);
-            this.tm_exportExcel.Text = "导出Excel";
-            this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
+            this.cbx_changetype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_changetype.FormattingEnabled = true;
+            this.cbx_changetype.Items.AddRange(new object[] {
+            "Boolean",
+            "Int16",
+            "Int32",
+            "Int64",
+            "Float",
+            "Double",
+            "UInt16",
+            "UInt32",
+            "UInt64"});
+            this.cbx_changetype.Location = new System.Drawing.Point(155, 20);
+            this.cbx_changetype.Name = "cbx_changetype";
+            this.cbx_changetype.Size = new System.Drawing.Size(100, 20);
+            this.cbx_changetype.TabIndex = 22;
+            // 
+            // btn_changetype
+            // 
+            this.btn_changetype.Location = new System.Drawing.Point(268, 18);
+            this.btn_changetype.Name = "btn_changetype";
+            this.btn_changetype.Size = new System.Drawing.Size(82, 23);
+            this.btn_changetype.TabIndex = 23;
+            this.btn_changetype.Text = "修改类型";
+            this.btn_changetype.UseVisualStyleBackColor = true;
+            this.btn_changetype.Click += new System.EventHandler(this.btn_changetype_Click);
             // 
             // Main
             // 
@@ -364,13 +424,13 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.muen_lv.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.muen_lv.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -406,6 +466,9 @@
         private System.Windows.Forms.ToolStripStatusLabel tssl_tip;
         private System.Windows.Forms.ContextMenuStrip muen_lv;
         private System.Windows.Forms.ToolStripMenuItem tm_exportExcel;
+        private System.Windows.Forms.ComboBox cbx_changetype;
+        private System.Windows.Forms.Label lb_address;
+        private System.Windows.Forms.Button btn_changetype;
     }
 }
 

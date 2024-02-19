@@ -222,8 +222,9 @@ namespace GEClient
                 var index = int.Parse(lv_data.SelectedItems[0].Text);
                 cbx_changetype.Tag = index;
 
-                lb_address.Text = lv_data.SelectedItems[0].SubItems[1].Text;
-                cbx_changetype.Text = lv_data.SelectedItems[0].SubItems[2].Text;
+                tbx_addressOne.Text = lb_address.Text = lv_data.SelectedItems[0].SubItems[1].Text;
+                cbx_type.Text = cbx_changetype.Text = lv_data.SelectedItems[0].SubItems[2].Text;
+                tbx_value.Text = string.Empty;
             }
 
         }

@@ -86,7 +86,11 @@ namespace GEClient
                 return;
             var st = Stopwatch.StartNew();
             st.Start();
-            SRTP.ReadMultipleVars(array.ToArray(), (int)numericUpDown1.Value);
+
+            if ((int)numericUpDown1.Value > 0)
+                SRTP.ReadMultipleVars(array.ToArray(), (int)numericUpDown1.Value);
+            else
+                SRTP.ReadMultipleVars(array.ToArray());
             st.Stop();
             tssl_tip.Text = $"用时：{st.ElapsedMilliseconds}ms";
 

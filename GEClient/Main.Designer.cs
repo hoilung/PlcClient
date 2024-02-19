@@ -56,11 +56,11 @@
             this.tbx_addressOne = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_changetype = new System.Windows.Forms.Button();
+            this.cbx_changetype = new System.Windows.Forms.ComboBox();
+            this.lb_address = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssl_tip = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lb_address = new System.Windows.Forms.Label();
-            this.cbx_changetype = new System.Windows.Forms.ComboBox();
-            this.btn_changetype = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.muen_lv.SuspendLayout();
@@ -158,11 +158,6 @@
             0,
             0});
             this.numericUpDown1.Location = new System.Drawing.Point(476, 21);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(42, 21);
             this.numericUpDown1.TabIndex = 7;
@@ -306,7 +301,7 @@
             "Int16",
             "Int32",
             "Int64",
-            "Float",
+            "Single",
             "Double",
             "UInt16",
             "UInt32",
@@ -353,6 +348,44 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量查询";
             // 
+            // btn_changetype
+            // 
+            this.btn_changetype.Location = new System.Drawing.Point(268, 18);
+            this.btn_changetype.Name = "btn_changetype";
+            this.btn_changetype.Size = new System.Drawing.Size(82, 23);
+            this.btn_changetype.TabIndex = 23;
+            this.btn_changetype.Text = "修改类型";
+            this.btn_changetype.UseVisualStyleBackColor = true;
+            this.btn_changetype.Click += new System.EventHandler(this.btn_changetype_Click);
+            // 
+            // cbx_changetype
+            // 
+            this.cbx_changetype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_changetype.FormattingEnabled = true;
+            this.cbx_changetype.Items.AddRange(new object[] {
+            "Boolean",
+            "Int16",
+            "Int32",
+            "Int64",
+            "Single",
+            "Double",
+            "UInt16",
+            "UInt32",
+            "UInt64"});
+            this.cbx_changetype.Location = new System.Drawing.Point(155, 20);
+            this.cbx_changetype.Name = "cbx_changetype";
+            this.cbx_changetype.Size = new System.Drawing.Size(100, 20);
+            this.cbx_changetype.TabIndex = 22;
+            // 
+            // lb_address
+            // 
+            this.lb_address.AutoSize = true;
+            this.lb_address.Location = new System.Drawing.Point(74, 26);
+            this.lb_address.Name = "lb_address";
+            this.lb_address.Size = new System.Drawing.Size(47, 12);
+            this.lb_address.TabIndex = 10;
+            this.lb_address.Text = "Address";
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -368,44 +401,6 @@
             this.tssl_tip.Name = "tssl_tip";
             this.tssl_tip.Size = new System.Drawing.Size(32, 17);
             this.tssl_tip.Text = "就绪";
-            // 
-            // lb_address
-            // 
-            this.lb_address.AutoSize = true;
-            this.lb_address.Location = new System.Drawing.Point(74, 26);
-            this.lb_address.Name = "lb_address";
-            this.lb_address.Size = new System.Drawing.Size(47, 12);
-            this.lb_address.TabIndex = 10;
-            this.lb_address.Text = "Address";
-            // 
-            // cbx_changetype
-            // 
-            this.cbx_changetype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_changetype.FormattingEnabled = true;
-            this.cbx_changetype.Items.AddRange(new object[] {
-            "Boolean",
-            "Int16",
-            "Int32",
-            "Int64",
-            "Float",
-            "Double",
-            "UInt16",
-            "UInt32",
-            "UInt64"});
-            this.cbx_changetype.Location = new System.Drawing.Point(155, 20);
-            this.cbx_changetype.Name = "cbx_changetype";
-            this.cbx_changetype.Size = new System.Drawing.Size(100, 20);
-            this.cbx_changetype.TabIndex = 22;
-            // 
-            // btn_changetype
-            // 
-            this.btn_changetype.Location = new System.Drawing.Point(268, 18);
-            this.btn_changetype.Name = "btn_changetype";
-            this.btn_changetype.Size = new System.Drawing.Size(82, 23);
-            this.btn_changetype.TabIndex = 23;
-            this.btn_changetype.Text = "修改类型";
-            this.btn_changetype.UseVisualStyleBackColor = true;
-            this.btn_changetype.Click += new System.EventHandler(this.btn_changetype_Click);
             // 
             // Main
             // 

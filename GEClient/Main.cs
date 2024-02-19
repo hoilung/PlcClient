@@ -82,6 +82,8 @@ namespace GEClient
             }
 
             var array = lv_data.Tag as List<GEDataItem>;
+            if (array == null)
+                return;
             var st = Stopwatch.StartNew();
             st.Start();
             SRTP.ReadMultipleVars(array.ToArray(), (int)numericUpDown1.Value);
@@ -152,7 +154,7 @@ namespace GEClient
                 case "int64":
                     result = SRTP.ReadInt64(address);
                     break;
-                case "float":
+                case "single":
                     result = SRTP.ReadSingle(address);
                     break;
                 case "double":
@@ -252,7 +254,7 @@ namespace GEClient
                         item.Value = (Int64)0;
                         item.IsBit = false;
                         break;
-                    case "float":
+                    case "single":
                         item.Value = (Single)0;
                         item.IsBit = false;
                         break;

@@ -38,7 +38,7 @@ namespace GEClient
             {
                 var result = SRTP.Open() == 1;
                 changeState(result);
-                tssl_tip.Text = "连接成功";
+                tssl_tip.Text = result ? "连接成功" : "连接失败";
             }
             catch (Exception ex)
             {

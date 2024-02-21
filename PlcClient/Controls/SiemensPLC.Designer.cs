@@ -1,4 +1,4 @@
-﻿namespace GEClient.Controls
+﻿namespace PlcClient.Controls
 {
     partial class SiemensPLC
     {

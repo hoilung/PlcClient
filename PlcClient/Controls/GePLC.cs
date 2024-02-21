@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace GEClient.Controls
+namespace PlcClient.Controls
 {
     public partial class GePLC : BaseControl
     {

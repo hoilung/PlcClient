@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace GEClient.Controls
+namespace PlcClient.Controls
 {
     public partial class SiemensPLC : BaseControl
     {

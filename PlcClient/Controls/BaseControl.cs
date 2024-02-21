@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GEClient.Controls
+namespace PlcClient.Controls
 {
     public partial class BaseControl : UserControl
     {

@@ -1,6 +1,6 @@
-﻿namespace GEClient
+﻿namespace GEClient.Controls
 {
-    partial class Main
+    partial class GePLC
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -59,14 +59,12 @@
             this.btn_changetype = new System.Windows.Forms.Button();
             this.cbx_changetype = new System.Windows.Forms.ComboBox();
             this.lb_address = new System.Windows.Forms.Label();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tssl_tip = new System.Windows.Forms.ToolStripStatusLabel();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.muen_lv.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -77,13 +75,12 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tbx_ip);
             this.groupBox1.Controls.Add(this.btn_open);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Location = new System.Drawing.Point(7, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(695, 60);
+            this.groupBox1.Size = new System.Drawing.Size(695, 54);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "GE设置";
+            this.groupBox1.Text = "GE 设置";
             // 
             // tbx_port
             // 
@@ -110,18 +107,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(160, 26);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
+            this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Port:";
+            this.label2.Text = "端口";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(25, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(23, 12);
+            this.label1.Size = new System.Drawing.Size(17, 12);
             this.label1.TabIndex = 3;
-            this.label1.Text = "IP:";
+            this.label1.Text = "IP";
             // 
             // tbx_ip
             // 
@@ -201,7 +198,7 @@
             this.lv_data.Location = new System.Drawing.Point(6, 49);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(399, 256);
+            this.lv_data.Size = new System.Drawing.Size(399, 257);
             this.lv_data.TabIndex = 6;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -247,21 +244,21 @@
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbx_address.Size = new System.Drawing.Size(272, 256);
+            this.tbx_address.Size = new System.Drawing.Size(272, 257);
             this.tbx_address.TabIndex = 5;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.btn_readOne);
             this.groupBox2.Controls.Add(this.tbx_value);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.cbx_type);
             this.groupBox2.Controls.Add(this.tbx_addressOne);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 60);
+            this.groupBox2.Location = new System.Drawing.Point(7, 69);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(695, 57);
+            this.groupBox2.Size = new System.Drawing.Size(695, 51);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "单个查询";
@@ -278,9 +275,9 @@
             // 
             // tbx_value
             // 
-            this.tbx_value.Location = new System.Drawing.Point(413, 23);
+            this.tbx_value.Location = new System.Drawing.Point(434, 23);
             this.tbx_value.Name = "tbx_value";
-            this.tbx_value.Size = new System.Drawing.Size(191, 21);
+            this.tbx_value.Size = new System.Drawing.Size(170, 21);
             this.tbx_value.TabIndex = 4;
             // 
             // label5
@@ -288,9 +285,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(160, 27);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 12);
+            this.label5.Size = new System.Drawing.Size(29, 12);
             this.label5.TabIndex = 3;
-            this.label5.Text = "类型:";
+            this.label5.Text = "类型";
             // 
             // cbx_type
             // 
@@ -324,26 +321,24 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(13, 27);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 12);
+            this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 0;
-            this.label4.Text = "地址:";
+            this.label4.Text = "地址";
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.btn_changetype);
             this.groupBox3.Controls.Add(this.cbx_changetype);
             this.groupBox3.Controls.Add(this.lb_address);
-            this.groupBox3.Controls.Add(this.statusStrip1);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.lv_data);
             this.groupBox3.Controls.Add(this.numericUpDown1);
             this.groupBox3.Controls.Add(this.tbx_address);
             this.groupBox3.Controls.Add(this.btn_read);
             this.groupBox3.Controls.Add(this.btn_add);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(0, 117);
+            this.groupBox3.Location = new System.Drawing.Point(7, 126);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(695, 333);
+            this.groupBox3.Size = new System.Drawing.Size(695, 312);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量查询";
@@ -386,36 +381,23 @@
             this.lb_address.TabIndex = 10;
             this.lb_address.Text = "Address";
             // 
-            // statusStrip1
+            // label6
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tssl_tip});
-            this.statusStrip1.Location = new System.Drawing.Point(3, 308);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(689, 22);
-            this.statusStrip1.TabIndex = 9;
-            this.statusStrip1.Text = "statusStrip1";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(411, 27);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "值";
             // 
-            // tssl_tip
-            // 
-            this.tssl_tip.Name = "tssl_tip";
-            this.tssl_tip.Size = new System.Drawing.Size(32, 17);
-            this.tssl_tip.Text = "就绪";
-            // 
-            // Main
+            // GePLC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 450);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "Main";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "GESRTP Client";
+            this.Name = "GePLC";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -424,8 +406,6 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -457,13 +437,12 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbx_value;
         private System.Windows.Forms.Button btn_readOne;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel tssl_tip;
         private System.Windows.Forms.ContextMenuStrip muen_lv;
         private System.Windows.Forms.ToolStripMenuItem tm_exportExcel;
         private System.Windows.Forms.ComboBox cbx_changetype;
         private System.Windows.Forms.Label lb_address;
         private System.Windows.Forms.Button btn_changetype;
+        private System.Windows.Forms.Label label6;
     }
 }
 

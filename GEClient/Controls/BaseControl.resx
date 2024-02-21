@@ -117,15 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="tip" xml:space="preserve">
-    <value>tip：
-
-1：关于PLC地址 DB1.DBX100.1 、DB2.DBW200、DB3.DBD300中的X、B、W、D分别表示bit、byte、word、doubleword数据类型
-2：关于PLC地址：VB100、VW200、VD300中的 V区 相当于DB1区
-
-数据类型对应关系如下：
-
-PLC：Bit、Int、DInt、Real、LReal、Word、DWord
- C#：Boolean、Short(Int16)、Int(Int32)、Float(Single)、Double、UShort(UInt16)、Uint(UInt)</value>
-  </data>
 </root>

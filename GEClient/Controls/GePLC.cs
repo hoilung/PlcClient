@@ -10,16 +10,17 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace GEClient
+namespace GEClient.Controls
 {
-    public partial class Main : Form
+    public partial class GePLC : BaseControl
     {
+       
+
         private SRTP SRTP = null;
-        public Main()
+        public GePLC()
         {
             InitializeComponent();
-            this.Text += " v" + this.ProductVersion;// + " by:" + this.CompanyName;
-
+            //this.Text += " v" + this.ProductVersion;// + " by:" + this.CompanyName;
 
             changeState(false);
             cbx_type.SelectedIndex = 0;
@@ -38,7 +39,8 @@ namespace GEClient
             {
                 var result = SRTP.Open() == 1;
                 changeState(result);
-                tssl_tip.Text = result ? "连接成功" : "连接失败";
+
+                this.OnMsg(result ? "连接成功" : "连接失败");
             }
             catch (Exception ex)
             {
@@ -53,7 +55,8 @@ namespace GEClient
                 SRTP.Close();
                 SRTP = null;
                 changeState(false);
-                tssl_tip.Text = "连接已关闭";
+                //tssl_tip.Text = "连接已关闭";
+                this.OnMsg("连接已关闭");
             }
         }
 
@@ -92,7 +95,8 @@ namespace GEClient
             else
                 SRTP.ReadMultipleVars(array.ToArray());
             st.Stop();
-            tssl_tip.Text = $"用时：{st.ElapsedMilliseconds}ms";
+            //tssl_tip.Text = $"用时：{st.ElapsedMilliseconds}ms";
+            this.OnMsg($"用时：{st.ElapsedMilliseconds}ms");
 
             NewMethod(array);
 
@@ -178,7 +182,7 @@ namespace GEClient
                     break;
             }
             st.Stop();
-            tssl_tip.Text = $"用时：{st.ElapsedMilliseconds}ms";
+            this.OnMsg($"用时：{st.ElapsedMilliseconds}ms");
             tbx_value.Text = result.ToString();
         }
 
@@ -209,7 +213,7 @@ namespace GEClient
                 }
 
                 File.WriteAllText(fileDialog.FileName, stringBuilder.ToString());
-                tssl_tip.Text = $"保存文件：{fileDialog.FileName}";
+                this.OnMsg($"保存文件：{fileDialog.FileName}");
                 MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

@@ -1,5 +1,6 @@
 ﻿using S7.Net;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
@@ -23,7 +24,7 @@ namespace PlcClient.Controls
             tab_siemens.TabPages.Clear();
             tab_siemens.Dock = DockStyle.Fill;
 
-            var cputype = Enum.GetNames(typeof(CpuType));
+            var cputype = Enum.GetNames(typeof(CpuType)).OrderBy(m => m);
             foreach (var c in cputype)
             {
                 var ucBase = new SiemensBase();

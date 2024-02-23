@@ -1,11 +1,13 @@
 ﻿using HL.GESRTP;
+using HL.Object.Extensions;
+using HL.S7netplus.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -14,33 +16,74 @@ namespace PlcClient.Controls
 {
     public partial class GePLC : BaseControl
     {
-       
-
+        #region field
         private SRTP SRTP = null;
+        private TypeCode _typeCode;      
+
+        #endregion
         public GePLC()
         {
             InitializeComponent();
-            //this.Text += " v" + this.ProductVersion;// + " by:" + this.CompanyName;
-
+            Init();
             changeState(false);
-            cbx_type.SelectedIndex = 0;
+
+
         }
-        void changeState(bool state)
+
+        private void Init()
+        {
+            var typeArry = TypeCodes.Select(m => new { Name = m, Value = m.ToString() }).ToList();
+            cbx_type.DisplayMember = "Value";
+            cbx_type.ValueMember = "Name";
+            cbx_type.DataSource = typeArry;
+            _typeCode = (TypeCode)cbx_type.SelectedValue;
+            cbx_type.SelectedIndexChanged += cbx_type_SelectedIndexChanged;
+
+            cbx_changetype.DisplayMember = "Value";
+            cbx_changetype.ValueMember = "Name";
+            cbx_changetype.DataSource = typeArry;
+
+            btn_write.Enabled = false;
+            tbx_value.ReadOnly = !chk_enablewrite.Checked;
+        }
+        private void Radio_CheckedChanged(object sender, EventArgs e)
+        {
+            var rbtn = (sender as RadioButton);
+            if (rbtn != null && rbtn.Checked && rbtn.Tag != null && rbtn.Tag is TypeCode tc)
+            {
+                this._typeCode = tc;
+            }
+        }
+
+        void changeState(bool state)//连接断开时候的ui状态
         {
             btn_open.Enabled = !state;
-            btn_readOne.Enabled = btn_add.Enabled = this.btn_close.Enabled = this.btn_read.Enabled = state;
-
+            if (!state)
+                this.chk_enablewrite.Checked = state;
+            chk_enablewrite.Enabled = btn_readOne.Enabled = btn_add.Enabled = this.btn_close.Enabled = this.btn_read.Enabled = state;
             lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = state && lv_data.SelectedItems.Count > 0;
         }
+
         private void btn_open_Click(object sender, EventArgs e)
         {
-            SRTP = new SRTP(this.tbx_ip.Text);
+
             try
             {
+                var ip = this.tbx_ip.Text;
+                var ipState = ping.Send(ip, 500);
+                if (ipState.Status != IPStatus.Success)
+                {
+                    if (MessageBox.Show($"{ip}\r\n网络PING疑似不通,是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+                SRTP = new SRTP(ip);
                 var result = SRTP.Open() == 1;
                 changeState(result);
-
                 this.OnMsg(result ? "连接成功" : "连接失败");
+                if (!result)
+                    MessageBox.Show("连接失败" + this.tbx_ip.Text, "连接失败");
             }
             catch (Exception ex)
             {
@@ -53,7 +96,6 @@ namespace PlcClient.Controls
             if (SRTP.Connected)
             {
                 SRTP.Close();
-                SRTP = null;
                 changeState(false);
                 //tssl_tip.Text = "连接已关闭";
                 this.OnMsg("连接已关闭");
@@ -87,16 +129,14 @@ namespace PlcClient.Controls
             var array = lv_data.Tag as List<GEDataItem>;
             if (array == null)
                 return;
-            var st = Stopwatch.StartNew();
-            st.Start();
 
+            stopwatch.Restart();
             if ((int)numericUpDown1.Value > 0)
                 SRTP.ReadMultipleVars(array.ToArray(), (int)numericUpDown1.Value);
             else
                 SRTP.ReadMultipleVars(array.ToArray());
-            st.Stop();
-            //tssl_tip.Text = $"用时：{st.ElapsedMilliseconds}ms";
-            this.OnMsg($"用时：{st.ElapsedMilliseconds}ms");
+            stopwatch.Stop();
+            this.OnMsg($"用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
 
             NewMethod(array);
 
@@ -146,43 +186,40 @@ namespace PlcClient.Controls
 
             this.tbx_value.Text = string.Empty;
             object result = string.Empty;
-            var st = Stopwatch.StartNew();
-            st.Start();
-            switch (cbx_type.Text.ToLower())
+
+            stopwatch.Restart();
+            switch (_typeCode)
             {
-                case "boolean":
+                case TypeCode.Boolean:
                     result = SRTP.ReadBoolean(address);
                     break;
-                case "int16":
+                case TypeCode.Int16:
                     result = SRTP.ReadInt16(address);
                     break;
-                case "int32":
+                case TypeCode.Int32:
                     result = SRTP.ReadInt32(address);
                     break;
-                case "int64":
+                case TypeCode.Int64:
                     result = SRTP.ReadInt64(address);
                     break;
-                case "single":
+                case TypeCode.Single:
                     result = SRTP.ReadSingle(address);
                     break;
-                case "double":
+                case TypeCode.Double:
                     result = SRTP.ReadDouble(address);
                     break;
-                case "uint16":
+                case TypeCode.UInt16:
                     result = SRTP.ReadUInt16(address);
                     break;
-                case "uint32":
+                case TypeCode.UInt32:
                     result = SRTP.ReadUInt32(address);
                     break;
-                case "uint64":
+                case TypeCode.UInt64:
                     result = SRTP.ReadUInt64(address);
                     break;
-                default:
-                    MessageBox.Show("尚未支持的类型");
-                    break;
             }
-            st.Stop();
-            this.OnMsg($"用时：{st.ElapsedMilliseconds}ms");
+            stopwatch.Stop();
+            this.OnMsg($"用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
             tbx_value.Text = result.ToString();
         }
 
@@ -194,7 +231,7 @@ namespace PlcClient.Controls
             }
 
         }
-
+        //菜单导出
         private void tm_exportExcel_Click(object sender, EventArgs e)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
@@ -217,7 +254,7 @@ namespace PlcClient.Controls
                 MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
+        //列表选中
         private void lv_data_SelectedIndexChanged(object sender, EventArgs e)
         {
             lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = lv_data.SelectedItems.Count > 0;
@@ -245,52 +282,77 @@ namespace PlcClient.Controls
             if (list.Any())
             {
                 var item = list[index];
-                switch (cbx_changetype.Text.ToLower())
-                {
-                    case "boolean":
-                        item.Value = false;
-                        item.IsBit = true;
-                        break;
-                    case "int16":
-                        item.Value = (Int16)0;
-                        item.IsBit = false;
-                        break;
-                    case "int32":
-                        item.Value = (Int32)0;
-                        item.IsBit = false;
-                        break;
-                    case "int64":
-                        item.Value = (Int64)0;
-                        item.IsBit = false;
-                        break;
-                    case "single":
-                        item.Value = (Single)0;
-                        item.IsBit = false;
-                        break;
-                    case "double":
-                        item.Value = (Double)0;
-                        item.IsBit = false;
-                        break;
-                    case "uint16":
-                        item.Value = (UInt16)0;
-                        item.IsBit = false;
-                        break;
-                    case "uint32":
-                        item.Value = (UInt32)0;
-                        item.IsBit = false;
-                        break;
-                    case "uint64":
-                        item.Value = (UInt64)0;
-                        item.IsBit = false;
-                        break;
-                }
+                var typecode = (TypeCode)cbx_changetype.SelectedValue;
+                item.Value = "0".ConvertToValueType(typecode);
+                item.IsBit = typecode == TypeCode.Boolean;
                 NewMethod(list);
                 cbx_changetype.Tag = null;
                 lv_data.TopItem = lv_data.Items[index];
             }
         }
+        //是否可写
+        private void ckb_enablewrite_CheckedChanged(object sender, EventArgs e)
+        {
+            btn_write.Enabled = chk_enablewrite.Checked;
+            tbx_value.ReadOnly = !chk_enablewrite.Checked;
+        }
 
+        private void btn_write_Click(object sender, EventArgs e)
+        {
+            var adr = tbx_addressOne.Text.Trim();
+            var val = tbx_value.Text.Trim();
+            try
+            {
+                var item = GEDataItem.ParseFrom(adr, _typeCode == TypeCode.Boolean);
+                var typecode = (TypeCode)cbx_changetype.SelectedValue;
+                item.Value = val.ConvertToValueType(typecode);
+                item.IsBit = typecode == TypeCode.Boolean;
+                var state = false;
+                stopwatch.Restart();
+                switch (typecode)
+                {
+                    case TypeCode.Boolean:
+                        state = SRTP.WriteBoolean(item.Address, (bool)item.Value);
+                        break;
+                    case TypeCode.Int16:
+                        state = SRTP.WriteInt16(item.Address, (Int16)item.Value);
+                        break;
+                    case TypeCode.Int32:
+                        state = SRTP.WriteInt32(item.Address, (Int32)item.Value);
+                        break;
+                    case TypeCode.Int64:
+                        state = SRTP.WriteInt64(item.Address, (Int64)item.Value);
+                        break;
+                    case TypeCode.Single:
+                        state = SRTP.WriteSingle(item.Address, (Single)item.Value);
+                        break;
+                    case TypeCode.Double:
+                        state = SRTP.WriteDouble(item.Address, (Double)item.Value);
+                        break;
+                    case TypeCode.UInt16:
+                        state = SRTP.WriteUInt16(item.Address, (UInt16)item.Value);
+                        break;
+                    case TypeCode.UInt32:
+                        state = SRTP.WriteUInt32(item.Address, (UInt32)item.Value);
+                        break;
+                    case TypeCode.UInt64:
+                        state = SRTP.WriteUInt64(item.Address, (UInt64)item.Value);
+                        break;
+                }
+                stopwatch.Stop();
+                OnMsg($"{adr} 写入 {item.Value} {(state ? "成功" : "失败")}，用时：" + stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                OnMsg(ex.Message);
+            }
 
+        }
+        private void cbx_type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _typeCode = (TypeCode)cbx_type.SelectedValue;
+        }
     }
 
 

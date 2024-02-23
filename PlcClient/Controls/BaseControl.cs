@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
@@ -16,7 +11,19 @@ namespace PlcClient.Controls
         {
             InitializeComponent();
         }
-
+        public Ping ping = new Ping();
+        public Stopwatch stopwatch = Stopwatch.StartNew();
+        public TypeCode[] TypeCodes { get; set; } = new[] {
+            TypeCode.Boolean,
+            TypeCode.Int16,
+            TypeCode.Int32,
+            //TypeCode.Int64,
+            TypeCode.Single,
+            TypeCode.Double,
+            TypeCode.UInt16,
+            TypeCode.UInt32,
+            //TypeCode.UInt64
+        };
         #region event
         public event Action<string> Msg;
 

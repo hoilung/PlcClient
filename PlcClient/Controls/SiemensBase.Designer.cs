@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.gb_set = new System.Windows.Forms.GroupBox();
+            this.tbx_port = new System.Windows.Forms.MaskedTextBox();
+            this.tbx_rack = new System.Windows.Forms.MaskedTextBox();
+            this.tbx_slot = new System.Windows.Forms.MaskedTextBox();
             this.btn_close = new System.Windows.Forms.Button();
             this.btn_open = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -39,17 +42,15 @@
             this.gb_datatype = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.gb_act = new System.Windows.Forms.GroupBox();
+            this.chk_enablewrite = new System.Windows.Forms.CheckBox();
             this.btn_clearTbx = new System.Windows.Forms.Button();
             this.btn_write = new System.Windows.Forms.Button();
             this.tbx_value = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.btn_read = new System.Windows.Forms.Button();
             this.tbx_adr = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbx_msg = new System.Windows.Forms.TextBox();
-            this.tbx_slot = new System.Windows.Forms.MaskedTextBox();
-            this.tbx_rack = new System.Windows.Forms.MaskedTextBox();
-            this.tbx_port = new System.Windows.Forms.MaskedTextBox();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.gb_set.SuspendLayout();
             this.gb_datatype.SuspendLayout();
             this.gb_act.SuspendLayout();
@@ -57,6 +58,7 @@
             // 
             // gb_set
             // 
+            this.gb_set.Controls.Add(this.maskedTextBox1);
             this.gb_set.Controls.Add(this.tbx_port);
             this.gb_set.Controls.Add(this.tbx_rack);
             this.gb_set.Controls.Add(this.tbx_slot);
@@ -73,6 +75,36 @@
             this.gb_set.TabIndex = 0;
             this.gb_set.TabStop = false;
             this.gb_set.Text = "设置";
+            // 
+            // tbx_port
+            // 
+            this.tbx_port.Location = new System.Drawing.Point(170, 24);
+            this.tbx_port.Mask = "99999";
+            this.tbx_port.Name = "tbx_port";
+            this.tbx_port.Size = new System.Drawing.Size(40, 21);
+            this.tbx_port.TabIndex = 12;
+            this.tbx_port.Text = "102";
+            this.tbx_port.ValidatingType = typeof(int);
+            // 
+            // tbx_rack
+            // 
+            this.tbx_rack.Location = new System.Drawing.Point(263, 24);
+            this.tbx_rack.Mask = "99";
+            this.tbx_rack.Name = "tbx_rack";
+            this.tbx_rack.Size = new System.Drawing.Size(40, 21);
+            this.tbx_rack.TabIndex = 11;
+            this.tbx_rack.Text = "0";
+            this.tbx_rack.ValidatingType = typeof(int);
+            // 
+            // tbx_slot
+            // 
+            this.tbx_slot.Location = new System.Drawing.Point(344, 24);
+            this.tbx_slot.Mask = "99";
+            this.tbx_slot.Name = "tbx_slot";
+            this.tbx_slot.Size = new System.Drawing.Size(40, 21);
+            this.tbx_slot.TabIndex = 10;
+            this.tbx_slot.Text = "0";
+            this.tbx_slot.ValidatingType = typeof(int);
             // 
             // btn_close
             // 
@@ -157,10 +189,10 @@
             // 
             // gb_act
             // 
+            this.gb_act.Controls.Add(this.chk_enablewrite);
             this.gb_act.Controls.Add(this.btn_clearTbx);
             this.gb_act.Controls.Add(this.btn_write);
             this.gb_act.Controls.Add(this.tbx_value);
-            this.gb_act.Controls.Add(this.label6);
             this.gb_act.Controls.Add(this.btn_read);
             this.gb_act.Controls.Add(this.tbx_adr);
             this.gb_act.Controls.Add(this.label5);
@@ -169,7 +201,18 @@
             this.gb_act.Size = new System.Drawing.Size(697, 60);
             this.gb_act.TabIndex = 2;
             this.gb_act.TabStop = false;
-            this.gb_act.Text = "操作";
+            this.gb_act.Text = "读/写";
+            // 
+            // chk_enablewrite
+            // 
+            this.chk_enablewrite.AutoSize = true;
+            this.chk_enablewrite.Location = new System.Drawing.Point(220, 28);
+            this.chk_enablewrite.Name = "chk_enablewrite";
+            this.chk_enablewrite.Size = new System.Drawing.Size(72, 16);
+            this.chk_enablewrite.TabIndex = 7;
+            this.chk_enablewrite.Text = "开启写值";
+            this.chk_enablewrite.UseVisualStyleBackColor = true;
+            this.chk_enablewrite.CheckedChanged += new System.EventHandler(this.cbx_enablewrite_CheckedChanged);
             // 
             // btn_clearTbx
             // 
@@ -183,7 +226,7 @@
             // 
             // btn_write
             // 
-            this.btn_write.Location = new System.Drawing.Point(344, 25);
+            this.btn_write.Location = new System.Drawing.Point(390, 25);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
             this.btn_write.TabIndex = 5;
@@ -193,20 +236,11 @@
             // 
             // tbx_value
             // 
-            this.tbx_value.Location = new System.Drawing.Point(252, 26);
+            this.tbx_value.Location = new System.Drawing.Point(298, 26);
             this.tbx_value.Name = "tbx_value";
             this.tbx_value.Size = new System.Drawing.Size(86, 21);
             this.tbx_value.TabIndex = 4;
             this.tbx_value.Text = "0";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(229, 30);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 12);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "值";
             // 
             // btn_read
             // 
@@ -243,38 +277,12 @@
             this.tbx_msg.Size = new System.Drawing.Size(697, 213);
             this.tbx_msg.TabIndex = 3;
             // 
-            // tbx_slot
+            // maskedTextBox1
             // 
-            this.tbx_slot.Location = new System.Drawing.Point(344, 24);
-            this.tbx_slot.Mask = "99";
-            this.tbx_slot.Name = "tbx_slot";
-            this.tbx_slot.PromptChar = ' ';
-            this.tbx_slot.Size = new System.Drawing.Size(40, 21);
-            this.tbx_slot.TabIndex = 10;
-            this.tbx_slot.Text = "0";
-            this.tbx_slot.ValidatingType = typeof(int);
-            // 
-            // tbx_rack
-            // 
-            this.tbx_rack.Location = new System.Drawing.Point(263, 24);
-            this.tbx_rack.Mask = "99";
-            this.tbx_rack.Name = "tbx_rack";
-            this.tbx_rack.PromptChar = ' ';
-            this.tbx_rack.Size = new System.Drawing.Size(40, 21);
-            this.tbx_rack.TabIndex = 11;
-            this.tbx_rack.Text = "0";
-            this.tbx_rack.ValidatingType = typeof(int);
-            // 
-            // tbx_port
-            // 
-            this.tbx_port.Location = new System.Drawing.Point(170, 24);
-            this.tbx_port.Mask = "99999";
-            this.tbx_port.Name = "tbx_port";
-            this.tbx_port.PromptChar = ' ';
-            this.tbx_port.Size = new System.Drawing.Size(40, 21);
-            this.tbx_port.TabIndex = 12;
-            this.tbx_port.Text = "102";
-            this.tbx_port.ValidatingType = typeof(int);
+            this.maskedTextBox1.Location = new System.Drawing.Point(553, 21);
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(100, 21);
+            this.maskedTextBox1.TabIndex = 13;
             // 
             // SiemensBase
             // 
@@ -312,7 +320,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbx_adr;
         private System.Windows.Forms.Button btn_read;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tbx_value;
         private System.Windows.Forms.Button btn_write;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
@@ -320,5 +327,7 @@
         private System.Windows.Forms.MaskedTextBox tbx_slot;
         private System.Windows.Forms.MaskedTextBox tbx_rack;
         private System.Windows.Forms.MaskedTextBox tbx_port;
+        private System.Windows.Forms.CheckBox chk_enablewrite;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
     }
 }

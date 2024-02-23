@@ -49,17 +49,17 @@
             this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.tbx_address = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbx_type = new System.Windows.Forms.ComboBox();
+            this.chk_enablewrite = new System.Windows.Forms.CheckBox();
+            this.btn_write = new System.Windows.Forms.Button();
             this.btn_readOne = new System.Windows.Forms.Button();
             this.tbx_value = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cbx_type = new System.Windows.Forms.ComboBox();
             this.tbx_addressOne = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btn_changetype = new System.Windows.Forms.Button();
             this.cbx_changetype = new System.Windows.Forms.ComboBox();
             this.lb_address = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.muen_lv.SuspendLayout();
@@ -94,7 +94,7 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(330, 21);
+            this.btn_close.Location = new System.Drawing.Point(349, 22);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 4;
@@ -105,7 +105,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(160, 26);
+            this.label2.Location = new System.Drawing.Point(166, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 4;
@@ -130,7 +130,7 @@
             // 
             // btn_open
             // 
-            this.btn_open.Location = new System.Drawing.Point(249, 21);
+            this.btn_open.Location = new System.Drawing.Point(268, 21);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
             this.btn_open.TabIndex = 3;
@@ -141,7 +141,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(411, 25);
+            this.label3.Location = new System.Drawing.Point(411, 22);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 8;
@@ -154,7 +154,7 @@
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(476, 21);
+            this.numericUpDown1.Location = new System.Drawing.Point(476, 18);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(42, 21);
             this.numericUpDown1.TabIndex = 7;
@@ -166,7 +166,7 @@
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(529, 20);
+            this.btn_add.Location = new System.Drawing.Point(529, 17);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(75, 23);
             this.btn_add.TabIndex = 6;
@@ -176,7 +176,7 @@
             // 
             // btn_read
             // 
-            this.btn_read.Location = new System.Drawing.Point(610, 20);
+            this.btn_read.Location = new System.Drawing.Point(610, 17);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
             this.btn_read.TabIndex = 5;
@@ -195,10 +195,10 @@
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(6, 49);
+            this.lv_data.Location = new System.Drawing.Point(0, 49);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(399, 257);
+            this.lv_data.Size = new System.Drawing.Size(405, 263);
             this.lv_data.TabIndex = 6;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -208,6 +208,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "ID";
+            this.columnHeader1.Width = 64;
             // 
             // columnHeader2
             // 
@@ -244,28 +245,58 @@
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbx_address.Size = new System.Drawing.Size(272, 257);
+            this.tbx_address.Size = new System.Drawing.Size(272, 263);
             this.tbx_address.TabIndex = 5;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.cbx_type);
+            this.groupBox2.Controls.Add(this.chk_enablewrite);
+            this.groupBox2.Controls.Add(this.btn_write);
             this.groupBox2.Controls.Add(this.btn_readOne);
             this.groupBox2.Controls.Add(this.tbx_value);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.cbx_type);
             this.groupBox2.Controls.Add(this.tbx_addressOne);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(7, 69);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(695, 51);
+            this.groupBox2.Size = new System.Drawing.Size(695, 54);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "单个查询";
+            this.groupBox2.Text = "读取/写入";
+            // 
+            // cbx_type
+            // 
+            this.cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_type.FormattingEnabled = true;
+            this.cbx_type.Location = new System.Drawing.Point(160, 23);
+            this.cbx_type.Name = "cbx_type";
+            this.cbx_type.Size = new System.Drawing.Size(100, 20);
+            this.cbx_type.TabIndex = 26;
+            // 
+            // chk_enablewrite
+            // 
+            this.chk_enablewrite.AutoSize = true;
+            this.chk_enablewrite.Location = new System.Drawing.Point(465, 25);
+            this.chk_enablewrite.Name = "chk_enablewrite";
+            this.chk_enablewrite.Size = new System.Drawing.Size(60, 16);
+            this.chk_enablewrite.TabIndex = 25;
+            this.chk_enablewrite.Text = "开启写";
+            this.chk_enablewrite.UseVisualStyleBackColor = true;
+            this.chk_enablewrite.CheckedChanged += new System.EventHandler(this.ckb_enablewrite_CheckedChanged);
+            // 
+            // btn_write
+            // 
+            this.btn_write.Location = new System.Drawing.Point(529, 22);
+            this.btn_write.Name = "btn_write";
+            this.btn_write.Size = new System.Drawing.Size(75, 23);
+            this.btn_write.TabIndex = 24;
+            this.btn_write.Text = "写入";
+            this.btn_write.UseVisualStyleBackColor = true;
+            this.btn_write.Click += new System.EventHandler(this.btn_write_Click);
             // 
             // btn_readOne
             // 
-            this.btn_readOne.Location = new System.Drawing.Point(330, 22);
+            this.btn_readOne.Location = new System.Drawing.Point(268, 22);
             this.btn_readOne.Name = "btn_readOne";
             this.btn_readOne.Size = new System.Drawing.Size(75, 23);
             this.btn_readOne.TabIndex = 22;
@@ -275,38 +306,11 @@
             // 
             // tbx_value
             // 
-            this.tbx_value.Location = new System.Drawing.Point(434, 23);
+            this.tbx_value.Location = new System.Drawing.Point(349, 23);
             this.tbx_value.Name = "tbx_value";
-            this.tbx_value.Size = new System.Drawing.Size(170, 21);
+            this.tbx_value.Size = new System.Drawing.Size(110, 21);
             this.tbx_value.TabIndex = 4;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(160, 27);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 12);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "类型";
-            // 
-            // cbx_type
-            // 
-            this.cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_type.FormattingEnabled = true;
-            this.cbx_type.Items.AddRange(new object[] {
-            "Boolean",
-            "Int16",
-            "Int32",
-            "Int64",
-            "Single",
-            "Double",
-            "UInt16",
-            "UInt32",
-            "UInt64"});
-            this.cbx_type.Location = new System.Drawing.Point(203, 23);
-            this.cbx_type.Name = "cbx_type";
-            this.cbx_type.Size = new System.Drawing.Size(121, 20);
-            this.cbx_type.TabIndex = 21;
+            this.tbx_value.Text = "0";
             // 
             // tbx_addressOne
             // 
@@ -336,18 +340,18 @@
             this.groupBox3.Controls.Add(this.tbx_address);
             this.groupBox3.Controls.Add(this.btn_read);
             this.groupBox3.Controls.Add(this.btn_add);
-            this.groupBox3.Location = new System.Drawing.Point(7, 126);
+            this.groupBox3.Location = new System.Drawing.Point(7, 129);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(695, 312);
+            this.groupBox3.Size = new System.Drawing.Size(695, 318);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "批量查询";
+            this.groupBox3.Text = "批量读取";
             // 
             // btn_changetype
             // 
-            this.btn_changetype.Location = new System.Drawing.Point(268, 18);
+            this.btn_changetype.Location = new System.Drawing.Point(268, 17);
             this.btn_changetype.Name = "btn_changetype";
-            this.btn_changetype.Size = new System.Drawing.Size(82, 23);
+            this.btn_changetype.Size = new System.Drawing.Size(75, 23);
             this.btn_changetype.TabIndex = 23;
             this.btn_changetype.Text = "修改类型";
             this.btn_changetype.UseVisualStyleBackColor = true;
@@ -357,17 +361,7 @@
             // 
             this.cbx_changetype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_changetype.FormattingEnabled = true;
-            this.cbx_changetype.Items.AddRange(new object[] {
-            "Boolean",
-            "Int16",
-            "Int32",
-            "Int64",
-            "Single",
-            "Double",
-            "UInt16",
-            "UInt32",
-            "UInt64"});
-            this.cbx_changetype.Location = new System.Drawing.Point(155, 20);
+            this.cbx_changetype.Location = new System.Drawing.Point(160, 18);
             this.cbx_changetype.Name = "cbx_changetype";
             this.cbx_changetype.Size = new System.Drawing.Size(100, 20);
             this.cbx_changetype.TabIndex = 22;
@@ -375,20 +369,11 @@
             // lb_address
             // 
             this.lb_address.AutoSize = true;
-            this.lb_address.Location = new System.Drawing.Point(74, 26);
+            this.lb_address.Location = new System.Drawing.Point(69, 23);
             this.lb_address.Name = "lb_address";
             this.lb_address.Size = new System.Drawing.Size(47, 12);
             this.lb_address.TabIndex = 10;
             this.lb_address.Text = "Address";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(411, 27);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 12);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "值";
             // 
             // GePLC
             // 
@@ -433,8 +418,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox tbx_addressOne;
-        private System.Windows.Forms.ComboBox cbx_type;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbx_value;
         private System.Windows.Forms.Button btn_readOne;
         private System.Windows.Forms.ContextMenuStrip muen_lv;
@@ -442,7 +425,9 @@
         private System.Windows.Forms.ComboBox cbx_changetype;
         private System.Windows.Forms.Label lb_address;
         private System.Windows.Forms.Button btn_changetype;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btn_write;
+        private System.Windows.Forms.CheckBox chk_enablewrite;
+        private System.Windows.Forms.ComboBox cbx_type;
     }
 }
 

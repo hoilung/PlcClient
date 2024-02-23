@@ -20,22 +20,14 @@ namespace PlcClient.Controls
 
         private Plc Plc { get; set; }
 
-        private TypeCode[] TypeCodes { get; set; } = new[] {
-            TypeCode.Boolean,
-            TypeCode.Int16,
-            TypeCode.Int32,
-            //TypeCode.Int64,
-            TypeCode.Single,
-            TypeCode.Double,
-            TypeCode.UInt16,
-            TypeCode.UInt32,
-            //TypeCode.UInt64
-        };
+
         public SiemensBase()
         {
             InitializeComponent();
             this.Load += SiemensBase_Load;
             this.Disposed += SiemensBase_Disposed;
+
+            tbx_value.Enabled = btn_write.Enabled = false;
         }
 
         private void SiemensBase_Disposed(object sender, EventArgs e)
@@ -84,7 +76,9 @@ namespace PlcClient.Controls
 
         private void ChangeState(bool state)
         {
-            this.btn_read.Enabled = this.btn_write.Enabled = this.btn_close.Enabled = state;
+            if (!state)
+                this.chk_enablewrite.Checked = state;
+            this.chk_enablewrite.Enabled = this.btn_read.Enabled = this.btn_write.Enabled = this.btn_close.Enabled = state;
 
             this.btn_open.Enabled = !state;
 
@@ -116,7 +110,7 @@ namespace PlcClient.Controls
                 var result = ping.Send(ip, 500);
                 if (result.Status != IPStatus.Success)
                 {
-                    if (MessageBox.Show($"{ip}\r\n网络IP疑似不通,是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    if (MessageBox.Show($"{ip}\r\n网络PING疑似不通,是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
                         return;
                     }
@@ -158,7 +152,6 @@ namespace PlcClient.Controls
             {
                 Plc.Close();
                 ChangeState(Plc.IsConnected);
-                Plc = null;
                 OnMsg("连接关闭 " + Plc.IP);
                 Msg2Text("连接关闭 " + Plc.IP);
             }
@@ -169,8 +162,7 @@ namespace PlcClient.Controls
             }
         }
 
-        private Stopwatch stopwatch = Stopwatch.StartNew();
-        private Ping ping = new Ping();
+
         private void btn_read_Click(object sender, EventArgs e)
         {
             var address = tbx_adr.Text.Trim().ToUpper();
@@ -194,11 +186,8 @@ namespace PlcClient.Controls
                 var obj = this.Plc.Read(dt);
                 stopwatch.Stop();
                 //转换类型
-
                 var obj2 = DataItem2.ValueChangeType(obj, _typeCode);
-
-                //var obj2 = ChageType(obj);
-
+                
                 OnMsg($"用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
                 Msg2Text($"{address}\t{obj2?.ToString()}\t用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
             }
@@ -243,7 +232,9 @@ namespace PlcClient.Controls
             }
         }
 
-
-
+        private void cbx_enablewrite_CheckedChanged(object sender, EventArgs e)
+        {
+            tbx_value.Enabled = btn_write.Enabled = chk_enablewrite.Checked;
+        }
     }
 }

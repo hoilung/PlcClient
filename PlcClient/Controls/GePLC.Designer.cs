@@ -207,22 +207,22 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "ID";
+            this.columnHeader1.Text = "序号";
             this.columnHeader1.Width = 64;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Address";
+            this.columnHeader2.Text = "地址";
             this.columnHeader2.Width = 87;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Type";
+            this.columnHeader3.Text = "数据类型";
             this.columnHeader3.Width = 108;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Value";
+            this.columnHeader4.Text = "数值";
             this.columnHeader4.Width = 106;
             // 
             // muen_lv

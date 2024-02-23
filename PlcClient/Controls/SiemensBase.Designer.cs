@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.gb_set = new System.Windows.Forms.GroupBox();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.tbx_port = new System.Windows.Forms.MaskedTextBox();
             this.tbx_rack = new System.Windows.Forms.MaskedTextBox();
             this.tbx_slot = new System.Windows.Forms.MaskedTextBox();
@@ -50,7 +51,6 @@
             this.tbx_adr = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbx_msg = new System.Windows.Forms.TextBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.gb_set.SuspendLayout();
             this.gb_datatype.SuspendLayout();
             this.gb_act.SuspendLayout();
@@ -75,6 +75,13 @@
             this.gb_set.TabIndex = 0;
             this.gb_set.TabStop = false;
             this.gb_set.Text = "设置";
+            // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.Location = new System.Drawing.Point(553, 21);
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(100, 21);
+            this.maskedTextBox1.TabIndex = 13;
             // 
             // tbx_port
             // 
@@ -206,11 +213,11 @@
             // chk_enablewrite
             // 
             this.chk_enablewrite.AutoSize = true;
-            this.chk_enablewrite.Location = new System.Drawing.Point(220, 28);
+            this.chk_enablewrite.Location = new System.Drawing.Point(311, 28);
             this.chk_enablewrite.Name = "chk_enablewrite";
-            this.chk_enablewrite.Size = new System.Drawing.Size(72, 16);
+            this.chk_enablewrite.Size = new System.Drawing.Size(60, 16);
             this.chk_enablewrite.TabIndex = 7;
-            this.chk_enablewrite.Text = "开启写值";
+            this.chk_enablewrite.Text = "开启写";
             this.chk_enablewrite.UseVisualStyleBackColor = true;
             this.chk_enablewrite.CheckedChanged += new System.EventHandler(this.cbx_enablewrite_CheckedChanged);
             // 
@@ -236,7 +243,7 @@
             // 
             // tbx_value
             // 
-            this.tbx_value.Location = new System.Drawing.Point(298, 26);
+            this.tbx_value.Location = new System.Drawing.Point(218, 26);
             this.tbx_value.Name = "tbx_value";
             this.tbx_value.Size = new System.Drawing.Size(86, 21);
             this.tbx_value.TabIndex = 4;
@@ -276,13 +283,6 @@
             this.tbx_msg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbx_msg.Size = new System.Drawing.Size(697, 213);
             this.tbx_msg.TabIndex = 3;
-            // 
-            // maskedTextBox1
-            // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(553, 21);
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(100, 21);
-            this.maskedTextBox1.TabIndex = 13;
             // 
             // SiemensBase
             // 

@@ -61,6 +61,26 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 注意：
+        ///AI/AQ/R区地址单位是word不支持byte/bit读取
+        ///
+        ///批量读取，一行一个地址
+        ///参考示例如下：
+        ///I101
+        ///Q201
+        ///M301
+        ///R401
+        ///AI501
+        ///AQ601
+        /// 的本地化字符串。
+        /// </summary>
+        internal static string getip {
+            get {
+                return ResourceManager.GetString("getip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 tip：
         ///
         ///1：关于PLC地址 DB1.DBX100.1 、DB2.DBW200、DB3.DBD300中的X、B、W、D分别表示bit、byte、word、doubleword数据类型

@@ -18,7 +18,7 @@ namespace PlcClient.Controls
     {
         #region field
         private SRTP SRTP = null;
-        private TypeCode _typeCode;      
+        private TypeCode _typeCode;
 
         #endregion
         public GePLC()
@@ -45,6 +45,8 @@ namespace PlcClient.Controls
 
             btn_write.Enabled = false;
             tbx_value.ReadOnly = !chk_enablewrite.Checked;
+
+            tbx_address.Text = Properties.Resources.getip;
         }
         private void Radio_CheckedChanged(object sender, EventArgs e)
         {
@@ -62,6 +64,8 @@ namespace PlcClient.Controls
                 this.chk_enablewrite.Checked = state;
             chk_enablewrite.Enabled = btn_readOne.Enabled = btn_add.Enabled = this.btn_close.Enabled = this.btn_read.Enabled = state;
             lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = state && lv_data.SelectedItems.Count > 0;
+
+            tbx_ip.ReadOnly = tbx_port.ReadOnly = state;            
         }
 
         private void btn_open_Click(object sender, EventArgs e)
@@ -81,9 +85,11 @@ namespace PlcClient.Controls
                 SRTP = new SRTP(ip);
                 var result = SRTP.Open() == 1;
                 changeState(result);
-                this.OnMsg(result ? "连接成功" : "连接失败");
+                this.OnMsg(result ? "连接成功 " + ip : "连接失败 " + ip);
                 if (!result)
-                    MessageBox.Show("连接失败" + this.tbx_ip.Text, "连接失败");
+                    MessageBox.Show(ip + "\r\n连接失败,请检查IP或网络是否正常", "连接失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                tbx_address.ResetText();
             }
             catch (Exception ex)
             {
@@ -98,7 +104,7 @@ namespace PlcClient.Controls
                 SRTP.Close();
                 changeState(false);
                 //tssl_tip.Text = "连接已关闭";
-                this.OnMsg("连接已关闭");
+                this.OnMsg("连接关闭 " + this.tbx_ip.Text);
             }
         }
 
@@ -136,7 +142,7 @@ namespace PlcClient.Controls
             else
                 SRTP.ReadMultipleVars(array.ToArray());
             stopwatch.Stop();
-            this.OnMsg($"用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+            this.OnMsg($"批量读取 用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
 
             NewMethod(array);
 
@@ -219,7 +225,7 @@ namespace PlcClient.Controls
                     break;
             }
             stopwatch.Stop();
-            this.OnMsg($"用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+            this.OnMsg($"{address} 读取 {result}，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
             tbx_value.Text = result.ToString();
         }
 

@@ -4,6 +4,7 @@ using S7.Net;
 using S7.Net.Types;
 using System;
 using System.Diagnostics;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -27,7 +28,8 @@ namespace PlcClient.Controls
             this.Load += SiemensBase_Load;
             this.Disposed += SiemensBase_Disposed;
 
-            tbx_value.Enabled = btn_write.Enabled = false;
+            btn_write.Enabled = false;
+            tbx_value.ReadOnly = true;
         }
 
         private void SiemensBase_Disposed(object sender, EventArgs e)
@@ -181,15 +183,17 @@ namespace PlcClient.Controls
 
             try
             {
+                tbx_value.ResetText();
                 var dt = DataItem2.FromAddressByTypeCode(address, _typeCode);
                 stopwatch.Restart();
                 var obj = this.Plc.Read(dt);
                 stopwatch.Stop();
                 //转换类型
                 var obj2 = DataItem2.ValueChangeType(obj, _typeCode);
-                
-                OnMsg($"用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+                tbx_value.Text = obj2.ToString();
                 Msg2Text($"{address}\t{obj2?.ToString()}\t用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+
+                OnMsg($"{address} 读取 {obj2.ToString()}，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
             }
             catch (Exception ex)
             {
@@ -222,19 +226,26 @@ namespace PlcClient.Controls
                 {
                     dt.Value = val.ConvertToValueType(_typeCode);
                 }
-
+                stopwatch.Restart();
                 Plc.Write(dt);
+                stopwatch.Stop();
+                Msg2Text($"{adr}\t{val}\t用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+
+                OnMsg($"{adr} 写入 {val} 成功，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+
             }
             catch (Exception ex)
             {
+                stopwatch.Stop();
                 Msg2Text(adr + " " + ex.Message);
-                MessageBox.Show(ex.Message, "提示");
+                MessageBox.Show(ex.Message, "写入失败");
             }
         }
 
         private void cbx_enablewrite_CheckedChanged(object sender, EventArgs e)
         {
-            tbx_value.Enabled = btn_write.Enabled = chk_enablewrite.Checked;
+            btn_write.Enabled = chk_enablewrite.Checked;
+            tbx_value.ReadOnly = !chk_enablewrite.Checked;
         }
     }
 }

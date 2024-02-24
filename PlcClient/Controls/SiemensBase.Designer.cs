@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.gb_set = new System.Windows.Forms.GroupBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.tbx_port = new System.Windows.Forms.MaskedTextBox();
             this.tbx_rack = new System.Windows.Forms.MaskedTextBox();
             this.tbx_slot = new System.Windows.Forms.MaskedTextBox();
@@ -58,7 +57,6 @@
             // 
             // gb_set
             // 
-            this.gb_set.Controls.Add(this.maskedTextBox1);
             this.gb_set.Controls.Add(this.tbx_port);
             this.gb_set.Controls.Add(this.tbx_rack);
             this.gb_set.Controls.Add(this.tbx_slot);
@@ -75,13 +73,6 @@
             this.gb_set.TabIndex = 0;
             this.gb_set.TabStop = false;
             this.gb_set.Text = "设置";
-            // 
-            // maskedTextBox1
-            // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(553, 21);
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(100, 21);
-            this.maskedTextBox1.TabIndex = 13;
             // 
             // tbx_port
             // 
@@ -328,6 +319,5 @@
         private System.Windows.Forms.MaskedTextBox tbx_rack;
         private System.Windows.Forms.MaskedTextBox tbx_port;
         private System.Windows.Forms.CheckBox chk_enablewrite;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
     }
 }

@@ -349,6 +349,7 @@
             this.tbx_addressAll.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbx_addressAll.Size = new System.Drawing.Size(169, 245);
             this.tbx_addressAll.TabIndex = 1;
+            this.tbx_addressAll.WordWrap = false;
             // 
             // lv_data
             // 

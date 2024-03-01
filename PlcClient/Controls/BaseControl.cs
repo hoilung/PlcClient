@@ -15,6 +15,7 @@ namespace PlcClient.Controls
         public Stopwatch stopwatch = Stopwatch.StartNew();
         public TypeCode[] TypeCodes { get; set; } = new[] {
             TypeCode.Boolean,
+            TypeCode.Byte,
             TypeCode.Int16,
             TypeCode.Int32,
             //TypeCode.Int64,

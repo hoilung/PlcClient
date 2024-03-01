@@ -81,8 +81,27 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 注意：
+        ///批量读取，一行一个地址
+        ///地址指定类型用tab键隔开
+        ///
+        ///参考示例如下：
+        ///
+        ///DB1.DBX1.0
+        ///DB1.DBX1.2
+        ///DB2.DBW100	
+        ///DB2.DBW200	int
+        ///DB3.DBD300	real 的本地化字符串。
+        /// </summary>
+        internal static string pl_siemens {
+            get {
+                return ResourceManager.GetString("pl_siemens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 说明：
-        /// 1、关于PLC地址 DB1.DBX2.1、DB2.DBB4、DB3.DBW6、DB4.DBD8中的X、B、W、D分别表示BIT、BYTE、WORD、DWORD数据类型
+        /// 1、关于PLC地址 DB1.DBX2.1、DB2.DBB4、DB3.DBW6、DB4.DBD8中的X、B、W、D分别表示Bit、Byte、Word、DWord数据类型
         /// 2、关于PLC地址：VB100、VW200、VD300中的 V区 相当于DB1区
         ///
         /// PLC数据类型对应C#数据类型关系如下： 

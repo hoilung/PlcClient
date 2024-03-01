@@ -48,7 +48,7 @@ namespace PlcClient.Controls
 
         private void SiemensBase_Load(object sender, EventArgs e)
         {
-            Init();            
+            Init();
             ChangeState(false);
         }
 
@@ -70,6 +70,8 @@ namespace PlcClient.Controls
             Msg2Text($"适用于西门子PLC {this.CpuType.ToString().Replace("S7", "S7-")}");
             Msg2Text("\r\n" + Properties.Resources.tip);
             Msg2Text("\r\n");
+
+            tbx_addressAll.Text = Properties.Resources.pl_siemens;
         }
 
         private void Cbx_type_SelectedIndexChanged(object sender, EventArgs e)
@@ -125,6 +127,7 @@ namespace PlcClient.Controls
 
                 ChangeState(Plc.IsConnected);
                 tbx_msg.ResetText();
+                tbx_addressAll.ResetText();
                 var msg = $"{(Plc.IsConnected ? "连接成功" : "连接失败")} {CpuType.ToString().Replace("S7", "S7-")} {ip}";
                 OnMsg(msg);
                 Msg2Text(msg);
@@ -253,7 +256,7 @@ namespace PlcClient.Controls
         private void btn_add_Click(object sender, EventArgs e)
         {
             var line = tbx_addressAll.Lines.Where(m => !string.IsNullOrWhiteSpace(m));
-            var adrErr = line.FirstOrDefault(m => !Regex.IsMatch(m.Split(new[] { "\t", ",", "，"," ","|"}, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(), _addressVerdify));
+            var adrErr = line.FirstOrDefault(m => !Regex.IsMatch(m.Split(new[] { "\t", ",", "，", " ", "|" }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(), _addressVerdify));
             if (adrErr != null)
             {
                 MessageBox.Show($"{adrErr} 无效的PLC地址");
@@ -300,6 +303,9 @@ namespace PlcClient.Controls
                     case VarType.Bit:
                         typeCode = TypeCode.Boolean;
                         break;
+                    case VarType.Byte:
+                        typeCode = TypeCode.Byte;
+                        break;
                     case VarType.Word:
                         typeCode = TypeCode.UInt16;
                         break;
@@ -340,7 +346,7 @@ namespace PlcClient.Controls
                 var typeCode = (TypeCode)Enum.Parse(typeof(TypeCode), lv_data.SelectedItems[0].SubItems[3].Text);
 
                 //var varype = (VarType)Enum.Parse(typeof(VarType), lv_data.SelectedItems[0].SubItems[3].Text);
-                
+
 
                 //TypeCode typeCode = TypeCode.Empty;
                 //switch (varype)

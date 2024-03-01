@@ -22,7 +22,7 @@ namespace PlcClient
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Init();
+            Init();                        
         }
 
         private void Init()
@@ -44,7 +44,6 @@ namespace PlcClient
 
             tabs.TabPages.Add(tab_siemens);
             tabs.TabPages.Add(tab_ge);
-
             this.Controls.Add(tabs);
         }
 

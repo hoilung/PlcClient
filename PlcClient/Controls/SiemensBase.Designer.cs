@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gb_set = new System.Windows.Forms.GroupBox();
             this.tbx_port = new System.Windows.Forms.MaskedTextBox();
             this.tbx_rack = new System.Windows.Forms.MaskedTextBox();
@@ -39,9 +40,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbx_ip = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.gb_datatype = new System.Windows.Forms.GroupBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.gb_act = new System.Windows.Forms.GroupBox();
+            this.cbx_type = new System.Windows.Forms.ComboBox();
             this.chk_enablewrite = new System.Windows.Forms.CheckBox();
             this.btn_clearTbx = new System.Windows.Forms.Button();
             this.btn_write = new System.Windows.Forms.Button();
@@ -50,9 +50,26 @@
             this.tbx_adr = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbx_msg = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btn_readAll = new System.Windows.Forms.Button();
+            this.btn_add = new System.Windows.Forms.Button();
+            this.tbx_addressAll = new System.Windows.Forms.TextBox();
+            this.lv_data = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Menu_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItem_ExcelExport = new System.Windows.Forms.ToolStripMenuItem();
             this.gb_set.SuspendLayout();
-            this.gb_datatype.SuspendLayout();
             this.gb_act.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.Menu_lv.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_set
@@ -77,7 +94,7 @@
             // tbx_port
             // 
             this.tbx_port.Location = new System.Drawing.Point(170, 24);
-            this.tbx_port.Mask = "99999";
+            this.tbx_port.Mask = "999";
             this.tbx_port.Name = "tbx_port";
             this.tbx_port.Size = new System.Drawing.Size(40, 21);
             this.tbx_port.TabIndex = 12;
@@ -87,7 +104,7 @@
             // tbx_rack
             // 
             this.tbx_rack.Location = new System.Drawing.Point(263, 24);
-            this.tbx_rack.Mask = "99";
+            this.tbx_rack.Mask = "9";
             this.tbx_rack.Name = "tbx_rack";
             this.tbx_rack.Size = new System.Drawing.Size(40, 21);
             this.tbx_rack.TabIndex = 11;
@@ -97,7 +114,7 @@
             // tbx_slot
             // 
             this.tbx_slot.Location = new System.Drawing.Point(344, 24);
-            this.tbx_slot.Mask = "99";
+            this.tbx_slot.Mask = "9";
             this.tbx_slot.Name = "tbx_slot";
             this.tbx_slot.Size = new System.Drawing.Size(40, 21);
             this.tbx_slot.TabIndex = 10;
@@ -106,7 +123,7 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(471, 22);
+            this.btn_close.Location = new System.Drawing.Point(480, 22);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 9;
@@ -116,7 +133,7 @@
             // 
             // btn_open
             // 
-            this.btn_open.Location = new System.Drawing.Point(390, 23);
+            this.btn_open.Location = new System.Drawing.Point(399, 23);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
             this.btn_open.TabIndex = 8;
@@ -168,25 +185,9 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "IP";
             // 
-            // gb_datatype
-            // 
-            this.gb_datatype.Controls.Add(this.flowLayoutPanel1);
-            this.gb_datatype.Location = new System.Drawing.Point(4, 69);
-            this.gb_datatype.Name = "gb_datatype";
-            this.gb_datatype.Size = new System.Drawing.Size(703, 60);
-            this.gb_datatype.TabIndex = 1;
-            this.gb_datatype.TabStop = false;
-            this.gb_datatype.Text = "数据类型";
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 23);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(691, 22);
-            this.flowLayoutPanel1.TabIndex = 0;
-            // 
             // gb_act
             // 
+            this.gb_act.Controls.Add(this.cbx_type);
             this.gb_act.Controls.Add(this.chk_enablewrite);
             this.gb_act.Controls.Add(this.btn_clearTbx);
             this.gb_act.Controls.Add(this.btn_write);
@@ -194,17 +195,26 @@
             this.gb_act.Controls.Add(this.btn_read);
             this.gb_act.Controls.Add(this.tbx_adr);
             this.gb_act.Controls.Add(this.label5);
-            this.gb_act.Location = new System.Drawing.Point(4, 135);
+            this.gb_act.Location = new System.Drawing.Point(4, 70);
             this.gb_act.Name = "gb_act";
             this.gb_act.Size = new System.Drawing.Size(697, 60);
             this.gb_act.TabIndex = 2;
             this.gb_act.TabStop = false;
-            this.gb_act.Text = "读/写";
+            this.gb_act.Text = "读取/写入";
+            // 
+            // cbx_type
+            // 
+            this.cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_type.FormattingEnabled = true;
+            this.cbx_type.Location = new System.Drawing.Point(135, 26);
+            this.cbx_type.Name = "cbx_type";
+            this.cbx_type.Size = new System.Drawing.Size(100, 20);
+            this.cbx_type.TabIndex = 8;
             // 
             // chk_enablewrite
             // 
             this.chk_enablewrite.AutoSize = true;
-            this.chk_enablewrite.Location = new System.Drawing.Point(311, 28);
+            this.chk_enablewrite.Location = new System.Drawing.Point(414, 28);
             this.chk_enablewrite.Name = "chk_enablewrite";
             this.chk_enablewrite.Size = new System.Drawing.Size(60, 16);
             this.chk_enablewrite.TabIndex = 7;
@@ -214,7 +224,7 @@
             // 
             // btn_clearTbx
             // 
-            this.btn_clearTbx.Location = new System.Drawing.Point(471, 25);
+            this.btn_clearTbx.Location = new System.Drawing.Point(561, 25);
             this.btn_clearTbx.Name = "btn_clearTbx";
             this.btn_clearTbx.Size = new System.Drawing.Size(75, 23);
             this.btn_clearTbx.TabIndex = 6;
@@ -224,7 +234,7 @@
             // 
             // btn_write
             // 
-            this.btn_write.Location = new System.Drawing.Point(390, 25);
+            this.btn_write.Location = new System.Drawing.Point(480, 25);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
             this.btn_write.TabIndex = 5;
@@ -234,7 +244,7 @@
             // 
             // tbx_value
             // 
-            this.tbx_value.Location = new System.Drawing.Point(218, 26);
+            this.tbx_value.Location = new System.Drawing.Point(322, 26);
             this.tbx_value.Name = "tbx_value";
             this.tbx_value.Size = new System.Drawing.Size(86, 21);
             this.tbx_value.TabIndex = 4;
@@ -242,7 +252,7 @@
             // 
             // btn_read
             // 
-            this.btn_read.Location = new System.Drawing.Point(137, 25);
+            this.btn_read.Location = new System.Drawing.Point(241, 25);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
             this.btn_read.TabIndex = 2;
@@ -268,37 +278,163 @@
             // 
             // tbx_msg
             // 
-            this.tbx_msg.Location = new System.Drawing.Point(4, 201);
+            this.tbx_msg.Location = new System.Drawing.Point(6, 17);
             this.tbx_msg.Multiline = true;
             this.tbx_msg.Name = "tbx_msg";
             this.tbx_msg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_msg.Size = new System.Drawing.Size(697, 213);
+            this.tbx_msg.Size = new System.Drawing.Size(464, 213);
             this.tbx_msg.TabIndex = 3;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(4, 136);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(703, 283);
+            this.tabControl1.TabIndex = 4;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tbx_msg);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(695, 257);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "输出";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.btn_readAll);
+            this.tabPage2.Controls.Add(this.btn_add);
+            this.tabPage2.Controls.Add(this.tbx_addressAll);
+            this.tabPage2.Controls.Add(this.lv_data);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(695, 257);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "批量读取";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btn_readAll
+            // 
+            this.btn_readAll.Location = new System.Drawing.Point(614, 35);
+            this.btn_readAll.Name = "btn_readAll";
+            this.btn_readAll.Size = new System.Drawing.Size(75, 23);
+            this.btn_readAll.TabIndex = 3;
+            this.btn_readAll.Text = "读取";
+            this.btn_readAll.UseVisualStyleBackColor = true;
+            this.btn_readAll.Click += new System.EventHandler(this.btn_readAll_Click);
+            // 
+            // btn_add
+            // 
+            this.btn_add.Location = new System.Drawing.Point(614, 6);
+            this.btn_add.Name = "btn_add";
+            this.btn_add.Size = new System.Drawing.Size(75, 23);
+            this.btn_add.TabIndex = 2;
+            this.btn_add.Text = "添加";
+            this.btn_add.UseVisualStyleBackColor = true;
+            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            // 
+            // tbx_addressAll
+            // 
+            this.tbx_addressAll.Location = new System.Drawing.Point(439, 6);
+            this.tbx_addressAll.Multiline = true;
+            this.tbx_addressAll.Name = "tbx_addressAll";
+            this.tbx_addressAll.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbx_addressAll.Size = new System.Drawing.Size(169, 245);
+            this.tbx_addressAll.TabIndex = 1;
+            // 
+            // lv_data
+            // 
+            this.lv_data.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5});
+            this.lv_data.ContextMenuStrip = this.Menu_lv;
+            this.lv_data.FullRowSelect = true;
+            this.lv_data.GridLines = true;
+            this.lv_data.HideSelection = false;
+            this.lv_data.Location = new System.Drawing.Point(6, 6);
+            this.lv_data.MultiSelect = false;
+            this.lv_data.Name = "lv_data";
+            this.lv_data.Size = new System.Drawing.Size(427, 245);
+            this.lv_data.TabIndex = 0;
+            this.lv_data.UseCompatibleStateImageBehavior = false;
+            this.lv_data.View = System.Windows.Forms.View.Details;
+            this.lv_data.SelectedIndexChanged += new System.EventHandler(this.lv_data_SelectedIndexChanged);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "序号";
+            this.columnHeader1.Width = 50;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "内存区";
+            this.columnHeader2.Width = 90;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "地址";
+            this.columnHeader3.Width = 90;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "数据类型";
+            this.columnHeader4.Width = 75;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "数值";
+            this.columnHeader5.Width = 100;
+            // 
+            // Menu_lv
+            // 
+            this.Menu_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_ExcelExport});
+            this.Menu_lv.Name = "Menu_lv";
+            this.Menu_lv.Size = new System.Drawing.Size(181, 48);
+            // 
+            // ToolStripMenuItem_ExcelExport
+            // 
+            this.ToolStripMenuItem_ExcelExport.Name = "ToolStripMenuItem_ExcelExport";
+            this.ToolStripMenuItem_ExcelExport.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_ExcelExport.Text = "导出Excel";
+            this.ToolStripMenuItem_ExcelExport.Click += new System.EventHandler(this.ToolStripMenuItem_ExcelExport_Click);
             // 
             // SiemensBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.Controls.Add(this.tbx_msg);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.gb_act);
-            this.Controls.Add(this.gb_datatype);
             this.Controls.Add(this.gb_set);
             this.Name = "SiemensBase";
             this.gb_set.ResumeLayout(false);
             this.gb_set.PerformLayout();
-            this.gb_datatype.ResumeLayout(false);
             this.gb_act.ResumeLayout(false);
             this.gb_act.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.Menu_lv.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.GroupBox gb_set;
-        private System.Windows.Forms.GroupBox gb_datatype;
         private System.Windows.Forms.GroupBox gb_act;
         private System.Windows.Forms.TextBox tbx_msg;
         private System.Windows.Forms.Label label1;
@@ -313,11 +449,25 @@
         private System.Windows.Forms.Button btn_read;
         private System.Windows.Forms.TextBox tbx_value;
         private System.Windows.Forms.Button btn_write;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button btn_clearTbx;
         private System.Windows.Forms.MaskedTextBox tbx_slot;
         private System.Windows.Forms.MaskedTextBox tbx_rack;
         private System.Windows.Forms.MaskedTextBox tbx_port;
         private System.Windows.Forms.CheckBox chk_enablewrite;
+        private System.Windows.Forms.ComboBox cbx_type;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ListView lv_data;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.TextBox tbx_addressAll;
+        private System.Windows.Forms.Button btn_add;
+        private System.Windows.Forms.Button btn_readAll;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ContextMenuStrip Menu_lv;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ExcelExport;
     }
 }

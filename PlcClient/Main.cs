@@ -37,7 +37,7 @@ namespace PlcClient
             tab_siemens.Controls.Add(siplc);
 
             var tab_ge = new TabPage();
-            tab_ge.Text = "GE 美国通用";
+            tab_ge.Text = "GE 通用电气";
             var ge = new Controls.GePLC();
             ge.Msg += call_Msg;
             tab_ge.Controls.Add(ge);

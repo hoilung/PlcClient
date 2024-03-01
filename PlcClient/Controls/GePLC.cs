@@ -65,7 +65,7 @@ namespace PlcClient.Controls
             chk_enablewrite.Enabled = btn_readOne.Enabled = btn_add.Enabled = this.btn_close.Enabled = this.btn_read.Enabled = state;
             lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = state && lv_data.SelectedItems.Count > 0;
 
-            tbx_ip.ReadOnly = tbx_port.ReadOnly = state;            
+            tbx_ip.ReadOnly = tbx_port.ReadOnly = state;
         }
 
         private void btn_open_Click(object sender, EventArgs e)
@@ -142,7 +142,7 @@ namespace PlcClient.Controls
             else
                 SRTP.ReadMultipleVars(array.ToArray());
             stopwatch.Stop();
-            this.OnMsg($"批量读取 用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+            this.OnMsg($"批量读取 {array.Count}个，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
 
             NewMethod(array);
 
@@ -159,7 +159,8 @@ namespace PlcClient.Controls
             lv_data.Items.Clear();
             for (int i = 0; i < array.Count(); i++)
             {
-                var item = new ListViewItem(i.ToString());
+                var item = new ListViewItem($"{i}");
+                item.Tag = item;
                 if (array[i].Value == null)
                 {
                     if (array[i].IsBit)
@@ -229,32 +230,37 @@ namespace PlcClient.Controls
             tbx_value.Text = result.ToString();
         }
 
-        private void lv_data_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                muen_lv.Show(lv_data, e.Location);
-            }
+        //private void lv_data_MouseClick(object sender, MouseEventArgs e)
+        //{
+        //    if (e.Button == MouseButtons.Right)
+        //    {
+        //        menu_lv.Show(lv_data, e.Location);
+        //    }
+        //}
 
-        }
         //菜单导出
         private void tm_exportExcel_Click(object sender, EventArgs e)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
             fileDialog.Filter = "Save File(*.csv)|*.csv";
             fileDialog.Title = "保存文件";
+            fileDialog.RestoreDirectory = true;
             fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             fileDialog.DefaultExt = "csv";
-            fileDialog.FileName = DateTime.Now.ToString("yyyyMMdd-HHmmssffff");// DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            fileDialog.FileName = tbx_ip.Text + DateTime.Now.ToString("_yyyy-MM-dd_ffff");
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                var array = lv_data.Tag as List<GEDataItem>;
-                for (int i = 0; i < array.Count; i++)
+                stringBuilder.AppendLine("序号,地址,数据类型,数值");
+                //var array = lv_data.Tag as List<GEDataItem>;
+                for (int i = 0; i < lv_data.Items.Count; i++)
                 {
-                    stringBuilder.AppendLine($"{i},{array[i].Address},{array[i].DataType},{array[i].Value}");
+                    var item = lv_data.Items[i];
+                    if (item.Tag is GEDataItem dataItem)
+                    {
+                        stringBuilder.AppendLine($"{item.Text},{dataItem.Address},{dataItem.Value.GetType().Name},{dataItem.Value}");
+                    }
                 }
-
                 File.WriteAllText(fileDialog.FileName, stringBuilder.ToString());
                 this.OnMsg($"保存文件：{fileDialog.FileName}");
                 MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -45,7 +45,7 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.muen_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menu_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.tbx_address = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -62,7 +62,7 @@
             this.lb_address = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.muen_lv.SuspendLayout();
+            this.menu_lv.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -191,19 +191,18 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
-            this.lv_data.ContextMenuStrip = this.muen_lv;
+            this.lv_data.ContextMenuStrip = this.menu_lv;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
             this.lv_data.Location = new System.Drawing.Point(0, 49);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(405, 263);
+            this.lv_data.Size = new System.Drawing.Size(410, 263);
             this.lv_data.TabIndex = 6;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
             this.lv_data.SelectedIndexChanged += new System.EventHandler(this.lv_data_SelectedIndexChanged);
-            this.lv_data.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lv_data_MouseClick);
             // 
             // columnHeader1
             // 
@@ -225,12 +224,12 @@
             this.columnHeader4.Text = "数值";
             this.columnHeader4.Width = 106;
             // 
-            // muen_lv
+            // menu_lv
             // 
-            this.muen_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menu_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tm_exportExcel});
-            this.muen_lv.Name = "muen_lv";
-            this.muen_lv.Size = new System.Drawing.Size(130, 26);
+            this.menu_lv.Name = "muen_lv";
+            this.menu_lv.Size = new System.Drawing.Size(130, 26);
             // 
             // tm_exportExcel
             // 
@@ -241,11 +240,11 @@
             // 
             // tbx_address
             // 
-            this.tbx_address.Location = new System.Drawing.Point(411, 49);
+            this.tbx_address.Location = new System.Drawing.Point(416, 49);
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbx_address.Size = new System.Drawing.Size(272, 263);
+            this.tbx_address.Size = new System.Drawing.Size(267, 263);
             this.tbx_address.TabIndex = 5;
             // 
             // groupBox2
@@ -386,7 +385,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.muen_lv.ResumeLayout(false);
+            this.menu_lv.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -420,7 +419,7 @@
         private System.Windows.Forms.TextBox tbx_addressOne;
         private System.Windows.Forms.TextBox tbx_value;
         private System.Windows.Forms.Button btn_readOne;
-        private System.Windows.Forms.ContextMenuStrip muen_lv;
+        private System.Windows.Forms.ContextMenuStrip menu_lv;
         private System.Windows.Forms.ToolStripMenuItem tm_exportExcel;
         private System.Windows.Forms.ComboBox cbx_changetype;
         private System.Windows.Forms.Label lb_address;

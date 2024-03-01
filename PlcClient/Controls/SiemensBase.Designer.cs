@@ -284,6 +284,7 @@
             this.tbx_msg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbx_msg.Size = new System.Drawing.Size(464, 213);
             this.tbx_msg.TabIndex = 3;
+            this.tbx_msg.WordWrap = false;
             // 
             // tabControl1
             // 
@@ -400,12 +401,12 @@
             this.Menu_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_ExcelExport});
             this.Menu_lv.Name = "Menu_lv";
-            this.Menu_lv.Size = new System.Drawing.Size(181, 48);
+            this.Menu_lv.Size = new System.Drawing.Size(130, 26);
             // 
             // ToolStripMenuItem_ExcelExport
             // 
             this.ToolStripMenuItem_ExcelExport.Name = "ToolStripMenuItem_ExcelExport";
-            this.ToolStripMenuItem_ExcelExport.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_ExcelExport.Size = new System.Drawing.Size(129, 22);
             this.ToolStripMenuItem_ExcelExport.Text = "导出Excel";
             this.ToolStripMenuItem_ExcelExport.Click += new System.EventHandler(this.ToolStripMenuItem_ExcelExport_Click);
             // 

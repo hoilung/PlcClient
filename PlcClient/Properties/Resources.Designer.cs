@@ -81,15 +81,23 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 tip：
+        ///   查找类似 说明：
+        /// 1、关于PLC地址 DB1.DBX2.1、DB2.DBB4、DB3.DBW6、DB4.DBD8中的X、B、W、D分别表示BIT、BYTE、WORD、DWORD数据类型
+        /// 2、关于PLC地址：VB100、VW200、VD300中的 V区 相当于DB1区
         ///
-        ///1：关于PLC地址 DB1.DBX100.1 、DB2.DBW200、DB3.DBD300中的X、B、W、D分别表示bit、byte、word、doubleword数据类型
-        ///2：关于PLC地址：VB100、VW200、VD300中的 V区 相当于DB1区
-        ///
-        ///数据类型对应关系如下：
-        ///
-        ///PLC：Bit、Int、DInt、Real、LReal、Word、DWord
-        /// C#：Boolean、Short(Int16)、Int(Int32)、Float(Single)、Double、UShort(UInt16)、Uint(UInt) 的本地化字符串。
+        /// PLC数据类型对应C#数据类型关系如下： 
+        /// |------------------------------|
+        /// | Bit		| Boolean	|
+        /// |------------------------------|
+        /// | Byte		| Byte		|
+        /// |------------------------------|
+        /// | DInt		| Int32(Int)	|
+        /// |------------------------------|
+        /// | Real		| Single(Float)	|
+        /// |------------------------------|
+        /// | LReal	| Double	|
+        /// |------------------------------|
+        /// | Word		| UInt16(UShort)|        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string tip {
             get {

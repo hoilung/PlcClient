@@ -19,7 +19,7 @@ namespace PlcClient.Controls
 {
     public partial class SiemensBase : BaseControl
     {
-        private const string _addressVerdify = @"^(DB|AI|AQ|VB|VD|VW|M|I|Q|V)\d+[DBXWD\d\.]+[0-7]$";//地址验证
+        private const string _addressVerdify = @"(^DB\d+\.DB[BWD]\d+$)|(^DB\d+\.DBX\d+\.[0-7]$)|(^(AI|AQ|VB|VW|VD)\d+$)|(^(Q|I|M|V)\d+\.[0-7]$)";//西门子plc地址验证
         private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
 
         public CpuType CpuType { get; set; }
@@ -48,7 +48,7 @@ namespace PlcClient.Controls
 
         private void SiemensBase_Load(object sender, EventArgs e)
         {
-            Init();
+            Init();            
             ChangeState(false);
         }
 
@@ -69,6 +69,7 @@ namespace PlcClient.Controls
 
             Msg2Text($"适用于西门子PLC {this.CpuType.ToString().Replace("S7", "S7-")}");
             Msg2Text("\r\n" + Properties.Resources.tip);
+            Msg2Text("\r\n");
         }
 
         private void Cbx_type_SelectedIndexChanged(object sender, EventArgs e)
@@ -252,7 +253,7 @@ namespace PlcClient.Controls
         private void btn_add_Click(object sender, EventArgs e)
         {
             var line = tbx_addressAll.Lines.Where(m => !string.IsNullOrWhiteSpace(m));
-            var adrErr = line.FirstOrDefault(m => !Regex.IsMatch(m, _addressVerdify));
+            var adrErr = line.FirstOrDefault(m => !Regex.IsMatch(m.Split(new[] { "\t", ",", "，"," ","|"}, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(), _addressVerdify));
             if (adrErr != null)
             {
                 MessageBox.Show($"{adrErr} 无效的PLC地址");
@@ -265,33 +266,36 @@ namespace PlcClient.Controls
 
             lv_data.BeginUpdate();
             lv_data.Items.Clear();
+            var arr = new[] { "BOOL", "INT", "REAL", "LREAL" };
             for (int i = 0; i < list.Count; i++)
             {
-                var li = list[i];
-                var dataItem = DataItem2.FromAddress2(li);
+
+                var li = list[i].ToUpper().Split(new[] { "\t", ",", "，", " ", "|" }, StringSplitOptions.RemoveEmptyEntries);
+                var dataItem = DataItem2.FromAddress2(li[0]);
+                if (li.Length == 2 && arr.Contains(li[1]))
+                {
+                    switch (li[1])
+                    {
+                        case "BOOL":
+                            dataItem.VarType = VarType.Bit;
+                            break;
+                        case "INT":
+                            dataItem.VarType = VarType.Int;
+                            break;
+                        case "REAL":
+                            dataItem.VarType = VarType.Real;
+                            break;
+                        case "LREAL":
+                            dataItem.VarType = VarType.LReal;
+                            break;
+                    }
+                }
                 var item = new ListViewItem($"{i}");
                 item.Tag = dataItem;
                 item.SubItems.Add(dataItem.DataType.ToString());
-                item.SubItems.Add(li);
-                item.SubItems.Add(dataItem.VarType.ToString());
-                item.SubItems.Add(dataItem.Value?.ToString());
-
-                lv_data.Items.Add(item);
-            }
-            lv_data.EndUpdate();
-
-        }
-
-        private void lv_data_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lv_data.SelectedItems.Count > 0)
-            {
-                var address = lv_data.SelectedItems[0].SubItems[2].Text;
-                var varype = (VarType)Enum.Parse(typeof(VarType), lv_data.SelectedItems[0].SubItems[3].Text);
-                tbx_adr.Text = address;
-
+                item.SubItems.Add(li[0]);
                 TypeCode typeCode = TypeCode.Empty;
-                switch (varype)
+                switch (dataItem.VarType)
                 {
                     case VarType.Bit:
                         typeCode = TypeCode.Boolean;
@@ -317,6 +321,54 @@ namespace PlcClient.Controls
                     default:
                         break;
                 }
+                item.SubItems.Add(typeCode.ToString());
+                item.SubItems.Add(dataItem.Value?.ToString());
+
+                lv_data.Items.Add(item);
+            }
+            lv_data.EndUpdate();
+
+        }
+
+        private void lv_data_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lv_data.SelectedItems.Count > 0)
+            {
+                var address = lv_data.SelectedItems[0].SubItems[2].Text;
+                tbx_adr.Text = address;
+
+                var typeCode = (TypeCode)Enum.Parse(typeof(TypeCode), lv_data.SelectedItems[0].SubItems[3].Text);
+
+                //var varype = (VarType)Enum.Parse(typeof(VarType), lv_data.SelectedItems[0].SubItems[3].Text);
+                
+
+                //TypeCode typeCode = TypeCode.Empty;
+                //switch (varype)
+                //{
+                //    case VarType.Bit:
+                //        typeCode = TypeCode.Boolean;
+                //        break;
+                //    case VarType.Word:
+                //        typeCode = TypeCode.UInt16;
+                //        break;
+                //    case VarType.DWord:
+                //        typeCode = TypeCode.UInt32;
+                //        break;
+                //    case VarType.Int:
+                //        typeCode = TypeCode.Int16;
+                //        break;
+                //    case VarType.DInt:
+                //        typeCode = TypeCode.Int32;
+                //        break;
+                //    case VarType.Real:
+                //        typeCode = TypeCode.Single;
+                //        break;
+                //    case VarType.LReal:
+                //        typeCode = TypeCode.Double;
+                //        break;
+                //    default:
+                //        break;
+                //}
 
                 cbx_type.SelectedValue = typeCode;
             }

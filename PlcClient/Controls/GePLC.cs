@@ -261,7 +261,7 @@ namespace PlcClient.Controls
                         stringBuilder.AppendLine($"{item.Text},{dataItem.Address},{dataItem.Value.GetType().Name},{dataItem.Value}");
                     }
                 }
-                File.WriteAllText(fileDialog.FileName, stringBuilder.ToString());
+                File.WriteAllText(fileDialog.FileName, stringBuilder.ToString(),Encoding.Default);
                 this.OnMsg($"保存文件：{fileDialog.FileName}");
                 MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

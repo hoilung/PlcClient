@@ -478,7 +478,7 @@ namespace PlcClient.Controls
                     var item = lv_data.Items[i];
                     if (item.Tag is DataItem dataItem)
                     {
-                        stringBuilder.AppendLine($"{item.Text},{dataItem.DataType},{item.SubItems[2].Text},{dataItem.VarType},{dataItem.Value?.ToString()}");
+                        stringBuilder.AppendLine($"{item.Text},{dataItem.DataType},{item.SubItems[2].Text},{item.SubItems[3].Text},{dataItem.Value?.ToString()}");
                     }
                 }
 

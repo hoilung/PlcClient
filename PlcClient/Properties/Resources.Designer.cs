@@ -61,11 +61,36 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 说明：
+        ///1、批量读取，一行一个地址
+        ///2、必须指定标签对应的PLC地址类型
+        ///3，地址和PLC类型用tab键盘隔开
+        ///4, 数组型标签用中括号加下标取第几个
+        ///5，BOOL数组不支持单个下标读取
+        ///
+        ///参考标签/PLC类型示例如下：
+        ///B	Bool
+        ///A	Byte
+        ///C	Int
+        ///D	DInt
+        ///E	Word
+        ///F	DWord
+        ///G	Real
+        ///H	LReal
+        ///C1[1]	Int 的本地化字符串。
+        /// </summary>
+        internal static string ab_tip {
+            get {
+                return ResourceManager.GetString("ab_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 注意：
         ///AI/AQ/R区地址单位是word不支持byte/bit读取
         ///
         ///批量读取，一行一个地址
-        ///参考示例如下：
+        ///参考地址示例如下：
         ///I101
         ///Q201
         ///M301
@@ -74,24 +99,25 @@ namespace PlcClient.Properties {
         ///AQ601
         /// 的本地化字符串。
         /// </summary>
-        internal static string getip {
+        internal static string ge_tip {
             get {
-                return ResourceManager.GetString("getip", resourceCulture);
+                return ResourceManager.GetString("ge_tip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 注意：
         ///批量读取，一行一个地址
-        ///地址指定类型用tab键隔开
+        ///地址与PLC类型用tab键隔开
         ///
-        ///参考示例如下：
+        ///参考地址/PLC类型示例如下：
         ///
-        ///DB1.DBX1.0
-        ///DB1.DBX1.2
-        ///DB2.DBW100	
-        ///DB2.DBW200	int
-        ///DB3.DBD300	real 的本地化字符串。
+        ///DB1.DBX1.0	Bool
+        ///DB1.DBX1.2	Bool
+        ///DB2.DBW100	Word
+        ///DB2.DBW200	Int
+        ///DB3.DBD300	Real
+        ///DB3.DBD400	DWord 的本地化字符串。
         /// </summary>
         internal static string pl_siemens {
             get {
@@ -101,26 +127,26 @@ namespace PlcClient.Properties {
         
         /// <summary>
         ///   查找类似 说明：
-        /// 1、关于PLC地址 DB1.DBX2.1、DB2.DBB4、DB3.DBW6、DB4.DBD8中的X、B、W、D分别表示Bit、Byte、Word、DWord数据类型
+        /// 1、关于PLC地址：DB1.DBX2.1、DB2.DBB4、DB3.DBW6、DB4.DBD8中的X、B、W、D分别表示Bit、Byte、Word、DWord数据类型
         /// 2、关于PLC地址：VB100、VW200、VD300中的 V区 相当于DB1区
         ///
-        /// PLC数据类型对应C#数据类型关系如下： 
+        ///  PLC 与 C# 数据类型 参考关系如下： 
         /// |------------------------------|
-        /// | Bit		| Boolean	|
+        /// | Bool		| Boolean(Bool)	|
         /// |------------------------------|
         /// | Byte		| Byte		|
+        /// |------------------------------|
+        /// | Int		| Int16(Short)	|
         /// |------------------------------|
         /// | DInt		| Int32(Int)	|
         /// |------------------------------|
         /// | Real		| Single(Float)	|
         /// |------------------------------|
-        /// | LReal	| Double	|
-        /// |------------------------------|
-        /// | Word		| UInt16(UShort)|        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// | LReal	| Do [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string tip {
+        internal static string smz_tip {
             get {
-                return ResourceManager.GetString("tip", resourceCulture);
+                return ResourceManager.GetString("smz_tip", resourceCulture);
             }
         }
     }

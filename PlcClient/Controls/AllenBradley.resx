@@ -117,75 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ab_tip" xml:space="preserve">
-    <value>说明：
-1、批量读取，一行一个地址
-2、必须指定标签对应的PLC地址类型
-3，地址和PLC类型用tab键盘隔开
-4, 数组型标签用中括号加下标取第几个
-5，BOOL数组不支持单个下标读取
-
-参考标签/PLC类型示例如下：
-B	Bool
-A	Byte
-C	Int
-D	DInt
-E	Word
-F	DWord
-G	Real
-H	LReal
-C1[1]	Int</value>
-  </data>
-  <data name="ge_tip" xml:space="preserve">
-    <value>注意：
-AI/AQ/R区地址单位是word不支持byte/bit读取
-
-批量读取，一行一个地址
-参考地址示例如下：
-I101
-Q201
-M301
-R401
-AI501
-AQ601
-</value>
-  </data>
-  <data name="pl_siemens" xml:space="preserve">
-    <value>注意：
-批量读取，一行一个地址
-地址与PLC类型用tab键隔开
-
-参考地址/PLC类型示例如下：
-
-DB1.DBX1.0	Bool
-DB1.DBX1.2	Bool
-DB2.DBW100	Word
-DB2.DBW200	Int
-DB3.DBD300	Real
-DB3.DBD400	DWord</value>
-  </data>
-  <data name="smz_tip" xml:space="preserve">
-    <value>说明：
- 1、关于PLC地址：DB1.DBX2.1、DB2.DBB4、DB3.DBW6、DB4.DBD8中的X、B、W、D分别表示Bit、Byte、Word、DWord数据类型
- 2、关于PLC地址：VB100、VW200、VD300中的 V区 相当于DB1区
-
-  PLC 与 C# 数据类型 参考关系如下： 
- |------------------------------|
- | Bool		| Boolean(Bool)	|
- |------------------------------|
- | Byte		| Byte		|
- |------------------------------|
- | Int		| Int16(Short)	|
- |------------------------------|
- | DInt		| Int32(Int)	|
- |------------------------------|
- | Real		| Single(Float)	|
- |------------------------------|
- | LReal	| Double	|
- |------------------------------|
- | Word		| UInt16(UShort)|
- |------------------------------|
- | DWord	| UInt32(UInt)	|
- |------------------------------|</value>
-  </data>
+  <metadata name="ping.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="lv_menu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>98, 17</value>
+  </metadata>
 </root>

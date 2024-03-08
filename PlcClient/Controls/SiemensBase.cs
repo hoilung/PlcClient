@@ -68,7 +68,7 @@ namespace PlcClient.Controls
             tbx_msg.Dock = DockStyle.Fill;
 
             Msg2Text($"适用于西门子PLC {this.CpuType.ToString().Replace("S7", "S7-")}");
-            Msg2Text("\r\n" + Properties.Resources.tip);
+            Msg2Text("\r\n" + Properties.Resources.smz_tip);
             Msg2Text("\r\n");
 
             tbx_addressAll.Text = Properties.Resources.pl_siemens;
@@ -85,7 +85,7 @@ namespace PlcClient.Controls
             this.chk_enablewrite.Enabled = this.btn_read.Enabled = this.btn_write.Enabled = this.btn_close.Enabled = state;
 
             this.btn_open.Enabled = !state;
-            cbx_type.Enabled = state;
+            //cbx_type.Enabled = state;
 
             btn_add.Enabled = btn_readAll.Enabled = state;
 
@@ -175,7 +175,7 @@ namespace PlcClient.Controls
             var address = tbx_adr.Text.Trim().ToUpper();
             if (string.IsNullOrWhiteSpace(address) || !Regex.IsMatch(address, _addressVerdify))
             {
-                MessageBox.Show($"{address} 无效的PLC地址");
+                MessageBox.Show($"{address} 无效的IP地址");
                 tbx_adr.Focus();
                 return;
             }
@@ -256,7 +256,7 @@ namespace PlcClient.Controls
         private void btn_add_Click(object sender, EventArgs e)
         {
             var line = tbx_addressAll.Lines.Where(m => !string.IsNullOrWhiteSpace(m));
-            var adrErr = line.FirstOrDefault(m => !Regex.IsMatch(m.Split(new[] { "\t", ",", "，", " ", "|" }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(), _addressVerdify));
+            var adrErr = line.FirstOrDefault(m => !Regex.IsMatch(m.Split(new[] { "\t", " ", "|" }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(), _addressVerdify));
             if (adrErr != null)
             {
                 MessageBox.Show($"{adrErr} 无效的PLC地址");
@@ -269,11 +269,11 @@ namespace PlcClient.Controls
 
             lv_data.BeginUpdate();
             lv_data.Items.Clear();
-            var arr = new[] { "BOOL", "INT", "REAL", "LREAL" };
+            var arr = new[] { "BOOL", "INT", "DINT", "REAL", "LREAL" };
             for (int i = 0; i < list.Count; i++)
             {
 
-                var li = list[i].ToUpper().Split(new[] { "\t", ",", "，", " ", "|" }, StringSplitOptions.RemoveEmptyEntries);
+                var li = list[i].ToUpper().Split(new[] { "\t", " ", "|" }, StringSplitOptions.RemoveEmptyEntries);
                 var dataItem = DataItem2.FromAddress2(li[0]);
                 if (li.Length == 2 && arr.Contains(li[1]))
                 {
@@ -285,10 +285,13 @@ namespace PlcClient.Controls
                         case "INT":
                             dataItem.VarType = VarType.Int;
                             break;
+                        case "DINT":
+                            dataItem.VarType = VarType.DInt;
+                            break;
                         case "REAL":
                             dataItem.VarType = VarType.Real;
                             break;
-                        case "LREAL":
+                        case "LReal":
                             dataItem.VarType = VarType.LReal;
                             break;
                     }

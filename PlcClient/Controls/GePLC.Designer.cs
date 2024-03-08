@@ -94,7 +94,7 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(349, 22);
+            this.btn_close.Location = new System.Drawing.Point(349, 21);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 4;
@@ -105,7 +105,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(166, 27);
+            this.label2.Location = new System.Drawing.Point(166, 26);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 4;
@@ -207,22 +207,21 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "序号";
-            this.columnHeader1.Width = 64;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "地址";
-            this.columnHeader2.Width = 87;
+            this.columnHeader2.Width = 90;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "数据类型";
-            this.columnHeader3.Width = 108;
+            this.columnHeader3.Width = 100;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "数值";
-            this.columnHeader4.Width = 106;
+            this.columnHeader4.Width = 100;
             // 
             // menu_lv
             // 
@@ -243,9 +242,10 @@
             this.tbx_address.Location = new System.Drawing.Point(416, 49);
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
-            this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbx_address.Size = new System.Drawing.Size(267, 263);
             this.tbx_address.TabIndex = 5;
+            this.tbx_address.WordWrap = false;
             // 
             // groupBox2
             // 
@@ -261,7 +261,7 @@
             this.groupBox2.Size = new System.Drawing.Size(695, 54);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "读取/写入";
+            this.groupBox2.Text = "单个读取/写入";
             // 
             // cbx_type
             // 

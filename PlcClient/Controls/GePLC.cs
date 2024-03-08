@@ -1,10 +1,8 @@
 ﻿using HL.GESRTP;
 using HL.Object.Extensions;
-using HL.S7netplus.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -17,9 +15,21 @@ namespace PlcClient.Controls
     public partial class GePLC : BaseControl
     {
         #region field
+        private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
         private SRTP SRTP = null;
         private TypeCode _typeCode;
-
+        public override TypeCode[] TypeCodes => new[] {
+            TypeCode.Boolean,
+            //TypeCode.Byte,
+            TypeCode.Int16,
+            TypeCode.Int32,
+            TypeCode.Int64,
+            TypeCode.Single,
+            TypeCode.Double,
+            TypeCode.UInt16,
+            TypeCode.UInt32,
+            TypeCode.UInt64,            
+        };
         #endregion
         public GePLC()
         {
@@ -46,7 +56,7 @@ namespace PlcClient.Controls
             btn_write.Enabled = false;
             tbx_value.ReadOnly = !chk_enablewrite.Checked;
 
-            tbx_address.Text = Properties.Resources.getip;
+            tbx_address.Text = Properties.Resources.ge_tip;
         }
         private void Radio_CheckedChanged(object sender, EventArgs e)
         {
@@ -74,6 +84,12 @@ namespace PlcClient.Controls
             try
             {
                 var ip = this.tbx_ip.Text;
+                if (!Regex.IsMatch(ip, _ipVerdify))
+                {
+                    MessageBox.Show($"{ip} 无效的IP地址");
+                    tbx_ip.Focus();
+                    return;
+                }
                 var ipState = ping.Send(ip, 500);
                 if (ipState.Status != IPStatus.Success)
                 {
@@ -199,7 +215,7 @@ namespace PlcClient.Controls
             {
                 case TypeCode.Boolean:
                     result = SRTP.ReadBoolean(address);
-                    break;
+                    break;                
                 case TypeCode.Int16:
                     result = SRTP.ReadInt16(address);
                     break;

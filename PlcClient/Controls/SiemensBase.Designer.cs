@@ -200,7 +200,7 @@
             this.gb_act.Size = new System.Drawing.Size(697, 60);
             this.gb_act.TabIndex = 2;
             this.gb_act.TabStop = false;
-            this.gb_act.Text = "读取/写入";
+            this.gb_act.Text = "单个读取/写入";
             // 
             // cbx_type
             // 

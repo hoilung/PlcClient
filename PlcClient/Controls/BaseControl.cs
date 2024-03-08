@@ -13,7 +13,7 @@ namespace PlcClient.Controls
         }
         public Ping ping = new Ping();
         public Stopwatch stopwatch = Stopwatch.StartNew();
-        public TypeCode[] TypeCodes { get; set; } = new[] {
+        public virtual TypeCode[] TypeCodes { get; set; } = new[] {
             TypeCode.Boolean,
             TypeCode.Byte,
             TypeCode.Int16,

@@ -22,13 +22,14 @@ namespace PlcClient
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Init();                        
+            Init();
         }
 
         private void Init()
         {
             var tabs = new TabControl();
             tabs.Dock = DockStyle.Fill;
+            tabs.SelectedIndexChanged += Tabs_SelectedIndexChanged;
 
             var tab_siemens = new TabPage();
             tab_siemens.Text = "SIEMENS 西门子";
@@ -42,12 +43,25 @@ namespace PlcClient
             ge.Msg += call_Msg;
             tab_ge.Controls.Add(ge);
 
+            var tab_ab = new TabPage();
+            tab_ab.Text = "AB 罗克韦尔";
+            var ab = new Controls.AllenBradley();
+            ab.Msg += call_Msg;
+            tab_ab.Controls.Add(ab);
+
             tabs.TabPages.Add(tab_siemens);
             tabs.TabPages.Add(tab_ge);
+            tabs.TabPages.Add(tab_ab);
             this.Controls.Add(tabs);
         }
 
-
+        private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           if(sender is TabControl tabs)
+            {
+                
+            }
+        }
 
         private void call_Msg(string obj)
         {

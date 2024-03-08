@@ -126,7 +126,7 @@
             this.tbx_ip.Name = "tbx_ip";
             this.tbx_ip.Size = new System.Drawing.Size(100, 21);
             this.tbx_ip.TabIndex = 1;
-            this.tbx_ip.Text = "192.168.1.100";
+            this.tbx_ip.Text = "127.0.0.1";
             // 
             // btn_open
             // 
@@ -157,9 +157,9 @@
             this.numericUpDown1.Location = new System.Drawing.Point(476, 18);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(42, 21);
-            this.numericUpDown1.TabIndex = 7;
+            this.numericUpDown1.TabIndex = 30;
             this.numericUpDown1.Value = new decimal(new int[] {
-            6,
+            8,
             0,
             0,
             0});
@@ -169,7 +169,7 @@
             this.btn_add.Location = new System.Drawing.Point(529, 17);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(75, 23);
-            this.btn_add.TabIndex = 6;
+            this.btn_add.TabIndex = 31;
             this.btn_add.Text = "添加";
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
@@ -179,7 +179,7 @@
             this.btn_read.Location = new System.Drawing.Point(610, 17);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
-            this.btn_read.TabIndex = 5;
+            this.btn_read.TabIndex = 32;
             this.btn_read.Text = "读取";
             this.btn_read.UseVisualStyleBackColor = true;
             this.btn_read.Click += new System.EventHandler(this.btn_read_Click);
@@ -244,7 +244,7 @@
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbx_address.Size = new System.Drawing.Size(267, 263);
-            this.tbx_address.TabIndex = 5;
+            this.tbx_address.TabIndex = 30;
             this.tbx_address.WordWrap = false;
             // 
             // groupBox2
@@ -270,7 +270,7 @@
             this.cbx_type.Location = new System.Drawing.Point(160, 23);
             this.cbx_type.Name = "cbx_type";
             this.cbx_type.Size = new System.Drawing.Size(100, 20);
-            this.cbx_type.TabIndex = 26;
+            this.cbx_type.TabIndex = 5;
             // 
             // chk_enablewrite
             // 
@@ -288,7 +288,7 @@
             this.btn_write.Location = new System.Drawing.Point(529, 22);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
-            this.btn_write.TabIndex = 24;
+            this.btn_write.TabIndex = 21;
             this.btn_write.Text = "写入";
             this.btn_write.UseVisualStyleBackColor = true;
             this.btn_write.Click += new System.EventHandler(this.btn_write_Click);
@@ -298,7 +298,7 @@
             this.btn_readOne.Location = new System.Drawing.Point(268, 22);
             this.btn_readOne.Name = "btn_readOne";
             this.btn_readOne.Size = new System.Drawing.Size(75, 23);
-            this.btn_readOne.TabIndex = 22;
+            this.btn_readOne.TabIndex = 6;
             this.btn_readOne.Text = "读取";
             this.btn_readOne.UseVisualStyleBackColor = true;
             this.btn_readOne.Click += new System.EventHandler(this.btn_readOne_Click);
@@ -308,7 +308,7 @@
             this.tbx_value.Location = new System.Drawing.Point(349, 23);
             this.tbx_value.Name = "tbx_value";
             this.tbx_value.Size = new System.Drawing.Size(110, 21);
-            this.tbx_value.TabIndex = 4;
+            this.tbx_value.TabIndex = 20;
             this.tbx_value.Text = "0";
             // 
             // tbx_addressOne
@@ -316,7 +316,7 @@
             this.tbx_addressOne.Location = new System.Drawing.Point(54, 23);
             this.tbx_addressOne.Name = "tbx_addressOne";
             this.tbx_addressOne.Size = new System.Drawing.Size(100, 21);
-            this.tbx_addressOne.TabIndex = 20;
+            this.tbx_addressOne.TabIndex = 4;
             this.tbx_addressOne.Text = "M100";
             // 
             // label4

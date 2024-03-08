@@ -62,6 +62,7 @@ namespace PlcClient.Properties {
         
         /// <summary>
         ///   查找类似 说明：
+        ///当前协议：CIP
         ///1、批量读取，一行一个地址
         ///2、必须指定标签对应的PLC地址类型
         ///3，地址和PLC类型用tab键盘隔开
@@ -70,14 +71,11 @@ namespace PlcClient.Properties {
         ///
         ///参考标签/PLC类型示例如下：
         ///B	Bool
-        ///A	Byte
         ///C	Int
         ///D	DInt
-        ///E	Word
-        ///F	DWord
-        ///G	Real
-        ///H	LReal
-        ///C1[1]	Int 的本地化字符串。
+        ///F	Real
+        ///C1[1]	Int
+        ///F1[1]	Real 的本地化字符串。
         /// </summary>
         internal static string ab_tip {
             get {
@@ -86,7 +84,8 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 注意：
+        ///   查找类似 说明：
+        ///当前协议：SRTP
         ///AI/AQ/R区地址单位是word不支持byte/bit读取
         ///
         ///批量读取，一行一个地址
@@ -106,7 +105,8 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 注意：
+        ///   查找类似 说明：
+        ///当前协议：S7
         ///批量读取，一行一个地址
         ///地址与PLC类型用tab键隔开
         ///

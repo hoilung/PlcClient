@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
@@ -33,5 +36,37 @@ namespace PlcClient.Controls
             this.Msg?.Invoke(msg);
         }
         #endregion
+
+        public TControl[] FindControls<TControl>(Control baseControl, bool searchAllChildren) where TControl : Control
+        {
+            var list = new List<TControl>();
+            if (baseControl == null)
+                return list.ToArray();
+
+            for (int i = 0; i < baseControl.Controls.Count; i++)
+            {
+                var item = baseControl.Controls[i];
+                if (item.GetType() == typeof(TControl))
+                {
+                    list.Add(item as TControl);
+                }
+                if (searchAllChildren && item.Controls != null)
+                {
+                    list.AddRange(FindControls<TControl>(item, searchAllChildren));
+                }
+            }
+            return list.ToArray();
+        }
+
+        public string GetLocalIP()
+        {
+            var adr = Dns.GetHostAddresses(Dns.GetHostName());
+            if (adr != null)
+            {
+                return adr.FirstOrDefault(m => m.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !m.ToString().StartsWith("172")).ToString();
+            }
+
+            return "127.0.0.1";
+        }
     }
 }

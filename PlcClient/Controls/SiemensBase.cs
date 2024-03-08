@@ -54,6 +54,8 @@ namespace PlcClient.Controls
 
         private void Init()
         {
+            tbx_ip.Text=GetLocalIP();
+
             var typeArry = TypeCodes.Select(m => new { Name = m, Value = m.ToString() }).ToList();
             cbx_type.DisplayMember = "Value";
             cbx_type.ValueMember = "Name";

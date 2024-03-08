@@ -1,10 +1,12 @@
-﻿using System;
+﻿using PlcClient.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -57,9 +59,22 @@ namespace PlcClient
 
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-           if(sender is TabControl tabs)
+            if (sender is TabControl tabs)
             {
-                
+                if (tabs.SelectedTab.Controls!=null &&tabs.SelectedTab.Controls[0] is BaseControl baseControl)
+                {
+                    var arry = baseControl.FindControls<TextBox>(tabs.SelectedTab, true);
+                    if (arry != null)
+                    {
+                        var tbx_ip = arry.Where(tbx => Regex.IsMatch(tbx.Text, @"^\d+\.\d+\.\d+\.\d+")).FirstOrDefault();
+                        if (tbx_ip != null)
+                        {
+                            tbx_ip.Focus();
+                            var lastIndex = tbx_ip.Text.LastIndexOf('.') + 1;
+                            tbx_ip.Select(lastIndex, tbx_ip.Text.Length - lastIndex);
+                        }
+                    }
+                }
             }
         }
 
@@ -67,5 +82,6 @@ namespace PlcClient
         {
             this.toolStrip_msg.Text = obj;
         }
+       
     }
 }

@@ -86,7 +86,7 @@
             this.cbx_type.Location = new System.Drawing.Point(160, 23);
             this.cbx_type.Name = "cbx_type";
             this.cbx_type.Size = new System.Drawing.Size(100, 20);
-            this.cbx_type.TabIndex = 26;
+            this.cbx_type.TabIndex = 6;
             // 
             // chk_enablewrite
             // 
@@ -104,7 +104,7 @@
             this.btn_write.Location = new System.Drawing.Point(529, 22);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
-            this.btn_write.TabIndex = 24;
+            this.btn_write.TabIndex = 21;
             this.btn_write.Text = "写入";
             this.btn_write.UseVisualStyleBackColor = true;
             this.btn_write.Click += new System.EventHandler(this.btn_write_Click);
@@ -114,7 +114,7 @@
             this.btn_readOne.Location = new System.Drawing.Point(268, 22);
             this.btn_readOne.Name = "btn_readOne";
             this.btn_readOne.Size = new System.Drawing.Size(75, 23);
-            this.btn_readOne.TabIndex = 22;
+            this.btn_readOne.TabIndex = 7;
             this.btn_readOne.Text = "读取";
             this.btn_readOne.UseVisualStyleBackColor = true;
             this.btn_readOne.Click += new System.EventHandler(this.btn_readOne_Click);
@@ -124,7 +124,7 @@
             this.tbx_value.Location = new System.Drawing.Point(349, 23);
             this.tbx_value.Name = "tbx_value";
             this.tbx_value.Size = new System.Drawing.Size(110, 21);
-            this.tbx_value.TabIndex = 4;
+            this.tbx_value.TabIndex = 20;
             this.tbx_value.Text = "0";
             // 
             // tbx_addressOne
@@ -132,7 +132,7 @@
             this.tbx_addressOne.Location = new System.Drawing.Point(54, 23);
             this.tbx_addressOne.Name = "tbx_addressOne";
             this.tbx_addressOne.Size = new System.Drawing.Size(100, 21);
-            this.tbx_addressOne.TabIndex = 20;
+            this.tbx_addressOne.TabIndex = 5;
             this.tbx_addressOne.Text = "A1";
             // 
             // label4
@@ -167,7 +167,7 @@
             this.tbx_slot.Mask = "99";
             this.tbx_slot.Name = "tbx_slot";
             this.tbx_slot.Size = new System.Drawing.Size(43, 21);
-            this.tbx_slot.TabIndex = 5;
+            this.tbx_slot.TabIndex = 3;
             this.tbx_slot.Text = "0";
             // 
             // label3
@@ -223,14 +223,14 @@
             this.tbx_ip.Name = "tbx_ip";
             this.tbx_ip.Size = new System.Drawing.Size(100, 21);
             this.tbx_ip.TabIndex = 1;
-            this.tbx_ip.Text = "192.168.1.100";
+            this.tbx_ip.Text = "127.0.0.1";
             // 
             // btn_open
             // 
             this.btn_open.Location = new System.Drawing.Point(349, 21);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
-            this.btn_open.TabIndex = 3;
+            this.btn_open.TabIndex = 4;
             this.btn_open.Text = "连接";
             this.btn_open.UseVisualStyleBackColor = true;
             this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
@@ -253,7 +253,7 @@
             this.btn_read.Location = new System.Drawing.Point(610, 17);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
-            this.btn_read.TabIndex = 7;
+            this.btn_read.TabIndex = 32;
             this.btn_read.Text = "读取";
             this.btn_read.UseVisualStyleBackColor = true;
             this.btn_read.Click += new System.EventHandler(this.btn_read_Click);
@@ -263,7 +263,7 @@
             this.btn_add.Location = new System.Drawing.Point(529, 17);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(75, 23);
-            this.btn_add.TabIndex = 8;
+            this.btn_add.TabIndex = 31;
             this.btn_add.Text = "添加";
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
@@ -275,7 +275,7 @@
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbx_address.Size = new System.Drawing.Size(267, 263);
-            this.tbx_address.TabIndex = 6;
+            this.tbx_address.TabIndex = 30;
             this.tbx_address.WordWrap = false;
             // 
             // lv_data
@@ -322,12 +322,12 @@
             this.lv_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tm_exportExcel});
             this.lv_menu.Name = "lv_menu";
-            this.lv_menu.Size = new System.Drawing.Size(181, 48);
+            this.lv_menu.Size = new System.Drawing.Size(130, 26);
             // 
             // tm_exportExcel
             // 
             this.tm_exportExcel.Name = "tm_exportExcel";
-            this.tm_exportExcel.Size = new System.Drawing.Size(180, 22);
+            this.tm_exportExcel.Size = new System.Drawing.Size(129, 22);
             this.tm_exportExcel.Text = "导出Excel";
             this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
             // 

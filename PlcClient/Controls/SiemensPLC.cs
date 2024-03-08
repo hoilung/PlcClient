@@ -1,6 +1,7 @@
 ﻿using S7.Net;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
@@ -12,6 +13,22 @@ namespace PlcClient.Controls
             InitializeComponent();
 
             this.Load += SiemensPLC_Load;
+            this.tab_siemens.SelectedIndexChanged += Tab_siemens_SelectedIndexChanged;
+        }
+
+        private void Tab_siemens_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var arry = FindControls<TextBox>(this.tab_siemens.SelectedTab, true);
+            if (arry != null)
+            {
+                var tbx_ip = arry.Where(tbx => Regex.IsMatch(tbx.Text, @"^\d+\.\d+\.\d+\.\d+")).FirstOrDefault();
+                if (tbx_ip != null)
+                {
+                    tbx_ip.Focus();
+                    var lastIndex = tbx_ip.Text.LastIndexOf('.')+1;
+                    tbx_ip.Select(lastIndex, tbx_ip.Text.Length - lastIndex);
+                }
+            }
         }
 
         private void SiemensPLC_Load(object sender, EventArgs e)

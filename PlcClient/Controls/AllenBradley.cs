@@ -15,7 +15,7 @@ namespace PlcClient.Controls
     public partial class AllenBradley : BaseControl
     {
         private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
-        private AllenBradleyConnectedCipNet connectedCipNet;
+        private AllenBradleyNet connectedCipNet;
         private TypeCode _typeCode = TypeCode.Empty;
         public AllenBradley()
         {
@@ -38,6 +38,7 @@ namespace PlcClient.Controls
 
         private void Init()
         {
+            tbx_ip.Text = GetLocalIP();
 
             ChangeState(false);
             tbx_value.ReadOnly = true;
@@ -74,7 +75,7 @@ namespace PlcClient.Controls
             var ip = tbx_ip.Text;
             var port = ushort.Parse(tbx_port.Text);
             var slot = byte.Parse(tbx_slot.Text);
-            if(!Regex.IsMatch(ip,_ipVerdify))
+            if (!Regex.IsMatch(ip, _ipVerdify))
             {
                 MessageBox.Show($"{ip} 无效的IP地址");
                 tbx_ip.Focus();
@@ -89,7 +90,7 @@ namespace PlcClient.Controls
                     return;
                 }
             }
-            connectedCipNet = new AllenBradleyConnectedCipNet(ip, port, slot);
+            connectedCipNet = new AllenBradleyNet(ip, port, slot);
             connectedCipNet.Open();
             if (connectedCipNet.Connected)
             {
@@ -117,12 +118,23 @@ namespace PlcClient.Controls
             try
             {
                 tbx_value.ResetText();
-                var by = connectedCipNet.Read(adr, 1);
-                if (by != null)
+                object obj = null;
+                stopwatch.Restart();
+                if (_typeCode == TypeCode.Boolean)
                 {
-                    var obj = ConvertValueType(by, _typeCode, 0);
-                    tbx_value.Text = obj.ToString();
+                    obj = connectedCipNet.ReadBoolean(adr);
                 }
+                else
+                {
+                    var by = connectedCipNet.Read(adr, 1);
+                    if (by != null)
+                    {
+                        obj = ConvertValueType(by, _typeCode, 0);
+                    }
+                }
+                stopwatch.Stop();
+                OnMsg($"{adr} 读取 {obj}，用时：" + stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms"));
+                tbx_value.Text = obj.ToString();
             }
             catch (Exception ex)
             {
@@ -162,7 +174,7 @@ namespace PlcClient.Controls
             try
             {
                 var typecode = (TypeCode)cbx_type.SelectedValue;
-                var val = tbx_value.Text.Trim().ConvertToValueType(typecode);                
+                var val = tbx_value.Text.Trim().ConvertToValueType(typecode);
                 stopwatch.Restart();
                 switch (typecode)
                 {
@@ -210,7 +222,7 @@ namespace PlcClient.Controls
             catch (Exception ex)
             {
                 OnMsg($"{adr} 写入失败，用时：" + stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms"));
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "失败");
                 //OnMsg(ex.Message);
             }
         }
@@ -302,7 +314,10 @@ namespace PlcClient.Controls
             {
                 try
                 {
+                    stopwatch.Restart();
                     connectedCipNet.ReadMultiple(dataItems.ToArray());
+                    stopwatch.Stop();
+                    OnMsg($"批量读取 {dataItems.Count}个,用时：" + stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms"));
                 }
                 catch (Exception ex)
                 {

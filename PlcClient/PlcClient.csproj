@@ -70,6 +70,12 @@
     <Compile Include="Controls\AllenBradley.Designer.cs">
       <DependentUpon>AllenBradley.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AllenBradleyTagView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AllenBradleyTagView.Designer.cs">
+      <DependentUpon>AllenBradleyTagView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\BaseControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\AllenBradley.resx">
       <DependentUpon>AllenBradley.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AllenBradleyTagView.resx">
+      <DependentUpon>AllenBradleyTagView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\BaseControl.resx">
       <DependentUpon>BaseControl.cs</DependentUpon>
@@ -176,6 +185,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <None Include="Resources\tag.ico" />
+    <None Include="Resources\struct.ico" />
+    <None Include="Resources\array.ico" />
     <None Include="Resources\siemens.ico" />
     <None Include="Resources\ge.ico" />
     <None Include="Resources\ab.ico" />

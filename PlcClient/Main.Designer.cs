@@ -57,8 +57,8 @@
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "siemens.ico");
-            this.imageList1.Images.SetKeyName(1, "ab.ico");
-            this.imageList1.Images.SetKeyName(2, "ge.ico");
+            this.imageList1.Images.SetKeyName(1, "ge.ico");
+            this.imageList1.Images.SetKeyName(2, "ab.ico");
             // 
             // Main
             // 

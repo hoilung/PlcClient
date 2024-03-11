@@ -179,5 +179,35 @@ namespace PlcClient.Properties {
                 return ResourceManager.GetString("smz_tip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon tv_array {
+            get {
+                object obj = ResourceManager.GetObject("tv_array", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon tv_struct {
+            get {
+                object obj = ResourceManager.GetObject("tv_struct", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon tv_tag {
+            get {
+                object obj = ResourceManager.GetObject("tv_tag", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

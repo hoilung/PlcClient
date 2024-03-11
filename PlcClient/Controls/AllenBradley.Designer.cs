@@ -57,6 +57,7 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lv_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_tagview = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -237,6 +238,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btn_tagview);
             this.groupBox3.Controls.Add(this.btn_read);
             this.groupBox3.Controls.Add(this.btn_add);
             this.groupBox3.Controls.Add(this.tbx_address);
@@ -331,6 +333,16 @@
             this.tm_exportExcel.Text = "导出Excel";
             this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
             // 
+            // btn_tagview
+            // 
+            this.btn_tagview.Location = new System.Drawing.Point(335, 17);
+            this.btn_tagview.Name = "btn_tagview";
+            this.btn_tagview.Size = new System.Drawing.Size(75, 23);
+            this.btn_tagview.TabIndex = 33;
+            this.btn_tagview.Text = "查看标签";
+            this.btn_tagview.UseVisualStyleBackColor = true;
+            this.btn_tagview.Click += new System.EventHandler(this.btn_tagview_Click);
+            // 
             // AllenBradley
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -380,5 +392,6 @@
         private System.Windows.Forms.Button btn_add;
         private System.Windows.Forms.ContextMenuStrip lv_menu;
         private System.Windows.Forms.ToolStripMenuItem tm_exportExcel;
+        private System.Windows.Forms.Button btn_tagview;
     }
 }

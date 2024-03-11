@@ -15,7 +15,7 @@ namespace PlcClient.Controls
     public partial class AllenBradley : BaseControl
     {
         private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
-        private AllenBradleyNet connectedCipNet;
+        private AllenBradleyNet plc;
         private TypeCode _typeCode = TypeCode.Empty;
         public AllenBradley()
         {
@@ -90,9 +90,9 @@ namespace PlcClient.Controls
                     return;
                 }
             }
-            connectedCipNet = new AllenBradleyNet(ip, port, slot);
-            connectedCipNet.Open();
-            if (connectedCipNet.Connected)
+            plc = new AllenBradleyNet(ip, port, slot);
+            plc.Open();
+            if (plc.Connected)
             {
                 ChangeState(true);
                 tbx_address.ResetText();
@@ -101,7 +101,7 @@ namespace PlcClient.Controls
 
         private void btn_close_Click(object sender, EventArgs e)
         {
-            connectedCipNet?.Close();
+            plc?.Close();
             ChangeState(false);
 
         }
@@ -122,11 +122,11 @@ namespace PlcClient.Controls
                 stopwatch.Restart();
                 if (_typeCode == TypeCode.Boolean)
                 {
-                    obj = connectedCipNet.ReadBoolean(adr);
+                    obj = plc.ReadBoolean(adr);
                 }
                 else
                 {
-                    var by = connectedCipNet.Read(adr, 1);
+                    var by = plc.Read(adr, 1);
                     if (by != null)
                     {
                         obj = ConvertValueType(by, _typeCode, 0);
@@ -180,37 +180,37 @@ namespace PlcClient.Controls
                 {
 
                     case TypeCode.Boolean:
-                        connectedCipNet.WriteBoolean(adr, (bool)val);
+                        plc.WriteBoolean(adr, (bool)val);
                         break;
                     case TypeCode.Byte:
-                        connectedCipNet.WriteByte(adr, (byte)val);
+                        plc.WriteByte(adr, (byte)val);
                         break;
                     case TypeCode.Int16:
-                        connectedCipNet.WriteInt16(adr, (Int16)val);
+                        plc.WriteInt16(adr, (Int16)val);
                         break;
                     case TypeCode.UInt16:
-                        connectedCipNet.WriteUInt16(adr, (UInt16)val);
+                        plc.WriteUInt16(adr, (UInt16)val);
                         break;
                     case TypeCode.Int32:
-                        connectedCipNet.WriteInt32(adr, (Int32)val);
+                        plc.WriteInt32(adr, (Int32)val);
                         break;
                     case TypeCode.UInt32:
-                        connectedCipNet.WriteUInt32(adr, (UInt32)val);
+                        plc.WriteUInt32(adr, (UInt32)val);
                         break;
                     case TypeCode.Int64:
-                        connectedCipNet.WriteInt64(adr, (Int64)val);
+                        plc.WriteInt64(adr, (Int64)val);
                         break;
                     case TypeCode.UInt64:
-                        connectedCipNet.WriteUInt64(adr, (UInt64)val);
+                        plc.WriteUInt64(adr, (UInt64)val);
                         break;
                     case TypeCode.Single:
-                        connectedCipNet.WriteSingle(adr, (Single)val);
+                        plc.WriteSingle(adr, (Single)val);
                         break;
                     case TypeCode.Double:
-                        connectedCipNet.WriteDouble(adr, (Double)val);
+                        plc.WriteDouble(adr, (Double)val);
                         break;
                     case TypeCode.String:
-                        connectedCipNet.WriteString(adr, tbx_value.Text.Trim());
+                        plc.WriteString(adr, tbx_value.Text.Trim());
                         break;
                     default:
                         MessageBox.Show("尚未支持的类型");
@@ -235,14 +235,14 @@ namespace PlcClient.Controls
             var list = line.Distinct().ToList();
 
             var arr = new[] { "BOOL", "BYTE", "INT", "DINT", "WORD", "DWORD", "REAL", "LREAL" };
-            var dataItems = new List<ABDataItem>();
+            var dataItems = new List<AbDataItem>();
             for (int i = 0; i < list.Count; i++)
             {
                 var li = list[i].ToUpper().Split(new[] { "\t", " ", "|" }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (li.Length == 2 && arr.Contains(li[1]))
                 {
-                    ABDataItem item = new ABDataItem();
+                    AbDataItem item = new AbDataItem();
                     item.Address = li[0];
                     switch (li[1])
                     {
@@ -279,7 +279,7 @@ namespace PlcClient.Controls
             lv_data.Items.Clear();
             for (int i = 0; i < dataItems.Count; i++)
             {
-                ABDataItem data = dataItems[i];
+                AbDataItem data = dataItems[i];
                 var item = new ListViewItem(i.ToString());
                 item.Tag = data;
                 item.SubItems.Add(data.Address.ToString());
@@ -299,7 +299,7 @@ namespace PlcClient.Controls
         {
             if (lv_data.SelectedItems.Count > 0)
             {
-                var item = lv_data.SelectedItems[0].Tag as ABDataItem;
+                var item = lv_data.SelectedItems[0].Tag as AbDataItem;
                 if (item != null)
                 {
                     tbx_addressOne.Text = item.Address.ToString();
@@ -310,12 +310,12 @@ namespace PlcClient.Controls
 
         private void btn_read_Click(object sender, EventArgs e)
         {
-            if (connectedCipNet.Connected && lv_data.Tag is List<ABDataItem> dataItems)
+            if (plc.Connected && lv_data.Tag is List<AbDataItem> dataItems)
             {
                 try
                 {
                     stopwatch.Restart();
-                    connectedCipNet.ReadMultiple(dataItems.ToArray());
+                    plc.ReadMultiple(dataItems.ToArray());
                     stopwatch.Stop();
                     OnMsg($"批量读取 {dataItems.Count}个,用时：" + stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms"));
                 }
@@ -327,7 +327,7 @@ namespace PlcClient.Controls
                 //connectedCipNet.Read(dataItems.ToArray());
                 foreach (ListViewItem item in lv_data.Items)
                 {
-                    if (item.Tag is ABDataItem data)
+                    if (item.Tag is AbDataItem data)
                     {
                         item.SubItems[3].Text = data.ToString();
                     }
@@ -354,7 +354,7 @@ namespace PlcClient.Controls
                 for (int i = 0; i < lv_data.Items.Count; i++)
                 {
                     var item = lv_data.Items[i];
-                    if (item.Tag is ABDataItem dataItem)
+                    if (item.Tag is AbDataItem dataItem)
                     {
                         stringBuilder.AppendLine($"{item.Text},{dataItem.Address},{dataItem.ValType},{dataItem.ToString()}");
                     }
@@ -363,6 +363,37 @@ namespace PlcClient.Controls
                 this.OnMsg($"保存文件：{fileDialog.FileName}");
                 MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void btn_tagview_Click(object sender, EventArgs e)
+        {
+
+            var tagForm = new Form()
+            {
+                Height = 450,
+                Width = 600,
+                Text = "查看标签",
+                Icon = Properties.Resources.ab,
+                StartPosition = FormStartPosition.CenterParent
+            };
+            tagForm.MinimumSize = new System.Drawing.Size(600, 450);
+            var abTagView = new AllenBradleyTagView();
+            abTagView.RefreshDataEvent += AbTagView_RefreshDataEvent;
+            abTagView.Dock = DockStyle.Fill;
+            tagForm.Controls.Add(abTagView);
+            tagForm.ShowDialog();
+
+        }
+
+        private AbTagItem[] AbTagView_RefreshDataEvent()
+        {
+            var list = plc.TagEnumerator();
+            var structList = list.Where(m => m.IsStruct).ToList();
+            for (int i = 0; i < structList.Count; i++)
+            {
+                structList[i].Members = plc.StructTagEnumeator(structList[i]);
+            }
+            return list;
         }
     }
 

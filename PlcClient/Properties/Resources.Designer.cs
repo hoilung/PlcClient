@@ -61,6 +61,16 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon ab {
+            get {
+                object obj = ResourceManager.GetObject("ab", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 说明：
         ///当前协议：CIP
         ///1、批量读取，一行一个地址
@@ -80,6 +90,16 @@ namespace PlcClient.Properties {
         internal static string ab_tip {
             get {
                 return ResourceManager.GetString("ab_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon ge {
+            get {
+                object obj = ResourceManager.GetObject("ge", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -122,6 +142,16 @@ namespace PlcClient.Properties {
         internal static string pl_siemens {
             get {
                 return ResourceManager.GetString("pl_siemens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon siemens {
+            get {
+                object obj = ResourceManager.GetObject("siemens", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

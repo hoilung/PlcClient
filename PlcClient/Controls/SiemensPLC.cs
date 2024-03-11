@@ -25,7 +25,7 @@ namespace PlcClient.Controls
                 if (tbx_ip != null)
                 {
                     tbx_ip.Focus();
-                    var lastIndex = tbx_ip.Text.LastIndexOf('.')+1;
+                    var lastIndex = tbx_ip.Text.LastIndexOf('.') + 1;
                     tbx_ip.Select(lastIndex, tbx_ip.Text.Length - lastIndex);
                 }
             }
@@ -38,8 +38,10 @@ namespace PlcClient.Controls
 
         private void Init()
         {
+            this.tab_siemens.SuspendLayout();
             tab_siemens.TabPages.Clear();
             tab_siemens.Dock = DockStyle.Fill;
+            
 
             var cputype = Enum.GetNames(typeof(CpuType)).OrderBy(m => m);
             foreach (var c in cputype)
@@ -54,6 +56,7 @@ namespace PlcClient.Controls
                 tabpage.Controls.Add(ucBase);
                 tab_siemens.TabPages.Add(tabpage);
             }
+            this.tab_siemens.ResumeLayout();
         }
 
         private void UcBase_Msg(string obj)

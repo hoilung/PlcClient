@@ -1,4 +1,5 @@
 ﻿using PlcClient.Controls;
+using PlcClient.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,23 +31,29 @@ namespace PlcClient
         private void Init()
         {
             var tabs = new TabControl();
+            tabs.SuspendLayout();
             tabs.Dock = DockStyle.Fill;
+            tabs.ImageList = imageList1;
             tabs.SelectedIndexChanged += Tabs_SelectedIndexChanged;
 
             var tab_siemens = new TabPage();
             tab_siemens.Text = "SIEMENS 西门子";
+            tab_siemens.ImageIndex = 0;
+
             var siplc = new Controls.SiemensPLC();
             siplc.Msg += call_Msg;
             tab_siemens.Controls.Add(siplc);
 
             var tab_ge = new TabPage();
             tab_ge.Text = "GE 通用电气";
+            tab_ge.ImageIndex = 1;
             var ge = new Controls.GePLC();
             ge.Msg += call_Msg;
             tab_ge.Controls.Add(ge);
 
             var tab_ab = new TabPage();
             tab_ab.Text = "AB 罗克韦尔";
+            tab_ab.ImageIndex = 2;
             var ab = new Controls.AllenBradley();
             ab.Msg += call_Msg;
             tab_ab.Controls.Add(ab);
@@ -55,13 +62,14 @@ namespace PlcClient
             tabs.TabPages.Add(tab_ge);
             tabs.TabPages.Add(tab_ab);
             this.Controls.Add(tabs);
+            tabs.ResumeLayout(false);
         }
 
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (sender is TabControl tabs)
             {
-                if (tabs.SelectedTab.Controls!=null &&tabs.SelectedTab.Controls[0] is BaseControl baseControl)
+                if (tabs.SelectedTab.Controls != null && tabs.SelectedTab.Controls[0] is BaseControl baseControl)
                 {
                     var arry = baseControl.FindControls<TextBox>(tabs.SelectedTab, true);
                     if (arry != null)
@@ -82,6 +90,6 @@ namespace PlcClient
         {
             this.toolStrip_msg.Text = obj;
         }
-       
+
     }
 }

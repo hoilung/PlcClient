@@ -20,7 +20,7 @@ namespace PlcClient.Controls
 {
     public partial class SiemensBase : BaseControl
     {
-        private const string _addressVerdify = @"(^DB\d+\.DB[BWD]\d+$)|(^DB\d+\.DBX\d+\.[0-7]$)|(^(AI|AQ|VB|VW|VD)\d+$)|(^(Q|I|M|V)\d+\.[0-7]$)";//西门子plc地址验证
+        private const string _addressVerdify = @"(^DB\d+\.DB[BWD]\d+$)|(^DB\d+\.DBX\d+\.[0-7]$)|(^(AI|AQ|VB|VW|VD|MB|MW|MD)\d+$)|(^(Q|I|M|V)\d+\.[0-7]$)";//西门子plc地址验证
         private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
 
         public CpuType CpuType { get; set; }
@@ -180,7 +180,7 @@ namespace PlcClient.Controls
             var address = tbx_adr.Text.Trim().ToUpper();
             if (string.IsNullOrWhiteSpace(address) || !Regex.IsMatch(address, _addressVerdify))
             {
-                MessageBox.Show($"{address} 无效的IP地址");
+                MessageBox.Show($"{address} 无效的地址");
                 tbx_adr.Focus();
                 return;
             }

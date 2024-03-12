@@ -25,7 +25,7 @@ namespace PlcClient
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.Message, "软件线程异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(e.Exception.Message, "软件异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

@@ -94,6 +94,8 @@
     <Compile Include="Controls\SiemensPLC.Designer.cs">
       <DependentUpon>SiemensPLC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Handler\ListViewColumnSorter.cs" />
+    <Compile Include="Handler\ListViewHandler.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,9 +182,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Handler\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="app.ico" />
     <None Include="Resources\tag.ico" />

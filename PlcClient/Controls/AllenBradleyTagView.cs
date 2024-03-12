@@ -1,83 +1,96 @@
 ﻿using HL.AllenBradley;
-using S7.Net.Types;
+using PlcClient.Handler;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
 {
     public partial class AllenBradleyTagView : BaseControl
     {
+        private ListViewHandler lvwHandler;
         public AllenBradleyTagView()
         {
             InitializeComponent();
             this.tableLayoutPanel1.Dock = DockStyle.Fill;
             tv_tag.Dock = DockStyle.Fill;
             lv_data.Dock = DockStyle.Fill;
+
+            lvwHandler = new ListViewHandler(lv_data);
+            lvwHandler.ColuminSort();
         }
+
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             OnRefreshData();
         }
-
+        /// <summary>
+        /// 刷新数据，初始化树结构
+        /// </summary>
         public event Func<AbTagItem[]> RefreshDataEvent;
+        /// <summary>
+        /// 列表选中，读取地址对应的数值
+        /// </summary>
+        public event Action<AbDataItem> AddressReadEvent;
+
+        public event Action<AbTagItem> AddTreeNode;
 
         public virtual void OnRefreshData()
         {
             var list = RefreshDataEvent?.Invoke();
             if (list != null)
             {
-                AddTree(list);
+                tv_tag.StateImageList = imageList1;
+                tv_tag.ImageList = imageList1;
+                tv_tag.AfterSelect += Tv_tag_AfterSelect;
+                tv_tag.DoubleClick += Tv_tag_DoubleClick;
+                tv_tag.SuspendLayout();
+
+                var root = tv_tag.Nodes.Add("全局标签");
+                root.SelectedImageIndex = root.ImageIndex = 0;
+                TreeNodeAdd(root, list);
+
+                tv_tag.ResumeLayout();
+                root.Toggle();
             }
         }
 
-        public void AddTree(AbTagItem[] dataItems)
+        private void Tv_tag_DoubleClick(object sender, EventArgs e)
         {
+            if (tv_tag.SelectedNode.Nodes.Count == 0 && tv_tag.SelectedNode.Tag is AbTagItem abTag && abTag.IsStruct)
+            {
+                AddTreeNode?.Invoke(abTag);
+                if (abTag.Members != null)
+                {
+                    TreeNodeAdd(tv_tag.SelectedNode, abTag.Members);
+                }
 
-            tv_tag.StateImageList = imageList1;
-            tv_tag.ImageList = imageList1;
-            tv_tag.AfterSelect += Tv_tag_AfterSelect;
+            }
+        }
 
-            tv_tag.SuspendLayout();
-            var root = tv_tag.Nodes.Add("全局标签");
-            root.SelectedImageIndex = root.ImageIndex = 0;
-            TreeNodeAdd(root, dataItems);
-            tv_tag.ResumeLayout();
-            root.Toggle();
+        public virtual void OnAddressRead(AbDataItem address)
+        {
+            this.AddressReadEvent?.Invoke(address);
         }
 
         private void Tv_tag_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (tv_tag.SelectedNode != null && tv_tag.SelectedNode.Parent != null)
             {
-                if (lv_data.Tag != null && lv_data.Tag == tv_tag.SelectedNode.Parent)//一样的定位选择
+                if (lv_data.Tag != null && lv_data.Tag == tv_tag.SelectedNode.Parent)//树层级一样的，定位选择 listview
                 {
                     var filterText = tv_tag.SelectedNode.Text;
                     var findItem = lv_data.FindItemWithText(filterText);
                     if (findItem != null)
                     {
-                        //lv_data.Focus();
                         findItem.Selected = true;
                         lv_data.TopItem = findItem;
                     }
-                    //for (int i = 0; i < lv_data.Items.Count; i++)
-                    //{
-                    //    if (lv_data.Items[i].SubItems[1].Text == filterText)
-                    //    {
-                    //        lv_data.Focus();
-                    //        lv_data.TopItem = lv_data.Items[i];
-                    //        break;
-                    //    }
-                    //}
                     return;
                 }
                 lv_data.Tag = tv_tag.SelectedNode.Parent;//用于替换刷新
@@ -90,9 +103,10 @@ namespace PlcClient.Controls
                     if (item.Tag is AbTagItem abTagItem)
                     {
                         var lvItem = lv_data.Items.Add($"{i}");
-                        //lvItem.Tag = abTagItem;
+                        lvItem.SubItems[0].Tag = i;//后期用于数字排序
                         lvItem.SubItems.Add(abTagItem.Name);
                         lvItem.SubItems.Add(abTagItem.GetTypeText());
+                        lvItem.SubItems.Add(string.Empty);
                     }
                 }
                 lv_data.EndUpdate();
@@ -107,6 +121,7 @@ namespace PlcClient.Controls
                 var item = tagItems[i];
                 var p = pnode.Nodes.Add(item.Name);
                 p.Tag = item;
+                // p.ToolTipText = string.IsNullOrEmpty(pnode.ToolTipText) ? item.Name : string.Format("{0}.{1}", pnode.ToolTipText, item.Name);
                 p.SelectedImageIndex = p.ImageIndex = item.IsStruct ? 2 : 0;
                 if (item.ArrayDimension > 0)
                 {
@@ -121,26 +136,61 @@ namespace PlcClient.Controls
 
         private void export_ExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Save File(*.csv)|*.csv";
-            fileDialog.Title = "保存文件";
-            fileDialog.RestoreDirectory = true;
-            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            fileDialog.DefaultExt = "csv";
-            fileDialog.FileName = "AbTag" + System.DateTime.Now.ToString("_yyyy-MM-dd_ffff");
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+            var filename = lvwHandler.ExportExcel("AbTag");
+            if (string.IsNullOrEmpty(filename))
+                return;
+            this.OnMsg($"保存文件：{filename}");
+            MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void readSelect_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lv_data.SelectedItems.Count > 0)
             {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("序号,标签名称,标签类型");
-                for (int i = 0; i < lv_data.Items.Count; i++)
+                var text = lv_data.SelectedItems[0].SubItems[1].Text;
+                var address = string.Format("{0}.{1}", tv_tag.SelectedNode.Parent.FullPath.Replace("\\", "."), text).Replace("全局标签.", "");
+                var dataType = lv_data.SelectedItems[0].SubItems[2].Text;
+
+                ushort len = 1;
+                var mc = Regex.Match(dataType, @"(?<=\[)\d+(?=\])");
+                if (mc.Success)
                 {
-                    var item = lv_data.Items[i];
-                    stringBuilder.AppendLine($"{item.SubItems[0].Text},{item.SubItems[1].Text},{item.SubItems[2].Text}");
+                    len = ushort.Parse(mc.Value);
+                    dataType = dataType.Replace($"[{len}]", "");
+                }
+                dataType = dataType.Replace("Array", string.Empty);
+
+                if (!Enum.GetNames(typeof(ValType)).Contains(dataType))
+                {
+                    MessageBox.Show($"{dataType} 数据类型尚未支持直接查询", "提示");
+                    return;
                 }
 
-                File.WriteAllText(fileDialog.FileName, stringBuilder.ToString(), Encoding.Default);
-                this.OnMsg($"保存文件：{fileDialog.FileName}");
-                MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var varType = (ValType)Enum.Parse(typeof(ValType), dataType);
+                lv_data.SelectedItems[0].SubItems[3].Text = string.Empty;
+                var abDataItem = new AbDataItem()
+                {
+                    Address = address,
+                    ValType = varType,
+                    Length = varType == ValType.Boolean ? (ushort)1 : len,
+                };
+                OnAddressRead(abDataItem);
+                lv_data.SelectedItems[0].SubItems[3].Text = abDataItem.ToString();
+
+            }
+        }
+
+        private void copySelect_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lv_data.SelectedItems.Count == 0)
+                return;
+            try
+            {
+                Clipboard.SetText($"{lv_data.SelectedItems[0].SubItems[1].Text}\t{lv_data.SelectedItems[0].SubItems[2].Text}\t{lv_data.SelectedItems[0].SubItems[3].Text}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "复制失败");
             }
         }
     }

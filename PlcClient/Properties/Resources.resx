@@ -126,11 +126,12 @@
 当前协议：CIP
 1、批量读取，一行一个地址
 2、必须指定标签对应的PLC地址类型
-3，地址和PLC类型用tab键盘隔开
-4, 数组型标签用中括号加下标取第几个
-5，BOOL数组不支持单个下标读取
+3、地址和PLC类型用tab键盘隔开
+4、数组型标签用中括号加下标取第几个
+5、BOOL数组类型不支持单个下标读取
 
 参考标签/PLC类型示例如下：
+
 B	Bool
 C	Int
 D	DInt
@@ -144,23 +145,29 @@ F1[1]	Real</value>
   <data name="ge_tip" xml:space="preserve">
     <value>说明：
 当前协议：SRTP
-AI/AQ/R区地址单位是word不支持byte/bit读取
+默认以设定的最大字节，批量分组查询
+如果设置最大字节=0，则自动分组查询
+若默认添加数据类型不匹配请手动修改
+
+AI/AQ/R区地址单位是word不支持byte/bool
+SA/SB/SC区为系统区，只读
 
 批量读取，一行一个地址
 参考地址示例如下：
+
 I101
 Q201
 M301
 R401
 AI501
-AQ601
-</value>
+AQ601</value>
   </data>
   <data name="pl_siemens" xml:space="preserve">
     <value>说明：
 当前协议：S7
 批量读取，一行一个地址
-地址与PLC类型用tab键隔开
+默认自动识别数据类型
+若需要指定PLC类型用tab键隔开
 
 参考地址/PLC类型示例如下：
 

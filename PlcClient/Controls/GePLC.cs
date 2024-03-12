@@ -1,5 +1,6 @@
 ﻿using HL.GESRTP;
 using HL.Object.Extensions;
+using PlcClient.Handler;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,6 +19,7 @@ namespace PlcClient.Controls
         private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
         private SRTP SRTP = null;
         private TypeCode _typeCode;
+        private ListViewHandler lvwHandler;
         public override TypeCode[] TypeCodes => new[] {
             TypeCode.Boolean,
             //TypeCode.Byte,
@@ -28,7 +30,7 @@ namespace PlcClient.Controls
             TypeCode.Double,
             TypeCode.UInt16,
             TypeCode.UInt32,
-            TypeCode.UInt64,            
+            TypeCode.UInt64,
         };
         #endregion
         public GePLC()
@@ -42,7 +44,9 @@ namespace PlcClient.Controls
 
         private void Init()
         {
-            tbx_ip.Text=GetLocalIP();
+            lvwHandler = new ListViewHandler(this.lv_data);
+            lvwHandler.ColuminSort();
+            tbx_ip.Text = GetLocalIP();
 
             var typeArry = TypeCodes.Select(m => new { Name = m, Value = m.ToString() }).ToList();
             cbx_type.DisplayMember = "Value";
@@ -217,7 +221,7 @@ namespace PlcClient.Controls
             {
                 case TypeCode.Boolean:
                     result = SRTP.ReadBoolean(address);
-                    break;                
+                    break;
                 case TypeCode.Int16:
                     result = SRTP.ReadInt16(address);
                     break;
@@ -259,30 +263,11 @@ namespace PlcClient.Controls
         //菜单导出
         private void tm_exportExcel_Click(object sender, EventArgs e)
         {
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Save File(*.csv)|*.csv";
-            fileDialog.Title = "保存文件";
-            fileDialog.RestoreDirectory = true;
-            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            fileDialog.DefaultExt = "csv";
-            fileDialog.FileName = tbx_ip.Text + DateTime.Now.ToString("_yyyy-MM-dd_ffff");
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("序号,地址,数据类型,数值");
-                //var array = lv_data.Tag as List<GEDataItem>;
-                for (int i = 0; i < lv_data.Items.Count; i++)
-                {
-                    var item = lv_data.Items[i];
-                    if (item.Tag is GEDataItem dataItem)
-                    {
-                        stringBuilder.AppendLine($"{item.Text},{dataItem.Address},{dataItem.Value.GetType().Name},{dataItem.Value}");
-                    }
-                }
-                File.WriteAllText(fileDialog.FileName, stringBuilder.ToString(),Encoding.Default);
-                this.OnMsg($"保存文件：{fileDialog.FileName}");
-                MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            var filename = lvwHandler.ExportExcel(tbx_ip.Text);
+            if (string.IsNullOrEmpty(filename))
+                return;
+            this.OnMsg($"保存文件：{filename}");
+            MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         //列表选中
         private void lv_data_SelectedIndexChanged(object sender, EventArgs e)

@@ -58,7 +58,6 @@
             this.tbx_addressAll = new System.Windows.Forms.TextBox();
             this.lv_data = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -343,11 +342,11 @@
             // 
             // tbx_addressAll
             // 
-            this.tbx_addressAll.Location = new System.Drawing.Point(439, 6);
+            this.tbx_addressAll.Location = new System.Drawing.Point(410, 6);
             this.tbx_addressAll.Multiline = true;
             this.tbx_addressAll.Name = "tbx_addressAll";
             this.tbx_addressAll.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_addressAll.Size = new System.Drawing.Size(169, 245);
+            this.tbx_addressAll.Size = new System.Drawing.Size(198, 245);
             this.tbx_addressAll.TabIndex = 40;
             this.tbx_addressAll.WordWrap = false;
             // 
@@ -355,7 +354,6 @@
             // 
             this.lv_data.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
-            this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
             this.columnHeader5});
@@ -366,7 +364,7 @@
             this.lv_data.Location = new System.Drawing.Point(6, 6);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(427, 245);
+            this.lv_data.Size = new System.Drawing.Size(398, 245);
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -376,11 +374,6 @@
             // 
             this.columnHeader1.Text = "序号";
             this.columnHeader1.Width = 50;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "内存区";
-            this.columnHeader2.Width = 90;
             // 
             // columnHeader3
             // 
@@ -465,7 +458,6 @@
         private System.Windows.Forms.TextBox tbx_addressAll;
         private System.Windows.Forms.Button btn_add;
         private System.Windows.Forms.Button btn_readAll;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;

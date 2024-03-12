@@ -1,6 +1,7 @@
 ﻿using HL.GESRTP;
 using HL.Object.Extensions;
 using HL.S7netplus.Extensions;
+using PlcClient.Handler;
 using S7.Net;
 using S7.Net.Types;
 using System;
@@ -27,7 +28,7 @@ namespace PlcClient.Controls
 
         private Plc Plc { get; set; }
 
-
+        private ListViewHandler lvwHandler;
         public SiemensBase()
         {
             InitializeComponent();
@@ -36,6 +37,8 @@ namespace PlcClient.Controls
 
             btn_write.Enabled = false;
             tbx_value.ReadOnly = true;
+            lvwHandler = new ListViewHandler(this.lv_data);
+            lvwHandler.ColuminSort();
         }
 
         private void SiemensBase_Disposed(object sender, EventArgs e)
@@ -54,7 +57,7 @@ namespace PlcClient.Controls
 
         private void Init()
         {
-            tbx_ip.Text=GetLocalIP();
+            tbx_ip.Text = GetLocalIP();
 
             var typeArry = TypeCodes.Select(m => new { Name = m, Value = m.ToString() }).ToList();
             cbx_type.DisplayMember = "Value";
@@ -300,7 +303,8 @@ namespace PlcClient.Controls
                 }
                 var item = new ListViewItem($"{i}");
                 item.Tag = dataItem;
-                item.SubItems.Add(dataItem.DataType.ToString());
+                item.SubItems[0].Tag = i;
+                //item.SubItems.Add(dataItem.DataType.ToString());
                 item.SubItems.Add(li[0]);
                 TypeCode typeCode = TypeCode.Empty;
                 switch (dataItem.VarType)
@@ -345,42 +349,10 @@ namespace PlcClient.Controls
         {
             if (lv_data.SelectedItems.Count > 0)
             {
-                var address = lv_data.SelectedItems[0].SubItems[2].Text;
+                var address = lv_data.SelectedItems[0].SubItems[1].Text;
                 tbx_adr.Text = address;
 
-                var typeCode = (TypeCode)Enum.Parse(typeof(TypeCode), lv_data.SelectedItems[0].SubItems[3].Text);
-
-                //var varype = (VarType)Enum.Parse(typeof(VarType), lv_data.SelectedItems[0].SubItems[3].Text);
-
-
-                //TypeCode typeCode = TypeCode.Empty;
-                //switch (varype)
-                //{
-                //    case VarType.Bit:
-                //        typeCode = TypeCode.Boolean;
-                //        break;
-                //    case VarType.Word:
-                //        typeCode = TypeCode.UInt16;
-                //        break;
-                //    case VarType.DWord:
-                //        typeCode = TypeCode.UInt32;
-                //        break;
-                //    case VarType.Int:
-                //        typeCode = TypeCode.Int16;
-                //        break;
-                //    case VarType.DInt:
-                //        typeCode = TypeCode.Int32;
-                //        break;
-                //    case VarType.Real:
-                //        typeCode = TypeCode.Single;
-                //        break;
-                //    case VarType.LReal:
-                //        typeCode = TypeCode.Double;
-                //        break;
-                //    default:
-                //        break;
-                //}
-
+                var typeCode = (TypeCode)Enum.Parse(typeof(TypeCode), lv_data.SelectedItems[0].SubItems[2].Text);
                 cbx_type.SelectedValue = typeCode;
             }
         }
@@ -431,7 +403,7 @@ namespace PlcClient.Controls
             {
                 if (item.Tag is DataItem dataItem)
                 {
-                    item.SubItems[4].Text = dataItem.Value?.ToString();
+                    item.SubItems[3].Text = dataItem.Value?.ToString();
                 }
             }
             OnMsg($"批量读取 {lv_data.Items.Count}个,用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
@@ -466,31 +438,12 @@ namespace PlcClient.Controls
 
         private void ToolStripMenuItem_ExcelExport_Click(object sender, EventArgs e)
         {
+            var filename = lvwHandler.ExportExcel(tbx_ip.Text);
+            if (string.IsNullOrEmpty(filename))
+                return;
+            this.OnMsg($"保存文件：{filename}");
+            MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Save File(*.csv)|*.csv";
-            fileDialog.Title = "保存文件";
-            fileDialog.RestoreDirectory = true;
-            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            fileDialog.DefaultExt = "csv";
-            fileDialog.FileName = tbx_ip.Text + System.DateTime.Now.ToString("_yyyy-MM-dd_ffff");
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("序号,内存区,地址,数据类型,数值");
-                for (int i = 0; i < lv_data.Items.Count; i++)
-                {
-                    var item = lv_data.Items[i];
-                    if (item.Tag is DataItem dataItem)
-                    {
-                        stringBuilder.AppendLine($"{item.Text},{dataItem.DataType},{item.SubItems[2].Text},{item.SubItems[3].Text},{dataItem.Value?.ToString()}");
-                    }
-                }
-
-                File.WriteAllText(fileDialog.FileName, stringBuilder.ToString(), Encoding.Default);
-                this.OnMsg($"保存文件：{fileDialog.FileName}");
-                MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
     }
 }

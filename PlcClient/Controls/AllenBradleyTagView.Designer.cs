@@ -36,9 +36,12 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lv_Menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.export_ExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.readSelect_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.copySelect_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.lv_Menu.SuspendLayout();
             this.SuspendLayout();
@@ -69,7 +72,8 @@
             this.lv_data.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeader3,
+            this.columnHeader4});
             this.lv_data.ContextMenuStrip = this.lv_Menu;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
@@ -96,6 +100,33 @@
             this.columnHeader3.Text = "标签类型";
             this.columnHeader3.Width = 133;
             // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "数值";
+            // 
+            // lv_Menu
+            // 
+            this.lv_Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.readSelect_ToolStripMenuItem,
+            this.copySelect_ToolStripMenuItem,
+            this.export_ExcelToolStripMenuItem});
+            this.lv_Menu.Name = "lv_Menu";
+            this.lv_Menu.Size = new System.Drawing.Size(181, 92);
+            // 
+            // export_ExcelToolStripMenuItem
+            // 
+            this.export_ExcelToolStripMenuItem.Name = "export_ExcelToolStripMenuItem";
+            this.export_ExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.export_ExcelToolStripMenuItem.Text = "导出Excel";
+            this.export_ExcelToolStripMenuItem.Click += new System.EventHandler(this.export_ExcelToolStripMenuItem_Click);
+            // 
+            // readSelect_ToolStripMenuItem
+            // 
+            this.readSelect_ToolStripMenuItem.Name = "readSelect_ToolStripMenuItem";
+            this.readSelect_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.readSelect_ToolStripMenuItem.Text = "读取选中标签数值";
+            this.readSelect_ToolStripMenuItem.Click += new System.EventHandler(this.readSelect_ToolStripMenuItem_Click);
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -104,19 +135,12 @@
             this.imageList1.Images.SetKeyName(1, "array");
             this.imageList1.Images.SetKeyName(2, "struct");
             // 
-            // lv_Menu
+            // copySelect_ToolStripMenuItem
             // 
-            this.lv_Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.export_ExcelToolStripMenuItem});
-            this.lv_Menu.Name = "lv_Menu";
-            this.lv_Menu.Size = new System.Drawing.Size(181, 48);
-            // 
-            // export_ExcelToolStripMenuItem
-            // 
-            this.export_ExcelToolStripMenuItem.Name = "export_ExcelToolStripMenuItem";
-            this.export_ExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.export_ExcelToolStripMenuItem.Text = "导出Excel";
-            this.export_ExcelToolStripMenuItem.Click += new System.EventHandler(this.export_ExcelToolStripMenuItem_Click);
+            this.copySelect_ToolStripMenuItem.Name = "copySelect_ToolStripMenuItem";
+            this.copySelect_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copySelect_ToolStripMenuItem.Text = "复制选中标签内容";
+            this.copySelect_ToolStripMenuItem.Click += new System.EventHandler(this.copySelect_ToolStripMenuItem_Click);
             // 
             // AllenBradleyTagView
             // 
@@ -142,5 +166,8 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ContextMenuStrip lv_Menu;
         private System.Windows.Forms.ToolStripMenuItem export_ExcelToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ToolStripMenuItem readSelect_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copySelect_ToolStripMenuItem;
     }
 }

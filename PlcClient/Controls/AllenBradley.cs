@@ -63,6 +63,7 @@ namespace PlcClient.Controls
         {
             btn_read.Enabled = btn_add.Enabled = btn_readOne.Enabled = chk_enablewrite.Enabled = btn_write.Enabled = btn_close.Enabled = state;
             btn_open.Enabled = !state;
+            btn_tagview.Enabled = state;
             tbx_value.ResetText();
             if (!state)
             {
@@ -315,7 +316,11 @@ namespace PlcClient.Controls
                 try
                 {
                     stopwatch.Restart();
-                    plc.ReadMultiple(dataItems.ToArray());
+                    //plc.ReadMultiple(dataItems.ToArray());
+                    for (int i = 0; i < dataItems.Count; i += 20)
+                    {
+                        plc.ReadMultiple(dataItems.Skip(i).Take(20).ToArray());
+                    }
                     stopwatch.Stop();
                     OnMsg($"批量读取 {dataItems.Count}个,用时：" + stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms"));
                 }
@@ -376,16 +381,36 @@ namespace PlcClient.Controls
                 Icon = Properties.Resources.ab,
                 StartPosition = FormStartPosition.CenterParent
             };
-            tagForm.MinimumSize = new System.Drawing.Size(600, 450);
+            tagForm.MinimumSize = new System.Drawing.Size(700, 450);
             var abTagView = new AllenBradleyTagView();
             abTagView.RefreshDataEvent += AbTagView_RefreshDataEvent;
+            abTagView.AddressReadEvent += AbTagView_AddressReadEvent;
+            abTagView.AddTreeNode += AbTagView_AddTreeNode;
             abTagView.Dock = DockStyle.Fill;
             tagForm.Controls.Add(abTagView);
             tagForm.ShowDialog();
 
         }
 
-        private AbTagItem[] AbTagView_RefreshDataEvent()
+        private void AbTagView_AddTreeNode(AbTagItem arg1)
+        {
+            arg1.Members = plc.StructTagEnumeator(arg1);
+            //if (arg1.Members != null)
+            //{
+            //    foreach (var member in arg1.Members)
+            //    {
+            //        arg2.Nodes.Add(member.Name).Tag = member;
+            //    }
+            //}
+        }
+
+        private void AbTagView_AddressReadEvent(AbDataItem AbDataItem)
+        {
+            plc.Read(AbDataItem);//读取列表选中的地址
+            //return "sss";
+        }
+
+        private AbTagItem[] AbTagView_RefreshDataEvent()//首次加载树结构
         {
             var list = plc.TagEnumerator();
             var structList = list.Where(m => m.IsStruct).ToList();

@@ -97,6 +97,11 @@ namespace PlcClient.Controls
             {
                 ChangeState(true);
                 tbx_address.ResetText();
+                OnMsg($"连接成功，{ip}");
+            }
+            else
+            {
+                OnMsg($"连接失败，{ip}");
             }
         }
 

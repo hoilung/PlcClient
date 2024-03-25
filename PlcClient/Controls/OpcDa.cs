@@ -1,5 +1,6 @@
 ﻿using HL.OpcDa;
 using Opc;
+using OpcRcw.Dx;
 using PlcClient.Handler;
 using PlcClient.Model;
 using System;
@@ -9,6 +10,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -42,8 +44,16 @@ namespace PlcClient.Controls
             var name = cbx_servername.Text.Trim();
             if (!Regex.IsMatch(ip, _ipVerdify) || string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("IP或服务名称错误", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("非有效的IP地址或服务名称", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
+            var result = ping.Send(ip, 500);
+            if (result.Status != IPStatus.Success)
+            {
+                if (MessageBox.Show($"{ip}\r\n网络PING疑似不通,是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    return;
+                }
             }
             string opcAddress = $"opcda://{ip}/{name}";
             try
@@ -80,6 +90,19 @@ namespace PlcClient.Controls
             try
             {
                 var ip = tbx_ip.Text.Trim();
+                if (!Regex.IsMatch(ip, _ipVerdify))
+                {
+                    MessageBox.Show("非有效的IP地址", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                var result = ping.Send(ip, 500);
+                if (result.Status != IPStatus.Success)
+                {
+                    if (MessageBox.Show($"{ip}\r\n网络PING疑似不通,是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
                 var server = m_discovery.GetAvailableServers(Specification.COM_DA_20, ip, new ConnectData(new System.Net.NetworkCredential()));
                 cbx_servername.Items.Clear();
                 if (server != null)

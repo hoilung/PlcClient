@@ -198,7 +198,7 @@
             this.lv_data.Location = new System.Drawing.Point(0, 49);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(410, 263);
+            this.lv_data.Size = new System.Drawing.Size(410, 249);
             this.lv_data.TabIndex = 6;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -243,7 +243,7 @@
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_address.Size = new System.Drawing.Size(267, 263);
+            this.tbx_address.Size = new System.Drawing.Size(267, 249);
             this.tbx_address.TabIndex = 30;
             this.tbx_address.WordWrap = false;
             // 
@@ -382,6 +382,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "GePLC";
+            this.Size = new System.Drawing.Size(710, 430);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();

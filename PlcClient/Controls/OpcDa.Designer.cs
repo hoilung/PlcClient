@@ -177,7 +177,7 @@
             this.lv_data.Location = new System.Drawing.Point(6, 20);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(689, 290);
+            this.lv_data.Size = new System.Drawing.Size(689, 276);
             this.lv_data.TabIndex = 1;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;

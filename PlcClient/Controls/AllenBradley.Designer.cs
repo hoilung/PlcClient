@@ -47,6 +47,7 @@
             this.tbx_ip = new System.Windows.Forms.TextBox();
             this.btn_open = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_tagview = new System.Windows.Forms.Button();
             this.btn_read = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
             this.tbx_address = new System.Windows.Forms.TextBox();
@@ -57,7 +58,6 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lv_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
-            this.btn_tagview = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -250,6 +250,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量读取";
             // 
+            // btn_tagview
+            // 
+            this.btn_tagview.Location = new System.Drawing.Point(335, 17);
+            this.btn_tagview.Name = "btn_tagview";
+            this.btn_tagview.Size = new System.Drawing.Size(75, 23);
+            this.btn_tagview.TabIndex = 33;
+            this.btn_tagview.Text = "查看标签";
+            this.btn_tagview.UseVisualStyleBackColor = true;
+            this.btn_tagview.Click += new System.EventHandler(this.btn_tagview_Click);
+            // 
             // btn_read
             // 
             this.btn_read.Location = new System.Drawing.Point(610, 17);
@@ -276,7 +286,7 @@
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_address.Size = new System.Drawing.Size(267, 263);
+            this.tbx_address.Size = new System.Drawing.Size(267, 249);
             this.tbx_address.TabIndex = 30;
             this.tbx_address.WordWrap = false;
             // 
@@ -294,7 +304,7 @@
             this.lv_data.Location = new System.Drawing.Point(0, 49);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(410, 263);
+            this.lv_data.Size = new System.Drawing.Size(410, 249);
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -333,16 +343,6 @@
             this.tm_exportExcel.Text = "导出Excel";
             this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
             // 
-            // btn_tagview
-            // 
-            this.btn_tagview.Location = new System.Drawing.Point(335, 17);
-            this.btn_tagview.Name = "btn_tagview";
-            this.btn_tagview.Size = new System.Drawing.Size(75, 23);
-            this.btn_tagview.TabIndex = 33;
-            this.btn_tagview.Text = "查看标签";
-            this.btn_tagview.UseVisualStyleBackColor = true;
-            this.btn_tagview.Click += new System.EventHandler(this.btn_tagview_Click);
-            // 
             // AllenBradley
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -351,6 +351,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "AllenBradley";
+            this.Size = new System.Drawing.Size(710, 430);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);

@@ -85,7 +85,7 @@
             this.gb_set.Controls.Add(this.label1);
             this.gb_set.Location = new System.Drawing.Point(4, 4);
             this.gb_set.Name = "gb_set";
-            this.gb_set.Size = new System.Drawing.Size(703, 60);
+            this.gb_set.Size = new System.Drawing.Size(697, 60);
             this.gb_set.TabIndex = 0;
             this.gb_set.TabStop = false;
             this.gb_set.Text = "设置";
@@ -277,11 +277,12 @@
             // 
             // tbx_msg
             // 
-            this.tbx_msg.Location = new System.Drawing.Point(6, 17);
+            this.tbx_msg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbx_msg.Location = new System.Drawing.Point(3, 3);
             this.tbx_msg.Multiline = true;
             this.tbx_msg.Name = "tbx_msg";
             this.tbx_msg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_msg.Size = new System.Drawing.Size(464, 213);
+            this.tbx_msg.Size = new System.Drawing.Size(689, 242);
             this.tbx_msg.TabIndex = 3;
             this.tbx_msg.WordWrap = false;
             // 
@@ -292,7 +293,7 @@
             this.tabControl1.Location = new System.Drawing.Point(4, 136);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(703, 283);
+            this.tabControl1.Size = new System.Drawing.Size(703, 274);
             this.tabControl1.TabIndex = 4;
             // 
             // tabPage1
@@ -301,7 +302,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(695, 257);
+            this.tabPage1.Size = new System.Drawing.Size(695, 248);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "输出";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -315,7 +316,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(695, 257);
+            this.tabPage2.Size = new System.Drawing.Size(695, 248);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "批量读取";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -342,11 +343,11 @@
             // 
             // tbx_addressAll
             // 
-            this.tbx_addressAll.Location = new System.Drawing.Point(410, 6);
+            this.tbx_addressAll.Location = new System.Drawing.Point(410, 2);
             this.tbx_addressAll.Multiline = true;
             this.tbx_addressAll.Name = "tbx_addressAll";
             this.tbx_addressAll.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_addressAll.Size = new System.Drawing.Size(198, 245);
+            this.tbx_addressAll.Size = new System.Drawing.Size(198, 241);
             this.tbx_addressAll.TabIndex = 40;
             this.tbx_addressAll.WordWrap = false;
             // 
@@ -361,10 +362,10 @@
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(6, 6);
+            this.lv_data.Location = new System.Drawing.Point(2, 2);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(398, 245);
+            this.lv_data.Size = new System.Drawing.Size(401, 241);
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;

@@ -394,19 +394,26 @@ namespace PlcClient.Controls
 
         private void AbTagView_AddTreeNode(AbTagItem arg1)
         {
-            arg1.Members = plc.StructTagEnumeator(arg1);
-            //if (arg1.Members != null)
-            //{
-            //    foreach (var member in arg1.Members)
-            //    {
-            //        arg2.Nodes.Add(member.Name).Tag = member;
-            //    }
-            //}
+            try
+            {
+                arg1.Members = plc.StructTagEnumeator(arg1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "查看标签列表失败");
+            }
         }
 
         private void AbTagView_AddressReadEvent(AbDataItem AbDataItem)
         {
-            plc.Read(AbDataItem);//读取列表选中的地址
+            try
+            {
+                plc.Read(AbDataItem);//读取列表选中的地址
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "读取内容失败");
+            }
             //return "sss";
         }
 
@@ -416,7 +423,15 @@ namespace PlcClient.Controls
             var structList = list.Where(m => m.IsStruct).ToList();
             for (int i = 0; i < structList.Count; i++)
             {
-                structList[i].Members = plc.StructTagEnumeator(structList[i]);
+                try
+                {
+                    structList[i].Members = plc.StructTagEnumeator(structList[i]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, structList[i].Name + " 读取结构体失败");
+                }
+
             }
             return list;
         }

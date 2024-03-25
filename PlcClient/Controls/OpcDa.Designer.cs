@@ -53,8 +53,9 @@
             this.tbx_tag = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.MenuStrip_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.export_ExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btn_clear = new System.Windows.Forms.Button();
+            this.clearlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -212,7 +213,6 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.btn_clear);
             this.groupBox3.Controls.Add(this.tbx_tag_value);
             this.groupBox3.Controls.Add(this.btn_sub);
             this.groupBox3.Controls.Add(this.btn_BrowseView);
@@ -272,26 +272,33 @@
             // MenuStrip_lv
             // 
             this.MenuStrip_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.export_ExcelToolStripMenuItem});
+            this.refreshToolStripMenuItem,
+            this.export_ExcelToolStripMenuItem,
+            this.clearlistToolStripMenuItem});
             this.MenuStrip_lv.Name = "MenuStrip_lv";
-            this.MenuStrip_lv.Size = new System.Drawing.Size(130, 26);
+            this.MenuStrip_lv.Size = new System.Drawing.Size(146, 70);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.refreshToolStripMenuItem.Text = "刷新数据";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // export_ExcelToolStripMenuItem
             // 
             this.export_ExcelToolStripMenuItem.Name = "export_ExcelToolStripMenuItem";
-            this.export_ExcelToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.export_ExcelToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.export_ExcelToolStripMenuItem.Text = "导出Excel";
             this.export_ExcelToolStripMenuItem.Click += new System.EventHandler(this.export_ExcelToolStripMenuItem_Click);
             // 
-            // btn_clear
+            // clearlistToolStripMenuItem
             // 
-            this.btn_clear.Location = new System.Drawing.Point(614, 25);
-            this.btn_clear.Name = "btn_clear";
-            this.btn_clear.Size = new System.Drawing.Size(75, 23);
-            this.btn_clear.TabIndex = 7;
-            this.btn_clear.Text = "清空列表";
-            this.btn_clear.UseVisualStyleBackColor = true;
-            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
+            this.clearlistToolStripMenuItem.Name = "clearlistToolStripMenuItem";
+            this.clearlistToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.clearlistToolStripMenuItem.Text = "清空列表";
+            this.clearlistToolStripMenuItem.Click += new System.EventHandler(this.clearlistToolStripMenuItem_Click);
             // 
             // OpcDa
             // 
@@ -338,6 +345,7 @@
         private System.Windows.Forms.TextBox tbx_tag_value;
         private System.Windows.Forms.ContextMenuStrip MenuStrip_lv;
         private System.Windows.Forms.ToolStripMenuItem export_ExcelToolStripMenuItem;
-        private System.Windows.Forms.Button btn_clear;
+        private System.Windows.Forms.ToolStripMenuItem clearlistToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
     }
 }

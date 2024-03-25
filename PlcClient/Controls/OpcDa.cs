@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace PlcClient.Controls
 {
@@ -250,17 +251,37 @@ namespace PlcClient.Controls
             lvwHandler.ExportExcel("OpcDa");
         }
 
-        private void btn_clear_Click(object sender, EventArgs e)
+
+        private void clearlistToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (btn_sub.Text == "取消订阅")
             {
                 btn_sub_Click(sender, e);
             }
             lv_data.Items.Clear();
-
-
+            OnMsg("清空列表");
         }
 
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Opc.Client.IsConnected)
+            {
+                return;
+            }
 
+            var list = new List<Opc.Da.Item>();
+            for (int i = 0; i < lv_data.Items.Count; i++)
+            {
+                if (lv_data.Items[i].Tag is OPCDAItem item)
+                {
+                    list.Add(item.ParseItem());
+                }
+            }
+            stopwatch.Restart();
+            var items = Opc.Client.Read(list.ToArray());
+            stopwatch.Stop();
+            Opc_SubDataChange(null, new SubDataChangeEventArgs { Results = items });
+            OnMsg($"刷新列表数据 {list.Count}个，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+        }
     }
 }

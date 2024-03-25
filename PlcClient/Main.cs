@@ -33,7 +33,7 @@ namespace PlcClient
             var tabs = new TabControl();
             tabs.SuspendLayout();
             tabs.Dock = DockStyle.Fill;
-            tabs.ImageList = imageList1;
+            tabs.ImageList = imageList1;            
             tabs.SelectedIndexChanged += Tabs_SelectedIndexChanged;
 
             var tab_siemens = new TabPage();
@@ -58,9 +58,18 @@ namespace PlcClient
             ab.Msg += call_Msg;
             tab_ab.Controls.Add(ab);
 
+
+            var tab_opcda = new TabPage();
+            tab_opcda.Text = "OPC DA";
+            var opcda = new OpcDa();
+            tab_opcda.ImageIndex = 3;
+            opcda.Msg += call_Msg;
+            tab_opcda.Controls.Add(opcda);
+
             tabs.TabPages.Add(tab_siemens);
             tabs.TabPages.Add(tab_ge);
             tabs.TabPages.Add(tab_ab);
+            tabs.TabPages.Add(tab_opcda);
             this.Controls.Add(tabs);
             tabs.ResumeLayout(false);
         }

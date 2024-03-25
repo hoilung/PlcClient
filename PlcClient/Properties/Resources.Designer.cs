@@ -131,6 +131,16 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon opc {
+            get {
+                object obj = ResourceManager.GetObject("opc", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 说明：
         ///当前协议：S7
         ///批量读取，一行一个地址

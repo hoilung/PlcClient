@@ -262,6 +262,11 @@ namespace PlcClient.Controls
         {
             if (e.Button == MouseButtons.Right)
             {
+                refreshToolStripMenuItem.Enabled = true;
+                if (Opc.Client == null || !Opc.Client.IsConnected)
+                {
+                    refreshToolStripMenuItem.Enabled= false;                                        
+                }
                 MenuStrip_lv.Show(lv_data, e.X, e.Y);
                 return;
             }
@@ -287,8 +292,9 @@ namespace PlcClient.Controls
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Opc.Client.IsConnected)
+            if (Opc.Client == null || !Opc.Client.IsConnected)
             {
+                OnMsg("Opc Da 连接无效或断开");
                 return;
             }
 

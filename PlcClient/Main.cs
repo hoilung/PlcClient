@@ -33,7 +33,7 @@ namespace PlcClient
             var tabs = new TabControl();
             tabs.SuspendLayout();
             tabs.Dock = DockStyle.Fill;
-            tabs.ImageList = imageList1;            
+            tabs.ImageList = imageList1;
             tabs.SelectedIndexChanged += Tabs_SelectedIndexChanged;
 
             var tab_siemens = new TabPage();
@@ -61,15 +61,24 @@ namespace PlcClient
 
             var tab_opcda = new TabPage();
             tab_opcda.Text = "OPC DA";
-            var opcda = new OpcDa();
             tab_opcda.ImageIndex = 3;
+            var opcda = new OpcDa();
             opcda.Msg += call_Msg;
             tab_opcda.Controls.Add(opcda);
+
+            var tab_opcua = new TabPage();
+            tab_opcua.Text = "OPC UA";
+            tab_opcua.ImageIndex = 3;
+            var opcua = new OpcUa();
+            opcua.Msg += call_Msg;
+            tab_opcua.Controls.Add(opcua);
+
 
             tabs.TabPages.Add(tab_siemens);
             tabs.TabPages.Add(tab_ge);
             tabs.TabPages.Add(tab_ab);
             tabs.TabPages.Add(tab_opcda);
+            tabs.TabPages.Add(tab_opcua);
             this.Controls.Add(tabs);
             tabs.ResumeLayout(false);
         }
@@ -78,7 +87,7 @@ namespace PlcClient
         {
             if (sender is TabControl tabs)
             {
-                if (tabs.SelectedTab.Controls != null && tabs.SelectedTab.Controls[0] is BaseControl baseControl)
+                if (tabs.SelectedTab.Controls != null && tabs.SelectedTab.Controls.Count > 0 && tabs.SelectedTab.Controls[0] is BaseControl baseControl)
                 {
                     var arry = baseControl.FindControls<TextBox>(tabs.SelectedTab, true);
                     if (arry != null)

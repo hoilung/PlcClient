@@ -22,7 +22,6 @@ namespace PlcClient.Controls
     public partial class OpcDa : BaseControl
     {
         private OpcCom.ServerEnumerator m_discovery = new OpcCom.ServerEnumerator();
-        private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
 
         private OpcDaDriver Opc;
         private ListViewHandler lvwHandler;
@@ -42,7 +41,7 @@ namespace PlcClient.Controls
         {
             var ip = tbx_ip.Text.Trim();
             var name = cbx_servername.Text.Trim();
-            if (!Regex.IsMatch(ip, _ipVerdify) || string.IsNullOrEmpty(name))
+            if (!Regex.IsMatch(ip, Config.IPVerdify) || string.IsNullOrEmpty(name))
             {
                 MessageBox.Show("非有效的IP地址或服务名称", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -59,8 +58,8 @@ namespace PlcClient.Controls
             try
             {
                 Opc.Open(opcAddress);
-                ChangeState(Opc.Client.IsConnected);
-                OnMsg($"OpcDa连接{(Opc.Client.IsConnected ? "成功" : "失败")} {opcAddress}");
+                ChangeState(Opc.Server.IsConnected);
+                OnMsg($"OpcDa连接{(Opc.Server.IsConnected ? "成功" : "失败")} {opcAddress}");
             }
             catch (Exception ex)
             {
@@ -90,7 +89,7 @@ namespace PlcClient.Controls
             try
             {
                 var ip = tbx_ip.Text.Trim();
-                if (!Regex.IsMatch(ip, _ipVerdify))
+                if (!Regex.IsMatch(ip, Config.IPVerdify))
                 {
                     MessageBox.Show("非有效的IP地址", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -134,7 +133,7 @@ namespace PlcClient.Controls
             {
                 Height = 450,
                 Width = 600,
-                Text = "浏览节点",
+                Text = "OPC DA 浏览节点",
                 Icon = Properties.Resources.opc,
                 StartPosition = FormStartPosition.CenterParent
             };
@@ -147,40 +146,43 @@ namespace PlcClient.Controls
 
         }
 
-        private void BrowseView_DataRefresh(List<OPCDAItem> data, OPCDAItem opcdaItem)
+        private void BrowseView_DataRefresh(OPCDAItem opcdaItem)
         {
-            lv_data.BeginUpdate();
-            lv_data.Items.Clear();
-            for (int i = 0; i < data.Count; i++)
+            if(lv_data.Items.Count > 0)
             {
-                var item = data[i];
-                var subItem = new ListViewItem(i.ToString());
-                subItem.Tag = item;
-                if (i % 2 == 0)
+                var find = lv_data.FindItemWithText(opcdaItem.Address, true, 0);
+                if(find != null)
                 {
-                    subItem.BackColor = Color.AliceBlue;
+                    find.SubItems[3].Text = opcdaItem.Value.ToString();
+                    find.SubItems[4].Text = opcdaItem.Quality;
+                    find.SubItems[5].Text = opcdaItem.Time;
+                    return;
                 }
-                subItem.SubItems[0].Tag = i;
-                subItem.SubItems.Add(item.Address);
-                subItem.SubItems.Add(item.ValueType.Name);
-                subItem.SubItems.Add(item.Value.ToString());
-                subItem.SubItems.Add(item.Quality);
-                subItem.SubItems.Add(item.Time);
-                lv_data.Items.Add(subItem);
             }
+
+
+            lv_data.BeginUpdate();
+            var subItem = new ListViewItem(lv_data.Items.Count.ToString());
+            subItem.Tag = opcdaItem;
+            if (lv_data.Items.Count % 2 == 0)
+            {
+                subItem.BackColor = Color.AliceBlue;
+            }
+            subItem.SubItems[0].Tag = lv_data.Items.Count;
+            subItem.SubItems.Add(opcdaItem.Address);
+            subItem.SubItems.Add(opcdaItem.ValueType.Name);
+            subItem.SubItems.Add(opcdaItem.Value.ToString());
+            subItem.SubItems.Add(opcdaItem.Quality);
+            subItem.SubItems.Add(opcdaItem.Time);
+            lv_data.Items.Add(subItem);
             lv_data.EndUpdate();
 
         }
-
-
-
-
-
         private void btn_read_Click(object sender, EventArgs e)
         {
             var tagName = tbx_tag.Text;
             tbx_tag_value.ResetText();
-            var items = Opc.Client.Read(new[] { new Opc.Da.Item { ItemName = tagName } });
+            var items = Opc.Server.Read(new[] { new Opc.Da.Item { ItemName = tagName } });
             if (items != null)
             {
                 tbx_tag_value.Text = items[0].Value.ToString();
@@ -263,9 +265,9 @@ namespace PlcClient.Controls
             if (e.Button == MouseButtons.Right)
             {
                 refreshToolStripMenuItem.Enabled = true;
-                if (Opc.Client == null || !Opc.Client.IsConnected)
+                if (Opc.Server == null || !Opc.Server.IsConnected)
                 {
-                    refreshToolStripMenuItem.Enabled= false;                                        
+                    refreshToolStripMenuItem.Enabled = false;
                 }
                 MenuStrip_lv.Show(lv_data, e.X, e.Y);
                 return;
@@ -292,7 +294,7 @@ namespace PlcClient.Controls
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Opc.Client == null || !Opc.Client.IsConnected)
+            if (Opc.Server == null || !Opc.Server.IsConnected)
             {
                 OnMsg("Opc Da 连接无效或断开");
                 return;
@@ -307,7 +309,7 @@ namespace PlcClient.Controls
                 }
             }
             stopwatch.Restart();
-            var items = Opc.Client.Read(list.ToArray());
+            var items = Opc.Server.Read(list.ToArray());
             stopwatch.Stop();
             Opc_SubDataChange(null, new SubDataChangeEventArgs { Results = items });
             OnMsg($"刷新列表数据 {list.Count}个，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");

@@ -1,5 +1,6 @@
 ﻿using HL.AllenBradley;
 using HL.Object.Extensions;
+using PlcClient.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,8 +14,7 @@ using System.Windows.Forms;
 namespace PlcClient.Controls
 {
     public partial class AllenBradley : BaseControl
-    {
-        private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
+    {        
         private AllenBradleyNet plc;
         private TypeCode _typeCode = TypeCode.Empty;
         public AllenBradley()
@@ -76,7 +76,7 @@ namespace PlcClient.Controls
             var ip = tbx_ip.Text;
             var port = ushort.Parse(tbx_port.Text);
             var slot = byte.Parse(tbx_slot.Text);
-            if (!Regex.IsMatch(ip, _ipVerdify))
+            if (!Regex.IsMatch(ip, Config.IPVerdify))
             {
                 MessageBox.Show($"{ip} 无效的IP地址");
                 tbx_ip.Focus();

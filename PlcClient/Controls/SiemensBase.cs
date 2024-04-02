@@ -1,6 +1,7 @@
 ﻿using HL.Object.Extensions;
 using HL.S7netplus.Extensions;
 using PlcClient.Handler;
+using PlcClient.Model;
 using S7.Net;
 using S7.Net.Types;
 using System;
@@ -16,7 +17,7 @@ namespace PlcClient.Controls
     public partial class SiemensBase : BaseControl
     {
         private const string _addressVerdify = @"(^DB\d+\.DB[BWD]\d+$)|(^DB\d+\.DBX\d+\.[0-7]$)|(^(VB|VW|VD|MB|MW|MD|IB|IW|ID|EB|EW|ED|QB|QW|QD|AB|AW|AD|OB|OW|OD)\d+$)|(^(A|V|M|I|E|Q|O|T|Z|C)\d+\.[0-7]$)";//西门子plc地址验证
-        private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
+        
 
         public CpuType CpuType { get; set; }
         private TypeCode _typeCode;
@@ -101,7 +102,7 @@ namespace PlcClient.Controls
         {
             try
             {
-                if (!Regex.IsMatch(tbx_ip.Text, _ipVerdify) || !Regex.IsMatch(tbx_port.Text, @"^\d+$") || !Regex.IsMatch(tbx_rack.Text, @"^\d+$") || !Regex.IsMatch(tbx_slot.Text, @"^\d+$"))
+                if (!Regex.IsMatch(tbx_ip.Text, Config.IPVerdify) || !Regex.IsMatch(tbx_port.Text, @"^\d+$") || !Regex.IsMatch(tbx_rack.Text, @"^\d+$") || !Regex.IsMatch(tbx_slot.Text, @"^\d+$"))
                 {
                     MessageBox.Show("设置错误，请检测IP、端口等是否填写正常", "提示");
                     return;

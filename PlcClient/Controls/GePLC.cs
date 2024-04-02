@@ -1,6 +1,7 @@
 ﻿using HL.GESRTP;
 using HL.Object.Extensions;
 using PlcClient.Handler;
+using PlcClient.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +17,7 @@ namespace PlcClient.Controls
     public partial class GePLC : BaseControl
     {
         #region field
-        private const string _ipVerdify = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";//ip地址验证
+        
         private SRTP SRTP = null;
         private TypeCode _typeCode;
         private ListViewHandler lvwHandler;
@@ -90,7 +91,7 @@ namespace PlcClient.Controls
             try
             {
                 var ip = this.tbx_ip.Text;
-                if (!Regex.IsMatch(ip, _ipVerdify))
+                if (!Regex.IsMatch(ip, Config.IPVerdify))
                 {
                     MessageBox.Show($"{ip} 无效的IP地址");
                     tbx_ip.Focus();

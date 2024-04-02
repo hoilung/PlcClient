@@ -15,11 +15,11 @@ namespace PlcClient.Controls
         private Opc.ItemIdentifier itemID = new Opc.ItemIdentifier();
         private readonly OpcDaDriver opc;
 
-        public event Action<List<OPCDAItem>, OPCDAItem> DataRefresh;
+        public event Action<OPCDAItem> DataRefresh;
         public OpcDaBrowseView(OpcDaDriver Opc)
         {
             InitializeComponent();
-            this.tv_nodes.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Dock = this.statusStrip1.Dock = this.tv_nodes.Dock = DockStyle.Fill;
             tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
             opc = Opc;
         }
@@ -30,14 +30,13 @@ namespace PlcClient.Controls
             LoadData();
         }
 
-        public List<OPCDAItem> data = new List<OPCDAItem>();
 
         public void LoadData()
         {
             var rootNode = new TreeNode("根目录");
             try
             {
-                GetTreeNode(rootNode, opc.Client);
+                GetTreeNode(rootNode, opc.Server);
             }
             catch (Exception ex)
             {
@@ -52,7 +51,6 @@ namespace PlcClient.Controls
 
         private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            toolTip1.Hide(tv_nodes);
             if (tv_nodes.SelectedNode.Nodes.Count > 0)
             {
                 return;
@@ -62,13 +60,11 @@ namespace PlcClient.Controls
                 return;
             if (itemid.Properties == null && !itemid.IsItem)
             {
-                toolTip1.Show("当前节点非可读项", tv_nodes, e.X, e.Y);
+                toolStripStatusLabel1.Text = itemid.ItemName + " 当前节点不支持读取";
                 return;
             }
-            if (data.Count(m => m.Address == itemid.ItemName) > 0)
-            {
-                return;
-            }
+
+
             var item = new OPCDAItem();
             item.Name = itemid.Name;
             item.Address = itemid.ItemName;
@@ -78,9 +74,8 @@ namespace PlcClient.Controls
             item.Quality = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(3)).Value.ToString();
             item.Time = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(4)).Value.ToString();
 
-            data.Add(item);
-            DataRefresh?.Invoke(data, item);
-
+            toolStripStatusLabel1.Text = $"添加节点：{item.Address} 节点值：{item.Value}";
+            DataRefresh?.Invoke(item);
 
         }
 

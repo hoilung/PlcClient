@@ -1,5 +1,7 @@
 ﻿using HL.OpcUa;
+using Newtonsoft.Json;
 using Opc.Ua;
+using PlcClient.Handler;
 using PlcClient.Model;
 using System;
 using System.Collections.Generic;
@@ -17,11 +19,15 @@ namespace PlcClient.Controls
     public partial class OpcUa : BaseControl
     {
         private readonly OpcUaDriver OpcUaDriver;
+        private ListViewHandler lvwHandler;
         public OpcUa()
         {
             InitializeComponent();
             OpcUaDriver = new OpcUaDriver();
             cbx_verfly.SelectedIndex = 0;
+            tbx_ip.Text = GetLocalIP();
+            lvwHandler = new ListViewHandler(lv_data);
+            lvwHandler.ColuminSort();
             ChangeState(false);
         }
 
@@ -127,6 +133,74 @@ namespace PlcClient.Controls
             {
                 OpcUaDriver.Dispose();
                 ChangeState(false);
+            }
+        }
+
+        private void RefreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lv_data.Items.Count == 0)
+            {
+                MessageBox.Show("请先浏览节点", "提示");
+                return;
+            };
+            var list = new List<PointItem>();
+            for (int i = 0; i < lv_data.Items.Count; i++)
+            {
+                list.Add(new PointItem() { Name = lv_data.Items[i].Text, Address = lv_data.Items[i].SubItems[1].Text });
+            }
+            try
+            {
+                var dic = OpcUaDriver.Read(list.ToArray());
+                lv_data.BeginUpdate();
+                for (int i = 0; i < lv_data.Items.Count; i++)
+                {
+
+                    var item = lv_data.Items[i];
+                    if (dic.TryGetValue(item.Text, out var value))
+                    {
+                        if (value == null)
+                        {
+                            value = "null";
+                        }
+                        if (value.GetType().IsArray)
+                        {
+                            item.SubItems[2].Text = JsonConvert.SerializeObject(value);
+                            continue;
+                        }
+                        item.SubItems[2].Text = value.ToString();
+                    }
+
+                }
+                lv_data.EndUpdate();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "刷新节点值错误");
+            }
+
+        }
+
+        private void excelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lvwHandler.ExportExcel("OpcUa");
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lv_data.Items.Clear();
+        }
+
+        private void lv_data_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                RefreshToolStripMenuItem.Enabled = true;
+                if (OpcUaDriver == null || !OpcUaDriver.Session.Connected)
+                {
+                    RefreshToolStripMenuItem.Enabled = false;
+                }
+                contextMenuStrip_lv.Show(lv_data, e.X, e.Y);
+                return;
             }
         }
     }

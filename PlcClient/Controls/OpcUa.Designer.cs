@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_view = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -50,8 +51,13 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.RefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.contextMenuStrip_lv.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -223,6 +229,7 @@
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
+            this.lv_data.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lv_data_MouseClick);
             // 
             // columnHeader1
             // 
@@ -231,7 +238,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Name";
-            this.columnHeader2.Width = 200;
+            this.columnHeader2.Width = 250;
             // 
             // columnHeader3
             // 
@@ -251,6 +258,37 @@
             this.columnHeader6.Text = "Description";
             this.columnHeader6.Width = 90;
             // 
+            // contextMenuStrip_lv
+            // 
+            this.contextMenuStrip_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RefreshToolStripMenuItem,
+            this.excelToolStripMenuItem,
+            this.clearToolStripMenuItem});
+            this.contextMenuStrip_lv.Name = "contextMenuStrip1";
+            this.contextMenuStrip_lv.Size = new System.Drawing.Size(146, 70);
+            // 
+            // RefreshToolStripMenuItem
+            // 
+            this.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem";
+            this.RefreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.RefreshToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.RefreshToolStripMenuItem.Text = "刷新数据";
+            this.RefreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
+            // 
+            // excelToolStripMenuItem
+            // 
+            this.excelToolStripMenuItem.Name = "excelToolStripMenuItem";
+            this.excelToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.excelToolStripMenuItem.Text = "导出excel";
+            this.excelToolStripMenuItem.Click += new System.EventHandler(this.excelToolStripMenuItem_Click);
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.clearToolStripMenuItem.Text = "清空列表";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            // 
             // OpcUa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -261,6 +299,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.contextMenuStrip_lv.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -289,5 +328,9 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_lv;
+        private System.Windows.Forms.ToolStripMenuItem RefreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
     }
 }

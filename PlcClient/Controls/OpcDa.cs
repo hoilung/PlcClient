@@ -148,10 +148,10 @@ namespace PlcClient.Controls
 
         private void BrowseView_DataRefresh(OPCDAItem opcdaItem)
         {
-            if(lv_data.Items.Count > 0)
+            if (lv_data.Items.Count > 0)
             {
                 var find = lv_data.FindItemWithText(opcdaItem.Address, true, 0);
-                if(find != null)
+                if (find != null)
                 {
                     find.SubItems[3].Text = opcdaItem.Value.ToString();
                     find.SubItems[4].Text = opcdaItem.Quality;
@@ -181,6 +181,12 @@ namespace PlcClient.Controls
         private void btn_read_Click(object sender, EventArgs e)
         {
             var tagName = tbx_tag.Text;
+            if (string.IsNullOrEmpty(tagName))
+            {
+                OnMsg("请输入要读取的节点名称");
+                MessageBox.Show("请输入要读取的节点名称", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             tbx_tag_value.ResetText();
             var items = Opc.Server.Read(new[] { new Opc.Da.Item { ItemName = tagName } });
             if (items != null)

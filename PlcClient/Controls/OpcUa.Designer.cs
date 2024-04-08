@@ -108,7 +108,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 10;
-            this.label4.Text = "账号";
+            this.label4.Text = "用户";
             // 
             // label3
             // 
@@ -139,7 +139,7 @@
             this.cbx_verfly.FormattingEnabled = true;
             this.cbx_verfly.Items.AddRange(new object[] {
             "匿名登录",
-            "账号验证"});
+            "用户验证"});
             this.cbx_verfly.Location = new System.Drawing.Point(393, 19);
             this.cbx_verfly.Name = "cbx_verfly";
             this.cbx_verfly.Size = new System.Drawing.Size(75, 20);

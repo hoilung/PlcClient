@@ -107,6 +107,8 @@ namespace PlcClient.Controls
         {
             var ip = tbx_ip.Text.Trim();
             var port = tbx_port.Text.Trim();
+
+
             if (!Regex.IsMatch(ip, Config.IPVerdify) || !Regex.IsMatch(port, Config.NumVerdify))
             {
                 MessageBox.Show("无效的IP地址或端口", "提示");
@@ -115,6 +117,18 @@ namespace PlcClient.Controls
             var opcAddress = $"opc.tcp://{ip}:{port}";
             try
             {
+                if (cbx_verfly.SelectedIndex == 1)
+                {
+                    var user = tbx_user.Text.Trim();
+                    var pass = tbx_pass.Text.Trim();
+                    if (string.IsNullOrEmpty(user))
+                    {
+                        MessageBox.Show("请输入有效的OPCUA用户或密码", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    OpcUaDriver.UserIdentity = new UserIdentity(user, pass);
+                }
+
                 OpcUaDriver.Open(opcAddress);
                 OnMsg("连接成功 " + opcAddress);
                 ChangeState(true);
@@ -122,7 +136,7 @@ namespace PlcClient.Controls
             catch (Exception ex)
             {
                 OnMsg("连接失败 " + opcAddress);
-                MessageBox.Show(ex.Message, "连接失败");
+                MessageBox.Show(ex.InnerException.Message, "连接失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

@@ -72,13 +72,20 @@ namespace PlcClient
             var opcua = new OpcUa();
             opcua.Msg += call_Msg;
             tab_opcua.Controls.Add(opcua);
-
+            var tab_net = new TabPage();
+            tab_net.Text = "网络调试";
+            tab_net.ImageIndex = 4;
+            var netview = new NetView();
+            netview.Msg += call_Msg;
+            tab_net.Controls.Add(netview);
 
             tabs.TabPages.Add(tab_siemens);
             tabs.TabPages.Add(tab_ge);
             tabs.TabPages.Add(tab_ab);
             tabs.TabPages.Add(tab_opcda);
             tabs.TabPages.Add(tab_opcua);
+            tabs.TabPages.Add(tab_net);
+
             this.Controls.Add(tabs);
             tabs.ResumeLayout(false);
         }

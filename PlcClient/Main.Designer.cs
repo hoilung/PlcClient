@@ -60,6 +60,7 @@
             this.imageList1.Images.SetKeyName(1, "ge.ico");
             this.imageList1.Images.SetKeyName(2, "ab.ico");
             this.imageList1.Images.SetKeyName(3, "opc.ico");
+            this.imageList1.Images.SetKeyName(4, "Internet.png");
             // 
             // Main
             // 

@@ -131,6 +131,16 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Internet {
+            get {
+                object obj = ResourceManager.GetObject("Internet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon opc {
@@ -159,6 +169,26 @@ namespace PlcClient.Properties {
         internal static string pl_siemens {
             get {
                 return ResourceManager.GetString("pl_siemens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Play {
+            get {
+                object obj = ResourceManager.GetObject("Play", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Root_Server {
+            get {
+                object obj = ResourceManager.GetObject("Root_Server", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -194,6 +224,26 @@ namespace PlcClient.Properties {
         internal static string smz_tip {
             get {
                 return ResourceManager.GetString("smz_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Stop {
+            get {
+                object obj = ResourceManager.GetObject("Stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Thin_Client {
+            get {
+                object obj = ResourceManager.GetObject("Thin_Client", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

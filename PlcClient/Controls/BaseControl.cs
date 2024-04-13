@@ -57,16 +57,18 @@ namespace PlcClient.Controls
             }
             return list.ToArray();
         }
-
-        public string GetLocalIP()
+        public string[] GetLocalAllIP()
         {
             var adr = Dns.GetHostAddresses(Dns.GetHostName());
             if (adr != null)
             {
-                return adr.FirstOrDefault(m => m.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !m.ToString().StartsWith("172")).ToString();
+                return adr.Where(m => m.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !m.ToString().StartsWith("172")).Select(m => m.ToString()).ToArray();
             }
-
-            return "127.0.0.1";
+            return new[] { "127.0.0.1" };
+        }
+        public string GetLocalIP()
+        {
+            return GetLocalAllIP()[0];
         }
     }
 }

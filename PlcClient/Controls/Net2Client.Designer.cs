@@ -236,9 +236,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(622, 77);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 12);
+            this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 7;
-            this.label1.Text = "ms/次";
+            this.label1.Text = "ms/次间隔";
             // 
             // nd_step
             // 

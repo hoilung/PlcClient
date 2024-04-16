@@ -102,17 +102,17 @@
     <Compile Include="Controls\BaseControl.Designer.cs">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NetClient.cs">
+    <Compile Include="Controls\Net2Client.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\NetClient.Designer.cs">
-      <DependentUpon>NetClient.cs</DependentUpon>
+    <Compile Include="Controls\Net2Client.Designer.cs">
+      <DependentUpon>Net2Client.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NetServer.cs">
+    <Compile Include="Controls\Net2Server.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\NetServer.Designer.cs">
-      <DependentUpon>NetServer.cs</DependentUpon>
+    <Compile Include="Controls\Net2Server.Designer.cs">
+      <DependentUpon>Net2Server.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\NetView.cs">
       <SubType>UserControl</SubType>
@@ -183,11 +183,11 @@
     <EmbeddedResource Include="Controls\BaseControl.resx">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\NetClient.resx">
-      <DependentUpon>NetClient.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\Net2Client.resx">
+      <DependentUpon>Net2Client.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\NetServer.resx">
-      <DependentUpon>NetServer.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\Net2Server.resx">
+      <DependentUpon>Net2Server.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NetView.resx">
       <DependentUpon>NetView.cs</DependentUpon>

@@ -15,10 +15,12 @@ namespace PlcClient.Controls
         public NetView()
         {
             InitializeComponent();
-            this.netClient1.Msg += NetClient1_Msg;
+            this.netClient1.Msg += Net_Msg;
+            this.net2Server1.Msg += Net_Msg;
         }
 
-        private void NetClient1_Msg(string obj)
+
+        private void Net_Msg(string obj)
         {
             OnMsg(obj);
         }

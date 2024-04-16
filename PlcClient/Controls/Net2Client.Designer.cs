@@ -1,6 +1,6 @@
 ﻿namespace PlcClient.Controls
 {
-    partial class NetClient
+    partial class Net2Client
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -35,8 +35,10 @@
             this.cbx_remoteIp = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.tbx_remotePort = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_conn = new System.Windows.Forms.ToolStripButton();
             this.btn_close = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.cbx_code = new System.Windows.Forms.ToolStripComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -54,7 +56,6 @@
             this.cbx_string = new System.Windows.Forms.CheckBox();
             this.tbx_received = new System.Windows.Forms.RichTextBox();
             this.btn_clearCallback = new System.Windows.Forms.Button();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nd_num)).BeginInit();
@@ -71,6 +72,7 @@
             this.cbx_remoteIp,
             this.toolStripLabel2,
             this.tbx_remotePort,
+            this.toolStripSeparator2,
             this.btn_conn,
             this.btn_close,
             this.toolStripSeparator1,
@@ -119,9 +121,15 @@
             // tbx_remotePort
             // 
             this.tbx_remotePort.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
+            this.tbx_remotePort.MaxLength = 5;
             this.tbx_remotePort.Name = "tbx_remotePort";
             this.tbx_remotePort.Size = new System.Drawing.Size(50, 25);
-            this.tbx_remotePort.Text = "8000";
+            this.tbx_remotePort.Text = "7000";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // btn_conn
             // 
@@ -140,6 +148,11 @@
             this.btn_close.Size = new System.Drawing.Size(52, 22);
             this.btn_close.Text = "断开";
             this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripLabel4
             // 
@@ -179,12 +192,13 @@
             // cbx_hexSend
             // 
             this.cbx_hexSend.AutoSize = true;
-            this.cbx_hexSend.Location = new System.Drawing.Point(541, 100);
+            this.cbx_hexSend.Location = new System.Drawing.Point(622, 20);
             this.cbx_hexSend.Name = "cbx_hexSend";
             this.cbx_hexSend.Size = new System.Drawing.Size(72, 16);
             this.cbx_hexSend.TabIndex = 8;
             this.cbx_hexSend.Text = "发送 HEX";
             this.cbx_hexSend.UseVisualStyleBackColor = true;
+            this.cbx_hexSend.CheckedChanged += new System.EventHandler(this.cbx_hexSend_CheckedChanged);
             // 
             // label2
             // 
@@ -258,6 +272,8 @@
             this.tbx_send.Size = new System.Drawing.Size(532, 168);
             this.tbx_send.TabIndex = 4;
             this.tbx_send.WordWrap = false;
+            this.tbx_send.TextChanged += new System.EventHandler(this.tbx_send_TextChanged);
+            this.tbx_send.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_send_KeyPress);
             // 
             // btn_clearSend
             // 
@@ -297,6 +313,8 @@
             // cbx_time
             // 
             this.cbx_time.AutoSize = true;
+            this.cbx_time.Checked = true;
+            this.cbx_time.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbx_time.Location = new System.Drawing.Point(541, 19);
             this.cbx_time.Name = "cbx_time";
             this.cbx_time.Size = new System.Drawing.Size(72, 16);
@@ -348,19 +366,14 @@
             this.btn_clearCallback.UseVisualStyleBackColor = true;
             this.btn_clearCallback.Click += new System.EventHandler(this.btn_clearCallback_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // NetClient
+            // Net2Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "NetClient";
+            this.Name = "Net2Client";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -403,5 +416,6 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.ToolStripComboBox cbx_code;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

@@ -32,11 +32,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NetView));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.netClient1 = new PlcClient.Controls.NetClient();
+            this.netClient1 = new PlcClient.Controls.Net2Client();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.net2Server1 = new PlcClient.Controls.Net2Server();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -55,10 +57,10 @@
             // 
             this.tabPage1.Controls.Add(this.netClient1);
             this.tabPage1.ImageIndex = 0;
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
+            this.tabPage1.Location = new System.Drawing.Point(4, 23);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(702, 399);
+            this.tabPage1.Size = new System.Drawing.Size(702, 403);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "网络客户端";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -68,7 +70,7 @@
             this.netClient1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.netClient1.Location = new System.Drawing.Point(3, 3);
             this.netClient1.Name = "netClient1";
-            this.netClient1.Size = new System.Drawing.Size(696, 393);
+            this.netClient1.Size = new System.Drawing.Size(696, 397);
             this.netClient1.TabIndex = 0;
             this.netClient1.TypeCodes = new System.TypeCode[] {
         System.TypeCode.Boolean,
@@ -82,14 +84,32 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.net2Server1);
             this.tabPage2.ImageIndex = 1;
-            this.tabPage2.Location = new System.Drawing.Point(4, 27);
+            this.tabPage2.Location = new System.Drawing.Point(4, 23);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(702, 399);
+            this.tabPage2.Size = new System.Drawing.Size(702, 403);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "网络服务端";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // net2Server1
+            // 
+            this.net2Server1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.net2Server1.Location = new System.Drawing.Point(3, 3);
+            this.net2Server1.Name = "net2Server1";
+            this.net2Server1.Size = new System.Drawing.Size(696, 397);
+            this.net2Server1.TabIndex = 0;
+            this.net2Server1.TypeCodes = new System.TypeCode[] {
+        System.TypeCode.Boolean,
+        System.TypeCode.Byte,
+        System.TypeCode.Int16,
+        System.TypeCode.Int32,
+        System.TypeCode.Single,
+        System.TypeCode.Double,
+        System.TypeCode.UInt16,
+        System.TypeCode.UInt32};
             // 
             // imageList1
             // 
@@ -106,6 +126,7 @@
             this.Name = "NetView";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -115,7 +136,8 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private NetClient netClient1;
+        private Net2Client netClient1;
         private System.Windows.Forms.ImageList imageList1;
+        private Net2Server net2Server1;
     }
 }

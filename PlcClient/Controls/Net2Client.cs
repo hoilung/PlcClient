@@ -1,27 +1,22 @@
 ﻿using NewLife;
-using NewLife.Data;
 using NewLife.Net;
-using Opc.Ua;
-using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace PlcClient.Controls
 {
-    public partial class NetClient : BaseControl
+    public partial class Net2Client : BaseControl
     {
         private ISocketClient _client;
 
-        public NetClient()
+        public Net2Client()
         {
             InitializeComponent();
             this.Disposed += NetClient_Disposed;
@@ -108,7 +103,7 @@ namespace PlcClient.Controls
             {
                 if (cbx_time.Checked)
                 {
-                    tbx_received.AppendText(DateTime.Now.ToString("[HH:mm:ss.fff]") + Environment.NewLine);
+                    tbx_received.AppendText(DateTime.Now.ToString("[HH:mm:ss.fff] ") + e.Remote + Environment.NewLine);
                 }
                 int start = tbx_received.Text.Length;
                 if (cbx_string.Checked)
@@ -126,6 +121,7 @@ namespace PlcClient.Controls
                     tbx_received.SelectionLength = tbx_received.Text.Length;
                     var rgb = Enumerable.Range(1, 254).OrderBy(m => Guid.NewGuid()).Take(3).ToArray();
                     tbx_received.SelectionColor = Color.FromArgb(0, rgb[1], rgb[2]);
+                    tbx_received.Scroll();
                 }
             }));
         }
@@ -138,22 +134,25 @@ namespace PlcClient.Controls
             var step = this.nd_step.Value;
             var text = tbx_send.Text.Trim();
             var code = cbx_code.Tag as Encoding;
-
+            byte[] data = null;
+            if (cbx_hexSend.Checked)
+            {   //hex string to byte                    
+                data = text.Split(' ').Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray();
+            }
+            else
+            {
+                data = code.GetBytes(text);
+            }
+            if (data == null || data.Length == 0)
+            {
+                MessageBox.Show("请输入要发送的数据", "提示");
+            }
             Task.Run(async () =>
             {
-                byte[] data = null;
-                if (cbx_hexSend.Checked)
-                {   //hex string to byte                    
-                    data = text.Split(' ').Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray();
-                }
-                else
-                {
-                    data = code.GetBytes(text);
-                }
                 for (int i = 0; i < nd_num; i++)
                 {
                     var len = _client.Send(data);
-                    OnMsg($"{DateTime.Now.ToString("[HH:mm:ss.fff]")}发送数据：{_client.Remote} 长度:{len}");
+                    OnMsg($"{DateTime.Now.ToString("[HH:mm:ss.fff]")} 发送数据：{_client.Remote} 长度:{len}");
                     await Task.Delay(step.ToInt());
                 }
             });
@@ -174,6 +173,45 @@ namespace PlcClient.Controls
         {
             if (_client != null && _client.Active)
                 _client.Close("");
+        }
+
+        private void tbx_send_TextChanged(object sender, EventArgs e)
+        {
+            if (!cbx_hexSend.Checked)
+            {
+                return;
+            }
+            if (tbx_send.TextLength % 3 == 2)
+            {
+                tbx_send.Append(" ");
+            }
+        }
+
+        private void tbx_send_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!cbx_hexSend.Checked)
+            {
+                return;
+            }
+            if (!char.IsControl(e.KeyChar) && !Regex.IsMatch(e.KeyChar.ToString(), "[0-9A-Fa-f]"))
+            {
+                e.Handled = true; // 拒绝输入
+            }
+        }
+
+        private void cbx_hexSend_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbx_code.Tag is Encoding code)
+            {
+                if (cbx_hexSend.Checked)
+                {
+                    tbx_send.Text = code.GetBytes(tbx_send.Text).ToHex(" ");
+                }
+                else
+                {
+                    tbx_send.Text = tbx_send.Text.Split(" ").Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray().ToStr(code);
+                }
+            }
         }
     }
 }

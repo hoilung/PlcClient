@@ -91,10 +91,10 @@
             this.cbx_mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_mode.Items.AddRange(new object[] {
             "TCP",
-            "UCP",
+            "UDP",
             "TCP&UDP"});
             this.cbx_mode.Name = "cbx_mode";
-            this.cbx_mode.Size = new System.Drawing.Size(75, 25);
+            this.cbx_mode.Size = new System.Drawing.Size(100, 25);
             // 
             // toolStripLabel2
             // 

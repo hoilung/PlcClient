@@ -98,7 +98,7 @@
             "TCP",
             "UDP"});
             this.cbx_mode.Name = "cbx_mode";
-            this.cbx_mode.Size = new System.Drawing.Size(75, 25);
+            this.cbx_mode.Size = new System.Drawing.Size(100, 25);
             // 
             // toolStripLabel3
             // 

@@ -102,6 +102,12 @@
     <Compile Include="Controls\BaseControl.Designer.cs">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DeviceDiscover.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DeviceDiscover.Designer.cs">
+      <DependentUpon>DeviceDiscover.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Net2Client.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -156,6 +162,7 @@
     <Compile Include="Controls\SiemensPLC.Designer.cs">
       <DependentUpon>SiemensPLC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Handler\DeviceHandler.cs" />
     <Compile Include="Handler\ListViewColumnSorter.cs" />
     <Compile Include="Handler\ListViewHandler.cs" />
     <Compile Include="Main.cs">

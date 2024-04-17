@@ -136,15 +136,15 @@ namespace PlcClient.Controls
                     case "udp":
                         netType = NetType.Udp;
                         break;
-                    case "http":
-                        netType = NetType.Http;
-                        break;
-                    case "https":
-                        netType = NetType.Https;
-                        break;
-                    case "websocket":
-                        netType = NetType.WebSocket;
-                        break;
+                    //case "http":
+                    //    netType = NetType.Http;
+                    //    break;
+                    //case "https":
+                    //    netType = NetType.Https;
+                    //    break;
+                    //case "websocket":
+                    //    netType = NetType.WebSocket;
+                    //    break;
                 }
                 netServer = new NetServer(address, port, netType);
                 netServer.Error += NetServer_Error;

@@ -51,7 +51,7 @@
             this.btn_read = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
             this.tbx_address = new System.Windows.Forms.TextBox();
-            this.lv_data = new System.Windows.Forms.ListView();
+            this.lv_data = new ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -383,7 +383,7 @@
         private System.Windows.Forms.MaskedTextBox tbx_slot;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ListView lv_data;
+        private ListViewEx lv_data;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;

@@ -44,7 +44,7 @@
             this.tbx_ip = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lv_data = new System.Windows.Forms.ListView();
+            this.lv_data = new ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -321,7 +321,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btn_view;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ListView lv_data;
+        private ListViewEx lv_data;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;

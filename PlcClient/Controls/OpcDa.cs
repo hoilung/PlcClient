@@ -1,21 +1,13 @@
 ﻿using HL.OpcDa;
 using Opc;
-using OpcRcw.Dx;
 using PlcClient.Handler;
 using PlcClient.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace PlcClient.Controls
 {

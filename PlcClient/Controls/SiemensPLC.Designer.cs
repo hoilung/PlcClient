@@ -36,10 +36,11 @@
             // tab_siemens
             // 
             this.tab_siemens.Controls.Add(this.tabPage1);
-            this.tab_siemens.Location = new System.Drawing.Point(14, 23);
+            this.tab_siemens.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tab_siemens.Location = new System.Drawing.Point(0, 0);
             this.tab_siemens.Name = "tab_siemens";
             this.tab_siemens.SelectedIndex = 0;
-            this.tab_siemens.Size = new System.Drawing.Size(539, 325);
+            this.tab_siemens.Size = new System.Drawing.Size(710, 430);
             this.tab_siemens.TabIndex = 0;
             // 
             // tabPage1
@@ -47,7 +48,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(531, 299);
+            this.tabPage1.Size = new System.Drawing.Size(702, 404);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;

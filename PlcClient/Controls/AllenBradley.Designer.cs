@@ -47,11 +47,13 @@
             this.tbx_ip = new System.Windows.Forms.TextBox();
             this.btn_open = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btn_tagview = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btn_read = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
+            this.btn_tagview = new System.Windows.Forms.Button();
             this.tbx_address = new System.Windows.Forms.TextBox();
-            this.lv_data = new ListViewEx();
+            this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -61,6 +63,8 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.lv_menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,10 +77,11 @@
             this.groupBox2.Controls.Add(this.tbx_value);
             this.groupBox2.Controls.Add(this.tbx_addressOne);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(7, 69);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(695, 54);
-            this.groupBox2.TabIndex = 9;
+            this.groupBox2.Size = new System.Drawing.Size(710, 54);
+            this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "单个读取/写入";
             // 
@@ -155,9 +160,10 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tbx_ip);
             this.groupBox1.Controls.Add(this.btn_open);
-            this.groupBox1.Location = new System.Drawing.Point(7, 9);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(0, 54);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(695, 54);
+            this.groupBox1.Size = new System.Drawing.Size(710, 54);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "AllenBradley 设置";
@@ -238,31 +244,45 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.btn_tagview);
-            this.groupBox3.Controls.Add(this.btn_read);
-            this.groupBox3.Controls.Add(this.btn_add);
-            this.groupBox3.Controls.Add(this.tbx_address);
-            this.groupBox3.Controls.Add(this.lv_data);
-            this.groupBox3.Location = new System.Drawing.Point(7, 129);
+            this.groupBox3.Controls.Add(this.tableLayoutPanel1);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(0, 108);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(695, 318);
-            this.groupBox3.TabIndex = 11;
+            this.groupBox3.Size = new System.Drawing.Size(710, 322);
+            this.groupBox3.TabIndex = 30;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量读取";
             // 
-            // btn_tagview
+            // tableLayoutPanel1
             // 
-            this.btn_tagview.Location = new System.Drawing.Point(335, 17);
-            this.btn_tagview.Name = "btn_tagview";
-            this.btn_tagview.Size = new System.Drawing.Size(75, 23);
-            this.btn_tagview.TabIndex = 33;
-            this.btn_tagview.Text = "查看标签";
-            this.btn_tagview.UseVisualStyleBackColor = true;
-            this.btn_tagview.Click += new System.EventHandler(this.btn_tagview_Click);
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.6379F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btn_tagview, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tbx_address, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lv_data, 0, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(15, 31);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(670, 236);
+            this.tableLayoutPanel1.TabIndex = 34;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_read);
+            this.panel1.Controls.Add(this.btn_add);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(400, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(267, 30);
+            this.panel1.TabIndex = 35;
             // 
             // btn_read
             // 
-            this.btn_read.Location = new System.Drawing.Point(610, 17);
+            this.btn_read.Location = new System.Drawing.Point(189, 3);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
             this.btn_read.TabIndex = 32;
@@ -272,7 +292,7 @@
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(529, 17);
+            this.btn_add.Location = new System.Drawing.Point(108, 3);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(75, 23);
             this.btn_add.TabIndex = 31;
@@ -280,13 +300,24 @@
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
+            // btn_tagview
+            // 
+            this.btn_tagview.Location = new System.Drawing.Point(3, 3);
+            this.btn_tagview.Name = "btn_tagview";
+            this.btn_tagview.Size = new System.Drawing.Size(75, 23);
+            this.btn_tagview.TabIndex = 33;
+            this.btn_tagview.Text = "查看标签";
+            this.btn_tagview.UseVisualStyleBackColor = true;
+            this.btn_tagview.Click += new System.EventHandler(this.btn_tagview_Click);
+            // 
             // tbx_address
             // 
-            this.tbx_address.Location = new System.Drawing.Point(416, 49);
+            this.tbx_address.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbx_address.Location = new System.Drawing.Point(400, 39);
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_address.Size = new System.Drawing.Size(267, 249);
+            this.tbx_address.Size = new System.Drawing.Size(267, 194);
             this.tbx_address.TabIndex = 30;
             this.tbx_address.WordWrap = false;
             // 
@@ -298,13 +329,14 @@
             this.columnHeader3,
             this.columnHeader4});
             this.lv_data.ContextMenuStrip = this.lv_menu;
+            this.lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(0, 49);
+            this.lv_data.Location = new System.Drawing.Point(3, 39);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(410, 249);
+            this.lv_data.Size = new System.Drawing.Size(391, 194);
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -351,13 +383,14 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "AllenBradley";
-            this.Size = new System.Drawing.Size(710, 430);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.lv_menu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -394,5 +427,7 @@
         private System.Windows.Forms.ContextMenuStrip lv_menu;
         private System.Windows.Forms.ToolStripMenuItem tm_exportExcel;
         private System.Windows.Forms.Button btn_tagview;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel1;
     }
 }

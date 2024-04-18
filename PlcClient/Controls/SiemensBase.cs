@@ -28,6 +28,7 @@ namespace PlcClient.Controls
         public SiemensBase()
         {
             InitializeComponent();
+            tableLayoutPanel1.Dock= DockStyle.Fill;
             this.Load += SiemensBase_Load;
             this.Disposed += SiemensBase_Disposed;
 

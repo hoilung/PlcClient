@@ -20,6 +20,7 @@ namespace PlcClient.Controls
         public AllenBradley()
         {
             InitializeComponent();
+            tableLayoutPanel1.Dock = DockStyle.Fill;
             Init();
         }
         public override TypeCode[] TypeCodes => new[] {

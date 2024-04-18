@@ -44,7 +44,7 @@
             this.tbx_ip = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lv_data = new ListViewEx();
+            this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -75,9 +75,10 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tbx_ip);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(701, 79);
+            this.groupBox1.Size = new System.Drawing.Size(710, 79);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "OPC UA 设置";
@@ -204,9 +205,10 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lv_data);
-            this.groupBox2.Location = new System.Drawing.Point(3, 88);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(0, 79);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(701, 339);
+            this.groupBox2.Size = new System.Drawing.Size(710, 351);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "数据列表";
@@ -220,12 +222,13 @@
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6});
+            this.lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(6, 20);
+            this.lv_data.Location = new System.Drawing.Point(3, 17);
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(689, 313);
+            this.lv_data.Size = new System.Drawing.Size(704, 331);
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;

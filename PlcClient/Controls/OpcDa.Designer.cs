@@ -39,7 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btn_BrowseView = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lv_data = new ListViewEx();
+            this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -71,10 +71,11 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tbx_ip);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(701, 54);
-            this.groupBox1.TabIndex = 0;
+            this.groupBox1.Size = new System.Drawing.Size(710, 54);
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "OPC DA 设置";
             // 
@@ -144,7 +145,7 @@
             // 
             // btn_BrowseView
             // 
-            this.btn_BrowseView.Location = new System.Drawing.Point(452, 25);
+            this.btn_BrowseView.Location = new System.Drawing.Point(449, 20);
             this.btn_BrowseView.Name = "btn_BrowseView";
             this.btn_BrowseView.Size = new System.Drawing.Size(75, 23);
             this.btn_BrowseView.TabIndex = 6;
@@ -154,13 +155,19 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.lv_data);
-            this.groupBox2.Location = new System.Drawing.Point(3, 131);
+            this.groupBox2.Controls.Add(this.tbx_tag_value);
+            this.groupBox2.Controls.Add(this.btn_sub);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.btn_BrowseView);
+            this.groupBox2.Controls.Add(this.tbx_tag);
+            this.groupBox2.Controls.Add(this.btn_read);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(0, 54);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(701, 316);
-            this.groupBox2.TabIndex = 1;
+            this.groupBox2.Size = new System.Drawing.Size(710, 54);
+            this.groupBox2.TabIndex = 30;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "数据列表";
+            this.groupBox2.Text = "数据查询";
             // 
             // lv_data
             // 
@@ -171,13 +178,14 @@
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6});
+            this.lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(6, 20);
+            this.lv_data.Location = new System.Drawing.Point(3, 17);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(689, 276);
+            this.lv_data.Size = new System.Drawing.Size(704, 302);
             this.lv_data.TabIndex = 1;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -213,29 +221,25 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.tbx_tag_value);
-            this.groupBox3.Controls.Add(this.btn_sub);
-            this.groupBox3.Controls.Add(this.btn_BrowseView);
-            this.groupBox3.Controls.Add(this.btn_read);
-            this.groupBox3.Controls.Add(this.tbx_tag);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(3, 63);
+            this.groupBox3.Controls.Add(this.lv_data);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(0, 108);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(701, 62);
+            this.groupBox3.Size = new System.Drawing.Size(710, 322);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "数据查询";
+            this.groupBox3.Text = "数据列表";
             // 
             // tbx_tag_value
             // 
-            this.tbx_tag_value.Location = new System.Drawing.Point(289, 26);
+            this.tbx_tag_value.Location = new System.Drawing.Point(286, 21);
             this.tbx_tag_value.Name = "tbx_tag_value";
             this.tbx_tag_value.Size = new System.Drawing.Size(155, 21);
             this.tbx_tag_value.TabIndex = 4;
             // 
             // btn_sub
             // 
-            this.btn_sub.Location = new System.Drawing.Point(533, 25);
+            this.btn_sub.Location = new System.Drawing.Point(530, 20);
             this.btn_sub.Name = "btn_sub";
             this.btn_sub.Size = new System.Drawing.Size(75, 23);
             this.btn_sub.TabIndex = 3;
@@ -245,7 +249,7 @@
             // 
             // btn_read
             // 
-            this.btn_read.Location = new System.Drawing.Point(208, 25);
+            this.btn_read.Location = new System.Drawing.Point(205, 20);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
             this.btn_read.TabIndex = 2;
@@ -255,7 +259,7 @@
             // 
             // tbx_tag
             // 
-            this.tbx_tag.Location = new System.Drawing.Point(43, 26);
+            this.tbx_tag.Location = new System.Drawing.Point(40, 21);
             this.tbx_tag.Name = "tbx_tag";
             this.tbx_tag.Size = new System.Drawing.Size(159, 21);
             this.tbx_tag.TabIndex = 1;
@@ -263,7 +267,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 30);
+            this.label3.Location = new System.Drawing.Point(11, 25);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(23, 12);
             this.label3.TabIndex = 0;
@@ -302,8 +306,7 @@
             // 
             // OpcDa
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -311,8 +314,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.MenuStrip_lv.ResumeLayout(false);
             this.ResumeLayout(false);
 

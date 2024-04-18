@@ -40,7 +40,7 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.btn_add = new System.Windows.Forms.Button();
             this.btn_read = new System.Windows.Forms.Button();
-            this.lv_data = new ListViewEx();
+            this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -60,11 +60,17 @@
             this.btn_changetype = new System.Windows.Forms.Button();
             this.cbx_changetype = new System.Windows.Forms.ComboBox();
             this.lb_address = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menu_lv.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -75,9 +81,10 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tbx_ip);
             this.groupBox1.Controls.Add(this.btn_open);
-            this.groupBox1.Location = new System.Drawing.Point(7, 9);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(695, 54);
+            this.groupBox1.Size = new System.Drawing.Size(710, 54);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "GE 设置";
@@ -141,7 +148,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(411, 22);
+            this.label3.Location = new System.Drawing.Point(3, 5);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 8;
@@ -154,7 +161,7 @@
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(476, 18);
+            this.numericUpDown1.Location = new System.Drawing.Point(68, 1);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(42, 21);
             this.numericUpDown1.TabIndex = 30;
@@ -166,7 +173,7 @@
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(529, 17);
+            this.btn_add.Location = new System.Drawing.Point(116, 0);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(75, 23);
             this.btn_add.TabIndex = 31;
@@ -176,7 +183,7 @@
             // 
             // btn_read
             // 
-            this.btn_read.Location = new System.Drawing.Point(610, 17);
+            this.btn_read.Location = new System.Drawing.Point(197, 0);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
             this.btn_read.TabIndex = 32;
@@ -192,13 +199,14 @@
             this.columnHeader3,
             this.columnHeader4});
             this.lv_data.ContextMenuStrip = this.menu_lv;
+            this.lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(0, 49);
+            this.lv_data.Location = new System.Drawing.Point(3, 38);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(410, 249);
+            this.lv_data.Size = new System.Drawing.Size(412, 213);
             this.lv_data.TabIndex = 6;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -239,11 +247,12 @@
             // 
             // tbx_address
             // 
-            this.tbx_address.Location = new System.Drawing.Point(416, 49);
+            this.tbx_address.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbx_address.Location = new System.Drawing.Point(421, 38);
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_address.Size = new System.Drawing.Size(267, 249);
+            this.tbx_address.Size = new System.Drawing.Size(274, 213);
             this.tbx_address.TabIndex = 30;
             this.tbx_address.WordWrap = false;
             // 
@@ -256,9 +265,10 @@
             this.groupBox2.Controls.Add(this.tbx_value);
             this.groupBox2.Controls.Add(this.tbx_addressOne);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(7, 69);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(0, 54);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(695, 54);
+            this.groupBox2.Size = new System.Drawing.Size(710, 54);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "单个读取/写入";
@@ -330,25 +340,18 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.btn_changetype);
-            this.groupBox3.Controls.Add(this.cbx_changetype);
-            this.groupBox3.Controls.Add(this.lb_address);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.lv_data);
-            this.groupBox3.Controls.Add(this.numericUpDown1);
-            this.groupBox3.Controls.Add(this.tbx_address);
-            this.groupBox3.Controls.Add(this.btn_read);
-            this.groupBox3.Controls.Add(this.btn_add);
-            this.groupBox3.Location = new System.Drawing.Point(7, 129);
+            this.groupBox3.Controls.Add(this.tableLayoutPanel1);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(0, 108);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(695, 318);
+            this.groupBox3.Size = new System.Drawing.Size(710, 322);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量读取";
             // 
             // btn_changetype
             // 
-            this.btn_changetype.Location = new System.Drawing.Point(268, 17);
+            this.btn_changetype.Location = new System.Drawing.Point(259, 3);
             this.btn_changetype.Name = "btn_changetype";
             this.btn_changetype.Size = new System.Drawing.Size(75, 23);
             this.btn_changetype.TabIndex = 23;
@@ -360,7 +363,7 @@
             // 
             this.cbx_changetype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_changetype.FormattingEnabled = true;
-            this.cbx_changetype.Location = new System.Drawing.Point(160, 18);
+            this.cbx_changetype.Location = new System.Drawing.Point(151, 3);
             this.cbx_changetype.Name = "cbx_changetype";
             this.cbx_changetype.Size = new System.Drawing.Size(100, 20);
             this.cbx_changetype.TabIndex = 22;
@@ -368,11 +371,51 @@
             // lb_address
             // 
             this.lb_address.AutoSize = true;
-            this.lb_address.Location = new System.Drawing.Point(69, 23);
+            this.lb_address.Location = new System.Drawing.Point(47, 9);
             this.lb_address.Name = "lb_address";
             this.lb_address.Size = new System.Drawing.Size(47, 12);
             this.lb_address.TabIndex = 10;
             this.lb_address.Text = "Address";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_changetype);
+            this.panel1.Controls.Add(this.lb_address);
+            this.panel1.Controls.Add(this.cbx_changetype);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(412, 29);
+            this.panel1.TabIndex = 33;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btn_add);
+            this.panel2.Controls.Add(this.btn_read);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.numericUpDown1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(421, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(274, 29);
+            this.panel2.TabIndex = 34;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.tbx_address, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lv_data, 0, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 20);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70.75471F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(698, 254);
+            this.tableLayoutPanel1.TabIndex = 35;
             // 
             // GePLC
             // 
@@ -382,7 +425,6 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "GePLC";
-            this.Size = new System.Drawing.Size(710, 430);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -390,7 +432,12 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -428,6 +475,9 @@
         private System.Windows.Forms.Button btn_write;
         private System.Windows.Forms.CheckBox chk_enablewrite;
         private System.Windows.Forms.ComboBox cbx_type;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
 

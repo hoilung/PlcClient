@@ -20,6 +20,7 @@ namespace PlcClient.Controls
         public Net2Server()
         {
             InitializeComponent();
+            tableLayoutPanel1.Dock = DockStyle.Fill;
             this.Disposed += Net2Server_Disposed;
 
             cbx_code.Tag = Encoding.Default;

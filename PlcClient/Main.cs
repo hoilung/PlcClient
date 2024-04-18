@@ -18,6 +18,8 @@ namespace PlcClient
         public Main()
         {
             InitializeComponent();
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+
             this.Text = this.ProductName + " v" + this.ProductVersion;
             this.Load += Form1_Load;
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -32,15 +34,18 @@ namespace PlcClient
         {
             var tabs = new TabControl();
             tabs.SuspendLayout();
-            tabs.Dock = DockStyle.Fill;
+            //tabs.TabPages.Clear();
+            tabs.Height = 650;
+            tabs.Dock = DockStyle.Fill;            
             tabs.ImageList = imageList1;
             tabs.SelectedIndexChanged += Tabs_SelectedIndexChanged;
 
             var tab_siemens = new TabPage();
-            tab_siemens.Text = "SIEMENS 西门子";
+            tab_siemens.Text = "SIEMENS 西门子";            
             tab_siemens.ImageIndex = 0;
 
             var siplc = new Controls.SiemensPLC();
+            siplc.Dock= DockStyle.Fill;
             siplc.Msg += call_Msg;
             tab_siemens.Controls.Add(siplc);
 
@@ -48,6 +53,7 @@ namespace PlcClient
             tab_ge.Text = "GE 通用电气";
             tab_ge.ImageIndex = 1;
             var ge = new Controls.GePLC();
+            ge.Dock= DockStyle.Fill;
             ge.Msg += call_Msg;
             tab_ge.Controls.Add(ge);
 
@@ -55,6 +61,7 @@ namespace PlcClient
             tab_ab.Text = "AB 罗克韦尔";
             tab_ab.ImageIndex = 2;
             var ab = new Controls.AllenBradley();
+            ab.Dock= DockStyle.Fill;
             ab.Msg += call_Msg;
             tab_ab.Controls.Add(ab);
 
@@ -63,6 +70,7 @@ namespace PlcClient
             tab_opcda.Text = "OPC DA";
             tab_opcda.ImageIndex = 3;
             var opcda = new OpcDa();
+            opcda.Dock= DockStyle.Fill;
             opcda.Msg += call_Msg;
             tab_opcda.Controls.Add(opcda);
 
@@ -70,12 +78,14 @@ namespace PlcClient
             tab_opcua.Text = "OPC UA";
             tab_opcua.ImageIndex = 3;
             var opcua = new OpcUa();
+            opcua.Dock= DockStyle.Fill;
             opcua.Msg += call_Msg;
             tab_opcua.Controls.Add(opcua);
             var tab_net = new TabPage();
             tab_net.Text = "网络调试";
             tab_net.ImageIndex = 4;
             var netview = new NetView();
+            netview.Dock= DockStyle.Fill;
             netview.Msg += call_Msg;
             tab_net.Controls.Add(netview);
 
@@ -86,8 +96,12 @@ namespace PlcClient
             tabs.TabPages.Add(tab_opcua);
             tabs.TabPages.Add(tab_net);
 
-            this.Controls.Add(tabs);
+            //this.Controls.Add(tabs);            
+            
+            this.tableLayoutPanel1.Controls.Add(tabs);
             tabs.ResumeLayout(false);
+
+
         }
 
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)

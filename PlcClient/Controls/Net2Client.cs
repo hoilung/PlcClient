@@ -19,6 +19,8 @@ namespace PlcClient.Controls
         public Net2Client()
         {
             InitializeComponent();
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+
             this.Disposed += NetClient_Disposed;
 
             this.cbx_code.Tag = Encoding.Default;

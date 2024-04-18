@@ -37,6 +37,7 @@ namespace PlcClient.Controls
         public GePLC()
         {
             InitializeComponent();
+            tableLayoutPanel1.Dock = DockStyle.Fill;
             Init();
             changeState(false);
 

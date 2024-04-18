@@ -10,7 +10,7 @@ namespace PlcClient.Controls
     {
         public SiemensPLC()
         {
-            InitializeComponent();
+            InitializeComponent();           
 
             this.Load += SiemensPLC_Load;
             this.tab_siemens.SelectedIndexChanged += Tab_siemens_SelectedIndexChanged;
@@ -47,11 +47,12 @@ namespace PlcClient.Controls
             foreach (var c in cputype)
             {
                 var ucBase = new SiemensBase();
+                
                 ucBase.Dock = DockStyle.Fill;
                 ucBase.Msg += UcBase_Msg;
                 ucBase.CpuType = (CpuType)Enum.Parse(typeof(CpuType), c);
 
-                var tabpage = new TabPage();
+                var tabpage = new TabPage();                
                 tabpage.Text = c.Replace("S7", "S7-");
                 tabpage.Controls.Add(ucBase);
                 tab_siemens.TabPages.Add(tabpage);

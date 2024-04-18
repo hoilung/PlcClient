@@ -56,19 +56,23 @@
             this.btn_readAll = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
             this.tbx_addressAll = new System.Windows.Forms.TextBox();
-            this.lv_data = new ListViewEx();
+            this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Menu_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItem_ExcelExport = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.gb_set.SuspendLayout();
             this.gb_act.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.Menu_lv.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_set
@@ -83,9 +87,10 @@
             this.gb_set.Controls.Add(this.label2);
             this.gb_set.Controls.Add(this.tbx_ip);
             this.gb_set.Controls.Add(this.label1);
-            this.gb_set.Location = new System.Drawing.Point(4, 4);
+            this.gb_set.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gb_set.Location = new System.Drawing.Point(0, 0);
             this.gb_set.Name = "gb_set";
-            this.gb_set.Size = new System.Drawing.Size(697, 60);
+            this.gb_set.Size = new System.Drawing.Size(710, 60);
             this.gb_set.TabIndex = 0;
             this.gb_set.TabStop = false;
             this.gb_set.Text = "设置";
@@ -194,9 +199,10 @@
             this.gb_act.Controls.Add(this.btn_read);
             this.gb_act.Controls.Add(this.tbx_adr);
             this.gb_act.Controls.Add(this.label5);
-            this.gb_act.Location = new System.Drawing.Point(4, 70);
+            this.gb_act.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gb_act.Location = new System.Drawing.Point(0, 60);
             this.gb_act.Name = "gb_act";
-            this.gb_act.Size = new System.Drawing.Size(697, 60);
+            this.gb_act.Size = new System.Drawing.Size(710, 60);
             this.gb_act.TabIndex = 2;
             this.gb_act.TabStop = false;
             this.gb_act.Text = "单个读取/写入";
@@ -290,10 +296,11 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(4, 136);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 120);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(703, 274);
+            this.tabControl1.Size = new System.Drawing.Size(710, 310);
             this.tabControl1.TabIndex = 4;
             // 
             // tabPage1
@@ -309,21 +316,18 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.btn_readAll);
-            this.tabPage2.Controls.Add(this.btn_add);
-            this.tabPage2.Controls.Add(this.tbx_addressAll);
-            this.tabPage2.Controls.Add(this.lv_data);
+            this.tabPage2.Controls.Add(this.tableLayoutPanel1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(695, 248);
+            this.tabPage2.Size = new System.Drawing.Size(702, 284);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "批量读取";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // btn_readAll
             // 
-            this.btn_readAll.Location = new System.Drawing.Point(614, 35);
+            this.btn_readAll.Location = new System.Drawing.Point(3, 32);
             this.btn_readAll.Name = "btn_readAll";
             this.btn_readAll.Size = new System.Drawing.Size(75, 23);
             this.btn_readAll.TabIndex = 42;
@@ -333,7 +337,7 @@
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(614, 6);
+            this.btn_add.Location = new System.Drawing.Point(3, 3);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(75, 23);
             this.btn_add.TabIndex = 41;
@@ -343,11 +347,12 @@
             // 
             // tbx_addressAll
             // 
-            this.tbx_addressAll.Location = new System.Drawing.Point(410, 2);
+            this.tbx_addressAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbx_addressAll.Location = new System.Drawing.Point(384, 3);
             this.tbx_addressAll.Multiline = true;
             this.tbx_addressAll.Name = "tbx_addressAll";
             this.tbx_addressAll.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_addressAll.Size = new System.Drawing.Size(198, 241);
+            this.tbx_addressAll.Size = new System.Drawing.Size(198, 166);
             this.tbx_addressAll.TabIndex = 40;
             this.tbx_addressAll.WordWrap = false;
             // 
@@ -359,13 +364,14 @@
             this.columnHeader4,
             this.columnHeader5});
             this.lv_data.ContextMenuStrip = this.Menu_lv;
+            this.lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(2, 2);
+            this.lv_data.Location = new System.Drawing.Point(3, 3);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(401, 241);
+            this.lv_data.Size = new System.Drawing.Size(375, 166);
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -405,6 +411,32 @@
             this.ToolStripMenuItem_ExcelExport.Text = "导出Excel";
             this.ToolStripMenuItem_ExcelExport.Click += new System.EventHandler(this.ToolStripMenuItem_ExcelExport_Click);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lv_data, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tbx_addressAll, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 40);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(674, 172);
+            this.tableLayoutPanel1.TabIndex = 43;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_add);
+            this.panel1.Controls.Add(this.btn_readAll);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(588, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(83, 166);
+            this.panel1.TabIndex = 44;
+            // 
             // SiemensBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -422,8 +454,10 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.Menu_lv.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -464,5 +498,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ContextMenuStrip Menu_lv;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ExcelExport;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel1;
     }
 }

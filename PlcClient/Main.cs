@@ -89,13 +89,21 @@ namespace PlcClient
             netview.Msg += call_Msg;
             tab_net.Controls.Add(netview);
 
+            var tab_dd=new TabPage();
+            tab_dd.Text = "设备发现";
+            tab_dd.ImageIndex = 5;
+            DeviceDiscover deviceDiscover = new DeviceDiscover();
+            deviceDiscover.Dock= DockStyle.Fill;
+            deviceDiscover.Msg += call_Msg;
+            tab_dd.Controls.Add(deviceDiscover);
+
             tabs.TabPages.Add(tab_siemens);
             tabs.TabPages.Add(tab_ge);
             tabs.TabPages.Add(tab_ab);
             tabs.TabPages.Add(tab_opcda);
             tabs.TabPages.Add(tab_opcua);
             tabs.TabPages.Add(tab_net);
-
+            tabs.TabPages.Add(tab_dd);
             //this.Controls.Add(tabs);            
             
             this.tableLayoutPanel1.Controls.Add(tabs);

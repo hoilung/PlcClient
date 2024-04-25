@@ -94,6 +94,7 @@
             this.imageList1.Images.SetKeyName(2, "ab.ico");
             this.imageList1.Images.SetKeyName(3, "opc.ico");
             this.imageList1.Images.SetKeyName(4, "Internet.png");
+            this.imageList1.Images.SetKeyName(5, "Search in List.png");
             // 
             // menuStrip1
             // 
@@ -350,7 +351,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(744, 501);
+            this.ClientSize = new System.Drawing.Size(844, 526);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;

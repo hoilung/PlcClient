@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            this.cbx_localip = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cbx_mode = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
@@ -42,6 +44,7 @@
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.cbx_code = new System.Windows.Forms.ToolStripComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbx_send = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbx_hexSend = new System.Windows.Forms.CheckBox();
             this.btn_send = new System.Windows.Forms.Button();
@@ -50,14 +53,13 @@
             this.nd_num = new System.Windows.Forms.NumericUpDown();
             this.nd_step = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.tbx_send = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbx_received = new System.Windows.Forms.RichTextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.cbx_time = new System.Windows.Forms.CheckBox();
             this.cbx_hex = new System.Windows.Forms.CheckBox();
             this.btn_clearCallback = new System.Windows.Forms.Button();
             this.cbx_string = new System.Windows.Forms.CheckBox();
-            this.tbx_received = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -72,6 +74,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel5,
+            this.cbx_localip,
             this.toolStripLabel1,
             this.cbx_mode,
             this.toolStripLabel3,
@@ -86,9 +90,23 @@
             this.cbx_code});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(710, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(842, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel5
+            // 
+            this.toolStripLabel5.Name = "toolStripLabel5";
+            this.toolStripLabel5.Size = new System.Drawing.Size(43, 22);
+            this.toolStripLabel5.Text = "本地IP";
+            // 
+            // cbx_localip
+            // 
+            this.cbx_localip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_localip.Items.AddRange(new object[] {
+            "0.0.0.0"});
+            this.cbx_localip.Name = "cbx_localip";
+            this.cbx_localip.Size = new System.Drawing.Size(121, 25);
             // 
             // toolStripLabel1
             // 
@@ -104,7 +122,7 @@
             "TCP",
             "UDP"});
             this.cbx_mode.Name = "cbx_mode";
-            this.cbx_mode.Size = new System.Drawing.Size(100, 25);
+            this.cbx_mode.Size = new System.Drawing.Size(75, 25);
             // 
             // toolStripLabel3
             // 
@@ -115,8 +133,7 @@
             // cbx_remoteIp
             // 
             this.cbx_remoteIp.Name = "cbx_remoteIp";
-            this.cbx_remoteIp.Size = new System.Drawing.Size(121, 25);
-            this.cbx_remoteIp.Text = "127.0.0.1";
+            this.cbx_remoteIp.Size = new System.Drawing.Size(120, 25);
             // 
             // toolStripLabel2
             // 
@@ -130,7 +147,7 @@
             this.tbx_remotePort.MaxLength = 5;
             this.tbx_remotePort.Name = "tbx_remotePort";
             this.tbx_remotePort.Size = new System.Drawing.Size(50, 25);
-            this.tbx_remotePort.Text = "7000";
+            this.tbx_remotePort.Text = "7979";
             // 
             // toolStripSeparator2
             // 
@@ -187,6 +204,19 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "数据发送";
+            // 
+            // tbx_send
+            // 
+            this.tbx_send.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbx_send.Location = new System.Drawing.Point(3, 17);
+            this.tbx_send.Multiline = true;
+            this.tbx_send.Name = "tbx_send";
+            this.tbx_send.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbx_send.Size = new System.Drawing.Size(507, 163);
+            this.tbx_send.TabIndex = 4;
+            this.tbx_send.WordWrap = false;
+            this.tbx_send.TextChanged += new System.EventHandler(this.tbx_send_TextChanged);
+            this.tbx_send.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_send_KeyPress);
             // 
             // panel1
             // 
@@ -297,19 +327,6 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "ms/次间隔";
             // 
-            // tbx_send
-            // 
-            this.tbx_send.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbx_send.Location = new System.Drawing.Point(3, 17);
-            this.tbx_send.Multiline = true;
-            this.tbx_send.Name = "tbx_send";
-            this.tbx_send.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_send.Size = new System.Drawing.Size(507, 163);
-            this.tbx_send.TabIndex = 4;
-            this.tbx_send.WordWrap = false;
-            this.tbx_send.TextChanged += new System.EventHandler(this.tbx_send_TextChanged);
-            this.tbx_send.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_send_KeyPress);
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tbx_received);
@@ -320,6 +337,17 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "数据接收";
+            // 
+            // tbx_received
+            // 
+            this.tbx_received.BackColor = System.Drawing.SystemColors.Control;
+            this.tbx_received.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbx_received.Location = new System.Drawing.Point(3, 17);
+            this.tbx_received.Name = "tbx_received";
+            this.tbx_received.ReadOnly = true;
+            this.tbx_received.Size = new System.Drawing.Size(507, 163);
+            this.tbx_received.TabIndex = 1;
+            this.tbx_received.Text = "";
             // 
             // panel2
             // 
@@ -378,17 +406,6 @@
             this.cbx_string.Text = "显示字符";
             this.cbx_string.UseVisualStyleBackColor = true;
             // 
-            // tbx_received
-            // 
-            this.tbx_received.BackColor = System.Drawing.SystemColors.Control;
-            this.tbx_received.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbx_received.Location = new System.Drawing.Point(3, 17);
-            this.tbx_received.Name = "tbx_received";
-            this.tbx_received.ReadOnly = true;
-            this.tbx_received.Size = new System.Drawing.Size(507, 163);
-            this.tbx_received.TabIndex = 1;
-            this.tbx_received.Text = "";
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -413,6 +430,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.toolStrip1);
             this.Name = "Net2Client";
+            this.Size = new System.Drawing.Size(842, 430);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -433,7 +451,6 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripTextBox tbx_remotePort;
         private System.Windows.Forms.ToolStripButton btn_conn;
@@ -463,5 +480,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel5;
+        private System.Windows.Forms.ToolStripComboBox cbx_localip;
     }
 }

@@ -2,10 +2,8 @@
 using NewLife.Net;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,11 +25,9 @@ namespace PlcClient.Controls
             cbx_code.SelectedIndex = 0;
             cbx_code.SelectedIndexChanged += Cbx_code_SelectedIndexChanged;
 
-            cbx_ip.Items.AddRange(GetLocalAllIP());
-            //cbx_ip.SelectedIndex = 0;
-
+            cbx_ip.Items.AddRange(NetHelper.GetIPs().Where(m=>m.AddressFamily==System.Net.Sockets.AddressFamily.InterNetwork).ToArray());
+            cbx_ip.SelectedIndex = 0;
             cbx_mode.SelectedIndex = 0;
-
             btn_stop.Enabled = false;
 
         }
@@ -59,6 +55,7 @@ namespace PlcClient.Controls
         private void NetServer_NewSession(object sender, NetSessionEventArgs e)
         {
             e.Session.Disconnected += Session_Disconnected;
+            e.Session.Send("Welcome "+e.Session.Remote.ToString());
 
             OnMsg($"{DateTime.Now.ToString("[HH:mm:ss.fff]")} 客户端连接：{e.Session}");
             cbx_remote.Invoke(new Action(() =>
@@ -137,15 +134,15 @@ namespace PlcClient.Controls
                     case "udp":
                         netType = NetType.Udp;
                         break;
-                    //case "http":
-                    //    netType = NetType.Http;
-                    //    break;
-                    //case "https":
-                    //    netType = NetType.Https;
-                    //    break;
-                    //case "websocket":
-                    //    netType = NetType.WebSocket;
-                    //    break;
+                        //case "http":
+                        //    netType = NetType.Http;
+                        //    break;
+                        //case "https":
+                        //    netType = NetType.Https;
+                        //    break;
+                        //case "websocket":
+                        //    netType = NetType.WebSocket;
+                        //    break;
                 }
                 netServer = new NetServer(address, port, netType);
                 netServer.Error += NetServer_Error;

@@ -136,7 +136,7 @@ namespace PlcClient.Controls
             catch (Exception ex)
             {
                 OnMsg("连接失败 " + opcAddress);
-                MessageBox.Show(ex.InnerException.Message, "连接失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "连接失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

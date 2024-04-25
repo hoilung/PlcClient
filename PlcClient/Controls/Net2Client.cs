@@ -29,6 +29,9 @@ namespace PlcClient.Controls
             this.Dock = DockStyle.Fill;
             cbx_mode.SelectedIndex = 0;
             cbx_remoteIp.Items.AddRange(GetLocalAllIP());
+            cbx_localip.Items.AddRange(NetHelper.GetIPs().Where(m => m.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).Select(m => m.ToString()).ToArray());
+            cbx_remoteIp.SelectedIndex = 0;
+            cbx_localip.SelectedIndex = 0;
 
             this.btn_close.Enabled = false;
         }

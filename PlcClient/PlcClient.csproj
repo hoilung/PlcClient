@@ -82,6 +82,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\AllenBradley.cs">
@@ -181,7 +182,9 @@
       <DependentUpon>GePLC.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\DisplayCustomAttribute.cs" />
     <Compile Include="Model\OPCDAItem.cs" />
+    <Compile Include="Model\DeviceDiscover\HKProbeMatch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\AllenBradley.resx">
@@ -192,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\BaseControl.resx">
       <DependentUpon>BaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DeviceDiscover.resx">
+      <DependentUpon>DeviceDiscover.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Net2Client.resx">
       <DependentUpon>Net2Client.cs</DependentUpon>
@@ -295,6 +301,9 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="app.ico" />
+    <None Include="Resources\hikvision.xml" />
+    <None Include="Resources\uniview.xml" />
+    <None Include="Resources\Search in List.png" />
     <None Include="Resources\Internet.png" />
     <None Include="Resources\Thin Client.png" />
     <None Include="Resources\Root Server.png" />

@@ -136,7 +136,7 @@ namespace PlcClient.Controls
 
         private void export_ExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var filename = lvwHandler.ExportExcel("AbTag");
+            var filename = lvwHandler.ExportSCV("AbTag");
             if (string.IsNullOrEmpty(filename))
                 return;
             this.OnMsg($"保存文件：{filename}");

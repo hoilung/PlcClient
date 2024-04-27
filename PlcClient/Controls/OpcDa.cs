@@ -276,7 +276,7 @@ namespace PlcClient.Controls
 
         private void export_ExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lvwHandler.ExportExcel("OpcDa");
+            lvwHandler.ExportSCV("OpcDa");
         }
 
 

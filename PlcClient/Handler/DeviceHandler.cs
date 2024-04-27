@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using NewLife;
-using System.Net.WebSockets;
-using System.Windows.Threading;
-using System.Windows.Forms;
-using System.Xml.Serialization;
 using System.IO;
-using NewLife.Remoting;
-using Newtonsoft.Json;
-using System.Xml;
-using System.Web.UI.WebControls;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
-using NewLife.Messaging;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace PlcClient.Handler
 {
@@ -35,9 +25,9 @@ namespace PlcClient.Handler
     {
 
         private CancellationTokenSource CancellationTokenSource;
-        private IPEndPoint endPoint;
+        public IPEndPoint endPoint;
         private UdpClient udpClient;
-        private string localIP;
+        public string localIP;
         private int port;
         private string broadcastAddress;
 
@@ -106,6 +96,19 @@ namespace PlcClient.Handler
 
         #endregion
 
+        #region 大华设备发现
+        /// <summary>
+        /// 大华网络设备发现
+        /// 广播地址：239.255.255.251
+        /// 端口：37810
+        /// </summary>
+        public void DaHuaDeviceFind()
+        {
+
+        }
+
+        #endregion
+
         public void Start()
         {
             this.CancellationTokenSource = new CancellationTokenSource();
@@ -142,6 +145,7 @@ namespace PlcClient.Handler
 
         public void Stop()
         {
+            _sendQueue.Clear();
             this.CancellationTokenSource.Cancel();
             udpClient.Close();
         }

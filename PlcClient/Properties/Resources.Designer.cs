@@ -131,7 +131,7 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;Probe&gt;&lt;Uuid&gt;4EF73BF6-9C2A-43FA-8CD7-67659A4156FE&lt;/Uuid&gt;&lt;Types&gt;inquiry&lt;/Types&gt;&lt;/Probe&gt; 的本地化字符串。
+        ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;Probe&gt;&lt;Uuid&gt;{uuid}&lt;/Uuid&gt;&lt;Types&gt;inquiry&lt;/Types&gt;&lt;/Probe&gt; 的本地化字符串。
         /// </summary>
         internal static string hikvision {
             get {
@@ -187,6 +187,16 @@ namespace PlcClient.Properties {
         internal static System.Drawing.Bitmap Play {
             get {
                 object obj = ResourceManager.GetObject("Play", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Refresh {
+            get {
+                object obj = ResourceManager.GetObject("Refresh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -303,6 +313,16 @@ namespace PlcClient.Properties {
         internal static string uniview {
             get {
                 return ResourceManager.GetString("uniview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap XLS {
+            get {
+                object obj = ResourceManager.GetObject("XLS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

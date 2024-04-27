@@ -265,7 +265,7 @@ namespace PlcClient.Controls
         //菜单导出
         private void tm_exportExcel_Click(object sender, EventArgs e)
         {
-            var filename = lvwHandler.ExportExcel(tbx_ip.Text);
+            var filename = lvwHandler.ExportSCV(tbx_ip.Text);
             if (string.IsNullOrEmpty(filename))
                 return;
             this.OnMsg($"保存文件：{filename}");

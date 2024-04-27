@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MiniExcelLibs;
+using System;
+using System.Data;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -21,7 +23,7 @@ namespace PlcClient.Handler
         /// </summary>
         /// <param name="fileprefix"></param>
         /// <returns>成功返回路径，不成功或取消返回empty</returns>
-        public string ExportExcel(string fileprefix = "")
+        public string ExportSCV(string fileprefix = "")
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
             fileDialog.Filter = "Save File(*.csv)|*.csv";
@@ -67,6 +69,43 @@ namespace PlcClient.Handler
             return string.Empty;
         }
 
+        public string ExportExcel(string fileprefix = "")
+        {
+
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "Save File(*.xlsx)|*.xlsx";
+            fileDialog.Title = "保存文件";
+            fileDialog.RestoreDirectory = true;
+            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            fileDialog.DefaultExt = "xlsx";
+            fileDialog.FileName = fileprefix + System.DateTime.Now.ToString("_yyyy-MM-dd_ffff");
+            if (fileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return string.Empty;
+            }
+            var dt = this.ToDataTable();
+            MiniExcel.SaveAs(fileDialog.FileName, dt);
+            return fileDialog.FileName;
+        }
+
+        public DataTable ToDataTable()
+        {
+            DataTable dt = new DataTable();
+            for (int i = 0; this.listView.Columns.Count > i; i++)
+            {
+                dt.Columns.Add(this.listView.Columns[i].Text);
+            }
+            foreach (ListViewItem item in this.listView.Items)
+            {
+                var row = dt.NewRow();
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    row[dt.Columns[j].ColumnName] = item.SubItems[j].Text;
+                }
+                dt.Rows.Add(row);
+            }
+            return dt;
+        }
         public void ColuminSort()
         {
             this.listView.ListViewItemSorter = lvwColumnSorter;

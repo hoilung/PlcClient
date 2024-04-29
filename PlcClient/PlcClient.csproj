@@ -182,6 +182,7 @@
       <DependentUpon>GePLC.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\DeviceDiscover\Envelope.cs" />
     <Compile Include="Model\DisplayCustomAttribute.cs" />
     <Compile Include="Model\OPCDAItem.cs" />
     <Compile Include="Model\DeviceDiscover\HKProbeMatch.cs" />
@@ -301,9 +302,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <None Include="Resources\Trash Can.png" />
     <None Include="Resources\XLS.png" />
     <None Include="Resources\Refresh.png" />
     <None Include="Resources\hikvision.xml" />

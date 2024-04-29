@@ -38,6 +38,7 @@
             this.btn_find = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_exportExcel = new System.Windows.Forms.ToolStripButton();
+            this.btn_clear = new System.Windows.Forms.ToolStripButton();
             this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -57,7 +58,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(628, 300);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(648, 300);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // toolStrip1
@@ -71,10 +72,11 @@
             this.cbx_deviceType,
             this.btn_find,
             this.toolStripSeparator1,
-            this.btn_exportExcel});
+            this.btn_exportExcel,
+            this.btn_clear});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(628, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(648, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -105,10 +107,13 @@
             // cbx_deviceType
             // 
             this.cbx_deviceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_deviceType.DropDownWidth = 100;
             this.cbx_deviceType.Items.AddRange(new object[] {
-            "海康威视"});
+            "海康",
+            "大华",
+            "宇视"});
             this.cbx_deviceType.Name = "cbx_deviceType";
-            this.cbx_deviceType.Size = new System.Drawing.Size(121, 25);
+            this.cbx_deviceType.Size = new System.Drawing.Size(100, 25);
             // 
             // btn_find
             // 
@@ -132,6 +137,15 @@
             this.btn_exportExcel.Size = new System.Drawing.Size(76, 22);
             this.btn_exportExcel.Text = "导出表格";
             this.btn_exportExcel.Click += new System.EventHandler(this.btn_exportExcel_Click);
+            // 
+            // btn_clear
+            // 
+            this.btn_clear.Image = global::PlcClient.Properties.Resources.Trash_Can;
+            this.btn_clear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_clear.Name = "btn_clear";
+            this.btn_clear.Size = new System.Drawing.Size(76, 22);
+            this.btn_clear.Text = "清空列表";
+            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
             // 
             // lv_data
             // 
@@ -194,5 +208,6 @@
         private System.Windows.Forms.ToolStripComboBox tbx_ip;
         private System.Windows.Forms.ToolStripButton btn_exportExcel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton btn_clear;
     }
 }

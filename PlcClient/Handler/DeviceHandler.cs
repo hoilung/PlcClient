@@ -1,11 +1,15 @@
-﻿using System;
+﻿using PlcClient.Model.DeviceDiscover;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace PlcClient.Handler
@@ -25,9 +29,9 @@ namespace PlcClient.Handler
     {
 
         private CancellationTokenSource CancellationTokenSource;
-        public IPEndPoint endPoint;
+        private IPEndPoint endPoint;
         private UdpClient udpClient;
-        public string localIP;
+        private string localIP;
         private int port;
         private string broadcastAddress;
 
@@ -47,6 +51,17 @@ namespace PlcClient.Handler
                 DeviceReceice(this, e);
             }
         }
+        /// <summary>
+        /// xml反序列化设备发现解包
+        /// </summary>
+        /// <param name="message"></param>
+        public T XmlUnpack<T>(string message)
+        {
+            //读取message 序列化为 对象
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            var obj = (T)xmlSerializer.Deserialize(new StringReader(message));
+            return obj;
+        }
 
         #region 海康设备发现
 
@@ -65,17 +80,6 @@ namespace PlcClient.Handler
             SendMsg(message, multicast);
             SendMsg(message, multicast);
         }
-        /// <summary>
-        /// 海康设备发现解包
-        /// </summary>
-        /// <param name="message"></param>
-        public T HKDeviceUnpack<T>(string message)
-        {
-            //读取message 序列化为 对象
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            var obj = (T)xmlSerializer.Deserialize(new StringReader(message));
-            return obj;
-        }
 
         #endregion
 
@@ -88,11 +92,36 @@ namespace PlcClient.Handler
         /// </summary>
         public void UniViewDeviceFind()
         {
-            string message = Properties.Resources.hikvision.Replace("{uuid}", Guid.NewGuid().ToString());
-            var multicast = new IPEndPoint(IPAddress.Parse(broadcastAddress), port);
+            string message = Properties.Resources.uniview.Replace("{uuid}", Guid.NewGuid().ToString());
+            var multicast = new IPEndPoint(IPAddress.Parse(broadcastAddress), 3702);
             SendMsg(message, multicast);
-            SendMsg(message, multicast);
+            //SendMsg(message, multicast);
         }
+        /// <summary>
+        /// 宇视设备查找，数据解包
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public HKProbeMatch UniViewUnpack(string message)
+        {
+            var probeMatch = new HKProbeMatch();
+            var obj = this.XmlUnpack<Envelope>(message);
+            if (obj != null && obj.Body != null && obj.Body.ProbeMatches != null && obj.Body.ProbeMatches.ProbeMatch != null)
+            {
+                if (obj.Body.ProbeMatches.ProbeMatch.Length > 0)
+                {
+                    var item = obj.Body.ProbeMatches.ProbeMatch.FirstOrDefault();
+                    var ips = item.XAddrs.Split(' ').Select(m => new Uri(m)).Select(m => m.Host).ToArray();
+                    var scopes = item.Scopes.Split(' ').Select(m => new Uri(m)).Select(m => m.AbsolutePath).ToArray();
+
+                    probeMatch.IPv4Address = ips.FirstOrDefault(m => !m.Contains(":"));
+                    probeMatch.MAC = scopes.FirstOrDefault(m => m.StartsWith("/MAC/"))?.Replace("/MAC/", "");
+                    probeMatch.DeviceDescription= scopes.FirstOrDefault(m => m.StartsWith("/name/"))?.Replace("/name/", "");
+                }
+            }
+            return probeMatch;
+        }
+
 
         #endregion
 
@@ -104,7 +133,10 @@ namespace PlcClient.Handler
         /// </summary>
         public void DaHuaDeviceFind()
         {
-
+            string message = Properties.Resources.uniview.Replace("{uuid}", Guid.NewGuid().ToString());
+            var multicast = new IPEndPoint(IPAddress.Parse(broadcastAddress), 37810);
+            SendMsg(message, multicast);
+            SendMsg(message, multicast);
         }
 
         #endregion
@@ -152,8 +184,6 @@ namespace PlcClient.Handler
 
         private void SendMsg(string message, IPEndPoint ep)
         {
-            //byte[] data = Encoding.UTF8.GetBytes(message);
-            //udpClient.Send(data, data.Length, ep);
             _sendQueue.Enqueue(new KeyValuePair<IPEndPoint, string>(ep, message));//将消息加入队列(发送消息))
         }
 

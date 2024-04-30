@@ -95,6 +95,15 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 IAAAAERISVAAAAAAAAAAAEkAAAAAAAAASQAAAAAAAAB7ICJtZXRob2QiIDogIkRIRGlzY292ZXIuc2VhcmNoIiwgInBhcmFtcyIgOiB7ICJtYWMiIDogIiIsICJ1bmkiIDogMSB9IH0K 的本地化字符串。
+        /// </summary>
+        internal static string DaHua {
+            get {
+                return ResourceManager.GetString("DaHua", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon ge {
@@ -146,6 +155,30 @@ namespace PlcClient.Properties {
             get {
                 object obj = ResourceManager.GetObject("Internet", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+        ///&lt;SOAP-ENV:Envelope xmlns:SOAP-ENV=&quot;http://www.w3.org/2003/05/soap-envelope&quot; xmlns:SOAP-ENC=&quot;http://www.w3.org/2003/05/soap-encoding&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xop=&quot;http://www.w3.org/2004/08/xop/include&quot; xmlns:wsa=&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing&quot; xmlns:tns=&quot;http://schemas.xmlsoap.org/ws/2005/04/discovery&quot; xmlns:dn=&quot;http://www.onvif.org/ver10/network/wsdl&quot; xmlns:wsa5=&quot;http:/ [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string onvif {
+            get {
+                return ResourceManager.GetString("onvif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;soap:Envelope xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot; xmlns:tds=&quot;http://www.onvif.org/ver10/device/wsdl&quot; xmlns:tt=&quot;http://www.onvif.org/ver10/schema&quot;&gt;
+        ///  &lt;s:Header xmlns:s=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;
+        ///    &lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;
+        ///      &lt;wsse:UsernameToken&gt;
+        ///    [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string onvif_device_service {
+            get {
+                return ResourceManager.GetString("onvif_device_service", resourceCulture);
             }
         }
         
@@ -313,16 +346,6 @@ namespace PlcClient.Properties {
             get {
                 object obj = ResourceManager.GetObject("tv_tag", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-        ///&lt;SOAP-ENV:Envelope xmlns:SOAP-ENV=&quot;http://www.w3.org/2003/05/soap-envelope&quot; xmlns:SOAP-ENC=&quot;http://www.w3.org/2003/05/soap-encoding&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xop=&quot;http://www.w3.org/2004/08/xop/include&quot; xmlns:wsa=&quot;http://schemas.xmlsoap.org/ws/2004/08/addressing&quot; xmlns:tns=&quot;http://schemas.xmlsoap.org/ws/2005/04/discovery&quot; xmlns:dn=&quot;http://www.onvif.org/ver10/network/wsdl&quot; xmlns:wsa5=&quot;http:/ [字符串的其余部分被截断]&quot;; 的本地化字符串。
-        /// </summary>
-        internal static string uniview {
-            get {
-                return ResourceManager.GetString("uniview", resourceCulture);
             }
         }
         

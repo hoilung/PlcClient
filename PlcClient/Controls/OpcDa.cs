@@ -33,7 +33,7 @@ namespace PlcClient.Controls
         {
             var ip = tbx_ip.Text.Trim();
             var name = cbx_servername.Text.Trim();
-            if (!Regex.IsMatch(ip, Config.IPVerdify) || string.IsNullOrEmpty(name))
+            if (!Regex.IsMatch(ip, AppConfig.IPVerdify) || string.IsNullOrEmpty(name))
             {
                 MessageBox.Show("非有效的IP地址或服务名称", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -81,7 +81,7 @@ namespace PlcClient.Controls
             try
             {
                 var ip = tbx_ip.Text.Trim();
-                if (!Regex.IsMatch(ip, Config.IPVerdify))
+                if (!Regex.IsMatch(ip, AppConfig.IPVerdify))
                 {
                     MessageBox.Show("非有效的IP地址", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;

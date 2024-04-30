@@ -6,10 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.Remoting;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace PlcClient.Controls
 {
@@ -49,25 +46,25 @@ namespace PlcClient.Controls
 
             try
             {
+                deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
                 switch (cbx_deviceType.Text)
                 {
                     case "海康":
-                        deviceHandler = new Handler.DeviceHandler(tbx_ip.Text, 37020, "239.255.255.250");
                         deviceHandler.DeviceReceice += HK_DeviceReceice;
                         deviceHandler.Start();
                         deviceHandler.HKDeviceFind();
                         break;
                     case "大华":
-                        deviceHandler = new Handler.DeviceHandler(tbx_ip.Text, 37801, "239.255.255.251");
+                        //deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
                         deviceHandler.DeviceReceice += DH_DeviceReceice;
                         deviceHandler.Start();
                         deviceHandler.DaHuaDeviceFind();
                         break;
-                    case "宇视":
-                        deviceHandler = new Handler.DeviceHandler(tbx_ip.Text, 3705, "239.255.255.250");
-                        deviceHandler.DeviceReceice += YS_DeviceReceice;
+                    case "其他":
+                        //deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
+                        deviceHandler.DeviceReceice += Onvif_DeviceReceice;
                         deviceHandler.Start();
-                        deviceHandler.UniViewDeviceFind();
+                        deviceHandler.OnvifDeviceFind();
                         break;
                 }
             }
@@ -80,20 +77,35 @@ namespace PlcClient.Controls
 
         private void DH_DeviceReceice(object sender, DeviceEventArgs e)
         {
-
-        }
-
-        private void YS_DeviceReceice(object sender, DeviceEventArgs e)
-        {
             try
             {
-                var hk = deviceHandler.UniViewUnpack(e.Message);
+                var hk = deviceHandler.DaHuaUnpack(e.Message);
                 AddDeviceData(hk);
             }
             catch (Exception ex)
             {
-                deviceHandler.DeviceReceice -= YS_DeviceReceice;
-                MessageBox.Show(ex.Message, "宇视查找设备错误"); 
+                deviceHandler.DeviceReceice -= DH_DeviceReceice;
+                MessageBox.Show(ex.Message, "大华查找设备错误");
+            }
+        }
+
+        private async void Onvif_DeviceReceice(object sender, DeviceEventArgs e)
+        {
+            try
+            {
+                var hk = deviceHandler.OnvifUnpack(e.Message);
+
+                //var xml_info = await deviceHandler.GetDeviceInformation(hk.OnvifAddress, "admin", "xxct111111");
+                //var info = deviceHandler.XmlUnpack<Envelope>(xml_info);
+                //var xml_net = await deviceHandler.GetNetworkInterfaces(hk.OnvifAddress, "admin", "xxct111111");
+                //var net = deviceHandler.XmlUnpack<Envelope>(xml_net);   
+
+                AddDeviceData(hk);
+            }
+            catch (Exception ex)
+            {
+                deviceHandler.DeviceReceice -= Onvif_DeviceReceice;
+                MessageBox.Show(ex.Message, "查找设备错误");
             }
         }
 
@@ -139,7 +151,12 @@ namespace PlcClient.Controls
                     var item = hk.GetObjectMap();
                     if (j % 2 == 0)
                         row.BackColor = Color.AliceBlue;
-                    row.SubItems.Add(item[lv_data.Columns[j].Name].ToString());
+
+                    if (item.TryGetValue(lv_data.Columns[j].Name, out var value))
+                    {
+                        value = value ?? "";
+                        row.SubItems.Add(value.ToString());
+                    }
                 }
                 row.SubItems[0].Tag = lv_data.Items.Count;
                 lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);

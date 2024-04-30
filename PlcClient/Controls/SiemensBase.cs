@@ -103,7 +103,7 @@ namespace PlcClient.Controls
         {
             try
             {
-                if (!Regex.IsMatch(tbx_ip.Text, Config.IPVerdify) || !Regex.IsMatch(tbx_port.Text, @"^\d+$") || !Regex.IsMatch(tbx_rack.Text, @"^\d+$") || !Regex.IsMatch(tbx_slot.Text, @"^\d+$"))
+                if (!Regex.IsMatch(tbx_ip.Text, AppConfig.IPVerdify) || !Regex.IsMatch(tbx_port.Text, @"^\d+$") || !Regex.IsMatch(tbx_rack.Text, @"^\d+$") || !Regex.IsMatch(tbx_slot.Text, @"^\d+$"))
                 {
                     MessageBox.Show("设置错误，请检测IP、端口等是否填写正常", "提示");
                     return;

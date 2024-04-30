@@ -111,7 +111,7 @@
             this.cbx_deviceType.Items.AddRange(new object[] {
             "海康",
             "大华",
-            "宇视"});
+            "其他"});
             this.cbx_deviceType.Name = "cbx_deviceType";
             this.cbx_deviceType.Size = new System.Drawing.Size(100, 25);
             // 

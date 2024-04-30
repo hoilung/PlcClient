@@ -92,7 +92,7 @@ namespace PlcClient.Controls
             try
             {
                 var ip = this.tbx_ip.Text;
-                if (!Regex.IsMatch(ip, Config.IPVerdify))
+                if (!Regex.IsMatch(ip, AppConfig.IPVerdify))
                 {
                     MessageBox.Show($"{ip} 无效的IP地址");
                     tbx_ip.Focus();

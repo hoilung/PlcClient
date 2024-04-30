@@ -109,7 +109,7 @@ namespace PlcClient.Controls
             var port = tbx_port.Text.Trim();
 
 
-            if (!Regex.IsMatch(ip, Config.IPVerdify) || !Regex.IsMatch(port, Config.NumVerdify))
+            if (!Regex.IsMatch(ip, AppConfig.IPVerdify) || !Regex.IsMatch(port, AppConfig.NumVerdify))
             {
                 MessageBox.Show("无效的IP地址或端口", "提示");
                 return;

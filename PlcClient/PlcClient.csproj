@@ -181,8 +181,9 @@
     <Compile Include="Controls\GePLC.Designer.cs">
       <DependentUpon>GePLC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Config.cs" />
-    <Compile Include="Model\DeviceDiscover\Envelope.cs" />
+    <Compile Include="Model\AppConfig.cs" />
+    <Compile Include="Model\DeviceDiscover\DHDevInfo.cs" />
+    <Compile Include="Model\DeviceDiscover\Onvif.cs" />
     <Compile Include="Model\DisplayCustomAttribute.cs" />
     <Compile Include="Model\OPCDAItem.cs" />
     <Compile Include="Model\DeviceDiscover\HKProbeMatch.cs" />
@@ -307,11 +308,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <Content Include="Resources\DaHua.txt" />
+    <None Include="Resources\onvif_device_service.xml" />
     <None Include="Resources\Trash Can.png" />
     <None Include="Resources\XLS.png" />
     <None Include="Resources\Refresh.png" />
     <None Include="Resources\hikvision.xml" />
-    <None Include="Resources\uniview.xml" />
+    <None Include="Resources\onvif.xml" />
     <None Include="Resources\Search in List.png" />
     <None Include="Resources\Internet.png" />
     <None Include="Resources\Thin Client.png" />

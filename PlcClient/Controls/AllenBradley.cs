@@ -77,7 +77,7 @@ namespace PlcClient.Controls
             var ip = tbx_ip.Text;
             var port = ushort.Parse(tbx_port.Text);
             var slot = byte.Parse(tbx_slot.Text);
-            if (!Regex.IsMatch(ip, Config.IPVerdify))
+            if (!Regex.IsMatch(ip, AppConfig.IPVerdify))
             {
                 MessageBox.Show($"{ip} 无效的IP地址");
                 tbx_ip.Focus();

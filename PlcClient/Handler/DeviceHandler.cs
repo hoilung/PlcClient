@@ -25,23 +25,20 @@ namespace PlcClient.Handler
         public string Message { get; private set; }
     }
 
-    public class DeviceHandler:Onvif
+    public class DeviceHandler : Onvif
     {
 
         private CancellationTokenSource CancellationTokenSource;
         private IPEndPoint endPoint;
         private UdpClient udpClient;
         private string localIP;
-        //private int port;
-        //private string broadcastAddress;
+        
 
         public event EventHandler<DeviceEventArgs> DeviceReceice;
 
         public DeviceHandler(string localIP)
         {
             this.localIP = localIP;
-            //this.port = port;
-            //this.broadcastAddress = broadcastAddress;
         }
 
         protected virtual void OnBroadcastReceice(DeviceEventArgs e)
@@ -83,12 +80,12 @@ namespace PlcClient.Handler
 
         #endregion
 
-        #region 宇视设备查找
+        #region Onvif设备查找
         /// <summary>
-        /// 宇视网络设备查找(基于onvif协议)
+        /// 网络设备查找(基于onvif协议)
         /// 广播地址：239.255.255.250
         /// 广播地址：239.255.255.255
-        /// 端口：3705->3702
+        /// 端口：3702
         /// </summary>
         public void OnvifDeviceFind()
         {
@@ -98,7 +95,7 @@ namespace PlcClient.Handler
             SendMsg(message, multicast);
             SendMsg(message, multicast2);
         }
-        
+
         /// <summary>
         /// 宇视设备查找，数据解包
         /// </summary>

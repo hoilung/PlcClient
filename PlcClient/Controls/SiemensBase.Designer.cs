@@ -53,9 +53,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.btn_readAll = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btn_add = new System.Windows.Forms.Button();
-            this.tbx_addressAll = new System.Windows.Forms.TextBox();
+            this.btn_readAll = new System.Windows.Forms.Button();
             this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -63,16 +64,16 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Menu_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItem_ExcelExport = new System.Windows.Forms.ToolStripMenuItem();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.tbx_addressAll = new System.Windows.Forms.TextBox();
+            this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gb_set.SuspendLayout();
             this.gb_act.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.Menu_lv.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.Menu_lv.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_set
@@ -288,7 +289,7 @@
             this.tbx_msg.Multiline = true;
             this.tbx_msg.Name = "tbx_msg";
             this.tbx_msg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_msg.Size = new System.Drawing.Size(689, 242);
+            this.tbx_msg.Size = new System.Drawing.Size(696, 278);
             this.tbx_msg.TabIndex = 3;
             this.tbx_msg.WordWrap = false;
             // 
@@ -309,7 +310,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(695, 248);
+            this.tabPage1.Size = new System.Drawing.Size(702, 284);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "输出";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -325,15 +326,31 @@
             this.tabPage2.Text = "批量读取";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // btn_readAll
+            // tableLayoutPanel1
             // 
-            this.btn_readAll.Location = new System.Drawing.Point(3, 32);
-            this.btn_readAll.Name = "btn_readAll";
-            this.btn_readAll.Size = new System.Drawing.Size(75, 23);
-            this.btn_readAll.TabIndex = 42;
-            this.btn_readAll.Text = "读取";
-            this.btn_readAll.UseVisualStyleBackColor = true;
-            this.btn_readAll.Click += new System.EventHandler(this.btn_readAll_Click);
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lv_data, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tbx_addressAll, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 40);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(674, 172);
+            this.tableLayoutPanel1.TabIndex = 43;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_add);
+            this.panel1.Controls.Add(this.btn_readAll);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(588, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(83, 166);
+            this.panel1.TabIndex = 44;
             // 
             // btn_add
             // 
@@ -345,16 +362,15 @@
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
-            // tbx_addressAll
+            // btn_readAll
             // 
-            this.tbx_addressAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbx_addressAll.Location = new System.Drawing.Point(384, 3);
-            this.tbx_addressAll.Multiline = true;
-            this.tbx_addressAll.Name = "tbx_addressAll";
-            this.tbx_addressAll.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_addressAll.Size = new System.Drawing.Size(198, 166);
-            this.tbx_addressAll.TabIndex = 40;
-            this.tbx_addressAll.WordWrap = false;
+            this.btn_readAll.Location = new System.Drawing.Point(3, 32);
+            this.btn_readAll.Name = "btn_readAll";
+            this.btn_readAll.Size = new System.Drawing.Size(75, 23);
+            this.btn_readAll.TabIndex = 42;
+            this.btn_readAll.Text = "读取";
+            this.btn_readAll.UseVisualStyleBackColor = true;
+            this.btn_readAll.Click += new System.EventHandler(this.btn_readAll_Click);
             // 
             // lv_data
             // 
@@ -400,42 +416,35 @@
             // Menu_lv
             // 
             this.Menu_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_ExcelExport});
+            this.ToolStripMenuItem_ExcelExport,
+            this.clearAllToolStripMenuItem});
             this.Menu_lv.Name = "Menu_lv";
-            this.Menu_lv.Size = new System.Drawing.Size(130, 26);
+            this.Menu_lv.Size = new System.Drawing.Size(181, 70);
             // 
             // ToolStripMenuItem_ExcelExport
             // 
             this.ToolStripMenuItem_ExcelExport.Name = "ToolStripMenuItem_ExcelExport";
-            this.ToolStripMenuItem_ExcelExport.Size = new System.Drawing.Size(129, 22);
+            this.ToolStripMenuItem_ExcelExport.Size = new System.Drawing.Size(180, 22);
             this.ToolStripMenuItem_ExcelExport.Text = "导出Excel";
             this.ToolStripMenuItem_ExcelExport.Click += new System.EventHandler(this.ToolStripMenuItem_ExcelExport_Click);
             // 
-            // tableLayoutPanel1
+            // tbx_addressAll
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lv_data, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tbx_addressAll, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 40);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(674, 172);
-            this.tableLayoutPanel1.TabIndex = 43;
+            this.tbx_addressAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbx_addressAll.Location = new System.Drawing.Point(384, 3);
+            this.tbx_addressAll.Multiline = true;
+            this.tbx_addressAll.Name = "tbx_addressAll";
+            this.tbx_addressAll.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbx_addressAll.Size = new System.Drawing.Size(198, 166);
+            this.tbx_addressAll.TabIndex = 40;
+            this.tbx_addressAll.WordWrap = false;
             // 
-            // panel1
+            // clearAllToolStripMenuItem
             // 
-            this.panel1.Controls.Add(this.btn_add);
-            this.panel1.Controls.Add(this.btn_readAll);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(588, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(83, 166);
-            this.panel1.TabIndex = 44;
+            this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Text = "清空列表";
+            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // SiemensBase
             // 
@@ -454,10 +463,10 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.Menu_lv.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.Menu_lv.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -500,5 +509,6 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ExcelExport;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
     }
 }

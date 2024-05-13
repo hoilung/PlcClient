@@ -57,20 +57,21 @@
             this.tbx_addressOne = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btn_changetype = new System.Windows.Forms.Button();
-            this.cbx_changetype = new System.Windows.Forms.ComboBox();
-            this.lb_address = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_changetype = new System.Windows.Forms.Button();
+            this.lb_address = new System.Windows.Forms.Label();
+            this.cbx_changetype = new System.Windows.Forms.ComboBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menu_lv.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -234,14 +235,15 @@
             // menu_lv
             // 
             this.menu_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tm_exportExcel});
+            this.tm_exportExcel,
+            this.clearAllToolStripMenuItem});
             this.menu_lv.Name = "muen_lv";
-            this.menu_lv.Size = new System.Drawing.Size(130, 26);
+            this.menu_lv.Size = new System.Drawing.Size(181, 70);
             // 
             // tm_exportExcel
             // 
             this.tm_exportExcel.Name = "tm_exportExcel";
-            this.tm_exportExcel.Size = new System.Drawing.Size(129, 22);
+            this.tm_exportExcel.Size = new System.Drawing.Size(180, 22);
             this.tm_exportExcel.Text = "导出Excel";
             this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
             // 
@@ -349,57 +351,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量读取";
             // 
-            // btn_changetype
-            // 
-            this.btn_changetype.Location = new System.Drawing.Point(259, 3);
-            this.btn_changetype.Name = "btn_changetype";
-            this.btn_changetype.Size = new System.Drawing.Size(75, 23);
-            this.btn_changetype.TabIndex = 23;
-            this.btn_changetype.Text = "修改类型";
-            this.btn_changetype.UseVisualStyleBackColor = true;
-            this.btn_changetype.Click += new System.EventHandler(this.btn_changetype_Click);
-            // 
-            // cbx_changetype
-            // 
-            this.cbx_changetype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_changetype.FormattingEnabled = true;
-            this.cbx_changetype.Location = new System.Drawing.Point(151, 3);
-            this.cbx_changetype.Name = "cbx_changetype";
-            this.cbx_changetype.Size = new System.Drawing.Size(100, 20);
-            this.cbx_changetype.TabIndex = 22;
-            // 
-            // lb_address
-            // 
-            this.lb_address.AutoSize = true;
-            this.lb_address.Location = new System.Drawing.Point(47, 9);
-            this.lb_address.Name = "lb_address";
-            this.lb_address.Size = new System.Drawing.Size(47, 12);
-            this.lb_address.TabIndex = 10;
-            this.lb_address.Text = "Address";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btn_changetype);
-            this.panel1.Controls.Add(this.lb_address);
-            this.panel1.Controls.Add(this.cbx_changetype);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(412, 29);
-            this.panel1.TabIndex = 33;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btn_add);
-            this.panel2.Controls.Add(this.btn_read);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.numericUpDown1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(421, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(274, 29);
-            this.panel2.TabIndex = 34;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -417,6 +368,64 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(698, 254);
             this.tableLayoutPanel1.TabIndex = 35;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_changetype);
+            this.panel1.Controls.Add(this.lb_address);
+            this.panel1.Controls.Add(this.cbx_changetype);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(412, 29);
+            this.panel1.TabIndex = 33;
+            // 
+            // btn_changetype
+            // 
+            this.btn_changetype.Location = new System.Drawing.Point(259, 3);
+            this.btn_changetype.Name = "btn_changetype";
+            this.btn_changetype.Size = new System.Drawing.Size(75, 23);
+            this.btn_changetype.TabIndex = 23;
+            this.btn_changetype.Text = "修改类型";
+            this.btn_changetype.UseVisualStyleBackColor = true;
+            this.btn_changetype.Click += new System.EventHandler(this.btn_changetype_Click);
+            // 
+            // lb_address
+            // 
+            this.lb_address.AutoSize = true;
+            this.lb_address.Location = new System.Drawing.Point(47, 9);
+            this.lb_address.Name = "lb_address";
+            this.lb_address.Size = new System.Drawing.Size(47, 12);
+            this.lb_address.TabIndex = 10;
+            this.lb_address.Text = "Address";
+            // 
+            // cbx_changetype
+            // 
+            this.cbx_changetype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_changetype.FormattingEnabled = true;
+            this.cbx_changetype.Location = new System.Drawing.Point(151, 3);
+            this.cbx_changetype.Name = "cbx_changetype";
+            this.cbx_changetype.Size = new System.Drawing.Size(100, 20);
+            this.cbx_changetype.TabIndex = 22;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btn_add);
+            this.panel2.Controls.Add(this.btn_read);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.numericUpDown1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(421, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(274, 29);
+            this.panel2.TabIndex = 34;
+            // 
+            // clearAllToolStripMenuItem
+            // 
+            this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Text = "清空列表";
+            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
+            // 
             // GePLC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -432,12 +441,12 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -478,6 +487,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
     }
 }
 

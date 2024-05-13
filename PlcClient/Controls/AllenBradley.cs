@@ -441,6 +441,12 @@ namespace PlcClient.Controls
             }
             return list;
         }
+
+        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lv_data.Items.Clear();
+            lv_data.Tag = null; 
+        }
     }
 
 

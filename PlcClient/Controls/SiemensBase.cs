@@ -442,5 +442,10 @@ namespace PlcClient.Controls
             MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
+
+        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.lv_data.Items.Clear();
+        }
     }
 }

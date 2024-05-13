@@ -60,6 +60,7 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lv_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -70,26 +71,27 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.cbx_type);
-            this.groupBox2.Controls.Add(this.chk_enablewrite);
-            this.groupBox2.Controls.Add(this.btn_write);
-            this.groupBox2.Controls.Add(this.btn_readOne);
-            this.groupBox2.Controls.Add(this.tbx_value);
-            this.groupBox2.Controls.Add(this.tbx_addressOne);
-            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.tbx_slot);
+            this.groupBox2.Controls.Add(this.tbx_ip);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.btn_open);
+            this.groupBox2.Controls.Add(this.tbx_port);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.btn_close);
+            this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(710, 54);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "单个读取/写入";
+            this.groupBox2.Text = "AllenBradley 设置";
             // 
             // cbx_type
             // 
             this.cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_type.FormattingEnabled = true;
-            this.cbx_type.Location = new System.Drawing.Point(160, 23);
+            this.cbx_type.Location = new System.Drawing.Point(167, 21);
             this.cbx_type.Name = "cbx_type";
             this.cbx_type.Size = new System.Drawing.Size(100, 20);
             this.cbx_type.TabIndex = 6;
@@ -97,7 +99,7 @@
             // chk_enablewrite
             // 
             this.chk_enablewrite.AutoSize = true;
-            this.chk_enablewrite.Location = new System.Drawing.Point(465, 25);
+            this.chk_enablewrite.Location = new System.Drawing.Point(472, 23);
             this.chk_enablewrite.Name = "chk_enablewrite";
             this.chk_enablewrite.Size = new System.Drawing.Size(60, 16);
             this.chk_enablewrite.TabIndex = 25;
@@ -107,7 +109,7 @@
             // 
             // btn_write
             // 
-            this.btn_write.Location = new System.Drawing.Point(529, 22);
+            this.btn_write.Location = new System.Drawing.Point(536, 20);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
             this.btn_write.TabIndex = 21;
@@ -117,7 +119,7 @@
             // 
             // btn_readOne
             // 
-            this.btn_readOne.Location = new System.Drawing.Point(268, 22);
+            this.btn_readOne.Location = new System.Drawing.Point(275, 20);
             this.btn_readOne.Name = "btn_readOne";
             this.btn_readOne.Size = new System.Drawing.Size(75, 23);
             this.btn_readOne.TabIndex = 7;
@@ -127,7 +129,7 @@
             // 
             // tbx_value
             // 
-            this.tbx_value.Location = new System.Drawing.Point(349, 23);
+            this.tbx_value.Location = new System.Drawing.Point(356, 21);
             this.tbx_value.Name = "tbx_value";
             this.tbx_value.Size = new System.Drawing.Size(110, 21);
             this.tbx_value.TabIndex = 20;
@@ -135,7 +137,7 @@
             // 
             // tbx_addressOne
             // 
-            this.tbx_addressOne.Location = new System.Drawing.Point(54, 23);
+            this.tbx_addressOne.Location = new System.Drawing.Point(61, 21);
             this.tbx_addressOne.Name = "tbx_addressOne";
             this.tbx_addressOne.Size = new System.Drawing.Size(100, 21);
             this.tbx_addressOne.TabIndex = 5;
@@ -144,7 +146,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 27);
+            this.label4.Location = new System.Drawing.Point(20, 25);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 0;
@@ -152,25 +154,24 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.tbx_slot);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.tbx_port);
-            this.groupBox1.Controls.Add(this.btn_close);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.tbx_ip);
-            this.groupBox1.Controls.Add(this.btn_open);
+            this.groupBox1.Controls.Add(this.cbx_type);
+            this.groupBox1.Controls.Add(this.btn_write);
+            this.groupBox1.Controls.Add(this.chk_enablewrite);
+            this.groupBox1.Controls.Add(this.tbx_value);
+            this.groupBox1.Controls.Add(this.tbx_addressOne);
+            this.groupBox1.Controls.Add(this.btn_readOne);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 54);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(710, 54);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "AllenBradley 设置";
+            this.groupBox1.Text = "单个读取/写入";
             // 
             // tbx_slot
             // 
-            this.tbx_slot.Location = new System.Drawing.Point(300, 22);
+            this.tbx_slot.Location = new System.Drawing.Point(308, 20);
             this.tbx_slot.Mask = "99";
             this.tbx_slot.Name = "tbx_slot";
             this.tbx_slot.Size = new System.Drawing.Size(43, 21);
@@ -180,7 +181,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(265, 26);
+            this.label3.Location = new System.Drawing.Point(273, 24);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 6;
@@ -188,7 +189,7 @@
             // 
             // tbx_port
             // 
-            this.tbx_port.Location = new System.Drawing.Point(201, 22);
+            this.tbx_port.Location = new System.Drawing.Point(209, 20);
             this.tbx_port.Mask = "99999";
             this.tbx_port.Name = "tbx_port";
             this.tbx_port.Size = new System.Drawing.Size(43, 21);
@@ -198,7 +199,7 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(431, 21);
+            this.btn_close.Location = new System.Drawing.Point(439, 19);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 4;
@@ -209,7 +210,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(166, 26);
+            this.label2.Location = new System.Drawing.Point(167, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 4;
@@ -218,7 +219,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 26);
+            this.label1.Location = new System.Drawing.Point(33, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 12);
             this.label1.TabIndex = 3;
@@ -226,7 +227,7 @@
             // 
             // tbx_ip
             // 
-            this.tbx_ip.Location = new System.Drawing.Point(54, 22);
+            this.tbx_ip.Location = new System.Drawing.Point(61, 20);
             this.tbx_ip.Name = "tbx_ip";
             this.tbx_ip.Size = new System.Drawing.Size(100, 21);
             this.tbx_ip.TabIndex = 1;
@@ -234,7 +235,7 @@
             // 
             // btn_open
             // 
-            this.btn_open.Location = new System.Drawing.Point(349, 21);
+            this.btn_open.Location = new System.Drawing.Point(357, 19);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
             this.btn_open.TabIndex = 4;
@@ -364,9 +365,10 @@
             // lv_menu
             // 
             this.lv_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tm_exportExcel});
+            this.tm_exportExcel,
+            this.clearAllToolStripMenuItem});
             this.lv_menu.Name = "lv_menu";
-            this.lv_menu.Size = new System.Drawing.Size(130, 26);
+            this.lv_menu.Size = new System.Drawing.Size(181, 70);
             // 
             // tm_exportExcel
             // 
@@ -374,6 +376,13 @@
             this.tm_exportExcel.Size = new System.Drawing.Size(129, 22);
             this.tm_exportExcel.Text = "导出Excel";
             this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
+            // 
+            // clearAllToolStripMenuItem
+            // 
+            this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Text = "清空列表";
+            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // AllenBradley
             // 
@@ -429,5 +438,6 @@
         private System.Windows.Forms.Button btn_tagview;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
     }
 }

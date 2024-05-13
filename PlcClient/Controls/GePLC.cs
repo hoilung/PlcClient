@@ -370,6 +370,11 @@ namespace PlcClient.Controls
         {
             _typeCode = (TypeCode)cbx_type.SelectedValue;
         }
+
+        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.lv_data.Clear();
+        }
     }
 
 

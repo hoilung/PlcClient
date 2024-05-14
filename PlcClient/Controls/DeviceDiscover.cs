@@ -165,7 +165,7 @@ namespace PlcClient.Controls
 
         private void btn_exportExcel_Click(object sender, EventArgs e)
         {
-            var filename = this.listViewHandler.ExportExcel("设备");
+            var filename = this.listViewHandler.ExportExcel("监控设备");
             if (string.IsNullOrEmpty(filename)) { return; }
             var msg = $"保存文件 {filename}";
             OnMsg(msg);

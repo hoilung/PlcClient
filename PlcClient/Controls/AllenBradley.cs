@@ -1,5 +1,6 @@
 ﻿using HL.AllenBradley;
 using HL.Object.Extensions;
+using NewLife.Log;
 using PlcClient.Model;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 namespace PlcClient.Controls
 {
     public partial class AllenBradley : BaseControl
-    {        
+    {
         private AllenBradleyNet plc;
         private TypeCode _typeCode = TypeCode.Empty;
         public AllenBradley()
@@ -406,6 +407,7 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
+                XTrace.WriteException(ex);
                 MessageBox.Show(ex.Message, "查看标签列表失败");
             }
         }
@@ -418,6 +420,7 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
+                XTrace.WriteException(ex);
                 MessageBox.Show(ex.Message, "读取内容失败");
             }
             //return "sss";
@@ -435,7 +438,8 @@ namespace PlcClient.Controls
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, structList[i].Name + " 读取结构体失败");
+                    XTrace.WriteException(ex);
+                    //MessageBox.Show(ex.Message, structList[i].Name + " 读取结构体失败");
                 }
 
             }
@@ -445,7 +449,7 @@ namespace PlcClient.Controls
         private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lv_data.Items.Clear();
-            lv_data.Tag = null; 
+            lv_data.Tag = null;
         }
     }
 

@@ -94,7 +94,8 @@
             this.imageList1.Images.SetKeyName(2, "ab.ico");
             this.imageList1.Images.SetKeyName(3, "opc.ico");
             this.imageList1.Images.SetKeyName(4, "Internet.png");
-            this.imageList1.Images.SetKeyName(5, "Search in List.png");
+            this.imageList1.Images.SetKeyName(5, "Video Call.png");
+            this.imageList1.Images.SetKeyName(6, "Search in List.png");
             // 
             // menuStrip1
             // 

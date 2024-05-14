@@ -193,6 +193,28 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 28-6F-B9|Nokia Shanghai Bell Co., Ltd.
+        ///08-EA-44|Extreme Networks Headquarters
+        ///F4-EA-B5|Extreme Networks Headquarters
+        ///B8-7C-F2|Extreme Networks Headquarters
+        ///E0-A1-29|Extreme Networks Headquarters
+        ///A8-C6-47|Extreme Networks Headquarters
+        ///A4-73-AB|Extreme Networks Headquarters
+        ///0C-9B-78|Extreme Networks Headquarters
+        ///A4-C7-F6|Extreme Networks Headquarters
+        ///B4-2D-56|Extreme Networks Headquarters
+        ///88-7E-25|Extreme Networks Headquarters
+        ///00-19-77|Extreme Networks Headquarters
+        ///38-E2-CA|Katun Corporation
+        ///B0-5 [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string oui {
+            get {
+                return ResourceManager.GetString("oui", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 说明：
         ///当前协议：S7
         ///批量读取，一行一个地址
@@ -346,6 +368,16 @@ namespace PlcClient.Properties {
             get {
                 object obj = ResourceManager.GetObject("tv_tag", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Video_Call {
+            get {
+                object obj = ResourceManager.GetObject("Video_Call", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

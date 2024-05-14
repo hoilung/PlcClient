@@ -176,7 +176,7 @@
             this.groupBox1.Size = new System.Drawing.Size(673, 369);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "设备网络发现";
+            this.groupBox1.Text = "网络监控设备搜索";
             // 
             // DeviceDiscover
             // 

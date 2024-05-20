@@ -1,4 +1,5 @@
 ﻿using HL.Object.Extensions;
+using NewLife.Log;
 using PlcClient.Handler;
 using PlcClient.Model.DeviceDiscover;
 using System;
@@ -84,6 +85,7 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
+                XTrace.WriteException(ex);
                 deviceHandler.DeviceReceice -= DH_DeviceReceice;
                 MessageBox.Show(ex.Message, "大华查找设备错误");
             }
@@ -104,8 +106,9 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
+                XTrace.WriteException(ex);
                 deviceHandler.DeviceReceice -= Onvif_DeviceReceice;
-                MessageBox.Show(ex.Message, "查找设备错误");
+                MessageBox.Show(ex.Message, "Onvif查找设备错误");
             }
         }
 
@@ -124,6 +127,7 @@ namespace PlcClient.Controls
                 }
                 catch (Exception ex)
                 {
+                    XTrace.WriteException(ex);
                     deviceHandler.DeviceReceice -= HK_DeviceReceice;
                     MessageBox.Show(ex.Message, "海康查找设备错误");
                 }

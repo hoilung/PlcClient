@@ -29,6 +29,11 @@ namespace PlcClient.Handler
             _deviceOUI = GetDeviceOUI();
         }
         private CancellationTokenSource CancellationTokenSource { get; set; }
+
+        public void Cancel()
+        {
+            CancellationTokenSource?.Cancel();
+        }
         public void ScanIP(string ip_and_mask, Action<string[]> actionProcess, Action actionEnd)
         {
             try
@@ -38,7 +43,7 @@ namespace PlcClient.Handler
                 var list = IPAddressRange.Parse(ip_and_mask).AsEnumerable();
                 Task.Run(() =>
                 {
-                    Parallel.ForEach(list, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }, ip =>
+                    Parallel.ForEach(list, ip =>
                     {
                         if (this.CancellationTokenSource.IsCancellationRequested)
                             return;

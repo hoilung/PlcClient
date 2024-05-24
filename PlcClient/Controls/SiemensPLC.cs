@@ -41,9 +41,9 @@ namespace PlcClient.Controls
             this.tab_siemens.SuspendLayout();
             tab_siemens.TabPages.Clear();
             tab_siemens.Dock = DockStyle.Fill;
-            
 
-            var cputype = Enum.GetNames(typeof(CpuType)).OrderBy(m => m);
+
+            var cputype = Enum.GetNames(typeof(CpuType));//.OrderBy(m => m);
             foreach (var c in cputype)
             {
                 var ucBase = new SiemensBase();

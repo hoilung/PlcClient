@@ -140,7 +140,7 @@
             this.btn_scan.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_scan.Name = "btn_scan";
             this.btn_scan.Size = new System.Drawing.Size(76, 22);
-            this.btn_scan.Text = "扫描设备";
+            this.btn_scan.Text = "开始扫描";
             this.btn_scan.Click += new System.EventHandler(this.btn_scan_Click);
             // 
             // btn_export

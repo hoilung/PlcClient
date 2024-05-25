@@ -1,4 +1,5 @@
-﻿using PlcClient.Handler;
+﻿using NewLife.Reflection;
+using PlcClient.Handler;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -48,7 +49,14 @@ namespace PlcClient.Controls
 
         private void btn_scan_Click(object sender, System.EventArgs e)
         {
-
+            if (btn_scan.Text == "取消扫描")
+            {
+                ArpHandler.Instance.Cancel();
+                btn_scan.Text = "开始扫描";
+                return;
+            }
+            btn_scan.Text = "取消扫描";
+            OnMsg("设备扫描开始");
             ArpHandler.Instance.ScanIP(cbx_ip.Text, (pe) =>
             {
                 lv_data.Invoke(new MethodInvoker(() =>
@@ -63,8 +71,13 @@ namespace PlcClient.Controls
                 }));
             }, () =>
             {
+
+                lv_data.Invoke(new MethodInvoker(() =>
+                {
+                    btn_scan.Text = "开始扫描";
+                }));
                 OnMsg("设备扫描结束");
-                MessageBox.Show("设备扫描结束", "提示");
+                //MessageBox.Show("设备扫描结束", "提示");
             });
 
         }

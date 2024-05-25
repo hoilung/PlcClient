@@ -39,6 +39,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btn_BrowseView = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chk_enablewrite = new System.Windows.Forms.CheckBox();
+            this.btn_write = new System.Windows.Forms.Button();
+            this.tbx_tag_value = new System.Windows.Forms.TextBox();
+            this.btn_sub = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbx_tag = new System.Windows.Forms.TextBox();
+            this.btn_read = new System.Windows.Forms.Button();
             this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,11 +54,6 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tbx_tag_value = new System.Windows.Forms.TextBox();
-            this.btn_sub = new System.Windows.Forms.Button();
-            this.btn_read = new System.Windows.Forms.Button();
-            this.tbx_tag = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.MenuStrip_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.export_ExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,14 +76,14 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(710, 54);
+            this.groupBox1.Size = new System.Drawing.Size(948, 54);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "OPC DA 设置";
             // 
             // btn_getname
             // 
-            this.btn_getname.Location = new System.Drawing.Point(369, 18);
+            this.btn_getname.Location = new System.Drawing.Point(439, 18);
             this.btn_getname.Name = "btn_getname";
             this.btn_getname.Size = new System.Drawing.Size(75, 23);
             this.btn_getname.TabIndex = 8;
@@ -94,12 +96,12 @@
             this.cbx_servername.FormattingEnabled = true;
             this.cbx_servername.Location = new System.Drawing.Point(208, 19);
             this.cbx_servername.Name = "cbx_servername";
-            this.cbx_servername.Size = new System.Drawing.Size(161, 20);
+            this.cbx_servername.Size = new System.Drawing.Size(225, 20);
             this.cbx_servername.TabIndex = 7;
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(533, 17);
+            this.btn_close.Location = new System.Drawing.Point(603, 18);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 5;
@@ -109,7 +111,7 @@
             // 
             // btn_open
             // 
-            this.btn_open.Location = new System.Drawing.Point(452, 18);
+            this.btn_open.Location = new System.Drawing.Point(522, 18);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
             this.btn_open.TabIndex = 4;
@@ -145,29 +147,95 @@
             // 
             // btn_BrowseView
             // 
-            this.btn_BrowseView.Location = new System.Drawing.Point(449, 20);
+            this.btn_BrowseView.Location = new System.Drawing.Point(604, 20);
             this.btn_BrowseView.Name = "btn_BrowseView";
             this.btn_BrowseView.Size = new System.Drawing.Size(75, 23);
             this.btn_BrowseView.TabIndex = 6;
-            this.btn_BrowseView.Text = "浏览节点";
+            this.btn_BrowseView.Text = "浏览标签";
             this.btn_BrowseView.UseVisualStyleBackColor = true;
             this.btn_BrowseView.Click += new System.EventHandler(this.btn_BrowseView_Click);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chk_enablewrite);
+            this.groupBox2.Controls.Add(this.btn_write);
             this.groupBox2.Controls.Add(this.tbx_tag_value);
             this.groupBox2.Controls.Add(this.btn_sub);
-            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.btn_BrowseView);
+            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.tbx_tag);
             this.groupBox2.Controls.Add(this.btn_read);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 54);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(710, 54);
+            this.groupBox2.Size = new System.Drawing.Size(948, 54);
             this.groupBox2.TabIndex = 30;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "数据查询";
+            // 
+            // chk_enablewrite
+            // 
+            this.chk_enablewrite.AutoSize = true;
+            this.chk_enablewrite.Location = new System.Drawing.Point(441, 23);
+            this.chk_enablewrite.Name = "chk_enablewrite";
+            this.chk_enablewrite.Size = new System.Drawing.Size(60, 16);
+            this.chk_enablewrite.TabIndex = 26;
+            this.chk_enablewrite.Text = "开启写";
+            this.chk_enablewrite.UseVisualStyleBackColor = true;
+            this.chk_enablewrite.CheckedChanged += new System.EventHandler(this.chk_enablewrite_CheckedChanged);
+            // 
+            // btn_write
+            // 
+            this.btn_write.Location = new System.Drawing.Point(522, 20);
+            this.btn_write.Name = "btn_write";
+            this.btn_write.Size = new System.Drawing.Size(75, 23);
+            this.btn_write.TabIndex = 7;
+            this.btn_write.Text = "写入";
+            this.btn_write.UseVisualStyleBackColor = true;
+            this.btn_write.Click += new System.EventHandler(this.btn_write_Click);
+            // 
+            // tbx_tag_value
+            // 
+            this.tbx_tag_value.Location = new System.Drawing.Point(289, 21);
+            this.tbx_tag_value.Name = "tbx_tag_value";
+            this.tbx_tag_value.Size = new System.Drawing.Size(144, 21);
+            this.tbx_tag_value.TabIndex = 4;
+            // 
+            // btn_sub
+            // 
+            this.btn_sub.Location = new System.Drawing.Point(685, 20);
+            this.btn_sub.Name = "btn_sub";
+            this.btn_sub.Size = new System.Drawing.Size(75, 23);
+            this.btn_sub.TabIndex = 3;
+            this.btn_sub.Text = "订阅数据";
+            this.btn_sub.UseVisualStyleBackColor = true;
+            this.btn_sub.Click += new System.EventHandler(this.btn_sub_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(11, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(23, 12);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Tag";
+            // 
+            // tbx_tag
+            // 
+            this.tbx_tag.Location = new System.Drawing.Point(40, 21);
+            this.tbx_tag.Name = "tbx_tag";
+            this.tbx_tag.Size = new System.Drawing.Size(162, 21);
+            this.tbx_tag.TabIndex = 1;
+            // 
+            // btn_read
+            // 
+            this.btn_read.Location = new System.Drawing.Point(208, 20);
+            this.btn_read.Name = "btn_read";
+            this.btn_read.Size = new System.Drawing.Size(75, 23);
+            this.btn_read.TabIndex = 2;
+            this.btn_read.Text = "读取";
+            this.btn_read.UseVisualStyleBackColor = true;
+            this.btn_read.Click += new System.EventHandler(this.btn_read_Click);
             // 
             // lv_data
             // 
@@ -185,7 +253,7 @@
             this.lv_data.Location = new System.Drawing.Point(3, 17);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(704, 302);
+            this.lv_data.Size = new System.Drawing.Size(942, 341);
             this.lv_data.TabIndex = 1;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -225,53 +293,10 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 108);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(710, 322);
+            this.groupBox3.Size = new System.Drawing.Size(948, 361);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "数据列表";
-            // 
-            // tbx_tag_value
-            // 
-            this.tbx_tag_value.Location = new System.Drawing.Point(286, 21);
-            this.tbx_tag_value.Name = "tbx_tag_value";
-            this.tbx_tag_value.Size = new System.Drawing.Size(155, 21);
-            this.tbx_tag_value.TabIndex = 4;
-            // 
-            // btn_sub
-            // 
-            this.btn_sub.Location = new System.Drawing.Point(530, 20);
-            this.btn_sub.Name = "btn_sub";
-            this.btn_sub.Size = new System.Drawing.Size(75, 23);
-            this.btn_sub.TabIndex = 3;
-            this.btn_sub.Text = "订阅数据";
-            this.btn_sub.UseVisualStyleBackColor = true;
-            this.btn_sub.Click += new System.EventHandler(this.btn_sub_Click);
-            // 
-            // btn_read
-            // 
-            this.btn_read.Location = new System.Drawing.Point(205, 20);
-            this.btn_read.Name = "btn_read";
-            this.btn_read.Size = new System.Drawing.Size(75, 23);
-            this.btn_read.TabIndex = 2;
-            this.btn_read.Text = "读取";
-            this.btn_read.UseVisualStyleBackColor = true;
-            this.btn_read.Click += new System.EventHandler(this.btn_read_Click);
-            // 
-            // tbx_tag
-            // 
-            this.tbx_tag.Location = new System.Drawing.Point(40, 21);
-            this.tbx_tag.Name = "tbx_tag";
-            this.tbx_tag.Size = new System.Drawing.Size(159, 21);
-            this.tbx_tag.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Tag";
             // 
             // MenuStrip_lv
             // 
@@ -311,6 +336,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "OpcDa";
+            this.Size = new System.Drawing.Size(948, 469);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -350,5 +376,7 @@
         private System.Windows.Forms.ToolStripMenuItem export_ExcelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearlistToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.Button btn_write;
+        private System.Windows.Forms.CheckBox chk_enablewrite;
     }
 }

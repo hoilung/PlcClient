@@ -79,6 +79,11 @@ namespace PlcClient.Properties {
         ///4、数组型标签用中括号加下标取第几个
         ///5、BOOL数组类型不支持单个下标读取
         ///
+        ///参考系统DI、DO点数组读取
+        ///
+        ///Local:1:I.Data bool
+        ///Local:1:O.Data bool
+        ///
         ///参考标签/PLC类型示例如下：
         ///
         ///B	Bool

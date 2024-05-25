@@ -30,6 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbx_slot = new System.Windows.Forms.MaskedTextBox();
+            this.tbx_ip = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btn_open = new System.Windows.Forms.Button();
+            this.tbx_port = new System.Windows.Forms.MaskedTextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btn_close = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.cbx_type = new System.Windows.Forms.ComboBox();
             this.chk_enablewrite = new System.Windows.Forms.CheckBox();
             this.btn_write = new System.Windows.Forms.Button();
@@ -38,14 +46,6 @@
             this.tbx_addressOne = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tbx_slot = new System.Windows.Forms.MaskedTextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbx_port = new System.Windows.Forms.MaskedTextBox();
-            this.btn_close = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tbx_ip = new System.Windows.Forms.TextBox();
-            this.btn_open = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -87,11 +87,85 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "AllenBradley 设置";
             // 
+            // tbx_slot
+            // 
+            this.tbx_slot.Location = new System.Drawing.Point(308, 20);
+            this.tbx_slot.Mask = "99";
+            this.tbx_slot.Name = "tbx_slot";
+            this.tbx_slot.Size = new System.Drawing.Size(43, 21);
+            this.tbx_slot.TabIndex = 3;
+            this.tbx_slot.Text = "0";
+            // 
+            // tbx_ip
+            // 
+            this.tbx_ip.Location = new System.Drawing.Point(61, 20);
+            this.tbx_ip.Name = "tbx_ip";
+            this.tbx_ip.Size = new System.Drawing.Size(100, 21);
+            this.tbx_ip.TabIndex = 1;
+            this.tbx_ip.Text = "127.0.0.1";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(273, 24);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "槽号";
+            // 
+            // btn_open
+            // 
+            this.btn_open.Location = new System.Drawing.Point(357, 19);
+            this.btn_open.Name = "btn_open";
+            this.btn_open.Size = new System.Drawing.Size(75, 23);
+            this.btn_open.TabIndex = 4;
+            this.btn_open.Text = "连接";
+            this.btn_open.UseVisualStyleBackColor = true;
+            this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
+            // 
+            // tbx_port
+            // 
+            this.tbx_port.Location = new System.Drawing.Point(209, 20);
+            this.tbx_port.Mask = "99999";
+            this.tbx_port.Name = "tbx_port";
+            this.tbx_port.Size = new System.Drawing.Size(43, 21);
+            this.tbx_port.TabIndex = 2;
+            this.tbx_port.Text = "44818";
+            this.tbx_port.ValidatingType = typeof(int);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(33, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(17, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "IP";
+            // 
+            // btn_close
+            // 
+            this.btn_close.Location = new System.Drawing.Point(439, 19);
+            this.btn_close.Name = "btn_close";
+            this.btn_close.Size = new System.Drawing.Size(75, 23);
+            this.btn_close.TabIndex = 4;
+            this.btn_close.Text = "关闭";
+            this.btn_close.UseVisualStyleBackColor = true;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(167, 24);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "端口";
+            // 
             // cbx_type
             // 
             this.cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_type.FormattingEnabled = true;
-            this.cbx_type.Location = new System.Drawing.Point(167, 21);
+            this.cbx_type.Location = new System.Drawing.Point(255, 21);
             this.cbx_type.Name = "cbx_type";
             this.cbx_type.Size = new System.Drawing.Size(100, 20);
             this.cbx_type.TabIndex = 6;
@@ -99,7 +173,7 @@
             // chk_enablewrite
             // 
             this.chk_enablewrite.AutoSize = true;
-            this.chk_enablewrite.Location = new System.Drawing.Point(472, 23);
+            this.chk_enablewrite.Location = new System.Drawing.Point(560, 23);
             this.chk_enablewrite.Name = "chk_enablewrite";
             this.chk_enablewrite.Size = new System.Drawing.Size(60, 16);
             this.chk_enablewrite.TabIndex = 25;
@@ -109,7 +183,7 @@
             // 
             // btn_write
             // 
-            this.btn_write.Location = new System.Drawing.Point(536, 20);
+            this.btn_write.Location = new System.Drawing.Point(624, 20);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
             this.btn_write.TabIndex = 21;
@@ -119,7 +193,7 @@
             // 
             // btn_readOne
             // 
-            this.btn_readOne.Location = new System.Drawing.Point(275, 20);
+            this.btn_readOne.Location = new System.Drawing.Point(363, 20);
             this.btn_readOne.Name = "btn_readOne";
             this.btn_readOne.Size = new System.Drawing.Size(75, 23);
             this.btn_readOne.TabIndex = 7;
@@ -129,7 +203,7 @@
             // 
             // tbx_value
             // 
-            this.tbx_value.Location = new System.Drawing.Point(356, 21);
+            this.tbx_value.Location = new System.Drawing.Point(444, 21);
             this.tbx_value.Name = "tbx_value";
             this.tbx_value.Size = new System.Drawing.Size(110, 21);
             this.tbx_value.TabIndex = 20;
@@ -139,7 +213,7 @@
             // 
             this.tbx_addressOne.Location = new System.Drawing.Point(61, 21);
             this.tbx_addressOne.Name = "tbx_addressOne";
-            this.tbx_addressOne.Size = new System.Drawing.Size(100, 21);
+            this.tbx_addressOne.Size = new System.Drawing.Size(188, 21);
             this.tbx_addressOne.TabIndex = 5;
             this.tbx_addressOne.Text = "A1";
             // 
@@ -168,80 +242,6 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "单个读取/写入";
-            // 
-            // tbx_slot
-            // 
-            this.tbx_slot.Location = new System.Drawing.Point(308, 20);
-            this.tbx_slot.Mask = "99";
-            this.tbx_slot.Name = "tbx_slot";
-            this.tbx_slot.Size = new System.Drawing.Size(43, 21);
-            this.tbx_slot.TabIndex = 3;
-            this.tbx_slot.Text = "0";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(273, 24);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "槽号";
-            // 
-            // tbx_port
-            // 
-            this.tbx_port.Location = new System.Drawing.Point(209, 20);
-            this.tbx_port.Mask = "99999";
-            this.tbx_port.Name = "tbx_port";
-            this.tbx_port.Size = new System.Drawing.Size(43, 21);
-            this.tbx_port.TabIndex = 2;
-            this.tbx_port.Text = "44818";
-            this.tbx_port.ValidatingType = typeof(int);
-            // 
-            // btn_close
-            // 
-            this.btn_close.Location = new System.Drawing.Point(439, 19);
-            this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(75, 23);
-            this.btn_close.TabIndex = 4;
-            this.btn_close.Text = "关闭";
-            this.btn_close.UseVisualStyleBackColor = true;
-            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(167, 24);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "端口";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 12);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "IP";
-            // 
-            // tbx_ip
-            // 
-            this.tbx_ip.Location = new System.Drawing.Point(61, 20);
-            this.tbx_ip.Name = "tbx_ip";
-            this.tbx_ip.Size = new System.Drawing.Size(100, 21);
-            this.tbx_ip.TabIndex = 1;
-            this.tbx_ip.Text = "127.0.0.1";
-            // 
-            // btn_open
-            // 
-            this.btn_open.Location = new System.Drawing.Point(357, 19);
-            this.btn_open.Name = "btn_open";
-            this.btn_open.Size = new System.Drawing.Size(75, 23);
-            this.btn_open.TabIndex = 4;
-            this.btn_open.Text = "连接";
-            this.btn_open.UseVisualStyleBackColor = true;
-            this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
             // 
             // groupBox3
             // 
@@ -368,7 +368,7 @@
             this.tm_exportExcel,
             this.clearAllToolStripMenuItem});
             this.lv_menu.Name = "lv_menu";
-            this.lv_menu.Size = new System.Drawing.Size(181, 70);
+            this.lv_menu.Size = new System.Drawing.Size(130, 48);
             // 
             // tm_exportExcel
             // 
@@ -380,7 +380,7 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.clearAllToolStripMenuItem.Text = "清空列表";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 

@@ -1,4 +1,7 @@
-﻿using HL.OpcDa;
+﻿using HL.Object.Extensions;
+using HL.OpcDa;
+using NewLife.Log;
+using NewLife.Reflection;
 using Opc;
 using PlcClient.Handler;
 using PlcClient.Model;
@@ -23,7 +26,6 @@ namespace PlcClient.Controls
             tbx_ip.Text = GetLocalIP();
             lvwHandler = new ListViewHandler(lv_data);
             lvwHandler.ColuminSort();
-            this.DoubleBuffered = true;
             Opc = new OpcDaDriver();
             ChangeState(false);
         }
@@ -55,6 +57,7 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
+                XTrace.WriteException(ex);
                 MessageBox.Show(ex.Message, "连接服务器失败");
             }
         }
@@ -63,7 +66,9 @@ namespace PlcClient.Controls
         {
             this.btn_BrowseView.Enabled = btn_close.Enabled = state;
             this.btn_open.Enabled = !state;
-            this.btn_read.Enabled = this.btn_sub.Enabled = state;
+            this.chk_enablewrite.Enabled = this.btn_read.Enabled = this.btn_sub.Enabled = state;
+
+            chk_enablewrite_CheckedChanged(null, null);
         }
 
         private void btn_close_Click(object sender, EventArgs e)
@@ -100,7 +105,7 @@ namespace PlcClient.Controls
                 {
                     for (int i = 0; i < server.Length; i++)
                     {
-                        cbx_servername.Items.Add(server[i].Name.Replace(ip + ".", string.Empty));
+                        cbx_servername.Items.Add(server[i].Url.Path.Split('/')[0]);
                     }
                     cbx_servername.SelectedIndex = 0;
                     OnMsg($"OpcDa 2.0 服务器名称获取成功,{ip} 数量 {server.Length} 个");
@@ -112,7 +117,7 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show("提示：非本地服务器请尝试添加或同步windows凭证后重试\r\n" + ex.Message, "获取服务器名称失败");
+                MessageBox.Show("提示：非本地服务器请尝试一下方案\r\n1. 添加或同步windows凭证\r\n2. 以指定opc账号运行软件" + ex.Message, "获取服务器名称失败");
             }
 
         }
@@ -175,8 +180,8 @@ namespace PlcClient.Controls
             var tagName = tbx_tag.Text;
             if (string.IsNullOrEmpty(tagName))
             {
-                OnMsg("请输入要读取的节点名称");
-                MessageBox.Show("请输入要读取的节点名称", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                OnMsg("请输入要读取的标签名称");
+                MessageBox.Show("请输入要读取的标签名称", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             tbx_tag_value.ResetText();
@@ -184,6 +189,7 @@ namespace PlcClient.Controls
             if (items != null)
             {
                 tbx_tag_value.Text = items[0].Value.ToString();
+                tbx_tag_value.Tag = System.Type.GetTypeCode(items[0].Value.GetType());
                 OnMsg($"OpcDa读取：{tagName} 值：{items[0].Value} 质量：{items[0].Quality} 时间：{items[0].Timestamp}");
             }
         }
@@ -311,6 +317,42 @@ namespace PlcClient.Controls
             stopwatch.Stop();
             Opc_SubDataChange(null, new SubDataChangeEventArgs { Results = items });
             OnMsg($"刷新列表数据 {list.Count}个，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+        }
+
+        private void chk_enablewrite_CheckedChanged(object sender, EventArgs e)
+        {
+            this.btn_write.Enabled = chk_enablewrite.Checked;
+            this.tbx_tag_value.ReadOnly = !chk_enablewrite.Checked;
+        }
+
+        private void btn_write_Click(object sender, EventArgs e)
+        {
+            if (tbx_tag.Text == "" || tbx_tag_value.Text == "" || tbx_tag_value.Tag == null)
+            {
+                MessageBox.Show("请先查询当前tag内容");
+                return;
+            }
+            try
+            {
+                var tc = (TypeCode)tbx_tag_value.Tag;
+                object val = tbx_tag_value.Text;
+                if (tc != TypeCode.String)
+                {
+                    val = tbx_tag_value.Text.ConvertToValueType((TypeCode)tbx_tag_value.Tag);
+                }
+
+                var itemval = new Opc.Da.ItemValue() { ItemName = tbx_tag.Text, Value = val };
+                var msg = this.Opc.Server.Write(new[] { itemval });
+                if (msg != null)
+                {
+                    OnMsg($"OpcDa写入：{msg[0].ItemName} 值：{tbx_tag_value.Text} 状态：{msg[0].ResultID}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "写入错误");
+                throw ex;
+            }
         }
     }
 }

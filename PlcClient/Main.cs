@@ -23,6 +23,8 @@ namespace PlcClient
             this.Text = this.ProductName + " v" + this.ProductVersion;
             this.Load += Form1_Load;
             this.StartPosition = FormStartPosition.CenterScreen;
+
+            menuStrip1.Visible = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)

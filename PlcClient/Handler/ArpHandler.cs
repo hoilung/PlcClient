@@ -1,9 +1,12 @@
 ﻿using NetTools;
+using NewLife;
 using NewLife.Log;
+using OpcRcw.Da;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +25,8 @@ namespace PlcClient.Handler
     {
         public static ArpHandler Instance { get; } = new ArpHandler();
         private readonly Dictionary<string, string> _deviceOUI;
-
+        private const string un_mac = "00-00-00-00-00-00";
+        private const string un_device = "unknown";
 
         private ArpHandler()
         {
@@ -63,6 +67,76 @@ namespace PlcClient.Handler
                 MessageBox.Show(ex.Message, "扫描错误");
             }
         }
+        bool IsPrivateNetwork3(string ipv4Address)
+        {
+            if (IPAddress.TryParse(ipv4Address, out var ip))
+            {
+                byte[] ipBytes = ip.GetAddressBytes();
+                if (ipBytes[0] == 10) return true;
+                if (ipBytes[0] == 172 && ipBytes[1] >= 16 && ipBytes[1] <= 31) return true;
+                if (ipBytes[0] == 192 && ipBytes[1] == 168) return true;
+            }
+            return false;
+        }
+        bool IsPrivateNetwork3(IPAddress ipv4Address)
+        {
+            if (ipv4Address != null)
+            {
+                byte[] ipBytes = ipv4Address.GetAddressBytes();
+                if (ipBytes[0] == 10) return true;
+                if (ipBytes[0] == 172 && ipBytes[1] >= 16 && ipBytes[1] <= 31) return true;
+                if (ipBytes[0] == 192 && ipBytes[1] == 168) return true;
+            }
+            return false;
+        }
+
+        public void PingIP(IEnumerable<IPAddress> list, Action<string[]> actionProcess, Action actionEnd)
+        {
+            try
+            {
+
+                CancellationTokenSource = new CancellationTokenSource();
+                Task.Run(() =>
+                {
+                    var queue = new Queue<IPAddress>();
+                    foreach (var ip in list)
+                    {
+                        queue.Enqueue(ip);
+                    }
+                    var pings = new Ping[Environment.ProcessorCount];
+                    Parallel.ForEach(pings, ping =>
+                    {
+                        if (ping == null)
+                            ping = new Ping();
+                        while (queue.Count > 0)
+                        {
+                            if (this.CancellationTokenSource.IsCancellationRequested)
+                                break;
+
+                            var ip = queue.Dequeue();
+                            var result = ping.Send(ip, 500);
+                            var mac = string.Empty;
+                            var deviceInfo = string.Empty;
+                            if (IsPrivateNetwork3(ip))
+                            {
+                                mac = ResolveMac(ip.ToString());
+                                deviceInfo = GetDeviceInfoForMac(mac);
+                            }
+                            actionProcess?.Invoke(new string[] { ip.ToString(), result.Status.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, });
+
+                        }
+                    });
+                    actionEnd?.Invoke();
+
+                }, CancellationTokenSource.Token);
+
+            }
+            catch (Exception ex)
+            {
+                XTrace.WriteException(ex);
+                MessageBox.Show(ex.Message, "ping错误");
+            }
+        }
         public string ResolveMac(string destIp)
         {
             byte[] macAddr = new byte[6];
@@ -72,16 +146,16 @@ namespace PlcClient.Handler
             SendARP(by_destIP, 0, macAddr, ref macAddrLen);
             return BitConverter.ToString(macAddr);//.Replace("-", ":");
         }
-
+      
         private string GetDeviceInfoForMac(string mac)
         {
-            if (mac == "00-00-00-00-00-00")
+            if (mac == un_mac)
             {
-                return "unknown";
+                return un_device;
             }
             if (_deviceOUI.TryGetValue(mac.Substring(0, 8), out var result))
                 return result;
-            return "unknown";
+            return un_device;
         }
 
         private Dictionary<string, string> GetDeviceOUI()

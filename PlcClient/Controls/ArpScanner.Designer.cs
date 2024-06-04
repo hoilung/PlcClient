@@ -35,11 +35,12 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cbx_ip = new System.Windows.Forms.ToolStripComboBox();
             this.btn_scan = new System.Windows.Forms.ToolStripButton();
-            this.btn_export = new System.Windows.Forms.ToolStripButton();
+            this.btn_export = new System.Windows.Forms.ToolStripSplitButton();
             this.btn_clearall = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -51,7 +52,7 @@
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(15, 22);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(656, 371);
+            this.groupBox1.Size = new System.Drawing.Size(729, 371);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "局域网设备扫描";
@@ -62,12 +63,12 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.lv_data, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.toolStrip1, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(30, 37);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 40);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(620, 316);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(702, 316);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // lv_data
@@ -78,7 +79,8 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
-            this.columnHeader4});
+            this.columnHeader4,
+            this.columnHeader5});
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
@@ -100,11 +102,15 @@
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "物理地址";
+            this.columnHeader3.Text = "PING";
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "厂商";
+            this.columnHeader4.Text = "物理地址";
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "厂商";
             // 
             // toolStrip1
             // 
@@ -117,7 +123,7 @@
             this.btn_clearall});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(620, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(702, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -148,7 +154,7 @@
             this.btn_export.Image = global::PlcClient.Properties.Resources.XLS;
             this.btn_export.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_export.Name = "btn_export";
-            this.btn_export.Size = new System.Drawing.Size(76, 22);
+            this.btn_export.Size = new System.Drawing.Size(88, 22);
             this.btn_export.Text = "导出表格";
             this.btn_export.Click += new System.EventHandler(this.btn_export_Click);
             // 
@@ -167,6 +173,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Name = "ArpScanner";
+            this.Size = new System.Drawing.Size(747, 430);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -189,7 +196,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ToolStripButton btn_scan;
-        private System.Windows.Forms.ToolStripButton btn_export;
         private System.Windows.Forms.ToolStripButton btn_clearall;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ToolStripSplitButton btn_export;
     }
 }

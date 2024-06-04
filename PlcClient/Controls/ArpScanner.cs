@@ -1,4 +1,5 @@
-﻿using NewLife.Reflection;
+﻿using NetTools;
+using NewLife.Reflection;
 using PlcClient.Handler;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace PlcClient.Controls
 
             groupBox1.Dock = tableLayoutPanel1.Dock = lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
             listViewHandler = new ListViewHandler(this.lv_data);
+            listViewHandler.ColuminSort();
 
         }
 
@@ -57,11 +59,18 @@ namespace PlcClient.Controls
             }
             btn_scan.Text = "取消扫描";
             OnMsg("设备扫描开始");
-            ArpHandler.Instance.ScanIP(cbx_ip.Text, (pe) =>
+            var list = IPAddressRange.Parse(cbx_ip.Text).AsEnumerable();
+            if (list.Count() > 256 && MessageBox.Show("当前扫描IP范围较大，共计" + list.Count() + "个，请确认是否扫描全部网段", "提示", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+
+            ArpHandler.Instance.PingIP(list, (pe) =>
             {
                 lv_data.Invoke(new MethodInvoker(() =>
                 {
                     var row = lv_data.Items.Add(lv_data.Items.Count.ToString());
+                    row.SubItems[0].Tag = lv_data.Items.Count;
                     if (lv_data.Items.Count % 2 == 0)
                     {
                         row.BackColor = Color.AliceBlue;

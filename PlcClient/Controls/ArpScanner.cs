@@ -57,13 +57,14 @@ namespace PlcClient.Controls
                 btn_scan.Text = "开始扫描";
                 return;
             }
-            btn_scan.Text = "取消扫描";
-            OnMsg("设备扫描开始");
             var list = IPAddressRange.Parse(cbx_ip.Text).AsEnumerable();
             if (list.Count() > 256 && MessageBox.Show("当前扫描IP范围较大，共计" + list.Count() + "个，请确认是否扫描全部网段", "提示", MessageBoxButtons.YesNo) == DialogResult.No)
             {
                 return;
             }
+            btn_scan.Text = "取消扫描";
+            OnMsg("设备扫描开始");
+            
             var localIP = cbx_ip.Text.Split('/')[0];
             progressBar1.Maximum = list.Count();
             progressBar1.Value = 0;

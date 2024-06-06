@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -79,6 +80,24 @@ namespace PlcClient.Controls
             {
                 Application.DoEvents();//可执行某无聊的操作
             }
+        }
+
+        public DialogResult ShowAbout()
+        {
+            var frm_about = new Form();
+            frm_about.StartPosition = FormStartPosition.CenterParent;
+            frm_about.Text = "关于";
+            frm_about.ShowIcon = false;
+            frm_about.Size = new Size(470, 300);
+            frm_about.MaximizeBox = false;
+            frm_about.MinimizeBox = false;
+            frm_about.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            PLCSafeConfirm pLCSafeConfirm = new PLCSafeConfirm();
+            pLCSafeConfirm.Dock = DockStyle.Fill;
+
+            frm_about.Controls.Add(pLCSafeConfirm);
+            return frm_about.ShowDialog(this);
         }
     }
 }

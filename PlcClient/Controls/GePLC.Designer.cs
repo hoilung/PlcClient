@@ -47,6 +47,7 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menu_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbx_address = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbx_type = new System.Windows.Forms.ComboBox();
@@ -63,7 +64,6 @@
             this.lb_address = new System.Windows.Forms.Label();
             this.cbx_changetype = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menu_lv.SuspendLayout();
@@ -238,14 +238,21 @@
             this.tm_exportExcel,
             this.clearAllToolStripMenuItem});
             this.menu_lv.Name = "muen_lv";
-            this.menu_lv.Size = new System.Drawing.Size(181, 70);
+            this.menu_lv.Size = new System.Drawing.Size(130, 48);
             // 
             // tm_exportExcel
             // 
             this.tm_exportExcel.Name = "tm_exportExcel";
-            this.tm_exportExcel.Size = new System.Drawing.Size(180, 22);
+            this.tm_exportExcel.Size = new System.Drawing.Size(129, 22);
             this.tm_exportExcel.Text = "导出Excel";
             this.tm_exportExcel.Click += new System.EventHandler(this.tm_exportExcel_Click);
+            // 
+            // clearAllToolStripMenuItem
+            // 
+            this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.clearAllToolStripMenuItem.Text = "清空列表";
+            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // tbx_address
             // 
@@ -294,6 +301,7 @@
             this.chk_enablewrite.Text = "开启写";
             this.chk_enablewrite.UseVisualStyleBackColor = true;
             this.chk_enablewrite.CheckedChanged += new System.EventHandler(this.ckb_enablewrite_CheckedChanged);
+            this.chk_enablewrite.Click += new System.EventHandler(this.chk_enablewrite_Click);
             // 
             // btn_write
             // 
@@ -418,13 +426,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(274, 29);
             this.panel2.TabIndex = 34;
-            // 
-            // clearAllToolStripMenuItem
-            // 
-            this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.clearAllToolStripMenuItem.Text = "清空列表";
-            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // GePLC
             // 

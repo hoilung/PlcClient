@@ -160,6 +160,12 @@
     <Compile Include="Controls\OpcUaBrowseView.Designer.cs">
       <DependentUpon>OpcUaBrowseView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PLCSafeConfirm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PLCSafeConfirm.Designer.cs">
+      <DependentUpon>PLCSafeConfirm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SiemensBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -231,6 +237,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OpcUaBrowseView.resx">
       <DependentUpon>OpcUaBrowseView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PLCSafeConfirm.resx">
+      <DependentUpon>PLCSafeConfirm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SiemensBase.resx">
       <DependentUpon>SiemensBase.cs</DependentUpon>

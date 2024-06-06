@@ -354,5 +354,17 @@ namespace PlcClient.Controls
                 throw ex;
             }
         }
+
+        private void chk_enablewrite_Click(object sender, EventArgs e)
+        {
+            if (!AppConfig.Instance.SafeConfirm)
+            {
+                AppConfig.Instance.SafeConfirm = ShowAbout() == DialogResult.OK;
+            }
+            if (!AppConfig.Instance.SafeConfirm)
+            {
+                (sender as CheckBox).Checked = AppConfig.Instance.SafeConfirm;
+            }
+        }
     }
 }

@@ -343,7 +343,7 @@ namespace PlcClient.Controls
                 item.SubItems.Add(string.Empty);//BIN
                 item.SubItems.Add(string.Empty);//HEX
 
-                if(i%2 == 0)
+                if (i % 2 == 0)
                 {
                     item.BackColor = Color.AliceBlue;
                 }
@@ -539,6 +539,18 @@ namespace PlcClient.Controls
         private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.lv_data.Items.Clear();
+        }
+
+        private void chk_enablewrite_Click(object sender, EventArgs e)
+        {
+            if (!AppConfig.Instance.SafeConfirm)
+            {
+                AppConfig.Instance.SafeConfirm = ShowAbout() == DialogResult.OK;
+            }
+            if (!AppConfig.Instance.SafeConfirm)
+            {
+                (sender as CheckBox).Checked = AppConfig.Instance.SafeConfirm;
+            }
         }
     }
 }

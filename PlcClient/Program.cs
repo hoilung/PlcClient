@@ -11,9 +11,10 @@ namespace PlcClient
         /// </summary>
         [STAThread]
         static void Main()
-        {            
-            XTrace.UseConsole();
+        {
             XTrace.LogPath = Application.StartupPath + "\\Logs";
+            XTrace.UseConsole();
+          
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;

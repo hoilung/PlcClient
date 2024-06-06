@@ -24,7 +24,6 @@ namespace PlcClient
             this.Load += Form1_Load;
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            menuStrip1.Visible = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -148,5 +147,23 @@ namespace PlcClient
             this.toolStrip_msg.Text = obj;
         }
 
+        private void 关于AToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm_about = new Form();
+            frm_about.StartPosition = FormStartPosition.CenterParent;
+            frm_about.Text = "关于";
+            frm_about.ShowIcon = false;
+            frm_about.Size = new Size(470, 300);
+            frm_about.MaximizeBox = false;
+            frm_about.MinimizeBox = false;
+            frm_about.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            PLCSafeConfirm pLCSafeConfirm = new PLCSafeConfirm();
+            pLCSafeConfirm.Dock = DockStyle.Fill;
+            
+            frm_about.Controls.Add(pLCSafeConfirm);
+            frm_about.ShowDialog(this);
+
+        }
     }
 }

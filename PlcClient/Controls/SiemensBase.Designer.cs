@@ -236,6 +236,7 @@
             this.chk_enablewrite.Text = "开启写";
             this.chk_enablewrite.UseVisualStyleBackColor = true;
             this.chk_enablewrite.CheckedChanged += new System.EventHandler(this.cbx_enablewrite_CheckedChanged);
+            this.chk_enablewrite.Click += new System.EventHandler(this.chk_enablewrite_Click);
             // 
             // btn_clearTbx
             // 

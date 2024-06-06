@@ -14,6 +14,19 @@ namespace PlcClient.Model
 
     public partial class AppConfig
     {
+        public static AppConfig Instance { get; set; } = new AppConfig();
+        private AppConfig()
+        {
 
+        }
+
+        /// <summary>
+        /// 安全码
+        /// </summary>
+        public readonly string SafeCode = "woyaoshiyong";
+        /// <summary>
+        /// 是否确认安全码
+        /// </summary>
+        public bool SafeConfirm { get; set; }
     }
 }

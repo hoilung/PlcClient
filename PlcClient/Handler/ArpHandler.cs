@@ -117,12 +117,14 @@ namespace PlcClient.Handler
                             var result = ping.Send(ip, 500);
                             var mac = string.Empty;
                             var deviceInfo = string.Empty;
+                            bool area_local = false;
                             if (IsPrivateNetwork3(ip))
                             {
                                 mac = ResolveMac(ip.ToString());
                                 deviceInfo = GetDeviceInfoForMac(mac);
+                                area_local = true;
                             }
-                            actionProcess?.Invoke(new string[] { ip.ToString(), result.Status.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, });
+                            actionProcess?.Invoke(new string[] { ip.ToString(), result.Status.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, area_local ? "本地" : "远程" });
 
                         }
                     });
@@ -146,7 +148,7 @@ namespace PlcClient.Handler
             SendARP(by_destIP, 0, macAddr, ref macAddrLen);
             return BitConverter.ToString(macAddr);//.Replace("-", ":");
         }
-      
+
         private string GetDeviceInfoForMac(string mac)
         {
             if (mac == un_mac)

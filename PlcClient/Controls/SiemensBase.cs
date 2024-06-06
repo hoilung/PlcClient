@@ -1,5 +1,7 @@
 ﻿using HL.Object.Extensions;
 using HL.S7netplus.Extensions;
+using NewLife.Log;
+using Opc.Ua;
 using PlcClient.Handler;
 using PlcClient.Model;
 using S7.Net;
@@ -7,17 +9,20 @@ using S7.Net.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace PlcClient.Controls
 {
     public partial class SiemensBase : BaseControl
     {
         private const string _addressVerdify = @"(^DB\d+\.DB[BWD]\d+$)|(^DB\d+\.DBX\d+\.[0-7]$)|(^(VB|VW|VD|MB|MW|MD|IB|IW|ID|EB|EW|ED|QB|QW|QD|AB|AW|AD|OB|OW|OD)\d+$)|(^(A|V|M|I|E|Q|O|T|Z|C)\d+\.[0-7]$)";//西门子plc地址验证
-        
+
 
         public CpuType CpuType { get; set; }
         private TypeCode _typeCode;
@@ -28,7 +33,7 @@ namespace PlcClient.Controls
         public SiemensBase()
         {
             InitializeComponent();
-            tableLayoutPanel1.Dock= DockStyle.Fill;
+            tableLayoutPanel1.Dock = DockStyle.Fill;
             this.Load += SiemensBase_Load;
             this.Disposed += SiemensBase_Disposed;
 
@@ -335,7 +340,13 @@ namespace PlcClient.Controls
                 }
                 item.SubItems.Add(typeCode.ToString());
                 item.SubItems.Add(dataItem.Value?.ToString());
+                item.SubItems.Add(string.Empty);//BIN
+                item.SubItems.Add(string.Empty);//HEX
 
+                if(i%2 == 0)
+                {
+                    item.BackColor = Color.AliceBlue;
+                }
                 lv_data.Items.Add(item);
             }
             lv_data.EndUpdate();
@@ -355,6 +366,19 @@ namespace PlcClient.Controls
         }
 
         private void btn_readAll_Click(object sender, EventArgs e)
+        {
+            progressBar1.Maximum = (int)tbx_num.Value;
+            progressBar1.Value = 0;
+            for (int i = 0; i < tbx_num.Value; i++)
+            {
+                mutli_select();
+                progressBar1.PerformStep();
+                Delay((int)this.tbx_time.Value);
+            }
+        }
+
+
+        private void mutli_select()
         {
             var dataItemList = new List<DataItem>();
 
@@ -391,6 +415,7 @@ namespace PlcClient.Controls
                 }
                 catch (Exception ex)
                 {
+                    XTrace.WriteException(ex);
                     throw;
                 }
             }
@@ -401,10 +426,78 @@ namespace PlcClient.Controls
                 if (item.Tag is DataItem dataItem)
                 {
                     item.SubItems[3].Text = dataItem.Value?.ToString();
+
+                    item.SubItems[4].Text = dec2bin2hex(dataItem.Value, 2);
+
+                    item.SubItems[5].Text = dec2bin2hex(dataItem.Value, 16);
+
                 }
             }
             OnMsg($"批量读取 {lv_data.Items.Count}个,用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
         }
+
+        private string dec2bin2hex(object val, int format)
+        {
+            if (val == null)
+                return string.Empty;
+            if (val.GetType().IsValueType)
+            {
+                var type_code = Type.GetTypeCode(val.GetType());
+                byte[] binaryBytes = null;
+                switch (type_code)
+                {
+                    case TypeCode.Boolean:
+                        binaryBytes = BitConverter.GetBytes((bool)val);
+                        break;
+                    case TypeCode.Char:
+                        binaryBytes = BitConverter.GetBytes((char)val);
+                        break;
+                    case TypeCode.SByte:
+                        binaryBytes = BitConverter.GetBytes((sbyte)val);
+                        break;
+                    case TypeCode.Byte:
+                        binaryBytes = BitConverter.GetBytes((byte)val);
+                        break;
+                    case TypeCode.Int16:
+                        binaryBytes = BitConverter.GetBytes((Int16)val);
+                        break;
+                    case TypeCode.UInt16:
+                        binaryBytes = BitConverter.GetBytes((UInt16)val);
+                        break;
+                    case TypeCode.Int32:
+                        binaryBytes = BitConverter.GetBytes((Int32)val);
+                        break;
+                    case TypeCode.UInt32:
+                        binaryBytes = BitConverter.GetBytes((UInt32)val);
+                        break;
+                    case TypeCode.Int64:
+                        binaryBytes = BitConverter.GetBytes((Int64)val);
+                        break;
+                    case TypeCode.UInt64:
+                        binaryBytes = BitConverter.GetBytes((UInt32)val);
+                        break;
+                    case TypeCode.Single:
+                        binaryBytes = BitConverter.GetBytes((float)val);
+                        break;
+                    case TypeCode.Double:
+                        binaryBytes = BitConverter.GetBytes((double)val);
+                        break;
+                }
+                if (binaryBytes == null)
+                    return string.Empty;
+                if (format == 2)
+                {
+                    return string.Join(" ", binaryBytes.Reverse().Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
+                }
+                else if (format == 16)
+                {
+                    return string.Join(" ", binaryBytes.Reverse().Select(b => b.ToString("X2")));
+                }
+
+            }
+            return string.Empty;
+        }
+
 
 
         private static List<DataItem> GetDataItemGroup(List<DataItem> dataItems)

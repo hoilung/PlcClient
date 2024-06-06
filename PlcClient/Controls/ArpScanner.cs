@@ -64,7 +64,9 @@ namespace PlcClient.Controls
             {
                 return;
             }
-
+            var localIP = cbx_ip.Text.Split('/')[0];
+            progressBar1.Maximum = list.Count();
+            progressBar1.Value = 0;
             ArpHandler.Instance.PingIP(list, (pe) =>
             {
                 lv_data.Invoke(new MethodInvoker(() =>
@@ -75,14 +77,25 @@ namespace PlcClient.Controls
                     {
                         row.BackColor = Color.AliceBlue;
                     }
+                    //var area = pe[pe.Length - 1];
+                    if (localIP.Equals(pe[0]))
+                    {
+                        pe[pe.Length - 1] = "本机IP";
+                        row.BackColor = Color.LightGreen;                        
+                    }
                     row.SubItems.AddRange(pe);
-                    lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    if (lv_data.Items.Count % 5 == 0)
+                    {
+                        lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    }
+                    progressBar1.PerformStep();
                 }));
             }, () =>
             {
 
                 lv_data.Invoke(new MethodInvoker(() =>
                 {
+                    lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     btn_scan.Text = "开始扫描";
                 }));
                 OnMsg("设备扫描结束");

@@ -160,14 +160,23 @@ namespace PlcClient.Controls
                         case "INT"://int16
                             geitem.Value = (short)0;//word区,默认类型
                             break;
-                        case "WORD"://uint16
-                            geitem.Value = (ushort)0;
-                            break;
                         case "DINT"://int32,
                             geitem.Value = (int)0;
                             break;
+                        case "LINT"://int64,
+                            geitem.Value = (long)0;
+                            break;
+                        case "UINT":
+                        case "WORD"://uint16
+                            geitem.Value = (ushort)0;
+                            break;
+                        case "UDINT":
                         case "DWORD"://uint32,
                             geitem.Value = (uint)0;
+                            break;
+                        case "ULINT":
+                        case "LWORD"://uint64,
+                            geitem.Value = (ulong)0;
                             break;
                         case "REAL"://float
                             geitem.Value = (float)0;

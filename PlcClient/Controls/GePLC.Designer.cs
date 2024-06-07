@@ -45,6 +45,8 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menu_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,19 +61,21 @@
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_changetype = new System.Windows.Forms.Button();
-            this.lb_address = new System.Windows.Forms.Label();
-            this.cbx_changetype = new System.Windows.Forms.ComboBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbx_time = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbx_num = new System.Windows.Forms.NumericUpDown();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menu_lv.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbx_time)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbx_num)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -85,7 +89,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(710, 54);
+            this.groupBox1.Size = new System.Drawing.Size(935, 54);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "GE 设置";
@@ -148,8 +152,9 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 5);
+            this.label3.Location = new System.Drawing.Point(283, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 8;
@@ -162,7 +167,13 @@
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(68, 1);
+            this.numericUpDown1.Location = new System.Drawing.Point(348, 4);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(42, 21);
             this.numericUpDown1.TabIndex = 30;
@@ -174,7 +185,9 @@
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(116, 0);
+            this.btn_add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_add.Location = new System.Drawing.Point(820, 6);
+            this.btn_add.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(75, 23);
             this.btn_add.TabIndex = 31;
@@ -184,7 +197,7 @@
             // 
             // btn_read
             // 
-            this.btn_read.Location = new System.Drawing.Point(197, 0);
+            this.btn_read.Location = new System.Drawing.Point(396, 3);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
             this.btn_read.TabIndex = 32;
@@ -198,16 +211,18 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
-            this.columnHeader4});
+            this.columnHeader4,
+            this.columnHeader5,
+            this.columnHeader6});
             this.lv_data.ContextMenuStrip = this.menu_lv;
             this.lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(3, 38);
+            this.lv_data.Location = new System.Drawing.Point(3, 39);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(412, 213);
+            this.lv_data.Size = new System.Drawing.Size(601, 181);
             this.lv_data.TabIndex = 6;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -231,6 +246,16 @@
             // 
             this.columnHeader4.Text = "数值";
             this.columnHeader4.Width = 100;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "数值(BIN)";
+            this.columnHeader5.Width = 100;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "数值(HEX)";
+            this.columnHeader6.Width = 100;
             // 
             // menu_lv
             // 
@@ -257,11 +282,11 @@
             // tbx_address
             // 
             this.tbx_address.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbx_address.Location = new System.Drawing.Point(421, 38);
+            this.tbx_address.Location = new System.Drawing.Point(610, 39);
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_address.Size = new System.Drawing.Size(274, 213);
+            this.tbx_address.Size = new System.Drawing.Size(285, 181);
             this.tbx_address.TabIndex = 30;
             this.tbx_address.WordWrap = false;
             // 
@@ -277,7 +302,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 54);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(710, 54);
+            this.groupBox2.Size = new System.Drawing.Size(935, 54);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "单个读取/写入";
@@ -354,7 +379,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 108);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(710, 322);
+            this.groupBox3.Size = new System.Drawing.Size(935, 383);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量读取";
@@ -362,70 +387,112 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.btn_add, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tbx_address, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lv_data, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 20);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70.75471F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(698, 254);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(898, 243);
             this.tableLayoutPanel1.TabIndex = 35;
             // 
-            // panel1
+            // flowLayoutPanel1
             // 
-            this.panel1.Controls.Add(this.btn_changetype);
-            this.panel1.Controls.Add(this.lb_address);
-            this.panel1.Controls.Add(this.cbx_changetype);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(412, 29);
-            this.panel1.TabIndex = 33;
+            this.flowLayoutPanel1.Controls.Add(this.label7);
+            this.flowLayoutPanel1.Controls.Add(this.tbx_time);
+            this.flowLayoutPanel1.Controls.Add(this.label6);
+            this.flowLayoutPanel1.Controls.Add(this.tbx_num);
+            this.flowLayoutPanel1.Controls.Add(this.label3);
+            this.flowLayoutPanel1.Controls.Add(this.numericUpDown1);
+            this.flowLayoutPanel1.Controls.Add(this.btn_read);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(601, 30);
+            this.flowLayoutPanel1.TabIndex = 36;
             // 
-            // btn_changetype
+            // label7
             // 
-            this.btn_changetype.Location = new System.Drawing.Point(259, 3);
-            this.btn_changetype.Name = "btn_changetype";
-            this.btn_changetype.Size = new System.Drawing.Size(75, 23);
-            this.btn_changetype.TabIndex = 23;
-            this.btn_changetype.Text = "修改类型";
-            this.btn_changetype.UseVisualStyleBackColor = true;
-            this.btn_changetype.Click += new System.EventHandler(this.btn_changetype_Click);
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 8);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(77, 12);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "读取间隔(ms)";
             // 
-            // lb_address
+            // tbx_time
             // 
-            this.lb_address.AutoSize = true;
-            this.lb_address.Location = new System.Drawing.Point(47, 9);
-            this.lb_address.Name = "lb_address";
-            this.lb_address.Size = new System.Drawing.Size(47, 12);
-            this.lb_address.TabIndex = 10;
-            this.lb_address.Text = "Address";
+            this.tbx_time.Location = new System.Drawing.Point(86, 4);
+            this.tbx_time.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.tbx_time.Maximum = new decimal(new int[] {
+            60000,
+            0,
+            0,
+            0});
+            this.tbx_time.Minimum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.tbx_time.Name = "tbx_time";
+            this.tbx_time.Size = new System.Drawing.Size(63, 21);
+            this.tbx_time.TabIndex = 7;
+            this.tbx_time.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             // 
-            // cbx_changetype
+            // label6
             // 
-            this.cbx_changetype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_changetype.FormattingEnabled = true;
-            this.cbx_changetype.Location = new System.Drawing.Point(151, 3);
-            this.cbx_changetype.Name = "cbx_changetype";
-            this.cbx_changetype.Size = new System.Drawing.Size(100, 20);
-            this.cbx_changetype.TabIndex = 22;
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(155, 8);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "读取次数";
             // 
-            // panel2
+            // tbx_num
             // 
-            this.panel2.Controls.Add(this.btn_add);
-            this.panel2.Controls.Add(this.btn_read);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.numericUpDown1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(421, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(274, 29);
-            this.panel2.TabIndex = 34;
+            this.tbx_num.Location = new System.Drawing.Point(214, 4);
+            this.tbx_num.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.tbx_num.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.tbx_num.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.tbx_num.Name = "tbx_num";
+            this.tbx_num.Size = new System.Drawing.Size(63, 21);
+            this.tbx_num.TabIndex = 5;
+            this.tbx_num.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // progressBar1
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.progressBar1, 2);
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressBar1.Location = new System.Drawing.Point(3, 226);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(892, 14);
+            this.progressBar1.Step = 1;
+            this.progressBar1.TabIndex = 35;
             // 
             // GePLC
             // 
@@ -435,6 +502,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "GePLC";
+            this.Size = new System.Drawing.Size(935, 491);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -444,10 +512,10 @@
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbx_time)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbx_num)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -479,16 +547,19 @@
         private System.Windows.Forms.Button btn_readOne;
         private System.Windows.Forms.ContextMenuStrip menu_lv;
         private System.Windows.Forms.ToolStripMenuItem tm_exportExcel;
-        private System.Windows.Forms.ComboBox cbx_changetype;
-        private System.Windows.Forms.Label lb_address;
-        private System.Windows.Forms.Button btn_changetype;
         private System.Windows.Forms.Button btn_write;
         private System.Windows.Forms.CheckBox chk_enablewrite;
         private System.Windows.Forms.ComboBox cbx_type;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown tbx_time;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown tbx_num;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
     }
 }
 

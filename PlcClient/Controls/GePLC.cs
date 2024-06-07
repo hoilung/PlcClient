@@ -17,7 +17,7 @@ namespace PlcClient.Controls
     public partial class GePLC : BaseControl
     {
         #region field
-        
+
         private SRTP SRTP = null;
         private TypeCode _typeCode;
         private ListViewHandler lvwHandler;
@@ -57,9 +57,9 @@ namespace PlcClient.Controls
             _typeCode = (TypeCode)cbx_type.SelectedValue;
             cbx_type.SelectedIndexChanged += cbx_type_SelectedIndexChanged;
 
-            cbx_changetype.DisplayMember = "Value";
-            cbx_changetype.ValueMember = "Name";
-            cbx_changetype.DataSource = typeArry;
+            //cbx_changetype.DisplayMember = "Value";
+            //cbx_changetype.ValueMember = "Name";
+            //cbx_changetype.DataSource = typeArry;
 
             btn_write.Enabled = false;
             tbx_value.ReadOnly = !chk_enablewrite.Checked;
@@ -81,7 +81,7 @@ namespace PlcClient.Controls
             if (!state)
                 this.chk_enablewrite.Checked = state;
             chk_enablewrite.Enabled = btn_readOne.Enabled = btn_add.Enabled = this.btn_close.Enabled = this.btn_read.Enabled = state;
-            lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = state && lv_data.SelectedItems.Count > 0;
+            //lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = state && lv_data.SelectedItems.Count > 0;
 
             tbx_ip.ReadOnly = tbx_port.ReadOnly = state;
         }
@@ -134,57 +134,98 @@ namespace PlcClient.Controls
 
         private void btn_add_Click(object sender, EventArgs e)
         {
-            var addrArry = tbx_address.Text.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-            var err = addrArry.Where(m => !Regex.IsMatch(m, "^(AI|AQ|SA|SB|SC|R|I|M|Q|T|G)\\d{1,5}$")).ToList();
+            var addrArry = tbx_address.Lines.Select(m => m.ToUpper().Split(new[] { "\t", " ", "|" }, StringSplitOptions.RemoveEmptyEntries)).ToList();
+            var err = addrArry.Where(m => !Regex.IsMatch(m[0], "^(AI|AQ|SA|SB|SC|R|I|M|Q|T|G)\\d{1,5}$")).ToList();
             if (err.Count > 0)
             {
                 MessageBox.Show("无效的地址：" + err.FirstOrDefault(), "提示");
                 return;
             }
             var wordArea = new[] { "R", "AI", "AQ" };
-            var array = addrArry.Select(m => GEDataItem.ParseFrom(m, wordArea.Count(w => m.StartsWith(w)) == 0)).ToList();
-            NewMethod(array);
-            lv_data.Tag = array;
+            //var typeArry = new[] { "BOOL", "BYTE", "WORD", "DWORD"};
+            List<GEDataItem> list = new List<GEDataItem>();
+            for (int i = 0; i < addrArry.Count; i++)
+            {
+                var item = addrArry[i];
+
+                var geitem = GEDataItem.ParseFrom(item[0], wordArea.Count(w => item[0].StartsWith(w)) == 0);//默认 R/AI/AQ 读取长度是字节，实际单位是word ；其他区是位和字节，属于不同地址
+                if (item.Length == 2 && item[1] != "BOOL")
+                {
+                    if (geitem.IsBit)
+                    {
+                        geitem = GEDataItem.ParseFrom(item[0], false);
+                    }
+                    switch (item[1])
+                    {
+                        case "INT"://int16
+                            geitem.Value = (short)0;//word区,默认类型
+                            break;
+                        case "WORD"://uint16
+                            geitem.Value = (ushort)0;
+                            break;
+                        case "DINT"://int32,
+                            geitem.Value = (int)0;
+                            break;
+                        case "DWORD"://uint32,
+                            geitem.Value = (uint)0;
+                            break;
+                        case "REAL"://float
+                            geitem.Value = (float)0;
+                            break;
+                        case "LREAL"://double
+                            geitem.Value = (double)0;
+                            break;
+                    }
+                }
+                list.Add(geitem);
+            }
+            AddListView(list);
+            lv_data.Tag = list;
 
         }
 
         private void btn_read_Click(object sender, EventArgs e)
         {
-            var index = 0;
-            if (lv_data.SelectedItems.Count > 0)
-            {
-                index = int.Parse(lv_data.SelectedItems[0].Text);
-            }
 
             var array = lv_data.Tag as List<GEDataItem>;
             if (array == null)
                 return;
 
-            stopwatch.Restart();
-            if ((int)numericUpDown1.Value > 0)
-                SRTP.ReadMultipleVars(array.ToArray(), (int)numericUpDown1.Value);
-            else
-                SRTP.ReadMultipleVars(array.ToArray());
-            stopwatch.Stop();
-            this.OnMsg($"批量读取 {array.Count}个，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
-
-            NewMethod(array);
-
-            if (index > 0)
+            progressBar1.Maximum = (int)tbx_num.Value;
+            progressBar1.Value = 0;
+            for (int j = 0; j < tbx_num.Value; j++)
             {
-                lv_data.TopItem = lv_data.Items[index];
+                stopwatch.Restart();
+                if ((int)numericUpDown1.Value > 0)
+                    SRTP.ReadMultipleVars(array.ToArray(), (int)numericUpDown1.Value);
+                else
+                    SRTP.ReadMultipleVars(array.ToArray());
+                stopwatch.Stop();
+                this.OnMsg($"批量读取 {array.Count}个，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+                //刷新ui
+                for (int i = 0; i < lv_data.Items.Count; i++)
+                {
+                    var item = lv_data.Items[i].Tag as GEDataItem;
+                    if (item == null) continue;
+                    lv_data.Items[i].SubItems[3].Text = item.Value?.ToString();
+                    lv_data.Items[i].SubItems[4].Text = DEC2BIN2HEX(array[i].Value, 2);
+                    lv_data.Items[i].SubItems[5].Text = DEC2BIN2HEX(array[i].Value, 16);
+                }
+                progressBar1.PerformStep();
+                Delay((int)tbx_time.Value);
             }
 
         }
 
-        private void NewMethod(List<GEDataItem> array)
+
+        private void AddListView(List<GEDataItem> array)
         {
             lv_data.BeginUpdate();
             lv_data.Items.Clear();
             for (int i = 0; i < array.Count(); i++)
             {
                 var item = new ListViewItem($"{i}");
-                item.Tag = item;
+                item.Tag = array[i];
                 if (array[i].Value == null)
                 {
                     if (array[i].IsBit)
@@ -198,11 +239,18 @@ namespace PlcClient.Controls
                 }
                 item.SubItems.Add(array[i].Address);
                 item.SubItems.Add(array[i].Value.GetType().Name);
-                item.SubItems.Add(array[i].Value == null ? string.Empty : array[i].Value.ToString());
+                item.SubItems.Add(string.Empty);//item.SubItems.Add(array[i].Value == null ? string.Empty : array[i].Value.ToString());
+                item.SubItems.Add(string.Empty);
+                item.SubItems.Add(string.Empty);
+
+                if (i % 2 == 0)
+                {
+                    item.BackColor = System.Drawing.Color.AliceBlue;
+                }
                 lv_data.Items.Add(item);
             }
             lv_data.EndUpdate();
-            lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = lv_data.SelectedItems.Count > 0;
+            //lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = lv_data.SelectedItems.Count > 0;
         }
 
         private void btn_readOne_Click(object sender, EventArgs e)
@@ -254,13 +302,7 @@ namespace PlcClient.Controls
             tbx_value.Text = result.ToString();
         }
 
-        //private void lv_data_MouseClick(object sender, MouseEventArgs e)
-        //{
-        //    if (e.Button == MouseButtons.Right)
-        //    {
-        //        menu_lv.Show(lv_data, e.Location);
-        //    }
-        //}
+
 
         //菜单导出
         private void tm_exportExcel_Click(object sender, EventArgs e)
@@ -274,39 +316,18 @@ namespace PlcClient.Controls
         //列表选中
         private void lv_data_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = lv_data.SelectedItems.Count > 0;
             if (lv_data.SelectedItems.Count > 0)
             {
-                var index = int.Parse(lv_data.SelectedItems[0].Text);
-                cbx_changetype.Tag = index;
-
-                tbx_addressOne.Text = lb_address.Text = lv_data.SelectedItems[0].SubItems[1].Text;
-                cbx_type.Text = cbx_changetype.Text = lv_data.SelectedItems[0].SubItems[2].Text;
+                //var index = int.Parse(lv_data.SelectedItems[0].Text);                
+                tbx_addressOne.Text = lv_data.SelectedItems[0].ToString();
+                tbx_addressOne.Text = lv_data.SelectedItems[0].SubItems[1].Text;
+                cbx_type.Text = lv_data.SelectedItems[0].SubItems[2].Text;
                 tbx_value.Text = string.Empty;
             }
 
         }
 
-        private void btn_changetype_Click(object sender, EventArgs e)
-        {
-            if (cbx_changetype.Tag == null)
-            {
-                MessageBox.Show("当前列表内容未选中", "修改类型失败");
-                return;
-            }
-            int index = int.Parse(cbx_changetype.Tag.ToString());
-            var list = lv_data.Tag as List<GEDataItem>;
-            if (list.Any())
-            {
-                var item = list[index];
-                var typecode = (TypeCode)cbx_changetype.SelectedValue;
-                item.Value = "0".ConvertToValueType(typecode);
-                item.IsBit = typecode == TypeCode.Boolean;
-                NewMethod(list);
-                cbx_changetype.Tag = null;
-                lv_data.TopItem = lv_data.Items[index];
-            }
-        }
+
         //是否可写
         private void ckb_enablewrite_CheckedChanged(object sender, EventArgs e)
         {
@@ -321,7 +342,7 @@ namespace PlcClient.Controls
             try
             {
                 var item = GEDataItem.ParseFrom(adr, _typeCode == TypeCode.Boolean);
-                var typecode = (TypeCode)cbx_changetype.SelectedValue;
+                var typecode = (TypeCode)cbx_type.SelectedValue;
                 item.Value = val.ConvertToValueType(typecode);
                 item.IsBit = typecode == TypeCode.Boolean;
                 var state = false;

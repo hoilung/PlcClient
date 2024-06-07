@@ -153,14 +153,18 @@ F1[1]	Real</value>
   <data name="ge_tip" xml:space="preserve">
     <value>说明：
 当前协议：SRTP
+批量读取，一行一个地址,
+
 默认以设定的最大字节，批量分组查询
 如果设置最大字节=0，则自动分组查询
-若默认添加数据类型不匹配请手动修改
 
-AI/AQ/R区地址单位是word不支持byte/bool
-SA/SB/SC区为系统区，只读
+AI/AQ/R区默认类型是 INT，不支持BYTE、BOOL
+SA、SB、SC、I、M、Q、T、G区默认类型是BOOL
+SA/SB/SC区为系统区，只读不可写
 
-批量读取，一行一个地址
+默认自动识别数据类型
+若需要指定地址类型用tab键隔开
+
 参考地址示例如下：
 
 I101
@@ -168,7 +172,9 @@ Q201
 M301
 R401
 AI501
-AQ601</value>
+AQ601
+R500	REAL
+M500	DWORD</value>
   </data>
   <data name="hikvision" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\hikvision.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>

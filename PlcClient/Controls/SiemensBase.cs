@@ -371,14 +371,14 @@ namespace PlcClient.Controls
             progressBar1.Value = 0;
             for (int i = 0; i < tbx_num.Value; i++)
             {
-                mutli_select();
+                mutli_read();
                 progressBar1.PerformStep();
                 Delay((int)this.tbx_time.Value);
             }
         }
 
 
-        private void mutli_select()
+        private void mutli_read()
         {
             var dataItemList = new List<DataItem>();
 

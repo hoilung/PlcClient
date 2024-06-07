@@ -293,15 +293,15 @@ namespace PlcClient.Controls
                 item.SubItems.Add(data.Address.ToString());
                 item.SubItems.Add(data.ValType.ToString());
                 item.SubItems.Add(data.Value?.ToString());
-
+                item.SubItems.Add(string.Empty);
+                item.SubItems.Add(string.Empty);
                 lv_data.Items.Add(item);
             }
             lv_data.EndUpdate();
             lv_data.Tag = dataItems;
 
-
-
         }
+
 
         private void lv_data_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -317,6 +317,18 @@ namespace PlcClient.Controls
         }
 
         private void btn_read_Click(object sender, EventArgs e)
+        {            
+            progressBar1.Maximum = (int)tbx_num.Value;
+            progressBar1.Value = 0;
+            for (int i = 0; i < tbx_num.Value; i++)
+            {
+                mutli_read();
+                progressBar1.PerformStep();
+                Delay((int)this.tbx_time.Value);
+            }
+        }
+
+        private void mutli_read()
         {
             if (plc.Connected && lv_data.Tag is List<AbDataItem> dataItems)
             {
@@ -342,6 +354,8 @@ namespace PlcClient.Controls
                     if (item.Tag is AbDataItem data)
                     {
                         item.SubItems[3].Text = data.ToString();
+                        item.SubItems[4].Text = DEC2BIN2HEX(data?.Value, 2);
+                        item.SubItems[5].Text = DEC2BIN2HEX(data?.Value, 16);
                     }
 
                 }

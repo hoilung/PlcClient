@@ -48,23 +48,34 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbx_time = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbx_num = new System.Windows.Forms.NumericUpDown();
             this.btn_read = new System.Windows.Forms.Button();
-            this.btn_add = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btn_tagview = new System.Windows.Forms.Button();
+            this.btn_add = new System.Windows.Forms.Button();
             this.tbx_address = new System.Windows.Forms.TextBox();
             this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lv_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tm_exportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbx_time)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbx_num)).BeginInit();
             this.panel1.SuspendLayout();
             this.lv_menu.SuspendLayout();
             this.SuspendLayout();
@@ -82,7 +93,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(710, 54);
+            this.groupBox2.Size = new System.Drawing.Size(863, 54);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "AllenBradley 设置";
@@ -167,13 +178,13 @@
             this.cbx_type.FormattingEnabled = true;
             this.cbx_type.Location = new System.Drawing.Point(255, 21);
             this.cbx_type.Name = "cbx_type";
-            this.cbx_type.Size = new System.Drawing.Size(100, 20);
+            this.cbx_type.Size = new System.Drawing.Size(96, 20);
             this.cbx_type.TabIndex = 6;
             // 
             // chk_enablewrite
             // 
             this.chk_enablewrite.AutoSize = true;
-            this.chk_enablewrite.Location = new System.Drawing.Point(560, 23);
+            this.chk_enablewrite.Location = new System.Drawing.Point(555, 23);
             this.chk_enablewrite.Name = "chk_enablewrite";
             this.chk_enablewrite.Size = new System.Drawing.Size(60, 16);
             this.chk_enablewrite.TabIndex = 25;
@@ -184,7 +195,7 @@
             // 
             // btn_write
             // 
-            this.btn_write.Location = new System.Drawing.Point(624, 20);
+            this.btn_write.Location = new System.Drawing.Point(621, 20);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
             this.btn_write.TabIndex = 21;
@@ -194,7 +205,7 @@
             // 
             // btn_readOne
             // 
-            this.btn_readOne.Location = new System.Drawing.Point(363, 20);
+            this.btn_readOne.Location = new System.Drawing.Point(357, 20);
             this.btn_readOne.Name = "btn_readOne";
             this.btn_readOne.Size = new System.Drawing.Size(75, 23);
             this.btn_readOne.TabIndex = 7;
@@ -204,7 +215,7 @@
             // 
             // tbx_value
             // 
-            this.tbx_value.Location = new System.Drawing.Point(444, 21);
+            this.tbx_value.Location = new System.Drawing.Point(439, 21);
             this.tbx_value.Name = "tbx_value";
             this.tbx_value.Size = new System.Drawing.Size(110, 21);
             this.tbx_value.TabIndex = 20;
@@ -239,7 +250,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 54);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(710, 54);
+            this.groupBox1.Size = new System.Drawing.Size(863, 54);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "单个读取/写入";
@@ -250,7 +261,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 108);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(710, 322);
+            this.groupBox3.Size = new System.Drawing.Size(863, 398);
             this.groupBox3.TabIndex = 30;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "批量读取";
@@ -258,33 +269,104 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.6379F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btn_tagview, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tbx_address, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.lv_data, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(15, 31);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(670, 236);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(828, 281);
             this.tableLayoutPanel1.TabIndex = 34;
             // 
-            // panel1
+            // flowLayoutPanel1
             // 
-            this.panel1.Controls.Add(this.btn_read);
-            this.panel1.Controls.Add(this.btn_add);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(400, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(267, 30);
-            this.panel1.TabIndex = 35;
+            this.flowLayoutPanel1.Controls.Add(this.label7);
+            this.flowLayoutPanel1.Controls.Add(this.tbx_time);
+            this.flowLayoutPanel1.Controls.Add(this.label6);
+            this.flowLayoutPanel1.Controls.Add(this.tbx_num);
+            this.flowLayoutPanel1.Controls.Add(this.btn_read);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(549, 32);
+            this.flowLayoutPanel1.TabIndex = 35;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 8);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(77, 12);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "读取间隔(ms)";
+            // 
+            // tbx_time
+            // 
+            this.tbx_time.Location = new System.Drawing.Point(86, 4);
+            this.tbx_time.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.tbx_time.Maximum = new decimal(new int[] {
+            60000,
+            0,
+            0,
+            0});
+            this.tbx_time.Minimum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.tbx_time.Name = "tbx_time";
+            this.tbx_time.Size = new System.Drawing.Size(63, 21);
+            this.tbx_time.TabIndex = 7;
+            this.tbx_time.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(155, 8);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "读取次数";
+            // 
+            // tbx_num
+            // 
+            this.tbx_num.Location = new System.Drawing.Point(214, 4);
+            this.tbx_num.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.tbx_num.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.tbx_num.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.tbx_num.Name = "tbx_num";
+            this.tbx_num.Size = new System.Drawing.Size(63, 21);
+            this.tbx_num.TabIndex = 5;
+            this.tbx_num.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // btn_read
             // 
-            this.btn_read.Location = new System.Drawing.Point(189, 3);
+            this.btn_read.Location = new System.Drawing.Point(283, 3);
             this.btn_read.Name = "btn_read";
             this.btn_read.Size = new System.Drawing.Size(75, 23);
             this.btn_read.TabIndex = 32;
@@ -292,15 +374,15 @@
             this.btn_read.UseVisualStyleBackColor = true;
             this.btn_read.Click += new System.EventHandler(this.btn_read_Click);
             // 
-            // btn_add
+            // panel1
             // 
-            this.btn_add.Location = new System.Drawing.Point(108, 3);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(75, 23);
-            this.btn_add.TabIndex = 31;
-            this.btn_add.Text = "添加";
-            this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            this.panel1.Controls.Add(this.btn_tagview);
+            this.panel1.Controls.Add(this.btn_add);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(558, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(267, 32);
+            this.panel1.TabIndex = 35;
             // 
             // btn_tagview
             // 
@@ -312,14 +394,24 @@
             this.btn_tagview.UseVisualStyleBackColor = true;
             this.btn_tagview.Click += new System.EventHandler(this.btn_tagview_Click);
             // 
+            // btn_add
+            // 
+            this.btn_add.Location = new System.Drawing.Point(189, 3);
+            this.btn_add.Name = "btn_add";
+            this.btn_add.Size = new System.Drawing.Size(75, 23);
+            this.btn_add.TabIndex = 31;
+            this.btn_add.Text = "添加";
+            this.btn_add.UseVisualStyleBackColor = true;
+            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            // 
             // tbx_address
             // 
             this.tbx_address.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbx_address.Location = new System.Drawing.Point(400, 39);
+            this.tbx_address.Location = new System.Drawing.Point(558, 41);
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_address.Size = new System.Drawing.Size(267, 194);
+            this.tbx_address.Size = new System.Drawing.Size(267, 217);
             this.tbx_address.TabIndex = 30;
             this.tbx_address.WordWrap = false;
             // 
@@ -329,16 +421,18 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
-            this.columnHeader4});
+            this.columnHeader4,
+            this.columnHeader5,
+            this.columnHeader6});
             this.lv_data.ContextMenuStrip = this.lv_menu;
             this.lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_data.FullRowSelect = true;
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
-            this.lv_data.Location = new System.Drawing.Point(3, 39);
+            this.lv_data.Location = new System.Drawing.Point(3, 41);
             this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(391, 194);
+            this.lv_data.Size = new System.Drawing.Size(549, 217);
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -363,6 +457,16 @@
             this.columnHeader4.Text = "数值";
             this.columnHeader4.Width = 100;
             // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "数值(BIN)";
+            this.columnHeader5.Width = 100;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "数值(HEX)";
+            this.columnHeader6.Width = 100;
+            // 
             // lv_menu
             // 
             this.lv_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -385,6 +489,16 @@
             this.clearAllToolStripMenuItem.Text = "清空列表";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
+            // progressBar1
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.progressBar1, 2);
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressBar1.Location = new System.Drawing.Point(3, 264);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(822, 14);
+            this.progressBar1.Step = 1;
+            this.progressBar1.TabIndex = 36;
+            // 
             // AllenBradley
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -393,6 +507,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "AllenBradley";
+            this.Size = new System.Drawing.Size(863, 506);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -400,6 +515,10 @@
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbx_time)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbx_num)).EndInit();
             this.panel1.ResumeLayout(false);
             this.lv_menu.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -440,5 +559,13 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown tbx_time;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown tbx_num;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

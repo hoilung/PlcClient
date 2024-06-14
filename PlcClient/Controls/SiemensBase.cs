@@ -71,10 +71,19 @@ namespace PlcClient.Controls
 
             gb_set.Text = this.CpuType.ToString().Replace("S7", "S7-") + " " + gb_set.Text;
             tbx_adr.Text = "M2.3";
-
             tbx_msg.Dock = DockStyle.Fill;
 
-            Msg2Text($"适用于西门子PLC {this.CpuType.ToString().Replace("S7", "S7-")}");
+            var tip = $"适用于西门子PLC {this.CpuType.ToString().Replace("S7", "S7-")}";
+            if (CpuType == CpuType.S71200 || CpuType == CpuType.S71500)
+            {
+                tip += "，对于S7-1200和S7-1500，默认值的 机架号=0 和 槽号=0。如果要连接到外部以太网卡（CP），则需要 槽号>0";
+            }
+            else if (CpuType == CpuType.S7300 || CpuType == CpuType.S7400)
+            {
+                tip += "，对于S7-300和S7-400，默认的 机架号=0 和 槽号=2。";
+                tbx_slot.Text = "2";
+            }
+            Msg2Text(tip);
             Msg2Text("\r\n" + Properties.Resources.smz_tip);
             Msg2Text("\r\n");
 

@@ -127,6 +127,7 @@
             // 
             // tbx_slot
             // 
+            this.tbx_slot.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbx_slot.Location = new System.Drawing.Point(344, 24);
             this.tbx_slot.Mask = "9";
             this.tbx_slot.Name = "tbx_slot";

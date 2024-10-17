@@ -18,6 +18,7 @@ namespace PlcClient.Controls
             this.tableLayoutPanel1.Dock = this.statusStrip1.Dock = this.tv_nodes.Dock = DockStyle.Fill;
             this.driver = driver;
             tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
+            
         }
 
         private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -32,25 +33,32 @@ namespace PlcClient.Controls
             {
                 return;
             }
+
             if (item.NodeClass != NodeClass.Variable || e.Node.Nodes.Count > 0)
             {
-                toolStripStatusLabel1.Text = $"{item.NodeId} 节点类型：{item.NodeClass}，不支持读取";
+                if (e.Node.Nodes.Count == 0)
+                {
+                    GetTreeNode(e.Node, ExpandedNodeId.ToNodeId(item.NodeId, null));
+                    e.Node.Expand();
+                }
+
+                toolStripStatusLabel1.Text = $"查看节点：{item.DisplayName} 编号：{item.NodeId} 类型：{item.NodeClass} 节点数：{e.Node.Nodes.Count}";
                 return;
             }
             try
             {
                 var nodeid = (NodeId)item.NodeId;
-                var node = driver.Session.ReadNode(nodeid);                
+                var node = driver.Session.ReadNode(nodeid);
                 if (node is Opc.Ua.VariableNode valnode)
                 {
                     valnode.Value = driver.Session.ReadValue(nodeid);
-                    toolStripStatusLabel1.Text = $"添加节点：{valnode.NodeId} 节点值：{valnode.Value}";
+                    toolStripStatusLabel1.Text = $"预览节点：{valnode.DisplayName} 编号：{valnode.NodeId} 类型：{valnode.NodeClass} 值：{valnode.Value}";
                     DataRefresh?.Invoke(valnode);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "添加节点，读取值失败");
+                MessageBox.Show(ex.Message, "预览节点，读取值失败");
             }
         }
 
@@ -90,8 +98,12 @@ namespace PlcClient.Controls
             foreach (var item in list)
             {
                 var node = pNode.Nodes.Add(item.DisplayName.Text);
+                if (item.NodeClass != NodeClass.Variable)
+                {
+                    node.Collapse();
+                }
                 node.Tag = item;
-                GetTreeNode(node, ExpandedNodeId.ToNodeId(item.NodeId, null));
+                // GetTreeNode(node, ExpandedNodeId.ToNodeId(item.NodeId, null));
             }
         }
     }

@@ -5,6 +5,7 @@ using PlcClient.Handler;
 using PlcClient.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -90,11 +91,12 @@ namespace PlcClient.Controls
                 lvItem.BackColor = Color.AliceBlue;
             }
             lvItem.SubItems[0].Tag = lv_data.Items.Count;
-            lvItem.SubItems.Add(node.NodeId.ToString());
+            lvItem.SubItems.Add(node.DisplayName?.ToString());
             lvItem.SubItems.Add(node.Value.ToString());
+            lvItem.SubItems.Add(node.NodeId.ToString());
             lvItem.SubItems.Add(_cacheType[node.DataType]);
             lvItem.SubItems.Add(_cacheAccessLevel[node.AccessLevel]);
-            lvItem.SubItems.Add(node.Description.ToString());
+            lvItem.SubItems.Add(node.Description?.ToString());
             lv_data.Items.Add(lvItem);
             lv_data.EndUpdate();
         }
@@ -153,14 +155,25 @@ namespace PlcClient.Controls
                 MessageBox.Show("请先浏览节点", "提示");
                 return;
             };
+            if(!OpcUaDriver.Session.Connected)
+            {
+                MessageBox.Show("连接已经断开，请重新连接", "提示");
+                return;            
+            }
             var list = new List<PointItem>();
             for (int i = 0; i < lv_data.Items.Count; i++)
             {
-                list.Add(new PointItem() { Name = lv_data.Items[i].Text, Address = lv_data.Items[i].SubItems[1].Text });
+                if (lv_data.Items[i].Tag is VariableNode node)
+                {
+                    list.Add(new PointItem() { Name = lv_data.Items[i].Text, Address = node.NodeId.ToString() });
+                }
             }
             try
             {
+                stopwatch.Restart();
                 var dic = OpcUaDriver.Read(list.ToArray());
+                stopwatch.Stop();
+                OnMsg($"刷新节点数量：{list.Count} 个，耗时：{stopwatch.ElapsedMilliseconds} ms");
                 lv_data.BeginUpdate();
                 for (int i = 0; i < lv_data.Items.Count; i++)
                 {
@@ -182,6 +195,7 @@ namespace PlcClient.Controls
 
                 }
                 lv_data.EndUpdate();
+
             }
             catch (Exception ex)
             {

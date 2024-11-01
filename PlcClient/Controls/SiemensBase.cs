@@ -216,6 +216,14 @@ namespace PlcClient.Controls
 
                 OnMsg($"{address} 读取 {obj2.ToString()}，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
             }
+            catch (S7.Net.PlcException ex)
+            {
+                Msg2Text("读取数据错误："+ex.Message, true);
+                if (ex.Message.Contains("32-02-00-00-00-00-00-00-00-00-81-04"))
+                {
+                    MessageBox.Show("1.检查网络是否正常；\r\n2.检查IP地址是否在同一网段；\r\n3.检查PLC是否正常工作；\r\n4.检查PLC是否配置了防火墙；\r\n5.检查PLC的地址/端口/插槽/机架号是否正确；\r\n6.检查PLC设置：访问级别/远程访问/优化块访问;", "读取PLC数据失败，稍后请重试或参考以下方式排除", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             catch (Exception ex)
             {
                 Msg2Text(ex.Message, true);
@@ -401,10 +409,24 @@ namespace PlcClient.Controls
             var dataItemGroup = GetDataItemGroup(dataItemList);//合并bit位分组 230831
 
             stopwatch.Restart();
-            int num = (this.Plc.MaxPDUSize - 19) / 12;
-            for (int j = 0; j < dataItemGroup.Count; j += num)
+
+            try
             {
-                this.Plc.ReadMultipleVars(dataItemGroup.Skip(j).Take(num).ToList());
+                int num = (this.Plc.MaxPDUSize - 19) / 12;
+                for (int j = 0; j < dataItemGroup.Count; j += num)
+                {
+                    this.Plc.ReadMultipleVars(dataItemGroup.Skip(j).Take(num).ToList());
+                }
+            }
+            catch (S7.Net.PlcException ex)
+            {
+                Msg2Text("批量读取plc数据错误："+ex.Message, true);
+                MessageBox.Show("1.检查网络是否正常；\r\n2.检查IP地址是否在同一网段；\r\n3.检查PLC是否正常工作；\r\n4.检查PLC是否配置了防火墙；\r\n5.检查PLC的地址/端口/插槽/机架号是否正确；\r\n6.检查PLC设置：访问级别/远程访问/优化块访问;", "读取PLC数据失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (Exception ex)
+            {
+                Msg2Text(ex.Message, true);
             }
             stopwatch.Stop();
             var bitList = dataItemGroup.Where(m => m.VarType == VarType.Bit).ToList();

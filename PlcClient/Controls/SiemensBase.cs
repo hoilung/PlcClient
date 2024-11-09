@@ -99,7 +99,7 @@ namespace PlcClient.Controls
             if (!state)
                 this.chk_enablewrite.Checked = state;
             this.chk_enablewrite.Enabled = this.btn_read.Enabled = this.btn_write.Enabled = this.btn_close.Enabled = state;
-
+            this.btn_write.Enabled = chk_enablewrite.Checked;
             this.btn_open.Enabled = !state;
             //cbx_type.Enabled = state;
 
@@ -218,7 +218,7 @@ namespace PlcClient.Controls
             }
             catch (S7.Net.PlcException ex)
             {
-                Msg2Text("读取数据错误："+ex.Message, true);
+                Msg2Text("读取数据错误：" + ex.Message, true);
                 if (ex.Message.Contains("32-02-00-00-00-00-00-00-00-00-81-04"))
                 {
                     MessageBox.Show("1.检查网络是否正常；\r\n2.检查IP地址是否在同一网段；\r\n3.检查PLC是否正常工作；\r\n4.检查PLC是否配置了防火墙；\r\n5.检查PLC的地址/端口/插槽/机架号是否正确；\r\n6.检查PLC设置：访问级别/远程访问/优化块访问;", "读取PLC数据失败，稍后请重试或参考以下方式排除", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -420,7 +420,7 @@ namespace PlcClient.Controls
             }
             catch (S7.Net.PlcException ex)
             {
-                Msg2Text("批量读取plc数据错误："+ex.Message, true);
+                Msg2Text("批量读取plc数据错误：" + ex.Message, true);
                 MessageBox.Show("1.检查网络是否正常；\r\n2.检查IP地址是否在同一网段；\r\n3.检查PLC是否正常工作；\r\n4.检查PLC是否配置了防火墙；\r\n5.检查PLC的地址/端口/插槽/机架号是否正确；\r\n6.检查PLC设置：访问级别/远程访问/优化块访问;", "读取PLC数据失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }

@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
 {
-    public partial class BaseControl : UserControl
+    public partial class BaseControl : UserControl, INotifyPropertyChanged
     {
         public BaseControl()
         {
@@ -31,6 +33,19 @@ namespace PlcClient.Controls
         };
         #region event
         public event Action<string> Msg;
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs eventArgs)
+        {
+            PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if (propertyChanged != null)
+            {
+                propertyChanged(this, eventArgs);
+            }
+        }
 
         protected virtual void OnMsg(string msg)
         {

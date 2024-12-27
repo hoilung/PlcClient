@@ -84,14 +84,14 @@
             this.cbx_code});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(710, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(710, 29);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(56, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(56, 26);
             this.toolStripLabel1.Text = "服务模式";
             // 
             // cbx_mode
@@ -102,12 +102,12 @@
             "UDP",
             "TCP&UDP"});
             this.cbx_mode.Name = "cbx_mode";
-            this.cbx_mode.Size = new System.Drawing.Size(100, 25);
+            this.cbx_mode.Size = new System.Drawing.Size(100, 29);
             // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(43, 22);
+            this.toolStripLabel2.Size = new System.Drawing.Size(43, 26);
             this.toolStripLabel2.Text = "服务IP";
             // 
             // cbx_ip
@@ -116,12 +116,12 @@
             this.cbx_ip.Items.AddRange(new object[] {
             "0.0.0.0"});
             this.cbx_ip.Name = "cbx_ip";
-            this.cbx_ip.Size = new System.Drawing.Size(121, 25);
+            this.cbx_ip.Size = new System.Drawing.Size(121, 29);
             // 
             // toolStripLabel3
             // 
             this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(56, 22);
+            this.toolStripLabel3.Size = new System.Drawing.Size(56, 26);
             this.toolStripLabel3.Text = "服务端口";
             // 
             // tbx_port
@@ -129,20 +129,20 @@
             this.tbx_port.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
             this.tbx_port.MaxLength = 5;
             this.tbx_port.Name = "tbx_port";
-            this.tbx_port.Size = new System.Drawing.Size(50, 25);
+            this.tbx_port.Size = new System.Drawing.Size(50, 29);
             this.tbx_port.Text = "7979";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 29);
             // 
             // btn_start
             // 
             this.btn_start.Image = global::PlcClient.Properties.Resources.Play;
             this.btn_start.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(52, 22);
+            this.btn_start.Size = new System.Drawing.Size(52, 26);
             this.btn_start.Text = "启动";
             this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
@@ -151,19 +151,19 @@
             this.btn_stop.Image = global::PlcClient.Properties.Resources.Stop;
             this.btn_stop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_stop.Name = "btn_stop";
-            this.btn_stop.Size = new System.Drawing.Size(52, 22);
+            this.btn_stop.Size = new System.Drawing.Size(52, 26);
             this.btn_stop.Text = "停止";
             this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 29);
             // 
             // toolStripLabel4
             // 
             this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(56, 22);
+            this.toolStripLabel4.Size = new System.Drawing.Size(56, 26);
             this.toolStripLabel4.Text = "字符编码";
             // 
             // cbx_code

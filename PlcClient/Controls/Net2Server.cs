@@ -1,4 +1,5 @@
 ﻿using NewLife;
+using NewLife.Data;
 using NewLife.Net;
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace PlcClient.Controls
                     sb.AppendLine(e.Packet.ToStr(cbx_code.Tag as Encoding));
                 }
                 if (cbx_hex.Checked)
-                {
+                {                    
                     sb.AppendLine(e.Packet.ToHex(-1, " "));
                 }
                 if (sb.Length > 0)

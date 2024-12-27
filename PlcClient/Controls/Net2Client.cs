@@ -1,4 +1,5 @@
 ﻿using NewLife;
+using NewLife.Data;
 using NewLife.Net;
 using System;
 using System.Collections.Generic;

@@ -64,22 +64,29 @@ namespace PlcClient.Controls
                 return;
             }
 
-            this.Server = new HttpServer
+            try
             {
-                Port = ServerPort,
-            };
-            if (ServerMode == "WebSocket")
-            {
-                Server.Map(ServerUrl, WebSocketHandler);
-                Server.NewSession += Server_NewSession;
+                this.Server = new HttpServer
+                {
+                    Port = ServerPort,
+                };
+                if (ServerMode == "WebSocket")
+                {
+                    Server.Map(ServerUrl, WebSocketHandler);
+                    Server.NewSession += Server_NewSession;
+                }
+                else if (ServerMode == "HTTP")
+                {
+                    Server.Map(ServerUrl, () => SendMessage);
+                }
+                Server.Start();
+                cbx_mode.Enabled=cbx_ip.Enabled=tbx_port.Enabled=tbx_path.Enabled= btn_start.Enabled = false;
+                btn_stop.Enabled = true;
             }
-            else if (ServerMode == "HTTP")
+            catch (Exception ex)
             {
-                Server.Map(ServerUrl, () => SendMessage);
+                MessageBox.Show("启动Web服务失败！", ex.Message);
             }
-            Server.Start();
-            btn_start.Enabled = false;
-            btn_stop.Enabled = true;
 
 
         }
@@ -143,7 +150,7 @@ namespace PlcClient.Controls
                 Server.Stop("关闭WebSocket服务");
                 Server = null;
             }
-            btn_start.Enabled = true;
+            cbx_mode.Enabled = cbx_ip.Enabled = tbx_port.Enabled = tbx_path.Enabled = btn_start.Enabled = true;
             btn_stop.Enabled = false;
         }
 

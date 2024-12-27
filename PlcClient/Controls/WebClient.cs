@@ -44,12 +44,12 @@ namespace PlcClient.Controls
         private void webClient_ReceiveEvent(object sender, string e)
         {
             tbx_received.Invoke(() =>
-            {   
+            {
                 tbx_received.AppendText(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff "));
                 tbx_received.AppendText(e);
                 //设置最新一行数据颜色为随机颜色
                 tbx_received.Select(tbx_received.TextLength - e.Length, e.Length);
-                tbx_received.SelectionColor = Color.FromArgb(255,0, new Random().Next(100, 255), new Random().Next(1, 128));
+                tbx_received.SelectionColor = Color.FromArgb(255, 0, new Random().Next(100, 255), new Random().Next(1, 128));
                 tbx_received.AppendText(Environment.NewLine);
                 tbx_received.Scroll();
             });
@@ -63,12 +63,20 @@ namespace PlcClient.Controls
                 MessageBox.Show("地址格式不正确，请检查！");
                 return;
             }
-            Client = new WebSocketClient(new Uri(Address));
-            Client.Closed += Client_Closed;
-            Client.Error += Client_Error;
-            Client.Received += Client_Received;
-            Client.Opened += Client_Opened;
-            Client.Open();
+            try
+            {
+                Client = new WebSocketClient(new Uri(Address));
+                Client.Closed += Client_Closed;
+                Client.Error += Client_Error;
+                Client.Received += Client_Received;
+                Client.Opened += Client_Opened;
+                Client.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("WebSocket 连接出错", ex.Message);
+            }
+
         }
 
         private void Client_Closed(object sender, EventArgs e)
@@ -84,7 +92,7 @@ namespace PlcClient.Controls
 
         private void Client_Received(object sender, ReceivedEventArgs e)
         {
-            OnReceive(string.Format("[{0}]->{1}",e.Remote,e.Packet.GetSpan().ToStr()));
+            OnReceive(string.Format("[{0}]->{1}", e.Remote, e.Packet.GetSpan().ToStr()));
         }
 
         private void Client_Opened(object sender, EventArgs e)
@@ -92,7 +100,7 @@ namespace PlcClient.Controls
             OnMsg($"{Address} 连接成功！");
             this.Invoke(() =>
             {
-                btn_open.Enabled = false;
+                tbx_addr.Enabled= btn_open.Enabled = false;
                 btn_close.Enabled = true;
             });
 
@@ -106,7 +114,7 @@ namespace PlcClient.Controls
             }
             this.Invoke(() =>
             {
-                btn_open.Enabled = true;
+                tbx_addr.Enabled = btn_open.Enabled = true;
                 btn_close.Enabled = false;
             });
         }

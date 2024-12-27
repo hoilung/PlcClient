@@ -158,7 +158,7 @@
             this.webClient1.Location = new System.Drawing.Point(3, 3);
             this.webClient1.Name = "webClient1";
             this.webClient1.SendCount = 1;
-            this.webClient1.SendData = "Hello,World!";
+            this.webClient1.SendData = "Hello!";
             this.webClient1.SendInterval = 1000;
             this.webClient1.Size = new System.Drawing.Size(696, 397);
             this.webClient1.TabIndex = 0;
@@ -180,7 +180,7 @@
             this.webSocketServer1.ReceiveMessage = "";
             this.webSocketServer1.SendCount = 1;
             this.webSocketServer1.SendInterval = 1000;
-            this.webSocketServer1.SendMessage = "Hello,WebSocket!";
+            this.webSocketServer1.SendMessage = "Welcome";
             this.webSocketServer1.Server = null;
             this.webSocketServer1.ServerIP = "0.0.0.0";
             this.webSocketServer1.ServerMode = "WebSocket";

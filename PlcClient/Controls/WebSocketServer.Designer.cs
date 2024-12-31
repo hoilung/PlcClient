@@ -132,7 +132,7 @@
             this.tbx_port.MaxLength = 5;
             this.tbx_port.Name = "tbx_port";
             this.tbx_port.Size = new System.Drawing.Size(50, 25);
-            this.tbx_port.Text = "8080";
+            this.tbx_port.Text = "7000";
             // 
             // tslb_path
             // 

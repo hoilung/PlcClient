@@ -13,7 +13,7 @@ namespace PlcClient.Controls
     {
         public string ServerMode { get; set; } = "WebSocket";
         public string ServerIP { get; set; } = "0.0.0.0";
-        public int ServerPort { get; set; } = 8080;
+        public int ServerPort { get; set; } = 7000;
         public string ServerUrl { get; set; } = "/ws";
 
         public string SendMessage { get; set; } = "Welcome";

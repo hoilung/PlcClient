@@ -17,8 +17,9 @@ namespace PlcClient.Controls
             InitializeComponent();
             this.netClient1.Msg += Net_Msg;
             this.net2Server1.Msg += Net_Msg;
-        }
-
+            this.webClient1.Msg += Net_Msg;
+            this.webSocketServer1.Msg += Net_Msg;
+        }     
 
         private void Net_Msg(string obj)
         {

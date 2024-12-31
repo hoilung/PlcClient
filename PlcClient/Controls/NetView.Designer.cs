@@ -37,9 +37,9 @@
             this.net2Server1 = new PlcClient.Controls.Net2Server();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.webSocketServer1 = new PlcClient.Controls.WebSocketServer();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.webClient1 = new PlcClient.Controls.WebClient();
-            this.webSocketServer1 = new PlcClient.Controls.WebSocketServer();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -143,35 +143,6 @@
             this.tabPage4.Text = "Web服务端";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Thin Client.png");
-            this.imageList1.Images.SetKeyName(1, "Root Server.png");
-            // 
-            // webClient1
-            // 
-            this.webClient1.Address = "ws://127.0.0.1:8080/ws";
-            this.webClient1.Client = null;
-            this.webClient1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webClient1.Location = new System.Drawing.Point(3, 3);
-            this.webClient1.Name = "webClient1";
-            this.webClient1.SendCount = 1;
-            this.webClient1.SendData = "Hello!";
-            this.webClient1.SendInterval = 1000;
-            this.webClient1.Size = new System.Drawing.Size(696, 397);
-            this.webClient1.TabIndex = 0;
-            this.webClient1.TypeCodes = new System.TypeCode[] {
-        System.TypeCode.Boolean,
-        System.TypeCode.Byte,
-        System.TypeCode.Int16,
-        System.TypeCode.Int32,
-        System.TypeCode.Single,
-        System.TypeCode.Double,
-        System.TypeCode.UInt16,
-        System.TypeCode.UInt32};
-            // 
             // webSocketServer1
             // 
             this.webSocketServer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -184,11 +155,39 @@
             this.webSocketServer1.Server = null;
             this.webSocketServer1.ServerIP = "0.0.0.0";
             this.webSocketServer1.ServerMode = "WebSocket";
-            this.webSocketServer1.ServerPort = 8080;
+            this.webSocketServer1.ServerPort = 7000;
             this.webSocketServer1.ServerUrl = "/ws";
             this.webSocketServer1.Size = new System.Drawing.Size(696, 397);
             this.webSocketServer1.TabIndex = 0;
             this.webSocketServer1.TypeCodes = new System.TypeCode[] {
+        System.TypeCode.Boolean,
+        System.TypeCode.Byte,
+        System.TypeCode.Int16,
+        System.TypeCode.Int32,
+        System.TypeCode.Single,
+        System.TypeCode.Double,
+        System.TypeCode.UInt16,
+        System.TypeCode.UInt32};
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Thin Client.png");
+            this.imageList1.Images.SetKeyName(1, "Root Server.png");
+            // 
+            // webClient1
+            // 
+            this.webClient1.Address = "ws://127.0.0.1:7000/ws";
+            this.webClient1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webClient1.Location = new System.Drawing.Point(3, 3);
+            this.webClient1.Name = "webClient1";
+            this.webClient1.SendCount = 1;
+            this.webClient1.SendData = "Hello!";
+            this.webClient1.SendInterval = 1000;
+            this.webClient1.Size = new System.Drawing.Size(696, 397);
+            this.webClient1.TabIndex = 0;
+            this.webClient1.TypeCodes = new System.TypeCode[] {
         System.TypeCode.Boolean,
         System.TypeCode.Byte,
         System.TypeCode.Int16,
@@ -223,7 +222,7 @@
         private Net2Server net2Server1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
-        private WebClient webClient1;
         private WebSocketServer webSocketServer1;
+        private WebClient webClient1;
     }
 }

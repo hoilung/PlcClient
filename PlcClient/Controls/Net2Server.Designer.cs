@@ -57,6 +57,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbx_reply = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -84,14 +85,14 @@
             this.cbx_code});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(710, 29);
+            this.toolStrip1.Size = new System.Drawing.Size(710, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(56, 26);
+            this.toolStripLabel1.Size = new System.Drawing.Size(56, 22);
             this.toolStripLabel1.Text = "服务模式";
             // 
             // cbx_mode
@@ -102,12 +103,12 @@
             "UDP",
             "TCP&UDP"});
             this.cbx_mode.Name = "cbx_mode";
-            this.cbx_mode.Size = new System.Drawing.Size(100, 29);
+            this.cbx_mode.Size = new System.Drawing.Size(100, 25);
             // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(43, 26);
+            this.toolStripLabel2.Size = new System.Drawing.Size(43, 22);
             this.toolStripLabel2.Text = "服务IP";
             // 
             // cbx_ip
@@ -116,12 +117,12 @@
             this.cbx_ip.Items.AddRange(new object[] {
             "0.0.0.0"});
             this.cbx_ip.Name = "cbx_ip";
-            this.cbx_ip.Size = new System.Drawing.Size(121, 29);
+            this.cbx_ip.Size = new System.Drawing.Size(121, 25);
             // 
             // toolStripLabel3
             // 
             this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(56, 26);
+            this.toolStripLabel3.Size = new System.Drawing.Size(56, 22);
             this.toolStripLabel3.Text = "服务端口";
             // 
             // tbx_port
@@ -129,20 +130,20 @@
             this.tbx_port.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
             this.tbx_port.MaxLength = 5;
             this.tbx_port.Name = "tbx_port";
-            this.tbx_port.Size = new System.Drawing.Size(50, 29);
+            this.tbx_port.Size = new System.Drawing.Size(50, 25);
             this.tbx_port.Text = "7979";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // btn_start
             // 
             this.btn_start.Image = global::PlcClient.Properties.Resources.Play;
             this.btn_start.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(52, 26);
+            this.btn_start.Size = new System.Drawing.Size(52, 22);
             this.btn_start.Text = "启动";
             this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
@@ -151,19 +152,19 @@
             this.btn_stop.Image = global::PlcClient.Properties.Resources.Stop;
             this.btn_stop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_stop.Name = "btn_stop";
-            this.btn_stop.Size = new System.Drawing.Size(52, 26);
+            this.btn_stop.Size = new System.Drawing.Size(52, 22);
             this.btn_stop.Text = "停止";
             this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripLabel4
             // 
             this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(56, 26);
+            this.toolStripLabel4.Size = new System.Drawing.Size(56, 22);
             this.toolStripLabel4.Text = "字符编码";
             // 
             // cbx_code
@@ -199,13 +200,11 @@
             this.tbx_send.TabIndex = 4;
             this.tbx_send.Text = "Hello world";
             this.tbx_send.WordWrap = false;
-            this.tbx_send.TextChanged += new System.EventHandler(this.tbx_send_TextChanged);
-            this.tbx_send.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_send_KeyPress);
             // 
             // cbx_remoteAll
             // 
             this.cbx_remoteAll.AutoSize = true;
-            this.cbx_remoteAll.Location = new System.Drawing.Point(3, 46);
+            this.cbx_remoteAll.Location = new System.Drawing.Point(6, 46);
             this.cbx_remoteAll.Name = "cbx_remoteAll";
             this.cbx_remoteAll.Size = new System.Drawing.Size(72, 16);
             this.cbx_remoteAll.TabIndex = 13;
@@ -353,6 +352,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cbx_reply);
             this.panel1.Controls.Add(this.cbx_remoteAll);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btn_clearSend);
@@ -362,6 +362,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(176, 175);
             this.panel1.TabIndex = 4;
+            // 
+            // cbx_reply
+            // 
+            this.cbx_reply.AutoSize = true;
+            this.cbx_reply.Location = new System.Drawing.Point(6, 68);
+            this.cbx_reply.Name = "cbx_reply";
+            this.cbx_reply.Size = new System.Drawing.Size(72, 16);
+            this.cbx_reply.TabIndex = 14;
+            this.cbx_reply.Text = "自动回复";
+            this.cbx_reply.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -430,5 +440,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox cbx_reply;
     }
 }

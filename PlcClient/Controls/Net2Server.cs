@@ -31,6 +31,7 @@ namespace PlcClient.Controls
             cbx_mode.SelectedIndex = 0;
             btn_stop.Enabled = false;
 
+            this.ShowToolTip("自动回复接收到的消息", cbx_reply);
         }
 
         private void Net2Server_Disposed(object sender, EventArgs e)
@@ -83,6 +84,10 @@ namespace PlcClient.Controls
             if (e.Packet.Total == 0)
             {
                 return;
+            }
+            if(cbx_reply.Checked&& sender is NetSession session)
+            {
+                session.Send(e.Packet);
             }
             tbx_received.Invoke(new Action(() =>
             {
@@ -235,39 +240,34 @@ namespace PlcClient.Controls
         {
             if (cbx_code.Tag is Encoding code)
             {
+                tbx_send.ReadOnly = cbx_hexSend.Checked;
                 if (cbx_hexSend.Checked)
                 {
+                    tbx_send.Tag = tbx_send.Text;
+                    //判断是否是16进制字符串
+                    var tmp = tbx_send.Text.Replace(" ", "");
+                    if (Regex.IsMatch(tmp, "^[0-9A-Fa-f]+$"))
+                    {
+                        var sb = new StringBuilder();
+                        for (int i = 0; i < tmp.Length; i += 2)
+                        {
+                            sb.Append(tmp.Substring(i, 2));
+                            sb.Append(" ");
+                        }
+                        tbx_send.Text = sb.ToString().TrimEnd();
+                        OnMsg("当前内容为16进制字符，无需转换");
+                        return;
+                    }
                     tbx_send.Text = code.GetBytes(tbx_send.Text).ToHex(" ");
+                    OnMsg("当前内容非16进制字符 ，已转换为16进制");
                 }
                 else
                 {
-                    tbx_send.Text = tbx_send.Text.Split(" ").Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray().ToStr(code);
+                    tbx_send.Text = tbx_send.Tag.ToString();// tbx_send.Text.Split(" ").Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray().ToStr(code);
                 }
             }
         }
 
-        private void tbx_send_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!cbx_hexSend.Checked)
-            {
-                return;
-            }
-            if (!char.IsControl(e.KeyChar) && !Regex.IsMatch(e.KeyChar.ToString(), "[0-9A-Fa-f]"))
-            {
-                e.Handled = true; // 拒绝输入
-            }
-        }
-
-        private void tbx_send_TextChanged(object sender, EventArgs e)
-        {
-            if (!cbx_hexSend.Checked)
-            {
-                return;
-            }
-            if (tbx_send.TextLength % 3 == 2)
-            {
-                tbx_send.Append(" ");
-            }
-        }
+        
     }
 }

@@ -181,41 +181,36 @@ namespace PlcClient.Controls
                 _client.Close("");
         }
 
-        private void tbx_send_TextChanged(object sender, EventArgs e)
-        {
-            if (!cbx_hexSend.Checked)
-            {
-                return;
-            }
-            if (tbx_send.TextLength % 3 == 2)
-            {
-                tbx_send.Append(" ");
-            }
-        }
-
-        private void tbx_send_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!cbx_hexSend.Checked)
-            {
-                return;
-            }
-            if (!char.IsControl(e.KeyChar) && !Regex.IsMatch(e.KeyChar.ToString(), "[0-9A-Fa-f]"))
-            {
-                e.Handled = true; // 拒绝输入
-            }
-        }
 
         private void cbx_hexSend_CheckedChanged(object sender, EventArgs e)
         {
             if (cbx_code.Tag is Encoding code)
             {
+                tbx_send.ReadOnly = cbx_hexSend.Checked;
                 if (cbx_hexSend.Checked)
                 {
+                    tbx_send.Tag = tbx_send.Text;
+                    //判断是否是16进制字符串
+                    var tmp=tbx_send.Text.Replace(" ", "");
+                    if (Regex.IsMatch(tmp, "^[0-9A-Fa-f]+$") && tmp.Length % 2 == 0)
+                    {
+                        //每个字节之间空格隔开
+                        var sb = new StringBuilder();
+                        for (int i = 0; i < tmp.Length; i += 2)
+                        {
+                            sb.Append(tmp.Substring(i, 2));
+                            sb.Append(" ");
+                        }
+                        tbx_send.Text = sb.ToString().ToUpper().TrimEnd();
+                        OnMsg("当前内容为16进制字符，无需转换");
+                        return;
+                    }
                     tbx_send.Text = code.GetBytes(tbx_send.Text).ToHex(" ");
+                    OnMsg("当前内容非16进制字符 ，已转换为16进制");
                 }
                 else
                 {
-                    tbx_send.Text = tbx_send.Text.Split(" ").Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray().ToStr(code);
+                    tbx_send.Text =tbx_send.Tag.ToString(); //tbx_send.Text.Split(" ").Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray().ToStr(code);
                 }
             }
         }

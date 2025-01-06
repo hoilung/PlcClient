@@ -215,8 +215,6 @@
             this.tbx_send.Size = new System.Drawing.Size(507, 163);
             this.tbx_send.TabIndex = 4;
             this.tbx_send.WordWrap = false;
-            this.tbx_send.TextChanged += new System.EventHandler(this.tbx_send_TextChanged);
-            this.tbx_send.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_send_KeyPress);
             // 
             // panel1
             // 

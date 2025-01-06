@@ -182,5 +182,16 @@ namespace PlcClient.Controls
             }
             return string.Empty;
         }
+ 
+        //private ToolTip toolTip = new ToolTip();
+        public void ShowToolTip(string text, Control control)
+        {
+            ToolTip toolTip = new ToolTip();            
+            toolTip.ShowAlways = true;
+            toolTip.AutoPopDelay = 5000;
+            toolTip.InitialDelay = 1000;
+            toolTip.ReshowDelay = 500;
+            toolTip.SetToolTip(control, text);
+        }
     }
 }

@@ -91,7 +91,7 @@ namespace PlcClient.Controls
             }
             tbx_received.Invoke(new Action(() =>
             {
-                StringBuilder sb = new StringBuilder();
+                //StringBuilder sb = new StringBuilder();
                 if (cbx_time.Checked)
                 {
                     tbx_received.AppendText($"{DateTime.Now.ToString("[HH: mm:ss.fff] ")}{e.Remote}{Environment.NewLine}");
@@ -99,20 +99,22 @@ namespace PlcClient.Controls
                 int start = tbx_received.Text.Length;
                 if (cbx_string.Checked)
                 {
-                    sb.AppendLine(e.Packet.ToStr(cbx_code.Tag as Encoding));
+                    tbx_received.AppendText(e.Packet.ToStr(cbx_code.Tag as Encoding));
                 }
                 if (cbx_hex.Checked)
-                {                    
-                    sb.AppendLine(e.Packet.ToHex(-1, " "));
-                }
-                if (sb.Length > 0)
                 {
-                    tbx_received.AppendText(sb.ToString());
+                    if (cbx_string.Checked)
+                        tbx_received.AppendText(Environment.NewLine);
+                    tbx_received.AppendText(e.Packet.ToHex(-1, " "));
+                }
+                if (e.Packet.Length > 0)
+                {                    
                     tbx_received.SelectionStart = start;
                     tbx_received.SelectionLength = tbx_received.Text.Length;
                     var rgb = Enumerable.Range(1, 254).OrderBy(m => Guid.NewGuid()).Take(3).ToArray();
                     tbx_received.SelectionColor = Color.FromArgb(0, rgb[1], rgb[2]);
                     tbx_received.Scroll();
+                    tbx_received.AppendText(Environment.NewLine);
                 }
             }));
         }
@@ -255,11 +257,11 @@ namespace PlcClient.Controls
                             sb.Append(" ");
                         }
                         tbx_send.Text = sb.ToString().TrimEnd();
-                        OnMsg("当前内容为16进制字符，无需转换");
+                        OnMsg("当前为16进制字符，未转换，已格式化内容");
                         return;
                     }
                     tbx_send.Text = code.GetBytes(tbx_send.Text).ToHex(" ");
-                    OnMsg("当前内容非16进制字符 ，已转换为16进制");
+                    OnMsg("当前非16进制字符 ，已转换，已格式化内容");
                 }
                 else
                 {

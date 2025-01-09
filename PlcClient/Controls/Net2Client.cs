@@ -99,12 +99,10 @@ namespace PlcClient.Controls
             }));
             OnMsg($"连接成功 本地：{_client.Local}=>远程：{_client.Remote}");
         }
-        private StringBuilder sb = new StringBuilder();
-
-
+        
         private void _client_Received(object sender, ReceivedEventArgs e)
         {
-            sb.Clear();
+            
             tbx_received.Invoke(new Action(() =>
             {
                 if (cbx_time.Checked)
@@ -112,22 +110,25 @@ namespace PlcClient.Controls
                     tbx_received.AppendText(DateTime.Now.ToString("[HH:mm:ss.fff] ") + e.Remote + Environment.NewLine);
                 }
                 int start = tbx_received.Text.Length;
+                
                 if (cbx_string.Checked)
                 {
-                    sb.AppendLine(e.Packet.ToStr(cbx_code.Tag as Encoding));
+                    tbx_received.AppendText(e.Packet.ToStr(cbx_code.Tag as Encoding));
                 }
                 if (cbx_hex.Checked)
                 {
-                    sb.AppendLine(e.Packet.ToHex(-1, " "));
+                    if(cbx_string.Checked)
+                        tbx_received.AppendText(Environment.NewLine);
+                    tbx_received.AppendText(e.Packet.ToHex(-1, " "));
                 }
-                if (sb.Length > 0)
-                {
-                    tbx_received.AppendText(sb.ToString());
+                if (e.Packet.Length > 0)
+                {  
                     tbx_received.SelectionStart = start;
                     tbx_received.SelectionLength = tbx_received.Text.Length;
                     var rgb = Enumerable.Range(1, 254).OrderBy(m => Guid.NewGuid()).Take(3).ToArray();
                     tbx_received.SelectionColor = Color.FromArgb(0, rgb[1], rgb[2]);
                     tbx_received.Scroll();
+                    tbx_received.AppendText(Environment.NewLine);
                 }
             }));
         }
@@ -191,7 +192,7 @@ namespace PlcClient.Controls
                 {
                     tbx_send.Tag = tbx_send.Text;
                     //判断是否是16进制字符串
-                    var tmp=tbx_send.Text.Replace(" ", "");
+                    var tmp = tbx_send.Text.Replace(" ", "");
                     if (Regex.IsMatch(tmp, "^[0-9A-Fa-f]+$") && tmp.Length % 2 == 0)
                     {
                         //每个字节之间空格隔开
@@ -202,15 +203,15 @@ namespace PlcClient.Controls
                             sb.Append(" ");
                         }
                         tbx_send.Text = sb.ToString().ToUpper().TrimEnd();
-                        OnMsg("当前内容为16进制字符，无需转换");
+                        OnMsg("当前为16进制字符，未转换，已格式化内容");
                         return;
                     }
                     tbx_send.Text = code.GetBytes(tbx_send.Text).ToHex(" ");
-                    OnMsg("当前内容非16进制字符 ，已转换为16进制");
+                    OnMsg("当前非16进制字符 ，已转换，已格式化内容");
                 }
                 else
                 {
-                    tbx_send.Text =tbx_send.Tag.ToString(); //tbx_send.Text.Split(" ").Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray().ToStr(code);
+                    tbx_send.Text = tbx_send.Tag.ToString(); //tbx_send.Text.Split(" ").Select(hex => (byte)Convert.ToInt32(hex, 16)).ToArray().ToStr(code);
                 }
             }
         }

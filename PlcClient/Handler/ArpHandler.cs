@@ -38,13 +38,13 @@ namespace PlcClient.Handler
         {
             CancellationTokenSource?.Cancel();
         }
-        public void ScanIP(string ip_and_mask, Action<string[]> actionProcess, Action actionEnd)
+        public void ScanIP(IEnumerable<IPAddress> list, Action<string[]> actionProcess, Action actionEnd)
         {
             try
             {
                 CancellationTokenSource = new CancellationTokenSource();
 
-                var list = IPAddressRange.Parse(ip_and_mask).AsEnumerable();
+                //var list = IPAddressRange.Parse(ip_and_mask).AsEnumerable();
                 Task.Run(() =>
                 {
                     Parallel.ForEach(list, ip =>
@@ -104,17 +104,19 @@ namespace PlcClient.Handler
                         queue.Enqueue(ip);
                     }
                     var pings = new Ping[Environment.ProcessorCount];
-                    Parallel.ForEach(pings, ping =>
+                    for (int i = 0; i < pings.Length; i++)
                     {
-                        if (ping == null)
-                            ping = new Ping();
+                        pings[i] = new Ping();
+                    }                    
+                    Parallel.ForEach(pings, ping =>
+                    {                        
                         while (queue.Count > 0)
                         {
                             if (this.CancellationTokenSource.IsCancellationRequested)
                                 break;
 
                             var ip = queue.Dequeue();
-                            var result = ping.Send(ip, 500);
+                            var result = ping.Send(ip, 100);
                             var mac = string.Empty;
                             var deviceInfo = string.Empty;
                             bool area_local = false;
@@ -125,7 +127,6 @@ namespace PlcClient.Handler
                                 area_local = true;
                             }
                             actionProcess?.Invoke(new string[] { ip.ToString(), result.Status.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, area_local ? "本地" : "远程" });
-
                         }
                     });
                     actionEnd?.Invoke();

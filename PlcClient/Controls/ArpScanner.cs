@@ -85,7 +85,7 @@ namespace PlcClient.Controls
                         row.BackColor = Color.LightGreen;                        
                     }
                     row.SubItems.AddRange(pe);
-                    if (lv_data.Items.Count % 5 == 0)
+                    if (lv_data.Items.Count % 10 == 0)
                     {
                         lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     }

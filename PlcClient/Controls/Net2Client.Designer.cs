@@ -200,7 +200,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(513, 183);
+            this.groupBox1.Size = new System.Drawing.Size(506, 183);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "数据发送";
@@ -212,7 +212,7 @@
             this.tbx_send.Multiline = true;
             this.tbx_send.Name = "tbx_send";
             this.tbx_send.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_send.Size = new System.Drawing.Size(507, 163);
+            this.tbx_send.Size = new System.Drawing.Size(500, 163);
             this.tbx_send.TabIndex = 4;
             this.tbx_send.WordWrap = false;
             // 
@@ -226,15 +226,15 @@
             this.panel1.Controls.Add(this.nd_step);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(522, 3);
+            this.panel1.Location = new System.Drawing.Point(515, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(163, 183);
+            this.panel1.Size = new System.Drawing.Size(170, 183);
             this.panel1.TabIndex = 4;
             // 
             // cbx_hexSend
             // 
             this.cbx_hexSend.AutoSize = true;
-            this.cbx_hexSend.Location = new System.Drawing.Point(84, 20);
+            this.cbx_hexSend.Location = new System.Drawing.Point(3, 46);
             this.cbx_hexSend.Name = "cbx_hexSend";
             this.cbx_hexSend.Size = new System.Drawing.Size(72, 16);
             this.cbx_hexSend.TabIndex = 8;
@@ -255,7 +255,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(84, 50);
+            this.label2.Location = new System.Drawing.Point(84, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 9;
@@ -274,7 +274,7 @@
             // 
             // nd_num
             // 
-            this.nd_num.Location = new System.Drawing.Point(3, 46);
+            this.nd_num.Location = new System.Drawing.Point(3, 68);
             this.nd_num.Maximum = new decimal(new int[] {
             60,
             0,
@@ -296,7 +296,7 @@
             // 
             // nd_step
             // 
-            this.nd_step.Location = new System.Drawing.Point(3, 73);
+            this.nd_step.Location = new System.Drawing.Point(3, 95);
             this.nd_step.Maximum = new decimal(new int[] {
             60000,
             0,
@@ -319,7 +319,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(84, 77);
+            this.label1.Location = new System.Drawing.Point(84, 99);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 7;
@@ -331,7 +331,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 192);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(513, 183);
+            this.groupBox2.Size = new System.Drawing.Size(506, 183);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "数据接收";
@@ -343,7 +343,7 @@
             this.tbx_received.Location = new System.Drawing.Point(3, 17);
             this.tbx_received.Name = "tbx_received";
             this.tbx_received.ReadOnly = true;
-            this.tbx_received.Size = new System.Drawing.Size(507, 163);
+            this.tbx_received.Size = new System.Drawing.Size(500, 163);
             this.tbx_received.TabIndex = 1;
             this.tbx_received.Text = "";
             // 
@@ -354,9 +354,9 @@
             this.panel2.Controls.Add(this.btn_clearCallback);
             this.panel2.Controls.Add(this.cbx_string);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(522, 192);
+            this.panel2.Location = new System.Drawing.Point(515, 192);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(163, 183);
+            this.panel2.Size = new System.Drawing.Size(170, 183);
             this.panel2.TabIndex = 5;
             // 
             // cbx_time
@@ -461,13 +461,9 @@
         private System.Windows.Forms.Button btn_clearCallback;
         private System.Windows.Forms.RichTextBox tbx_received;
         private System.Windows.Forms.TextBox tbx_send;
-        private System.Windows.Forms.NumericUpDown nd_step;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbx_string;
         private System.Windows.Forms.ToolStripComboBox cbx_remoteIp;
         private System.Windows.Forms.CheckBox cbx_hex;
-        private System.Windows.Forms.NumericUpDown nd_num;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.CheckBox cbx_hexSend;
         private System.Windows.Forms.CheckBox cbx_time;
@@ -481,5 +477,9 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripComboBox cbx_localip;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown nd_num;
+        private System.Windows.Forms.NumericUpDown nd_step;
+        private System.Windows.Forms.Label label1;
     }
 }

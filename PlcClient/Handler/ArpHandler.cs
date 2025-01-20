@@ -98,40 +98,25 @@ namespace PlcClient.Handler
                 CancellationTokenSource = new CancellationTokenSource();
                 Task.Run(() =>
                 {
-                    var queue = new Queue<IPAddress>();
-                    foreach (var ip in list)
-                    {
-                        queue.Enqueue(ip);
-                    }
-                    var pings = new Ping[Environment.ProcessorCount];
-                    for (int i = 0; i < pings.Length; i++)
-                    {
-                        pings[i] = new Ping();
-                    }                    
-                    Parallel.ForEach(pings, ping =>
-                    {                        
-                        while (queue.Count > 0)
-                        {
-                            if (this.CancellationTokenSource.IsCancellationRequested)
-                                break;
-
-                            var ip = queue.Dequeue();
-                            var result = ping.Send(ip, 100);
-                            var mac = string.Empty;
-                            var deviceInfo = string.Empty;
-                            bool area_local = false;
-                            if (IsPrivateNetwork3(ip))
-                            {
-                                mac = ResolveMac(ip.ToString());
-                                deviceInfo = GetDeviceInfoForMac(mac);
-                                area_local = true;
-                            }
-                            actionProcess?.Invoke(new string[] { ip.ToString(), result.Status.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, area_local ? "本地" : "远程" });
-                        }
-                    });
+                    Parallel.ForEach(list, ip =>
+                     {
+                         if (this.CancellationTokenSource.IsCancellationRequested)
+                             return;
+                         Ping ping = new Ping();
+                         var result = ping.Send(ip, 100);
+                         var mac = string.Empty;
+                         var deviceInfo = string.Empty;
+                         bool area_local = false;
+                         if (IsPrivateNetwork3(ip))
+                         {
+                             mac = ResolveMac(ip.ToString());
+                             deviceInfo = GetDeviceInfoForMac(mac);
+                             area_local = true;
+                         }
+                         actionProcess?.Invoke(new string[] { ip.ToString(), result.Status.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, area_local ? "本地" : "远程" });
+                     });
                     actionEnd?.Invoke();
-
-                }, CancellationTokenSource.Token);
+                });
 
             }
             catch (Exception ex)

@@ -33,7 +33,7 @@ namespace PlcClient.Controls
 
         public WebClient()
         {
-            InitializeComponent();
+            InitializeComponent();            
             Dock = tableLayoutPanel1.Dock = DockStyle.Fill;
             btn_close.Enabled = false;
             tbx_addr.TextBox.DataBindings.Add("Text", this, nameof(Address));

@@ -71,7 +71,6 @@
             // 
             // toolStrip1
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.toolStrip1, 3);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.cbx_mode,
@@ -87,7 +86,7 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(726, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(917, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -179,21 +178,19 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.toolStrip1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.panel2, 2, 2);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 2, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 46);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 170F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(726, 335);
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(801, 408);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // groupBox2
@@ -201,9 +198,9 @@
             this.tableLayoutPanel1.SetColumnSpan(this.groupBox2, 2);
             this.groupBox2.Controls.Add(this.tbx_received);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(3, 198);
+            this.groupBox2.Location = new System.Drawing.Point(3, 207);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(560, 134);
+            this.groupBox2.Size = new System.Drawing.Size(619, 198);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "数据接收";
@@ -214,7 +211,7 @@
             this.tbx_received.Location = new System.Drawing.Point(3, 17);
             this.tbx_received.Name = "tbx_received";
             this.tbx_received.ReadOnly = true;
-            this.tbx_received.Size = new System.Drawing.Size(554, 114);
+            this.tbx_received.Size = new System.Drawing.Size(613, 178);
             this.tbx_received.TabIndex = 1;
             this.tbx_received.Text = "";
             // 
@@ -222,10 +219,9 @@
             // 
             this.groupBox3.Controls.Add(this.cbx_remote);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(319, 28);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.groupBox3.Location = new System.Drawing.Point(392, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(244, 167);
+            this.groupBox3.Size = new System.Drawing.Size(230, 198);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "在线客户端";
@@ -234,19 +230,18 @@
             // 
             this.cbx_remote.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cbx_remote.Location = new System.Drawing.Point(3, 17);
-            this.cbx_remote.Margin = new System.Windows.Forms.Padding(0);
             this.cbx_remote.Name = "cbx_remote";
             this.cbx_remote.ScrollAlwaysVisible = true;
-            this.cbx_remote.Size = new System.Drawing.Size(238, 147);
+            this.cbx_remote.Size = new System.Drawing.Size(224, 178);
             this.cbx_remote.TabIndex = 12;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tbx_send);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 28);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(310, 164);
+            this.groupBox1.Size = new System.Drawing.Size(383, 198);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "数据发送";
@@ -258,14 +253,13 @@
             this.tbx_send.Multiline = true;
             this.tbx_send.Name = "tbx_send";
             this.tbx_send.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_send.Size = new System.Drawing.Size(304, 144);
+            this.tbx_send.Size = new System.Drawing.Size(377, 178);
             this.tbx_send.TabIndex = 4;
             this.tbx_send.Text = "Hello world";
             this.tbx_send.WordWrap = false;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.cbx_reply);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.nd_num);
@@ -273,9 +267,10 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.cbx_all);
             this.panel1.Controls.Add(this.btn_send);
-            this.panel1.Location = new System.Drawing.Point(569, 28);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(628, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(154, 161);
+            this.panel1.Size = new System.Drawing.Size(170, 198);
             this.panel1.TabIndex = 7;
             // 
             // cbx_reply
@@ -369,9 +364,10 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.button1);
-            this.panel2.Location = new System.Drawing.Point(569, 198);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(628, 207);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(154, 100);
+            this.panel2.Size = new System.Drawing.Size(170, 198);
             this.panel2.TabIndex = 8;
             // 
             // button1
@@ -389,12 +385,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.toolStrip1);
             this.Name = "WebSocketServer";
-            this.Size = new System.Drawing.Size(859, 408);
+            this.Size = new System.Drawing.Size(917, 542);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -405,6 +401,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nd_step)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

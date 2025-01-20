@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace PlcClient.Controls
 {
@@ -26,7 +27,7 @@ namespace PlcClient.Controls
             cbx_code.SelectedIndex = 0;
             cbx_code.SelectedIndexChanged += Cbx_code_SelectedIndexChanged;
 
-            cbx_ip.Items.AddRange(NetHelper.GetIPs().Where(m=>m.AddressFamily==System.Net.Sockets.AddressFamily.InterNetwork).ToArray());
+            cbx_ip.Items.AddRange(NetHelper.GetIPs().Where(m => m.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).ToArray());
             cbx_ip.SelectedIndex = 0;
             cbx_mode.SelectedIndex = 0;
             btn_stop.Enabled = false;
@@ -57,12 +58,13 @@ namespace PlcClient.Controls
         private void NetServer_NewSession(object sender, NetSessionEventArgs e)
         {
             e.Session.Disconnected += Session_Disconnected;
-            e.Session.Send("Welcome "+e.Session.Remote.ToString());
+            e.Session.Send("Welcome " + e.Session.Remote.ToString());
 
             OnMsg($"{DateTime.Now.ToString("[HH:mm:ss.fff]")} 客户端连接：{e.Session}");
             cbx_remote.Invoke(new Action(() =>
             {
                 cbx_remote.Items.Add(e.Session.Remote);
+                groupBox3.Text = string.Format("在线客户端 {0}", cbx_remote.Items.Count);
             }));
         }
 
@@ -74,6 +76,7 @@ namespace PlcClient.Controls
                 cbx_remote.Invoke(() =>
                 {
                     cbx_remote.Items.Remove(session.Session.Remote);
+                    groupBox3.Text = groupBox3.Tag.ToString();
                 });
             }
 
@@ -85,7 +88,7 @@ namespace PlcClient.Controls
             {
                 return;
             }
-            if(cbx_reply.Checked&& sender is NetSession session)
+            if (cbx_reply.Checked && sender is NetSession session)
             {
                 session.Send(e.Packet);
             }
@@ -108,7 +111,7 @@ namespace PlcClient.Controls
                     tbx_received.AppendText(e.Packet.ToHex(-1, " "));
                 }
                 if (e.Packet.Length > 0)
-                {                    
+                {
                     tbx_received.SelectionStart = start;
                     tbx_received.SelectionLength = tbx_received.Text.Length;
                     var rgb = Enumerable.Range(1, 254).OrderBy(m => Guid.NewGuid()).Take(3).ToArray();
@@ -198,6 +201,8 @@ namespace PlcClient.Controls
         {
             var clientIP = cbx_remote.CheckedItems;
             var code = cbx_code.Tag as Encoding;
+            var nd_num = this.nd_num.Value;
+            var step = (int)this.nd_step.Value;
             if (clientIP.Count > 0 && netServer != null && netServer.Active)
             {
                 byte[] data = null;
@@ -215,11 +220,15 @@ namespace PlcClient.Controls
                 }
                 Task.Run(async () =>
                 {
-                    var result = await netServer.SendAllAsync(new NewLife.Data.Packet(data), client =>
-                      {
-                          return clientIP.Contains(client.Remote);                    //return false;
-                      });
-                    OnMsg($"{DateTime.Now.ToString("[HH:mm:ss.fff] ")} 服务端发送数据=>{result}个客户端");
+                    for (int i = 0; i < nd_num; i++)
+                    {
+                        var result = await netServer.SendAllAsync(new NewLife.Data.Packet(data), client =>
+                          {
+                              return clientIP.Contains(client.Remote);                    //return false;
+                          });
+                        OnMsg($"{DateTime.Now.ToString("[HH:mm:ss.fff] ")} 服务端发送数据=>{result}个客户端");
+                        await Task.Delay(step);
+                    }
                 });
             }
             else
@@ -270,6 +279,6 @@ namespace PlcClient.Controls
             }
         }
 
-        
+
     }
 }

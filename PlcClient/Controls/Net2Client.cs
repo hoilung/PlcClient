@@ -98,8 +98,7 @@ namespace PlcClient.Controls
                 btn_close.Enabled = true;
             }));
             OnMsg($"连接成功 本地：{_client.Local}=>远程：{_client.Remote}");
-        }
-        
+        }        
         private void _client_Received(object sender, ReceivedEventArgs e)
         {
             
@@ -138,7 +137,7 @@ namespace PlcClient.Controls
             if (_client == null || !_client.Active)
                 return;
             var nd_num = this.nd_num.Value;
-            var step = this.nd_step.Value;
+            var step = (int)this.nd_step.Value;
             var text = tbx_send.Text.Trim();
             var code = cbx_code.Tag as Encoding;
             byte[] data = null;
@@ -160,7 +159,7 @@ namespace PlcClient.Controls
                 {
                     var len = _client.Send(data);
                     OnMsg($"{DateTime.Now.ToString("[HH:mm:ss.fff]")} 发送数据：{_client.Remote} 长度:{len}");
-                    await Task.Delay(step.ToInt());
+                    await Task.Delay(step);
                 }
             });
 

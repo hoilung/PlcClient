@@ -64,8 +64,8 @@ namespace PlcClient.Controls
             }
             btn_scan.Text = "取消扫描";
             OnMsg("设备扫描开始");
-            
-            var localIP = cbx_ip.Text.Split('/')[0];
+
+            var localIP = GetLocalIP();// cbx_ip.Text.Split('/')[0];
             progressBar1.Maximum = list.Count();
             progressBar1.Value = 0;
             ArpHandler.Instance.PingIP(list, (pe) =>
@@ -78,6 +78,7 @@ namespace PlcClient.Controls
                     {
                         row.BackColor = Color.AliceBlue;
                     }
+                    
                     //var area = pe[pe.Length - 1];
                     if (localIP.Equals(pe[0]))
                     {

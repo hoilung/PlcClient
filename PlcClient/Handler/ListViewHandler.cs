@@ -73,7 +73,7 @@ namespace PlcClient.Handler
         {
 
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Save File(*.xlsx)|*.xlsx";
+            fileDialog.Filter = "Excel 工作薄(*.xlsx)|*.xlsx|Excel 97-2003 工作薄(*.xls)|*.xls|CSV UTF-8(逗号分隔)(*.csv)|*.csv";
             fileDialog.Title = "保存文件";
             fileDialog.RestoreDirectory = true;
             fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);

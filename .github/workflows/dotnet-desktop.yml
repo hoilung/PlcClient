@@ -1,0 +1,72 @@
+name: Build and Release
+on:
+  workflow_dispatch:  # 手动触发
+    inputs:
+      tag_name:
+        description: 'The tag name for the release'
+        required: false
+        default: 'v1.0.0'
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v1
+        with:
+            nuget-version: 'latest'
+      - name: Download NuGet.exe
+        run: Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile nuget.exe
+      - name: Add GitHub Package Source (PAT)
+        run: .\nuget.exe sources add -name github -source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -username ${{ github.repository_owner }} -password ${{ secrets.PAT }} 
+
+      - name: Restore NuGet packages
+        run: nuget restore PlcClient.sln   # 替换为您的解决方案文件
+      - name: Build the project (x64)
+        run: |
+          msbuild PlcClient.sln /p:Configuration=Release
+      - name: Create output directory
+        run: mkdir output
+      - name: Copy build artifacts to output directory
+        run: |
+          xcopy PlcClient\bin\Release\*.* output /S /E /Y # 替换为您的项目目录
+      - name: Archive production artifacts
+        run: tar -czf release.tar.gz -C output .
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifact
+          path: release.tar.gz
+  release:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifact
+          path: ${{ github.workspace }}/release
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: ${{ github.event.inputs.tag_name || 'v1.0.0' }}
+          release_name: Release ${{ github.event.inputs.tag_name || 'v1.0.0' }}
+          body: |
+            Release notes for ${{ github.event.inputs.tag_name || 'v1.0.0' }}
+          draft: false
+          prerelease: false
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/release/release.tar.gz
+          asset_name: release.tar.gz
+          asset_content_type: application/gzip

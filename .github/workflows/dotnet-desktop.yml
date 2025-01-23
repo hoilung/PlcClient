@@ -21,7 +21,7 @@ jobs:
       - name: Download NuGet.exe
         run: Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile nuget.exe
       - name: Add GitHub Package Source (PAT)
-        run: .\nuget.exe sources add -name github -source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -username ${{ github.repository_owner }} -password ${{ secrets.PAT }} -storepasswordinplaintext  
+        run: .\nuget.exe sources add -name github -source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -username ${{ github.repository_owner }} -password ${{ secrets.PAT }} 
 
       - name: Restore NuGet packages
         run: nuget restore PlcClient.sln   # 替换为您的解决方案文件

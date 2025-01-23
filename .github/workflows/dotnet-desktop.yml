@@ -18,6 +18,8 @@ jobs:
         uses: nuget/setup-nuget@v1
         with:
             nuget-version: 'latest'
+      - name: Download NuGet.exe
+        run: Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile nuget.exe
       - name: Add GitHub Package Source (PAT)
         run: .\nuget.exe sources add -name github -source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -username ${{ github.repository_owner }} -password ${{ secrets.PAT }} -storepasswordinplaintext  
 
@@ -25,7 +27,7 @@ jobs:
         run: nuget restore PlcClient.sln   # 替换为您的解决方案文件
       - name: Build the project (x64)
         run: |
-          msbuild PlcClient.sln /p:Configuration=Release # 将 YourProject.sln 替换为您的解决方案文件
+          msbuild PlcClient.sln /p:Configuration=Release /p:RestoreSources="https://api.nuget.org/v3/index.json;https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json "# 将 YourProject.sln 替换为您的解决方案文件
       - name: Create output directory
         run: mkdir output
       - name: Copy build artifacts to output directory

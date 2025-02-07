@@ -47,7 +47,7 @@ namespace PlcClient.Controls
         {
             tbx_received.Invoke(() =>
             {
-                tbx_received.AppendText(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff "));
+                tbx_received.AppendText(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")+Environment.NewLine);
                 tbx_received.AppendText(e);
                 //设置最新一行数据颜色为随机颜色
                 tbx_received.Select(tbx_received.TextLength - e.Length, e.Length);

@@ -42,11 +42,11 @@ namespace PlcClient.Controls
             nd_step.DataBindings.Add("Value", this, "SendInterval");
         }
 
-        private void OnReceive(string msg)
+        private void OnReceive(string remote, string msg)
         {
             tbx_received.Invoke(() =>
             {
-                tbx_received.AppendText(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff "));
+                tbx_received.AppendText(string.Format("{0} [{1}]{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), remote, Environment.NewLine));
                 tbx_received.AppendText(msg);
                 tbx_received.Select(tbx_received.TextLength - msg.Length, msg.Length);
                 tbx_received.SelectionColor = Color.FromArgb(255, new Random().Next(0, 100), new Random().Next(100, 255), new Random().Next(1, 128));
@@ -78,9 +78,10 @@ namespace PlcClient.Controls
                 else if (ServerMode == "HTTP")
                 {
                     Server.Map(ServerUrl, () => SendMessage);
-                }
+                    
+                }                
                 Server.Start();
-                cbx_mode.Enabled=cbx_ip.Enabled=tbx_port.Enabled=tbx_path.Enabled= btn_start.Enabled = false;
+                cbx_mode.Enabled = cbx_ip.Enabled = tbx_port.Enabled = tbx_path.Enabled = btn_start.Enabled = false;
                 btn_stop.Enabled = true;
             }
             catch (Exception ex)
@@ -95,18 +96,27 @@ namespace PlcClient.Controls
         {
             var ws = content.WebSocket;
             ws.Handler = ProcessMessage;
-            OnReceive(string.Format("[{0}]->WebSocket连接建立", ws.Context.Connection.Remote));
+            OnReceive(ws.Context.Connection.Remote.ToString(), "WebSocket连接建立");
+            // 加入客户端列表
             _clients.Add(ws.Context.Connection.Remote.ToString(), ws);
+            if (cbx_reply.Checked)
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(500);
+                    ws.Send("Welcome to WebSocket Server");
+                });
+            }
         }
 
         public void ProcessMessage(WebSocket socket, WebSocketMessage message)
         {
-            var remote = socket.Context.Connection.Remote;
+            var remote = socket.Context.Connection.Remote.ToString();
             var msg = message.Payload.GetSpan().ToStr();
             switch (message.Type)
             {
                 case WebSocketMessageType.Text:
-                    OnReceive(string.Format("[{0}]->{1}", remote, msg));
+                    OnReceive(remote, msg);
                     // 群发所有客户端
                     //socket.SendAll($"[{remote}]说，{msg}");
                     if (cbx_reply.Checked)
@@ -114,14 +124,14 @@ namespace PlcClient.Controls
                     //socket.SendAll(msg, (s) => s.Session.Remote == remote);
                     break;
                 case WebSocketMessageType.Close:
-                    OnReceive(string.Format("[{0}]->关闭连接 [{1}] {2}", remote, message.CloseStatus, message.StatusDescription));
+                    OnReceive(remote, string.Format("关闭连接 [{0}] {1}", message.CloseStatus, message.StatusDescription));
                     break;
                 case WebSocketMessageType.Ping:
                 case WebSocketMessageType.Pong:
-                    OnReceive(string.Format("[{0}]->{1}", remote, msg));
+                    OnMsg($"{remote} {message.Type}");
                     break;
                 default:
-                    OnReceive(string.Format("[{0}]->{1}", remote, msg));
+                    OnReceive(remote, msg);
                     break;
             }
         }

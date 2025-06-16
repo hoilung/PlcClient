@@ -22,17 +22,25 @@ namespace PlcClient.Controls
             this.tbx_ip.Items.AddRange(GetLocalAllIP());
             tbx_ip.SelectedIndex = 0;
 
+            //创建列
             var attr = Model.DeviceDiscover.HKProbeMatch.GetDisplayCustoms().Where(m => m.Order > 0).OrderBy(m => m.Order).ToArray();
-
             for (int i = 0; i < attr.Length; i++)
             {
                 lv_data.Columns.Add(attr[i].DataMember, attr[i].Name);
             }
             listViewHandler = new Handler.ListViewHandler(this.lv_data);
             listViewHandler.ColuminSort();
+            this.lv_data.MouseClick += Lv_data_MouseClick;
         }
-        Handler.ListViewHandler listViewHandler;
-        Handler.DeviceHandler deviceHandler;
+
+        private void Lv_data_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (lv_data.FullRowSelect && e.Button == MouseButtons.Right)
+                contextMenuStrip1.Show(lv_data, e.X, e.Y);
+        }
+
+        Handler.ListViewHandler listViewHandler;//扩展排序和导出
+        Handler.DeviceHandler deviceHandler;//设备搜索
         private List<HKProbeMatch> hKProbeMatches = new List<HKProbeMatch>();
         private void btn_find_Click(object sender, EventArgs e)
         {
@@ -61,7 +69,7 @@ namespace PlcClient.Controls
                         deviceHandler.Start();
                         deviceHandler.DaHuaDeviceFind();
                         break;
-                    case "其他":
+                    case "ONVIF":
                         //deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
                         deviceHandler.DeviceReceice += Onvif_DeviceReceice;
                         deviceHandler.Start();
@@ -180,6 +188,42 @@ namespace PlcClient.Controls
         {
             lv_data.Items.Clear();
             hKProbeMatches.Clear();
+        }
+
+        private void openWebBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var hk = lv_data.SelectedItems[0].Tag as HKProbeMatch;
+                if (hk == null) { return; }
+                var url =string.Format("http://{0}:{1}",hk.IPv4Address, hk.HttpPort) ;
+                if (string.IsNullOrEmpty(url)) { return; }
+                System.Diagnostics.Process.Start(url);
+            }
+            catch (Exception ex)
+            {
+                XTrace.WriteException(ex);
+                MessageBox.Show(ex.Message, "打开网页错误");
+            }
+        }
+
+        private void copyRTSPaddressToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var hk = lv_data.SelectedItems[0].Tag as HKProbeMatch;
+                if (hk == null) { return; }
+                var text = PlcClient.Properties.Resources.RSTP_TPL.Replace("IP", hk.IPv4Address);               
+                if (string.IsNullOrEmpty(text)) { return; }
+                Clipboard.SetText(text);
+                var msg = $"RTSP参考地址已复制到剪贴板";
+                OnMsg(msg);
+            }
+            catch (Exception ex)
+            {
+                XTrace.WriteException(ex);
+                MessageBox.Show(ex.Message, "复制RTSP地址错误");
+            }
         }
     }
 }

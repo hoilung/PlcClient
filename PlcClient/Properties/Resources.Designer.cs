@@ -100,6 +100,16 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Copy {
+            get {
+                object obj = ResourceManager.GetObject("Copy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 IAAAAERISVAAAAAAAAAAAEkAAAAAAAAASQAAAAAAAAB7ICJtZXRob2QiIDogIkRIRGlzY292ZXIuc2VhcmNoIiwgInBhcmFtcyIgOiB7ICJtYWMiIDogIiIsICJ1bmkiIDogMSB9IH0K 的本地化字符串。
         /// </summary>
         internal static string DaHua {
@@ -165,6 +175,16 @@ namespace PlcClient.Properties {
         internal static System.Drawing.Bitmap Internet {
             get {
                 object obj = ResourceManager.GetObject("Internet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Internet_Explorer {
+            get {
+                object obj = ResourceManager.GetObject("Internet Explorer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -274,6 +294,29 @@ namespace PlcClient.Properties {
             get {
                 object obj = ResourceManager.GetObject("Root_Server", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 RTSP协议参考地址格式,请选择对应品牌修改对应IP的【账号】:【密码】后使用
+        ///
+        ///# 海康摄像头：
+        ///通道1主码流：rtsp://username:password@IP:554/Streaming/Channels/101
+        ///通道1子码流：rtsp://username:password@IP:554/Streaming/Channels/102
+        ///
+        ///# 海康摄像头 (2012年之前)
+        ///通道1主码流：rtsp://username:password@IP:554/h264/ch1/main/av_stream
+        ///通道1子码流：rtsp://username:password@IP:554/h264/ch1/sub/av_stream
+        ///
+        ///# 海康录像机：
+        ///通道1主码流: rtsp://username:password@IP:554/Streaming/tracks/101?starttime=20250414t144720z&amp;endtime=20250414t151415z
+        ///
+        ///# 大华摄像头：
+        ///通道1主码流：rtsp:///username:password@IP/cam/realmon [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string RSTP_TPL {
+            get {
+                return ResourceManager.GetString("RSTP_TPL", resourceCulture);
             }
         }
         

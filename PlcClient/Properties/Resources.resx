@@ -144,6 +144,9 @@ F	Real
 C1[1]	Int
 F1[1]	Real</value>
   </data>
+  <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="DaHua" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DaHua.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
@@ -181,6 +184,9 @@ M500	DWORD</value>
   </data>
   <data name="Internet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Internet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Internet Explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Internet Explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="onvif" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\onvif.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
@@ -251,6 +257,45 @@ DB3.DBD400	DWord</value>
   </data>
   <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSTP_TPL" xml:space="preserve">
+    <value>RTSP协议参考地址格式,请选择对应品牌修改对应IP的【账号】:【密码】后使用
+
+# 海康摄像头：
+通道1主码流：rtsp://username:password@IP:554/Streaming/Channels/101
+通道1子码流：rtsp://username:password@IP:554/Streaming/Channels/102
+
+# 海康摄像头 (2012年之前)
+通道1主码流：rtsp://username:password@IP:554/h264/ch1/main/av_stream
+通道1子码流：rtsp://username:password@IP:554/h264/ch1/sub/av_stream
+
+# 海康录像机：
+通道1主码流: rtsp://username:password@IP:554/Streaming/tracks/101?starttime=20250414t144720z&amp;endtime=20250414t151415z
+
+# 大华摄像头：
+通道1主码流：rtsp:///username:password@IP/cam/realmonitor?channel=1&amp;subtype=1
+通道1子码流：rtsp:///username:password@IP/cam/realmonitor?channel=1&amp;subtype=2
+
+# 宇视摄像头：
+主码流：rtsp://username:password@IP:554/media/video1
+子码流：rtsp://username:password@IP:554/media/video2
+
+# 华为摄像头
+主码流：rtsp://username:password@554/LiveMedia/ch1/Media1
+主码流：rtsp://username:password@554/LiveMedia/ch1/Media2
+
+# TP-LINK摄像头
+主码流：rtsp://username:password@IP:554/stream1
+子码流：rtsp://username:password@IP:554/stream2
+
+# 天地伟业摄像头
+主码流：rtsp://username:password@IP:554/1/1
+子码流：rtsp://username:password@IP:554/1/2
+
+# 天视通摄像头
+主码流：rtsp://username:password@IP:554/mpeg4
+子码流：rtsp://username:password@IP:554/mpeg4cif</value>
+    <comment>rtsp格式说明</comment>
   </data>
   <data name="Thin_Client" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Thin Client.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

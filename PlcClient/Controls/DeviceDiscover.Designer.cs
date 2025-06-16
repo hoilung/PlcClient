@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -41,9 +42,14 @@
             this.btn_clear = new System.Windows.Forms.ToolStripButton();
             this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openWebBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.copyRTSPaddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,7 +117,7 @@
             this.cbx_deviceType.Items.AddRange(new object[] {
             "海康",
             "大华",
-            "其他"});
+            "ONVIF"});
             this.cbx_deviceType.Name = "cbx_deviceType";
             this.cbx_deviceType.Size = new System.Drawing.Size(100, 25);
             // 
@@ -168,6 +174,37 @@
             // 
             this.columnHeader1.Text = "序号";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openWebBrowserToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.copyRTSPaddressToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(158, 62);
+            // 
+            // openWebBrowserToolStripMenuItem
+            // 
+            this.openWebBrowserToolStripMenuItem.Image = global::PlcClient.Properties.Resources.Internet_Explorer;
+            this.openWebBrowserToolStripMenuItem.Name = "openWebBrowserToolStripMenuItem";
+            this.openWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
+            this.openWebBrowserToolStripMenuItem.Text = "打开浏览器";
+            this.openWebBrowserToolStripMenuItem.Click += new System.EventHandler(this.openWebBrowserToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(154, 6);
+            // 
+            // copyRTSPaddressToolStripMenuItem
+            // 
+            this.copyRTSPaddressToolStripMenuItem.Image = global::PlcClient.Properties.Resources.Copy;
+            this.copyRTSPaddressToolStripMenuItem.Name = "copyRTSPaddressToolStripMenuItem";
+            this.copyRTSPaddressToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
+            this.copyRTSPaddressToolStripMenuItem.Text = "复制RTSP地址";
+            this.copyRTSPaddressToolStripMenuItem.Click += new System.EventHandler(this.copyRTSPaddressToolStripMenuItem_Click);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
@@ -188,6 +225,7 @@
             this.tableLayoutPanel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -209,5 +247,9 @@
         private System.Windows.Forms.ToolStripButton btn_exportExcel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btn_clear;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem openWebBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyRTSPaddressToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

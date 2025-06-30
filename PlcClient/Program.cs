@@ -13,7 +13,7 @@ namespace PlcClient
         static void Main()
         {
             XTrace.LogPath = Application.StartupPath + "\\Logs";
-            XTrace.UseConsole();
+            //XTrace.UseConsole();
           
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -24,14 +24,14 @@ namespace PlcClient
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.ExceptionObject.ToString(), "软件未知异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            XTrace.WriteException((Exception)e.ExceptionObject);
+            XTrace.Log.Error("CurrentDomain_UnhandledException {0}", (Exception)e.ExceptionObject);
+            MessageBox.Show(e.ExceptionObject.ToString(), "软件未知异常", MessageBoxButtons.OK, MessageBoxIcon.Error);            
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.Message, "软件异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            XTrace.WriteException(e.Exception);
+            XTrace.Log.Error("Application_ThreadException {0}", e.Exception);
+            MessageBox.Show(e.Exception.Message, "软件异常", MessageBoxButtons.OK, MessageBoxIcon.Error);            
         }
     }
 }

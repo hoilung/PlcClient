@@ -1,5 +1,6 @@
 ﻿using NewLife;
 using Newtonsoft.Json;
+using Opc.Da;
 using PlcClient.Model.DeviceDiscover;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace PlcClient.Handler
         private IPEndPoint endPoint;
         private UdpClient udpClient;
         private string localIP;
-        
+        private Queue<DeviceEventArgs> _message = new Queue<DeviceEventArgs>();
 
         public event EventHandler<DeviceEventArgs> DeviceReceice;
 
@@ -171,6 +172,20 @@ namespace PlcClient.Handler
             this.CancellationTokenSource = new CancellationTokenSource();
             Task.Run(() =>
             {
+                while (!this.CancellationTokenSource.IsCancellationRequested)
+                {
+                    if (!this._message.Any())
+                    {
+                        Task.Delay(100).Wait();
+                        continue;
+                    }
+                    var _msg = _message.Dequeue();
+                    OnBroadcastReceice(_msg);
+                }               
+
+            }, this.CancellationTokenSource.Token);
+            Task.Run(() =>
+            {
                 endPoint = new IPEndPoint(IPAddress.Parse(localIP), 0);
                 udpClient = new UdpClient(endPoint);
                 //udpClient.JoinMulticastGroup(IPAddress.Parse("239.255.255.250"));
@@ -197,15 +212,17 @@ namespace PlcClient.Handler
             var receivedData = udpClient.EndReceive(ar, ref remoteEP);
             // 解码数据包以提取消息内容
             string message = Encoding.UTF8.GetString(receivedData);
-            // 处理消息内容
-            OnBroadcastReceice(new DeviceEventArgs(remoteEP, message));
+            // 处理收到的消息内容
+            //OnBroadcastReceice(new DeviceEventArgs(remoteEP, message));
+            _message.Enqueue(new DeviceEventArgs(remoteEP, message));
             //}
         }
 
         public void Stop()
         {
-            _sendQueue.Clear();
             this.CancellationTokenSource.Cancel();
+            _message.Clear();
+            _sendQueue.Clear();            
             udpClient.Close();
         }
 

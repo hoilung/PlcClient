@@ -93,13 +93,13 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
-                XTrace.WriteException(ex);
+                XTrace.Log.Error("大华查找设备错误 {0}", ex);
                 deviceHandler.DeviceReceice -= DH_DeviceReceice;
                 MessageBox.Show(ex.Message, "大华查找设备错误");
             }
         }
 
-        private async void Onvif_DeviceReceice(object sender, DeviceEventArgs e)
+        private void Onvif_DeviceReceice(object sender, DeviceEventArgs e)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
-                XTrace.WriteException(ex);
+                XTrace.Log.Error("Onvif查找设备错误 {0}", ex);
                 deviceHandler.DeviceReceice -= Onvif_DeviceReceice;
                 MessageBox.Show(ex.Message, "Onvif查找设备错误");
             }
@@ -135,7 +135,7 @@ namespace PlcClient.Controls
                 }
                 catch (Exception ex)
                 {
-                    XTrace.WriteException(ex);
+                    XTrace.Log.Error("海康查找设备错误 {0}, {1}", ex,e.Message);
                     deviceHandler.DeviceReceice -= HK_DeviceReceice;
                     MessageBox.Show(ex.Message, "海康查找设备错误");
                 }

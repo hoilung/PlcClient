@@ -130,9 +130,12 @@ namespace PlcClient.Handler
                         }
                         if (IsPrivateNetwork3(ip))
                         {
-                            mac = ResolveMac(ip.ToString());
-                            deviceInfo = GetDeviceInfoForMac(mac);
                             area_local = true;
+                            if (result == IPStatus.Success)
+                            {
+                                mac = ResolveMac(ip.ToString());
+                                deviceInfo = GetDeviceInfoForMac(mac);
+                            }                            
                         }
                         actionProcess?.Invoke(new string[] { ip.ToString(), result.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, area_local ? "本地" : "远程" });
                     }

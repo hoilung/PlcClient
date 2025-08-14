@@ -68,7 +68,12 @@ namespace PlcClient.Controls
             var localIP = GetLocalIP();// cbx_ip.Text.Split('/')[0];
             progressBar1.Maximum = list.Count();
             progressBar1.Value = 0;
-            ArpHandler.Instance.PingIP(list, (pe) =>
+            int port = tbx_port.Text.ToInt(0);
+            if (port < 0 || port > 65535)
+            {
+                port = 0;
+            }          
+            ArpHandler.Instance.PingIP(list, port, (pe) =>
             {
                 lv_data.Invoke(new MethodInvoker(() =>
                 {
@@ -78,18 +83,18 @@ namespace PlcClient.Controls
                     {
                         row.BackColor = Color.AliceBlue;
                     }
-                    
+
                     //var area = pe[pe.Length - 1];
                     if (localIP.Equals(pe[0]))
                     {
                         pe[pe.Length - 1] = "本机IP";
-                        row.BackColor = Color.LightGreen;                        
+                        row.BackColor = Color.LightGreen;
                     }
                     row.SubItems.AddRange(pe);
-                    if (lv_data.Items.Count % 10 == 0)
-                    {
-                        lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-                    }
+                    //if (lv_data.Items.Count % 10 == 0)
+                    //{
+                    //    lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    //}
                     progressBar1.PerformStep();
                 }));
             }, () =>
@@ -97,7 +102,7 @@ namespace PlcClient.Controls
 
                 lv_data.Invoke(new MethodInvoker(() =>
                 {
-                    lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    // lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     btn_scan.Text = "开始扫描";
                 }));
                 OnMsg("设备扫描结束");
@@ -118,6 +123,15 @@ namespace PlcClient.Controls
         private void btn_clearall_Click(object sender, EventArgs e)
         {
             lv_data.Items.Clear();
+        }
+
+
+        private void toolStripTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

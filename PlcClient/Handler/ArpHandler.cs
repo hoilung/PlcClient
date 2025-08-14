@@ -1,12 +1,16 @@
 ﻿using NetTools;
 using NewLife;
 using NewLife.Log;
+using Opc.Hda;
 using OpcRcw.Da;
+using PlcClient.Model.DeviceDiscover;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,33 +94,66 @@ namespace PlcClient.Handler
             return false;
         }
 
-        public void PingIP(IEnumerable<IPAddress> list, Action<string[]> actionProcess, Action actionEnd)
+        public void PingIP(IEnumerable<IPAddress> list, int ipPort, Action<string[]> actionProcess, Action actionEnd)
         {
             try
             {
+                async Task PingHostAsync(IPAddress ip, int port = 0)
+                {
+                    try
+                    {
+                        var result = IPStatus.Unknown;
+                        var mac = string.Empty;
+                        var deviceInfo = string.Empty;
+                        bool area_local = false;
+                        if (port == 0)
+                        {
+                            using (var ping = new Ping())
+                            {
+                                var connectTask = ping.SendPingAsync(ip);
+                                var timeoutTask = Task.Delay(500);
+                                var complateTask = await Task.WhenAny(connectTask, timeoutTask);
+                                result = complateTask == timeoutTask ? IPStatus.TimedOut : IPStatus.Success;
+                                await complateTask;
+                            }
+                        }
+                        else if (port > 0 && port < 65535)
+                        {
+                            using (var client = new TcpClient())
+                            {
+                                var connectTask = client.ConnectAsync(ip, port);
+                                var timeoutTask = Task.Delay(500);
+                                var complateTask = await Task.WhenAny(connectTask, timeoutTask);
+                                result = complateTask == timeoutTask ? IPStatus.TimedOut : IPStatus.Success;
+                                await complateTask;
+                            }
+                        }
+                        if (IsPrivateNetwork3(ip))
+                        {
+                            mac = ResolveMac(ip.ToString());
+                            deviceInfo = GetDeviceInfoForMac(mac);
+                            area_local = true;
+                        }
+                        actionProcess?.Invoke(new string[] { ip.ToString(), result.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, area_local ? "本地" : "远程" });
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+
+                }
+
 
                 CancellationTokenSource = new CancellationTokenSource();
-                Task.Run(() =>
+                Task.Factory.StartNew(async () =>
                 {
-                    Parallel.ForEach(list, ip =>
-                     {
-                         if (this.CancellationTokenSource.IsCancellationRequested)
-                             return;
-                         Ping ping = new Ping();
-                         var result = ping.Send(ip, 100);
-                         var mac = string.Empty;
-                         var deviceInfo = string.Empty;
-                         bool area_local = false;
-                         if (IsPrivateNetwork3(ip))
-                         {
-                             mac = ResolveMac(ip.ToString());
-                             deviceInfo = GetDeviceInfoForMac(mac);
-                             area_local = true;
-                         }
-                         actionProcess?.Invoke(new string[] { ip.ToString(), result.Status.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, area_local ? "本地" : "远程" });
-                     });
+                    var tasks = new List<Task>();
+                    foreach (var ip in list)
+                    {
+                        tasks.Add(PingHostAsync(ip, ipPort));
+                    }
+                    await Task.WhenAll(tasks);
                     actionEnd?.Invoke();
-                });
+                }, CancellationTokenSource.Token);
 
             }
             catch (Exception ex)

@@ -33,6 +33,8 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cbx_ip = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.tbx_port = new System.Windows.Forms.ToolStripTextBox();
             this.btn_scan = new System.Windows.Forms.ToolStripButton();
             this.btn_export = new System.Windows.Forms.ToolStripSplitButton();
             this.btn_clearall = new System.Windows.Forms.ToolStripButton();
@@ -81,6 +83,8 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.cbx_ip,
+            this.toolStripLabel2,
+            this.tbx_port,
             this.btn_scan,
             this.btn_export,
             this.btn_clearall});
@@ -103,6 +107,21 @@
             this.cbx_ip.Size = new System.Drawing.Size(200, 25);
             this.cbx_ip.ToolTipText = "子网掩码或IP段";
             // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(32, 22);
+            this.toolStripLabel2.Text = "端口";
+            // 
+            // tbx_port
+            // 
+            this.tbx_port.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
+            this.tbx_port.Name = "tbx_port";
+            this.tbx_port.Size = new System.Drawing.Size(50, 25);
+            this.tbx_port.Text = "0";
+            this.tbx_port.ToolTipText = "默认IMCP扫描,扫描TCP请填写端口";
+            this.tbx_port.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox1_KeyPress);
+            // 
             // btn_scan
             // 
             this.btn_scan.Image = global::PlcClient.Properties.Resources.Search_in_List;
@@ -110,6 +129,7 @@
             this.btn_scan.Name = "btn_scan";
             this.btn_scan.Size = new System.Drawing.Size(76, 22);
             this.btn_scan.Text = "开始扫描";
+            this.btn_scan.ToolTipText = "IP扫描默认超时为500ms";
             this.btn_scan.Click += new System.EventHandler(this.btn_scan_Click);
             // 
             // btn_export
@@ -163,7 +183,7 @@
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "PING";
+            this.columnHeader3.Text = "状态";
             this.columnHeader3.Width = 80;
             // 
             // columnHeader4
@@ -223,5 +243,7 @@
         private System.Windows.Forms.ToolStripSplitButton btn_export;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripTextBox tbx_port;
     }
 }

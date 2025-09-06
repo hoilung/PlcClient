@@ -97,7 +97,7 @@ namespace PlcClient.Controls
                 //StringBuilder sb = new StringBuilder();
                 if (cbx_time.Checked)
                 {
-                    tbx_received.AppendText($"{DateTime.Now.ToString("[HH: mm:ss.fff] ")}{e.Remote}{Environment.NewLine}");
+                    tbx_received.AppendText($"{DateTime.Now.ToString("[HH:mm:ss.fff] ")}{e.Remote}{Environment.NewLine}");
                 }
                 int start = tbx_received.Text.Length;
                 if (cbx_string.Checked)
@@ -114,8 +114,8 @@ namespace PlcClient.Controls
                 {
                     tbx_received.SelectionStart = start;
                     tbx_received.SelectionLength = tbx_received.Text.Length;
-                    var rgb = Enumerable.Range(1, 254).OrderBy(m => Guid.NewGuid()).Take(3).ToArray();
-                    tbx_received.SelectionColor = Color.FromArgb(0, rgb[1], rgb[2]);
+                    var rgb = Enumerable.Range(100, 156).OrderBy(m => Guid.NewGuid()).Take(3).ToArray();
+                    tbx_received.SelectionColor = Color.FromArgb(50, rgb[1], rgb[2]);
                     tbx_received.Scroll();
                     tbx_received.AppendText(Environment.NewLine);
                 }

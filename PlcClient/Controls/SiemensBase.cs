@@ -1,7 +1,7 @@
 ﻿using HL.Object.Extensions;
 using HL.S7netplus.Extensions;
 using NewLife.Log;
-using Opc.Ua;
+using Newtonsoft.Json.Linq;
 using PlcClient.Handler;
 using PlcClient.Model;
 using S7.Net;
@@ -12,10 +12,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace PlcClient.Controls
 {
@@ -62,6 +60,7 @@ namespace PlcClient.Controls
             tbx_ip.Text = GetLocalIP();
 
             var typeArry = TypeCodes.Select(m => new { Name = m, Value = m.ToString() }).ToList();
+            typeArry.Add(new { Name = TypeCode.Object, Value = "DataTimeLong" });
             cbx_type.DisplayMember = "Value";
             cbx_type.ValueMember = "Name";
             cbx_type.DataSource = typeArry;
@@ -205,16 +204,35 @@ namespace PlcClient.Controls
             try
             {
                 tbx_value.ResetText();
-                var dt = DataItem2.FromAddressByTypeCode(address, _typeCode);
+                DataItem dt = null;
+                if (cbx_type.Text.Trim() == "DataTimeLong")
+                {
+                    dt = DataItem.FromAddress(address);
+                    dt.VarType = VarType.DateTimeLong;
+                }
+                else
+                {
+                    dt = DataItem2.FromAddressByTypeCode(address, _typeCode);
+                }
                 stopwatch.Restart();
                 var obj = this.Plc.Read(dt);
                 stopwatch.Stop();
                 //转换类型
-                var obj2 = DataItem2.ValueChangeType(obj, _typeCode);
-                tbx_value.Text = obj2.ToString();
-                Msg2Text($"{address}\t{obj2?.ToString()}\t用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+                string obj2 = obj.ToString();
+                if (cbx_type.Text.Trim() == "DataTimeLong")
+                {
+                    obj2 = ((System.DateTime)obj).ToString("yyyy/MM/dd HH:mm:ss.fff");
+                }
+                //else
+                //{
+                //    //if (Type.GetTypeCode(obj.GetType()) !=_typeCode)
+                //    //    obj2 = DataItem2.ValueChangeType(obj, _typeCode).ToString();
+                //}
 
-                OnMsg($"{address} 读取 {obj2.ToString()}，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+                tbx_value.Text = obj2;
+                Msg2Text($"{address}\t{obj2}\t用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+
+                OnMsg($"{address} 读取 {obj2}，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
             }
             catch (S7.Net.PlcException ex)
             {
@@ -244,14 +262,21 @@ namespace PlcClient.Controls
             var adr = tbx_adr.Text;
             try
             {
-
-                var dt = DataItem2.FromAddressByTypeCode(adr, _typeCode);
-
+                DataItem dt = null;
+                if (cbx_type.Text.Trim() == "DataTimeLong")
+                {
+                    dt = DataItem.FromAddress(adr);                    
+                    dt.Value = DateTimeLong.ToByteArray((System.DateTime)val.ConvertToValueType<System.DateTime>());
+                }
+                else
+                {
+                    dt = DataItem2.FromAddressByTypeCode(adr, _typeCode);
+                }
                 if (dt.VarType == VarType.LReal)
                 {
                     dt.Value = val.ConvertToValueType<double>();
                 }
-                else
+                else if (cbx_type.Text.Trim() != "DataTimeLong")
                 {
                     dt.Value = val.ConvertToValueType(_typeCode);
                 }

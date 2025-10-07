@@ -230,7 +230,7 @@
             // chk_enablewrite
             // 
             this.chk_enablewrite.AutoSize = true;
-            this.chk_enablewrite.Location = new System.Drawing.Point(414, 28);
+            this.chk_enablewrite.Location = new System.Drawing.Point(480, 28);
             this.chk_enablewrite.Name = "chk_enablewrite";
             this.chk_enablewrite.Size = new System.Drawing.Size(60, 16);
             this.chk_enablewrite.TabIndex = 7;
@@ -241,7 +241,7 @@
             // 
             // btn_clearTbx
             // 
-            this.btn_clearTbx.Location = new System.Drawing.Point(561, 25);
+            this.btn_clearTbx.Location = new System.Drawing.Point(627, 25);
             this.btn_clearTbx.Name = "btn_clearTbx";
             this.btn_clearTbx.Size = new System.Drawing.Size(75, 23);
             this.btn_clearTbx.TabIndex = 22;
@@ -251,7 +251,7 @@
             // 
             // btn_write
             // 
-            this.btn_write.Location = new System.Drawing.Point(480, 25);
+            this.btn_write.Location = new System.Drawing.Point(546, 25);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
             this.btn_write.TabIndex = 21;
@@ -263,7 +263,7 @@
             // 
             this.tbx_value.Location = new System.Drawing.Point(322, 26);
             this.tbx_value.Name = "tbx_value";
-            this.tbx_value.Size = new System.Drawing.Size(86, 21);
+            this.tbx_value.Size = new System.Drawing.Size(152, 21);
             this.tbx_value.TabIndex = 20;
             this.tbx_value.Text = "0";
             // 

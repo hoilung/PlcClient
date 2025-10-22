@@ -143,7 +143,7 @@ namespace PlcClient.Controls
                 ChangeState(Plc.IsConnected);
                 tbx_msg.ResetText();
                 tbx_addressAll.ResetText();
-                var msg = $"{(Plc.IsConnected ? "连接成功" : "连接失败")} {CpuType.ToString().Replace("S7", "S7-")} {ip}";
+                var msg = $"{(Plc.IsConnected ? "连接成功": "连接失败")}, {CpuType.ToString().Replace("S7", "S7-")}, {ip}, MaxPDUSize={Plc.MaxPDUSize.ToString()}";
                 OnMsg(msg);
                 Msg2Text(msg);
             }

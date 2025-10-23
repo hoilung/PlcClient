@@ -109,7 +109,7 @@ namespace PlcClient.Handler
                                 {
                                     if (num > 3) break;
                                     var pingTask = await ping.SendPingAsync(ip, 1000);
-                                    result = pingTask.Status;
+                                    result = pingTask.Status==IPStatus.Success?IPStatus.Success:IPStatus.TimedOut;
                                     num++;
                                 }
                             }

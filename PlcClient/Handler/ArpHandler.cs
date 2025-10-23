@@ -1,12 +1,6 @@
-﻿using NetTools;
-using NewLife;
-using NewLife.Log;
-using Opc.Hda;
-using OpcRcw.Da;
-using PlcClient.Model.DeviceDiscover;
+﻿using NewLife.Log;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -119,13 +113,38 @@ namespace PlcClient.Handler
                         }
                         else if (port > 0 && port < 65535)
                         {
-                            using (var client = new TcpClient())
+                            var client = new TcpClient();
+
+                            var connectTask = client.ConnectAsync(ip, port);
+                            var timeoutTask = Task.Delay(500);
+                            var complateTask = await Task.WhenAny(connectTask, timeoutTask);
+
+                            try
                             {
-                                var connectTask = client.ConnectAsync(ip, port);
-                                var timeoutTask = Task.Delay(500);
-                                var complateTask = await Task.WhenAny(connectTask, timeoutTask);
-                                result = complateTask == timeoutTask ? IPStatus.TimedOut : IPStatus.Success;
+                                if (timeoutTask.IsCompleted)
+                                {
+                                    result = IPStatus.TimedOut;
+                                }
+                                else
+                                {
+                                    result = client.Connected ? IPStatus.Success : IPStatus.TimedOut;
+                                }
                                 await complateTask;
+                            }
+                            catch (SocketException ex)
+                            {
+                                result = IPStatus.TimedOut;
+                            }
+                            catch (Exception ex)
+                            {
+                                result = IPStatus.TimedOut;
+                            }
+                            finally
+                            {
+                                if (client.Client.Connected)
+                                {
+                                    client.Close();
+                                }
                             }
                         }
                         if (IsPrivateNetwork3(ip))
@@ -135,7 +154,7 @@ namespace PlcClient.Handler
                             {
                                 mac = ResolveMac(ip.ToString());
                                 deviceInfo = GetDeviceInfoForMac(mac);
-                            }                            
+                            }
                         }
                         actionProcess?.Invoke(new string[] { ip.ToString(), result.ToString(), mac == un_mac ? string.Empty : mac, deviceInfo == un_device ? string.Empty : deviceInfo, area_local ? "本地" : "远程" });
                     }
@@ -153,6 +172,7 @@ namespace PlcClient.Handler
                     foreach (var ip in list)
                     {
                         tasks.Add(PingHostAsync(ip, ipPort));
+                        //await PingHostAsync(ip, ipPort);
                     }
                     await Task.WhenAll(tasks);
                     actionEnd?.Invoke();

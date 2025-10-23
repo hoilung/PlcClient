@@ -104,11 +104,14 @@ namespace PlcClient.Handler
                         {
                             using (var ping = new Ping())
                             {
-                                var connectTask = ping.SendPingAsync(ip);
-                                var timeoutTask = Task.Delay(500);
-                                var complateTask = await Task.WhenAny(connectTask, timeoutTask);
-                                result = complateTask == timeoutTask ? IPStatus.TimedOut : IPStatus.Success;
-                                await complateTask;
+                                var num = 1;
+                                while (result != IPStatus.Success)
+                                {
+                                    if (num > 3) break;
+                                    var pingTask = await ping.SendPingAsync(ip, 1000);
+                                    result = pingTask.Status;
+                                    num++;
+                                }
                             }
                         }
                         else if (port > 0 && port < 65535)
@@ -116,7 +119,7 @@ namespace PlcClient.Handler
                             var client = new TcpClient();
 
                             var connectTask = client.ConnectAsync(ip, port);
-                            var timeoutTask = Task.Delay(500);
+                            var timeoutTask = Task.Delay(1000);
                             var complateTask = await Task.WhenAny(connectTask, timeoutTask);
 
                             try

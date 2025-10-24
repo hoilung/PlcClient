@@ -316,8 +316,8 @@ namespace PlcClient.Controls
             var list = line.Distinct().ToList();//.Select(m => (address: m, item: DataItem2.FromAddress2(m))).ToList();
 
 
-            lv_data.BeginUpdate();
-            lv_data.Items.Clear();
+            
+            var tmp_list = new List<ListViewItem>();
             var arr = new[] { "BOOL", "INT", "DINT", "REAL", "LREAL" };
             for (int i = 0; i < list.Count; i++)
             {
@@ -389,8 +389,12 @@ namespace PlcClient.Controls
                 {
                     item.BackColor = Color.AliceBlue;
                 }
-                lv_data.Items.Add(item);
+                // lv_data.Items.Add(item);
+                tmp_list.Add(item);
             }
+            lv_data.Items.Clear();
+            lv_data.BeginUpdate();
+            lv_data.Items.AddRange(tmp_list.ToArray());
             lv_data.EndUpdate();
 
         }
@@ -477,6 +481,7 @@ namespace PlcClient.Controls
             }
 
             //ui 
+            
             foreach (ListViewItem item in lv_data.Items)
             {
                 if (item.Tag is DataItem dataItem)
@@ -488,7 +493,7 @@ namespace PlcClient.Controls
                     item.SubItems[5].Text = dec2bin2hex(dataItem.Value, 16);
 
                 }
-            }
+            }            
             OnMsg($"批量读取 {lv_data.Items.Count}个,用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
         }
 

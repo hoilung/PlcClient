@@ -283,8 +283,7 @@ namespace PlcClient.Controls
                 }
             }
 
-            lv_data.BeginUpdate();
-            lv_data.Items.Clear();
+            var tmp_list = new List<ListViewItem>();
             for (int i = 0; i < dataItems.Count; i++)
             {
                 AbDataItem data = dataItems[i];
@@ -295,8 +294,11 @@ namespace PlcClient.Controls
                 item.SubItems.Add(data.Value?.ToString());
                 item.SubItems.Add(string.Empty);
                 item.SubItems.Add(string.Empty);
-                lv_data.Items.Add(item);
+                tmp_list.Add(item);
             }
+            lv_data.Items.Clear();
+            lv_data.BeginUpdate();
+            lv_data.Items.AddRange(tmp_list.ToArray());
             lv_data.EndUpdate();
             lv_data.Tag = dataItems;
 

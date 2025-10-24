@@ -229,8 +229,7 @@ namespace PlcClient.Controls
 
         private void AddListView(List<GEDataItem> array)
         {
-            lv_data.BeginUpdate();
-            lv_data.Items.Clear();
+            var tmp_list = new List<ListViewItem>();
             for (int i = 0; i < array.Count(); i++)
             {
                 var item = new ListViewItem($"{i}");
@@ -256,8 +255,11 @@ namespace PlcClient.Controls
                 {
                     item.BackColor = System.Drawing.Color.AliceBlue;
                 }
-                lv_data.Items.Add(item);
+                tmp_list.Add(item);
             }
+            lv_data.Items.Clear();
+            lv_data.BeginUpdate();
+            lv_data.Items.AddRange(tmp_list.ToArray());
             lv_data.EndUpdate();
             //lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = lv_data.SelectedItems.Count > 0;
         }

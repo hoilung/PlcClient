@@ -283,6 +283,7 @@
             // 
             this.tbx_address.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbx_address.Location = new System.Drawing.Point(610, 39);
+            this.tbx_address.MaxLength = 99999;
             this.tbx_address.Multiline = true;
             this.tbx_address.Name = "tbx_address";
             this.tbx_address.ScrollBars = System.Windows.Forms.ScrollBars.Both;

@@ -76,25 +76,26 @@ namespace PlcClient.Model.DeviceDiscover
         [XmlElement("MAC")]
         public string MAC { get; set; } = string.Empty;
 
-        //[DisplayCustom("软件版本", Order = 11)]
-        //[XmlElement("SoftwareVersion")]
-        //public string SoftwareVersion { get; set; } = string.Empty;
-
+        [DisplayCustom("软件版本", Order = 11)]
+        [XmlElement("SoftwareVersion")]
+        public string SoftwareVersion { get; set; } = string.Empty;
 
         [DisplayCustom("设备序列号", Order = 12)]
         [XmlElement("DeviceSN")]
         public string DeviceSN { get; set; } = string.Empty;
 
-        //[DisplayCustom("编码通道数", Order = 12)]
-        //[XmlElement("DigitalChannelNum")]
-        //public string DigitalChannelNum { get; set; } = string.Empty;
+        [DisplayCustom("编码通道数", Order = 12)]
+        [XmlElement("DigitalChannelNum")]
+        public string DigitalChannelNum { get; set; } = string.Empty;
 
 
         [DisplayCustom("版本信息", Order = 13)]
         [XmlElement("DSPVersion")]
         public string Version { get; set; } = string.Empty;
 
-
+        //[DisplayCustom("设备名称",Order =14)]
+        //[XmlIgnore]
+        //public string DeviceName { get; set; }=string.Empty;
 
     }
 

@@ -41,7 +41,7 @@ namespace PlcClient.Controls
 
         Handler.ListViewHandler listViewHandler;//扩展排序和导出
         Handler.DeviceHandler deviceHandler;//设备搜索
-        private List<HKProbeMatch> hKProbeMatches = new List<HKProbeMatch>();
+        private Dictionary<string, HKProbeMatch> hKProbeMatches = new Dictionary<string, HKProbeMatch>();
         private void btn_find_Click(object sender, EventArgs e)
         {
             if (deviceHandler != null)
@@ -148,19 +148,19 @@ namespace PlcClient.Controls
             {
                 return;
             }
-            else if (hKProbeMatches.Exists(m => m.IPv4Address == hk.IPv4Address))
+            else if (hKProbeMatches.ContainsKey(hk.IPv4Address))
             {
                 return;
             }
 
-            hKProbeMatches.Add(hk);
+            hKProbeMatches.Add(hk.IPv4Address,hk);
             lv_data.Invoke(() =>
             {
                 var row = lv_data.Items.Add(lv_data.Items.Count.ToString());
                 row.Tag = hk;
+                var item = hk.GetObjectMap();
                 for (int j = 1; j < lv_data.Columns.Count; j++)
-                {
-                    var item = hk.GetObjectMap();
+                {                    
                     if (j % 2 == 0)
                         row.BackColor = Color.AliceBlue;
 
@@ -171,7 +171,7 @@ namespace PlcClient.Controls
                     }
                 }
                 row.SubItems[0].Tag = lv_data.Items.Count;
-                lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                //lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             });
         }
 
@@ -223,6 +223,47 @@ namespace PlcClient.Controls
             {
                 XTrace.WriteException(ex);
                 MessageBox.Show(ex.Message, "复制RTSP地址错误");
+            }
+        }
+
+        private void showDeviceNameToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {               
+
+                var list =new List<string>();
+                foreach(ListViewItem item in lv_data.SelectedItems)
+                {
+                    if (item.Tag is HKProbeMatch hk && hk.DeviceType!=string.Empty)
+                    {
+                        list.Add(hk.IPv4Address);
+                    }                    
+                }
+                if(!list.Any())
+                {                    
+                    return;
+                }
+
+                var frm_about = new Form();
+                frm_about.StartPosition = FormStartPosition.CenterParent;
+                frm_about.Text = "查看海康设备信息";
+                frm_about.ShowIcon = false;
+                frm_about.Size = new Size(650, 350);
+                //frm_about.MaximizeBox = false;
+                frm_about.MinimizeBox = false;
+                frm_about.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+                var cameraDeviceInfo=new CameraDeviceInfo();
+                cameraDeviceInfo.Dock = DockStyle.Fill;
+                cameraDeviceInfo.LoadData(list);
+                frm_about.Controls.Add(cameraDeviceInfo);
+                frm_about.ShowDialog(this);
+
+            }
+            catch (Exception ex)
+            {
+                XTrace.WriteException(ex);
+                MessageBox.Show(ex.Message, "查看设备信息错误");
             }
         }
     }

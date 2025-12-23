@@ -71,19 +71,25 @@ namespace PlcClient.Handler
 
         public string ExportExcel(string fileprefix = "")
         {
+            var dt = this.ToDataTable();
+            var filename= fileprefix + System.DateTime.Now.ToString("_yyyy-MM-dd_ffff");
+            return Export(dt, filename);            
+        }
 
+        public string Export(DataTable dt,string filename)
+        {
             SaveFileDialog fileDialog = new SaveFileDialog();
             fileDialog.Filter = "Excel 工作薄(*.xlsx)|*.xlsx|Excel 97-2003 工作薄(*.xls)|*.xls|CSV UTF-8(逗号分隔)(*.csv)|*.csv";
             fileDialog.Title = "保存文件";
             fileDialog.RestoreDirectory = true;
             fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             fileDialog.DefaultExt = "xlsx";
-            fileDialog.FileName = fileprefix + System.DateTime.Now.ToString("_yyyy-MM-dd_ffff");
+            fileDialog.FileName = filename;
             if (fileDialog.ShowDialog() != DialogResult.OK)
             {
                 return string.Empty;
             }
-            var dt = this.ToDataTable();
+            //var dt = this.ToDataTable();
             MiniExcel.SaveAs(fileDialog.FileName, dt);
             return fileDialog.FileName;
         }

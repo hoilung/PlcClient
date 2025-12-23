@@ -12,7 +12,7 @@ namespace PlcClient
         [STAThread]
         static void Main()
         {
-            XTrace.LogPath = Application.StartupPath + "\\Logs";
+            //XTrace.LogPath = Application.StartupPath + "\\Logs";
             //XTrace.UseConsole();
           
             Application.EnableVisualStyles();

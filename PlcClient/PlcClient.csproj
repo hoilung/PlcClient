@@ -109,6 +109,12 @@
     <Compile Include="Controls\BaseControl.Designer.cs">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CameraDeviceInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CameraDeviceInfo.Designer.cs">
+      <DependentUpon>CameraDeviceInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DeviceDiscover.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -225,6 +231,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\BaseControl.resx">
       <DependentUpon>BaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CameraDeviceInfo.resx">
+      <DependentUpon>CameraDeviceInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DeviceDiscover.resx">
       <DependentUpon>DeviceDiscover.cs</DependentUpon>

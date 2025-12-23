@@ -46,6 +46,7 @@
             this.openWebBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.copyRTSPaddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showDeviceNameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -163,7 +164,6 @@
             this.lv_data.GridLines = true;
             this.lv_data.HideSelection = false;
             this.lv_data.Location = new System.Drawing.Point(3, 28);
-            this.lv_data.MultiSelect = false;
             this.lv_data.Name = "lv_data";
             this.lv_data.Size = new System.Drawing.Size(584, 247);
             this.lv_data.TabIndex = 0;
@@ -180,30 +180,39 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openWebBrowserToolStripMenuItem,
             this.toolStripSeparator3,
-            this.copyRTSPaddressToolStripMenuItem});
+            this.copyRTSPaddressToolStripMenuItem,
+            this.showDeviceNameToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(158, 62);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 110);
             // 
             // openWebBrowserToolStripMenuItem
             // 
             this.openWebBrowserToolStripMenuItem.Image = global::PlcClient.Properties.Resources.Internet_Explorer;
             this.openWebBrowserToolStripMenuItem.Name = "openWebBrowserToolStripMenuItem";
-            this.openWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
+            this.openWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.openWebBrowserToolStripMenuItem.Text = "打开浏览器";
             this.openWebBrowserToolStripMenuItem.Click += new System.EventHandler(this.openWebBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(154, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(181, 6);
             // 
             // copyRTSPaddressToolStripMenuItem
             // 
             this.copyRTSPaddressToolStripMenuItem.Image = global::PlcClient.Properties.Resources.Copy;
             this.copyRTSPaddressToolStripMenuItem.Name = "copyRTSPaddressToolStripMenuItem";
-            this.copyRTSPaddressToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
+            this.copyRTSPaddressToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.copyRTSPaddressToolStripMenuItem.Text = "复制RTSP地址";
             this.copyRTSPaddressToolStripMenuItem.Click += new System.EventHandler(this.copyRTSPaddressToolStripMenuItem_Click);
+            // 
+            // showDeviceNameToolStripMenuItem1
+            // 
+            this.showDeviceNameToolStripMenuItem1.Image = global::PlcClient.Properties.Resources.Video_Call;
+            this.showDeviceNameToolStripMenuItem1.Name = "showDeviceNameToolStripMenuItem1";
+            this.showDeviceNameToolStripMenuItem1.Size = new System.Drawing.Size(184, 26);
+            this.showDeviceNameToolStripMenuItem1.Text = "查看设备信息";
+            this.showDeviceNameToolStripMenuItem1.Click += new System.EventHandler(this.showDeviceNameToolStripMenuItem1_Click);
             // 
             // groupBox1
             // 
@@ -251,5 +260,6 @@
         private System.Windows.Forms.ToolStripMenuItem openWebBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyRTSPaddressToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem showDeviceNameToolStripMenuItem1;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -13,9 +14,10 @@ namespace PlcClient.Controls
 {
     public partial class BaseControl : UserControl, INotifyPropertyChanged
     {
+        public readonly static string CURRENT_PATH = Directory.GetCurrentDirectory();// Path.Combine(Directory.GetCurrentDirectory(), ".tools");
         public BaseControl()
         {
-            InitializeComponent();
+            InitializeComponent();        
         }
         public Ping ping = new Ping();
         public Stopwatch stopwatch = Stopwatch.StartNew();
@@ -182,11 +184,11 @@ namespace PlcClient.Controls
             }
             return string.Empty;
         }
- 
+
         //private ToolTip toolTip = new ToolTip();
         public void ShowToolTip(string text, Control control)
         {
-            ToolTip toolTip = new ToolTip();            
+            ToolTip toolTip = new ToolTip();
             toolTip.ShowAlways = true;
             toolTip.AutoPopDelay = 5000;
             toolTip.InitialDelay = 1000;

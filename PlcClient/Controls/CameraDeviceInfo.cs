@@ -24,6 +24,7 @@ namespace PlcClient.Controls
     {
         private readonly string FFMPEG = Path.Combine(CURRENT_PATH, "ffmpeg.exe");
         private readonly string FFPLAY = Path.Combine(CURRENT_PATH, "ffplay.exe");
+        private readonly string PLAY2Y = Path.Combine(CURRENT_PATH, "VideoForm.exe");
 
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly List<CameraDeviceInfoModel> _cameraDeviceInfoModels = new List<CameraDeviceInfoModel>();
@@ -111,7 +112,7 @@ namespace PlcClient.Controls
             {
                 if (!File.Exists(FFMPEG))
                 {
-                    MessageBox.Show("缺少工具组件，请先下载");
+                    MessageBox.Show("缺少工具组件 FFPEMG，请先下载");
                     return;
                 }
                 VideoScreen(username, password, () =>
@@ -121,11 +122,6 @@ namespace PlcClient.Controls
             }
             else if (_type == "预览播放视频")
             {
-                if (!File.Exists(FFPLAY))
-                {
-                    MessageBox.Show("缺少工具组件，请先下载");
-                    return;
-                }
 
                 VideoView(username, password);
             }
@@ -140,7 +136,25 @@ namespace PlcClient.Controls
                 {
                     var device = this._cameraDeviceInfoModels[index];
                     var rtsp = $"rtsp://{username}:{password}@{device.IPAddress}/Streaming/Channels/101";
-                    FFPLAY.ShellExecute($"-window_title \"{device.IPAddress}\" {rtsp}");
+                    if (device.UserName != string.Empty && device.Password != string.Empty)
+                    {
+                        rtsp = $"rtsp://{device.UserName}:{device.Password}@{device.IPAddress}/Streaming/Channels/101";
+                    }
+
+                    if (!File.Exists(FFPLAY))
+                    {
+                        FFPLAY.ShellExecute($"-window_title \"{device.IPAddress}\" {rtsp}");
+                    }
+                    else if (!File.Exists(PLAY2Y))
+                    {
+                        PLAY2Y.ShellExecute(rtsp);
+                    }
+                    else
+                    {
+                        MessageBox.Show("缺少工具组件 FFPLAY，请先下载");
+                    }
+
+
                 }
             }
         }
@@ -161,6 +175,10 @@ namespace PlcClient.Controls
                     if (device.VideoScreen != string.Empty)
                         continue;
                     var rtsp = $"rtsp://{username}:{password}@{device.IPAddress}/Streaming/Channels/101";
+                    if (device.UserName != string.Empty && device.Password != string.Empty)
+                    {
+                        rtsp = $"rtsp://{device.UserName}:{device.Password}@{device.IPAddress}/Streaming/Channels/101";
+                    }
                     var img = Path.Combine(dir, $"{device.IPAddress}.png");
                     var result = FFMPEG.Execute($"-i {rtsp} -vframes 1 {img}", 3000);
                     if (result == "")

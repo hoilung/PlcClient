@@ -1,30 +1,25 @@
 ﻿using HL.Object.Extensions;
 using NewLife;
-using NewLife.Http;
 using NewLife.Log;
-using NewLife.Serialization;
 using NewLife.Xml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static NewLife.Remoting.ApiHttpClient;
 namespace PlcClient.Controls
 {
     public partial class CameraDeviceInfo : BaseControl
     {
         private readonly string FFMPEG = Path.Combine(CURRENT_PATH, "ffmpeg.exe");
         private readonly string FFPLAY = Path.Combine(CURRENT_PATH, "ffplay.exe");
-        private readonly string PLAY2Y = Path.Combine(CURRENT_PATH, "VideoForm.exe");
+        private readonly string PLAY2 = Path.Combine(CURRENT_PATH, "VideoForm.exe");
 
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly List<CameraDeviceInfoModel> _cameraDeviceInfoModels = new List<CameraDeviceInfoModel>();
@@ -141,13 +136,13 @@ namespace PlcClient.Controls
                         rtsp = $"rtsp://{device.UserName}:{device.Password}@{device.IPAddress}/Streaming/Channels/101";
                     }
 
-                    if (!File.Exists(FFPLAY))
+                    if (File.Exists(FFPLAY))
                     {
                         FFPLAY.ShellExecute($"-window_title \"{device.IPAddress}\" {rtsp}");
                     }
-                    else if (!File.Exists(PLAY2Y))
+                    else if (File.Exists(PLAY2))
                     {
-                        PLAY2Y.ShellExecute(rtsp);
+                        PLAY2.ShellExecute(rtsp);
                     }
                     else
                     {

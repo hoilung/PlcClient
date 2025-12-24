@@ -2,6 +2,7 @@
 using NewLife;
 using NewLife.Log;
 using NewLife.Xml;
+using PlcClient.Handler;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +26,7 @@ namespace PlcClient.Controls
         private readonly List<CameraDeviceInfoModel> _cameraDeviceInfoModels = new List<CameraDeviceInfoModel>();
         private Handler.ListViewHandler listViewHandler;//扩展排序和导出
         public CameraDeviceInfo()
-        {
+        {            
             InitializeComponent();
             listViewHandler = new Handler.ListViewHandler(this.listView1);
             var ps = typeof(CameraDeviceInfoModel).GetProperties();
@@ -105,11 +106,6 @@ namespace PlcClient.Controls
             }
             else if (_type == "执行设备截图")
             {
-                if (!File.Exists(FFMPEG))
-                {
-                    MessageBox.Show("缺少工具组件 FFPEMG，请先下载");
-                    return;
-                }
                 VideoScreen(username, password, () =>
                 {
                     this.progressBar1.PerformStep();
@@ -118,40 +114,54 @@ namespace PlcClient.Controls
             else if (_type == "预览播放视频")
             {
 
-                VideoView(username, password);
+                ShowVideoView(username, password);
             }
 
         }
-        private void VideoView(string username, string password)
+        private void ShowVideoView(string username, string password)
         {
-            if (this.listView1.SelectedIndices.Count > 0)
+            if (this.listView1.SelectedIndices.Count == 0)
             {
-                var index = this.listView1.SelectedIndices[0];
-                if (index <= this._cameraDeviceInfoModels.Count)
-                {
-                    var device = this._cameraDeviceInfoModels[index];
-                    var rtsp = $"rtsp://{username}:{password}@{device.IPAddress}/Streaming/Channels/101";
-                    if (device.UserName != string.Empty && device.Password != string.Empty)
-                    {
-                        rtsp = $"rtsp://{device.UserName}:{device.Password}@{device.IPAddress}/Streaming/Channels/101";
-                    }
-
-                    if (File.Exists(FFPLAY))
-                    {
-                        FFPLAY.ShellExecute($"-window_title \"{device.IPAddress}\" {rtsp}");
-                    }
-                    else if (File.Exists(PLAY2))
-                    {
-                        PLAY2.ShellExecute(rtsp);
-                    }
-                    else
-                    {
-                        MessageBox.Show("缺少工具组件 FFPLAY，请先下载");
-                    }
-
-
-                }
+                MessageBox.Show("请在列表选中要预览的设备", "提示");
+                return;
             }
+            var index = this.listView1.SelectedIndices[0];
+            if (index <= this._cameraDeviceInfoModels.Count)
+            {
+                var device = this._cameraDeviceInfoModels[index];
+                var rtsp = $"rtsp://{username}:{password}@{device.IPAddress}/Streaming/Channels/102";
+                if (device.UserName != string.Empty && device.Password != string.Empty)
+                {
+                    rtsp = $"rtsp://{device.UserName}:{device.Password}@{device.IPAddress}/Streaming/Channels/102";
+                }
+
+                if (File.Exists(FFPLAY))
+                {
+                    FFPLAY.ShellExecute($"-window_title \"{device.IPAddress}\" {rtsp}");
+                }
+                else if (File.Exists(PLAY2))
+                {
+                    PLAY2.ShellExecute(rtsp);
+                }
+                else
+                {
+                    var frm = new Form();
+                    frm.StartPosition = FormStartPosition.CenterParent;
+                    frm.Text = "视频预览 " + device.IPAddress;
+                    frm.ShowIcon = false;
+                    frm.Size = new Size(650, 490);
+                    //frm_about.MaximizeBox = false;
+                    frm.MinimizeBox = false;
+                    //frm.FormBorderStyle = FormBorderStyle.FixedSingle;
+                    var view = new VideoView();
+                    frm.Controls.Add(view);
+                    frm.Show();
+                    view.ShowView(rtsp);
+                }
+
+
+            }
+
         }
 
         private void VideoScreen(string username, string password, Action action = null)
@@ -174,18 +184,26 @@ namespace PlcClient.Controls
                     {
                         rtsp = $"rtsp://{device.UserName}:{device.Password}@{device.IPAddress}/Streaming/Channels/101";
                     }
-                    var img = Path.Combine(dir, $"{device.IPAddress}.png");
-                    var result = FFMPEG.Execute($"-i {rtsp} -vframes 1 {img}", 3000);
-                    if (result == "")
+                    var savePath = Path.Combine(dir, $"{device.IPAddress}.png");
+
+                    var result = string.Empty;
+                    if (File.Exists(FFMPEG))
                     {
-                        device.VideoScreen = img;
+                        result = FFMPEG.Execute($"-i {rtsp} -vframes 1 {savePath}", 3000);
+                    }
+                    else
+                    {
+                        result = OpenCvHandler.Screenshot(rtsp, savePath);
+                    }
+                    if (result != string.Empty)
+                    {
+                        device.VideoScreen = savePath;
                         device.State = "截图完成";
                     }
                     else
                     {
                         device.State = "截图失败";
                     }
-
 
                 }
                 this.Invoke(() =>

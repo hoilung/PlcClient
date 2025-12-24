@@ -1,5 +1,5 @@
 ﻿using NetTools;
-using NewLife.Reflection;
+using NewLife;
 using PlcClient.Handler;
 using System;
 using System.Collections.Generic;

@@ -190,12 +190,16 @@ namespace PlcClient.Controls
                     if (File.Exists(FFMPEG))
                     {
                         result = FFMPEG.Execute($"-i {rtsp} -vframes 1 {savePath}", 3000);
+                        if(result!=null)
+                        {
+                            result = savePath;
+                        }
                     }
                     else
                     {
                         result = OpenCvHandler.Screenshot(rtsp, savePath);
                     }
-                    if (result != string.Empty)
+                    if (result.Length>0)
                     {
                         device.VideoScreen = savePath;
                         device.State = "截图完成";

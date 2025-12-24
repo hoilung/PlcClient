@@ -13,6 +13,7 @@ namespace PlcClient.Handler
     internal class OpenCvHandler
     {
         private VideoCapture _videoCapture;
+        private Mat _currentFrame;
         private string _filename;
         private PictureBox _pictureBox;
         private BackgroundWorker _backgroundWorker;
@@ -42,23 +43,25 @@ namespace PlcClient.Handler
             if (this._videoCapture != null)
             {
                 this._videoCapture.Release();
+                this._currentFrame.Release();
             }
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             int _sleepTime = (int)(1000 / _videoCapture.Get(VideoCaptureProperties.Fps));
-            using (Mat _frame = new Mat())
+            _currentFrame = new Mat();
+
+            while (!this._backgroundWorker.CancellationPending)
             {
-                while (!this._backgroundWorker.CancellationPending)
+                if (this._videoCapture.Read(_currentFrame))
                 {
-                    if (this._videoCapture.Read(_frame))
-                    {
-                        this._backgroundWorker.ReportProgress(0, _frame);
-                    }
-                    Thread.Sleep(_sleepTime);
+                    this._backgroundWorker.ReportProgress(0, _currentFrame);
                 }
+                Thread.Sleep(_sleepTime);
             }
+
+
             e.Cancel = true;
         }
 

@@ -32,7 +32,7 @@ jobs:
         run: mkdir output
       - name: Copy build artifacts to output directory
         run: |
-          xcopy PlcClient\bin\x64\Release\*.* output /S /E /Y # 替换为您的项目目录
+          xcopy PlcClient\bin\x64\Release\PlcClient.* output /S /E /Y # 替换为您的项目目录
       - name: Archive production artifacts
         run: tar -czf release.tar.gz -C output .
       - name: Upload release artifact

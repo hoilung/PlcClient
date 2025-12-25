@@ -1,6 +1,7 @@
 ﻿using HL.Object.Extensions;
 using NewLife;
 using NewLife.Log;
+using NewLife.Reflection;
 using NewLife.Xml;
 using PlcClient.Handler;
 using System;
@@ -127,10 +128,15 @@ namespace PlcClient.Controls
 
         }
 
-        private void DownloadPackage()
-        {           
+        private void CopyTo()
+        {
 
-            MessageBox.Show("请保持网络正常，开始下载安装运行时组件", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void DownloadPackage()
+        {
+
+            MessageBox.Show("缺少必要运行组件，请保持网络正常，等待下载完成后再使用", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             this.progressBar1.Value = 0;
             this.progressBar1.Maximum = 100;
             this.Parent.Tag = this.Parent.Text;
@@ -161,13 +167,14 @@ namespace PlcClient.Controls
                 });
                 var sourceDir = Path.Combine(tarDir, "runtimes");
                 if (Directory.Exists(sourceDir))
-                {
+                {                    
                     //复制目录到运行目录
                     var runtimeDir = Path.Combine(Directory.GetCurrentDirectory(), "runtimes");
-                    Directory.Move(sourceDir, runtimeDir);
+                    DirectoryHelper.CopyDirectory(sourceDir, runtimeDir);
+                    //删除临时文件
+                    tarDir.AsDirectory().Delete(true);
+                    savePath.AsFile().Delete();
                 }
-                Directory.Delete(tarDir, true);
-                File.Delete(savePath);
 
                 this.Invoke(() =>
                 {
@@ -235,7 +242,7 @@ namespace PlcClient.Controls
         {
             var dir = Path.Combine(Directory.GetCurrentDirectory(), "tmp", DateTime.Now.ToString("yyyyMMdd_hhmm"));
             Directory.CreateDirectory(dir);
-            if(!File.Exists(FFMPEG))
+            if (!File.Exists(FFMPEG))
             {
                 if (!OpenCvHandler.CheckOpenCvRuntime())
                 {
@@ -271,7 +278,7 @@ namespace PlcClient.Controls
                         }
                     }
                     else
-                    {                        
+                    {
                         result = OpenCvHandler.Screenshot(rtsp, savePath);
                     }
                     if (result.Length > 0)

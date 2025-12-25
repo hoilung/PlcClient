@@ -186,6 +186,7 @@
     </Compile>
     <Compile Include="Handler\ArpHandler.cs" />
     <Compile Include="Handler\DeviceHandler.cs" />
+    <Compile Include="Handler\DirectoryHelper.cs" />
     <Compile Include="Handler\ListViewColumnSorter.cs" />
     <Compile Include="Handler\ListViewHandler.cs" />
     <Compile Include="Handler\OpenCvHandler.cs" />

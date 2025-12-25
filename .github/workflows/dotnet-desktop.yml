@@ -27,7 +27,7 @@ jobs:
         run: nuget restore PlcClient.sln   # 替换为您的解决方案文件
       - name: Build the project (x64)
         run: |
-          msbuild PlcClient.sln /p:Configuration=Release /p:Platform="x64"
+          msbuild PlcClient.sln /p:Configuration=Release"
       - name: Create output directory
         run: mkdir output
       - name: Copy build artifacts to output directory

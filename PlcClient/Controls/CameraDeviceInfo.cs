@@ -6,6 +6,7 @@ using PlcClient.Handler;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace PlcClient.Controls
         private readonly List<CameraDeviceInfoModel> _cameraDeviceInfoModels = new List<CameraDeviceInfoModel>();
         private Handler.ListViewHandler listViewHandler;//扩展排序和导出
         public CameraDeviceInfo()
-        {            
+        {
             InitializeComponent();
             listViewHandler = new Handler.ListViewHandler(this.listView1);
             var ps = typeof(CameraDeviceInfoModel).GetProperties();
@@ -37,13 +38,16 @@ namespace PlcClient.Controls
             }
             tbx_type.SelectedIndex = 0;
             this.Dock = this.tableLayoutPanel1.Dock = this.listView1.Dock = DockStyle.Fill;
+
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            this.tbx_password.Focus();
             this.listView1.VirtualMode = true;
             this.listView1.RetrieveVirtualItem += ListView1_RetrieveVirtualItem;
+
         }
 
         public void LoadData(List<string> ipaddress)
@@ -81,6 +85,8 @@ namespace PlcClient.Controls
 
         private void btn_execute_Click(object sender, EventArgs e)
         {
+
+
             var _type = tbx_type.SelectedItem.ToString();
             var username = tbx_username.Text;
             var password = tbx_password.Text;
@@ -90,8 +96,10 @@ namespace PlcClient.Controls
                 MessageBox.Show("请输入账号或密码", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             cancellationTokenSource.Cancel();
             cancellationTokenSource = new CancellationTokenSource();
+
             //查询设备名称
             //执行设备截图
             this.progressBar1.Maximum = this._cameraDeviceInfoModels.Count;
@@ -118,6 +126,60 @@ namespace PlcClient.Controls
             }
 
         }
+
+        private void DownloadPackage()
+        {           
+
+            MessageBox.Show("请保持网络正常，开始下载安装运行时组件", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            this.progressBar1.Value = 0;
+            this.progressBar1.Maximum = 100;
+            this.Parent.Tag = this.Parent.Text;
+            var ochandler = new OpenCvHandler();
+            Task.Factory.StartNew(async () =>
+            {
+                #region 下载运行时组件
+                string savePath = Path.Combine(Directory.GetCurrentDirectory(), "tmp", "OpenCvSharp4.runtime.win.zip");
+
+                await ochandler.DownloadAsync(ochandler.DOWNLOAD_OPENCV_PATH, savePath, (progress) =>
+                {
+                    this.Invoke(() =>
+                    {
+                        this.Parent.Text = $"正在下载运行时组件 {progress}%";
+                        this.progressBar1.Value = progress;
+                    });
+                }, cancellationTokenSource.Token);
+
+                this.Invoke(() =>
+                {
+                    this.Parent.Text = $"正在解压文件";
+                });
+                var tarDir = Path.Combine(Directory.GetCurrentDirectory(), "tmp", "OpenCvSharp4.runtime.win");
+                ochandler.Unzip(savePath, tarDir);
+                this.Invoke(() =>
+                {
+                    this.Parent.Text = $"正在创建目录";
+                });
+                var sourceDir = Path.Combine(tarDir, "runtimes");
+                if (Directory.Exists(sourceDir))
+                {
+                    //复制目录到运行目录
+                    var runtimeDir = Path.Combine(Directory.GetCurrentDirectory(), "runtimes");
+                    Directory.Move(sourceDir, runtimeDir);
+                }
+                Directory.Delete(tarDir, true);
+                File.Delete(savePath);
+
+                this.Invoke(() =>
+                {
+                    this.Parent.Text = this.Parent.Tag.ToString();
+                });
+                #endregion
+
+
+            }, cancellationTokenSource.Token);
+
+        }
+
         private void ShowVideoView(string username, string password)
         {
             if (this.listView1.SelectedIndices.Count == 0)
@@ -145,6 +207,11 @@ namespace PlcClient.Controls
                 }
                 else
                 {
+                    if (!OpenCvHandler.CheckOpenCvRuntime())
+                    {
+                        this.DownloadPackage();
+                        return;
+                    }
                     var frm = new Form();
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.Text = "视频预览 " + device.IPAddress;
@@ -168,6 +235,14 @@ namespace PlcClient.Controls
         {
             var dir = Path.Combine(Directory.GetCurrentDirectory(), "tmp", DateTime.Now.ToString("yyyyMMdd_hhmm"));
             Directory.CreateDirectory(dir);
+            if(!File.Exists(FFMPEG))
+            {
+                if (!OpenCvHandler.CheckOpenCvRuntime())
+                {
+                    this.DownloadPackage();
+                    return;
+                }
+            }
             Task.Factory.StartNew(() =>
             {
                 foreach (var device in this._cameraDeviceInfoModels)
@@ -190,16 +265,16 @@ namespace PlcClient.Controls
                     if (File.Exists(FFMPEG))
                     {
                         result = FFMPEG.Execute($"-i {rtsp} -vframes 1 {savePath}", 3000);
-                        if(result!=null)
+                        if (result != null)
                         {
                             result = savePath;
                         }
                     }
                     else
-                    {
+                    {                        
                         result = OpenCvHandler.Screenshot(rtsp, savePath);
                     }
-                    if (result.Length>0)
+                    if (result.Length > 0)
                     {
                         device.VideoScreen = savePath;
                         device.State = "截图完成";

@@ -112,6 +112,7 @@
             this.tbx_username.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
             this.tbx_username.Name = "tbx_username";
             this.tbx_username.Size = new System.Drawing.Size(100, 25);
+            this.tbx_username.Text = "admin";
             // 
             // toolStripLabel2
             // 

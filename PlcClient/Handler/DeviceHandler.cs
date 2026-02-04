@@ -28,7 +28,7 @@ namespace PlcClient.Handler
 
     public class DeviceHandler : Onvif
     {
-
+        public bool IsStart { get; private set; }
         private CancellationTokenSource CancellationTokenSource;
         private IPEndPoint endPoint;
         private UdpClient udpClient;
@@ -37,9 +37,10 @@ namespace PlcClient.Handler
 
         public event EventHandler<DeviceEventArgs> DeviceReceice;
 
-        public DeviceHandler(string localIP)
+
+        public void SetLocalIP(string ip)
         {
-            this.localIP = localIP;
+            this.localIP = ip;
         }
 
         protected virtual void OnBroadcastReceice(DeviceEventArgs e)
@@ -73,6 +74,7 @@ namespace PlcClient.Handler
         public void HKDeviceFind()
         {
             // 发送广播消息
+
             string message = Properties.Resources.hikvision.Replace("{uuid}", Guid.NewGuid().ToString());
             var multicast = new IPEndPoint(IPAddress.Parse("239.255.255.250"), 37020);//自有协议
             SendMsg(message, multicast);
@@ -167,21 +169,26 @@ namespace PlcClient.Handler
 
         #endregion
 
-        public void Start()
+        public void Start(Action findAction = null)
         {
+            this.IsStart = true;
             this.CancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() =>
+            this.CancellationTokenSource.Token.Register(() =>
+            {
+                this.IsStart = false;
+            });
+            Task.Run(async () =>
             {
                 while (!this.CancellationTokenSource.IsCancellationRequested)
                 {
                     if (!this._message.Any())
                     {
-                        Task.Delay(100).Wait();
+                        await Task.Delay(200);
                         continue;
                     }
                     var _msg = _message.Dequeue();
                     OnBroadcastReceice(_msg);
-                }               
+                }
 
             }, this.CancellationTokenSource.Token);
             Task.Run(() =>
@@ -197,6 +204,31 @@ namespace PlcClient.Handler
                     ar.AsyncWaitHandle.WaitOne();
                 }
             }, CancellationTokenSource.Token);
+            if (findAction != null)
+            {
+                //定时发送广播
+                Task.Run(async () =>
+                {
+                    //await Task.Delay(200);
+                    int delay = 0;
+                    while (!this.CancellationTokenSource.IsCancellationRequested)
+                    {
+                        findAction.Invoke();
+                        while (!this.CancellationTokenSource.IsCancellationRequested)
+                        {                            
+                            await Task.Delay(1000);
+                            delay++;
+                            if (delay > 60)
+                            {
+                                break;
+                            }
+                        }
+                        delay = 0;
+                    }
+                    Console.WriteLine("设备发现结束");
+                }, this.CancellationTokenSource.Token);
+
+            }
             OnSendProcess();
         }
 
@@ -222,7 +254,7 @@ namespace PlcClient.Handler
         {
             this.CancellationTokenSource.Cancel();
             _message.Clear();
-            _sendQueue.Clear();            
+            _sendQueue.Clear();
             udpClient.Close();
         }
 
@@ -240,7 +272,7 @@ namespace PlcClient.Handler
                 {
                     if (this._sendQueue.Count == 0 || this.udpClient == null)
                     {
-                        await Task.Delay(100);
+                        await Task.Delay(200);
                         continue;
                     }
 

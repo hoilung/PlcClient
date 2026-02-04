@@ -40,14 +40,14 @@ namespace PlcClient.Controls
         }
 
         Handler.ListViewHandler listViewHandler;//扩展排序和导出
-        Handler.DeviceHandler deviceHandler;//设备搜索
+        Handler.DeviceHandler deviceHandler = new DeviceHandler();//设备搜索
         private Dictionary<string, HKProbeMatch> hKProbeMatches = new Dictionary<string, HKProbeMatch>();
+
         private void btn_find_Click(object sender, EventArgs e)
         {
-            if (deviceHandler != null)
+            if (deviceHandler.IsStart)
             {
-                deviceHandler.Stop();
-                deviceHandler = null;
+                deviceHandler.Stop();                
                 btn_find.Text = "开始搜索";
                 return;
             }
@@ -55,25 +55,22 @@ namespace PlcClient.Controls
 
             try
             {
-                deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
+                deviceHandler.SetLocalIP(tbx_ip.Text);
                 switch (cbx_deviceType.Text)
                 {
                     case "海康":
                         deviceHandler.DeviceReceice += HK_DeviceReceice;
-                        deviceHandler.Start();
-                        deviceHandler.HKDeviceFind();
+                        deviceHandler.Start(() => deviceHandler.HKDeviceFind());
                         break;
                     case "大华":
                         //deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
                         deviceHandler.DeviceReceice += DH_DeviceReceice;
-                        deviceHandler.Start();
-                        deviceHandler.DaHuaDeviceFind();
+                        deviceHandler.Start(() => deviceHandler.DaHuaDeviceFind());
                         break;
                     case "ONVIF":
                         //deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
                         deviceHandler.DeviceReceice += Onvif_DeviceReceice;
-                        deviceHandler.Start();
-                        deviceHandler.OnvifDeviceFind();
+                        deviceHandler.Start(() => deviceHandler.OnvifDeviceFind());
                         break;
                 }
             }
@@ -92,10 +89,11 @@ namespace PlcClient.Controls
                 AddDeviceData(hk);
             }
             catch (Exception ex)
-            {
+            {                
                 XTrace.Log.Error("大华查找设备错误 {0}", ex);
-                deviceHandler.DeviceReceice -= DH_DeviceReceice;
-                MessageBox.Show(ex.Message, "大华查找设备错误");
+                //deviceHandler.DeviceReceice -= DH_DeviceReceice;
+                //MessageBox.Show(ex.Message, "大华查找设备错误");
+                OnMsg("大华查找设备错误," + ex.Message);
             }
         }
 
@@ -115,8 +113,9 @@ namespace PlcClient.Controls
             catch (Exception ex)
             {
                 XTrace.Log.Error("Onvif查找设备错误 {0}", ex);
-                deviceHandler.DeviceReceice -= Onvif_DeviceReceice;
-                MessageBox.Show(ex.Message, "Onvif查找设备错误");
+                //deviceHandler.DeviceReceice -= Onvif_DeviceReceice;
+                //MessageBox.Show(ex.Message, "Onvif查找设备错误");
+                OnMsg("Onvif查找设备错误," + ex.Message);
             }
         }
 
@@ -127,7 +126,7 @@ namespace PlcClient.Controls
             {
                 try
                 {
-                    if (!e.Message.Contains("ProbeMatch"))
+                    if (!e.Message.Contains("</ProbeMatch>"))
                         return;
 
                     var hk = hander.XmlUnpack<HKProbeMatch>(e.Message);
@@ -135,9 +134,10 @@ namespace PlcClient.Controls
                 }
                 catch (Exception ex)
                 {
-                    XTrace.Log.Error("海康查找设备错误 {0}, {1}", ex,e.Message);
-                    deviceHandler.DeviceReceice -= HK_DeviceReceice;
-                    MessageBox.Show(ex.Message, "海康查找设备错误");
+                    XTrace.Log.Error("海康查找设备错误 {0}, {1}", ex, e.Message);
+                    //deviceHandler.DeviceReceice -= HK_DeviceReceice;
+                    //MessageBox.Show(ex.Message, "海康查找设备错误");
+                    OnMsg("海康查找设备错误," + ex.Message);
                 }
             }
         }
@@ -153,14 +153,14 @@ namespace PlcClient.Controls
                 return;
             }
 
-            hKProbeMatches.Add(hk.IPv4Address,hk);
+            hKProbeMatches.Add(hk.IPv4Address, hk);
             lv_data.Invoke(() =>
             {
                 var row = lv_data.Items.Add(lv_data.Items.Count.ToString());
                 row.Tag = hk;
                 var item = hk.GetObjectMap();
                 for (int j = 1; j < lv_data.Columns.Count; j++)
-                {                    
+                {
                     if (j % 2 == 0)
                         row.BackColor = Color.AliceBlue;
 
@@ -196,7 +196,7 @@ namespace PlcClient.Controls
             {
                 var hk = lv_data.SelectedItems[0].Tag as HKProbeMatch;
                 if (hk == null) { return; }
-                var url =string.Format("http://{0}:{1}",hk.IPv4Address, hk.HttpPort) ;
+                var url = string.Format("http://{0}:{1}", hk.IPv4Address, hk.HttpPort);
                 if (string.IsNullOrEmpty(url)) { return; }
                 System.Diagnostics.Process.Start(url);
             }
@@ -213,7 +213,7 @@ namespace PlcClient.Controls
             {
                 var hk = lv_data.SelectedItems[0].Tag as HKProbeMatch;
                 if (hk == null) { return; }
-                var text = PlcClient.Properties.Resources.RSTP_TPL.Replace("IP", hk.IPv4Address);               
+                var text = PlcClient.Properties.Resources.RSTP_TPL.Replace("IP", hk.IPv4Address);
                 if (string.IsNullOrEmpty(text)) { return; }
                 Clipboard.SetText(text);
                 var msg = $"RTSP参考地址已复制到剪贴板";
@@ -229,18 +229,18 @@ namespace PlcClient.Controls
         private void showDeviceNameToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
-            {               
+            {
 
-                var list =new List<string>();
-                foreach(ListViewItem item in lv_data.SelectedItems)
+                var list = new List<string>();
+                foreach (ListViewItem item in lv_data.SelectedItems)
                 {
-                    if (item.Tag is HKProbeMatch hk && hk.DeviceType!=string.Empty)
+                    if (item.Tag is HKProbeMatch hk && hk.DeviceType != string.Empty)
                     {
                         list.Add(hk.IPv4Address);
-                    }                    
+                    }
                 }
-                if(!list.Any())
-                {                    
+                if (!list.Any())
+                {
                     return;
                 }
 
@@ -253,7 +253,7 @@ namespace PlcClient.Controls
                 frm_about.MinimizeBox = false;
                 frm_about.FormBorderStyle = FormBorderStyle.FixedSingle;
 
-                var cameraDeviceInfo=new CameraDeviceInfo();
+                var cameraDeviceInfo = new CameraDeviceInfo();
                 cameraDeviceInfo.Dock = DockStyle.Fill;
                 cameraDeviceInfo.LoadData(list);
                 frm_about.Controls.Add(cameraDeviceInfo);

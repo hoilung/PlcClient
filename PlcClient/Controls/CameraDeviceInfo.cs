@@ -353,24 +353,21 @@ namespace PlcClient.Controls
     {
         [DisplayName("#")]
         public int ID { get; set; }
-
         [DisplayName("设备类型")]
         public string DeviceType { get; set; } = string.Empty;
         [DisplayName("IPv4")]
         public string IPAddress { get; set; }
-        [DisplayName("设备名称")]
-        public string DeviceName { get; set; } = string.Empty;
-        [DisplayName("视频截图")]
-        public string VideoScreen { get; set; } = string.Empty;
-
-        [DisplayName("状态")]
-        public string State { get; set; } = "待处理";
-
         [DisplayName("账号")]
         public string UserName { get; set; } = string.Empty;
 
         [DisplayName("密码")]
         public string Password { get; set; } = string.Empty;
+        [DisplayName("状态")]
+        public string State { get; set; } = "待处理";
+        [DisplayName("设备名称")]
+        public string DeviceName { get; set; } = string.Empty;
+        [DisplayName("视频截图")]
+        public string VideoScreen { get; set; } = string.Empty;
     }
 
 

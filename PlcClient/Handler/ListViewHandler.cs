@@ -181,7 +181,7 @@ namespace PlcClient.Handler
             foreach (var item in kv)
             {
                 var displayName = item.GetDisplayName() ?? item.Name;
-                this.listView.Columns.Add(new ColumnHeader { Name = item.Name, Text = displayName, Width = 100 });
+                this.listView.Columns.Add(new ColumnHeader { Name = item.Name, Text = displayName, Width = 60 });
             }
             //this.listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }

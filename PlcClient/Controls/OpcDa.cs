@@ -188,9 +188,17 @@ namespace PlcClient.Controls
             var items = Opc.Server.Read(new[] { new Opc.Da.Item { ItemName = tagName } });
             if (items != null)
             {
-                tbx_tag_value.Text = items[0].Value.ToString();
-                tbx_tag_value.Tag = System.Type.GetTypeCode(items[0].Value.GetType());
-                OnMsg($"OpcDa读取：{tagName} 值：{items[0].Value} 质量：{items[0].Quality} 时间：{items[0].Timestamp}");
+                if (items[0].Value != null)
+                {
+                    tbx_tag_value.Text = items[0].Value.ToString();
+                    tbx_tag_value.Tag = System.Type.GetTypeCode(items[0].Value.GetType());
+                }
+                else
+                {
+                    ShowToolTip("读取失败", tbx_tag_value);
+                }
+
+                OnMsg($"OPC DA Tag: {tagName}, Value: {items[0].Value??"NULL"}, Quality: {items[0].Quality}, Timestamp: {items[0].Timestamp}]");
             }
         }
 
@@ -248,7 +256,7 @@ namespace PlcClient.Controls
                         var subItem = lv_data.FindItemWithText(item.ItemName, true, 0);
                         if (subItem != null)
                         {
-                            subItem.SubItems[3].Text = item.Value.ToString();
+                            subItem.SubItems[3].Text = item.Value?.ToString();
                             subItem.SubItems[4].Text = item.Quality.ToString();
                             subItem.SubItems[5].Text = item.Timestamp.ToString();
                         }

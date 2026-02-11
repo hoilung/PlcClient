@@ -63,6 +63,11 @@ namespace PlcClient.Controls
                 toolStripStatusLabel1.Text = itemid.ItemName + " 当前节点不支持读取";
                 return;
             }
+            if(itemid.Properties==null)
+            {
+                toolStripStatusLabel1.Text = itemid.ItemName + " 当前节点读取失败";                
+                return;
+            }
 
 
             var item = new OPCDAItem();

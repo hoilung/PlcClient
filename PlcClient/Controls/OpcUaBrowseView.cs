@@ -18,7 +18,7 @@ namespace PlcClient.Controls
             this.tableLayoutPanel1.Dock = this.statusStrip1.Dock = this.tv_nodes.Dock = DockStyle.Fill;
             this.driver = driver;
             tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
-            
+
         }
 
         private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -103,7 +103,10 @@ namespace PlcClient.Controls
                     node.Collapse();
                 }
                 node.Tag = item;
-                // GetTreeNode(node, ExpandedNodeId.ToNodeId(item.NodeId, null));
+                if (item.NodeClass != NodeClass.Variable)
+                {
+                    GetTreeNode(node, ExpandedNodeId.ToNodeId(item.NodeId, null));
+                }
             }
         }
     }

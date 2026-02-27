@@ -6,12 +6,17 @@ on:
         description: 'The tag name for the release'
         required: false
         default: 'v1.0.0'
+  push:
+    tags:
+      - 'v*.*.*'
 jobs:
   build:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 拉取全部历史
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
       - name: Setup NuGet
@@ -49,16 +54,33 @@ jobs:
         with:
           name: release-artifact
           path: ${{ github.workspace }}/release
+      - name: Get commit messages
+        run: |
+          # 获取最近的提交信息（仅提交主题）
+          $CURRENT_TAG = "${{ github.event.inputs.tag_name || github.ref_name }}"
+          $PREV_TAG = git describe --tags --abbrev=0 $CURRENT_TAG^ 2>$null
+          if ([string]::IsNullOrWhiteSpace($PREV_TAG)) {
+            $LOGS = git log $CURRENT_TAG --pretty=format:"- %s"
+          } else {
+            $LOGS = git log "$PREV_TAG..$CURRENT_TAG" --pretty=format:"- %s"
+          }
+          echo "COMMITS=$LOGS" >> $env:GITHUB_ENV
+
+          # 或者获取更详细的日志（包含哈希、作者、日期）
+          # COMMIT_MESSAGES= git log --pretty=format:"%h %s %ad %an" --reverse --date=short
+          # echo "COMMIT_MESSAGES=$COMMITT_MESSAGES" >> $GITHUB_ENV
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          tag_name: ${{ github.event.inputs.tag_name || 'v1.0.0' }}
-          release_name: Release ${{ github.event.inputs.tag_name || 'v1.0.0' }}
+          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
+          release_name: Release ${{ github.event.inputs.tag_name || github.ref_name }}
           body: |
-            Release notes for ${{ github.event.inputs.tag_name || 'v1.0.0' }}
+            Release notes for ${{ github.event.inputs.tag_name || github.ref_name }}
+            
+            ${{ env.COMMITS }}
           draft: false
           prerelease: false
       - name: Upload release asset

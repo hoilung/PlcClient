@@ -57,12 +57,15 @@ jobs:
       - name: Get commit messages
         run: |
           # 获取最近的提交信息（仅提交主题）
-          $CURRENT_TAG = "${{ github.event.inputs.tag_name || github.ref_name }}"
-          $PREV_TAG = git describe --tags --abbrev=0 $CURRENT_TAG^ 2>$null
+          try{
+            $PREV_TAG = git describe --tags --abbrev=0
+          }catch{
+            $PREV_TAG = ""
+          }
           if ([string]::IsNullOrWhiteSpace($PREV_TAG)) {
-            $LOGS = git log $CURRENT_TAG --pretty=format:"- %s"
+            $LOGS = git log --pretty=format:"- %s"
           } else {
-            $LOGS = git log "$PREV_TAG..$CURRENT_TAG" --pretty=format:"- %s"
+            $LOGS = git log "$PREV_TAG.." --pretty=format:"- %s"
           }
           echo "COMMITS=$LOGS" >> $env:GITHUB_ENV
 

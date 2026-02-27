@@ -6,6 +6,9 @@ on:
         description: 'The tag name for the release'
         required: false
         default: 'v1.0.0'
+  push:
+    tags:
+      - 'v*.*.*'
 jobs:
   build:
     runs-on: windows-latest
@@ -49,16 +52,26 @@ jobs:
         with:
           name: release-artifact
           path: ${{ github.workspace }}/release
+      - name: Get commit messages
+        run: |
+          # 获取最近的提交信息（仅提交主题）
+          COMMIT_MESSAGES=$(git log --pretty=format:"%s" --reverse)
+          echo "COMMIT_MESSAGES=$COMMIT_MESSAGES" >> $GITHUB_ENV
+
+          # 或者获取更详细的日志（包含哈希、作者、日期）
+          # COMMIT_MESSAGES=$(git log --pretty=format:"%h %s %ad %an" --reverse --date=short)
+          # echo "COMMIT_MESSAGES=$COMMITT_MESSAGES" >> $GITHUB_ENV
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          tag_name: ${{ github.event.inputs.tag_name || 'v1.0.0' }}
-          release_name: Release ${{ github.event.inputs.tag_name || 'v1.0.0' }}
+          tag_name: ${{ substring(github.ref, 11) }}
+          release_name: Release ${{ substring(github.ref, 11) }}
           body: |
-            Release notes for ${{ github.event.inputs.tag_name || 'v1.0.0' }}
+                Release notes for ${{ substring(github.ref, 11) }}
+                ${{ env.COMMIT_MESSAGES }}
           draft: false
           prerelease: false
       - name: Upload release asset

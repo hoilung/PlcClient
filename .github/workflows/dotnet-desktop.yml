@@ -56,22 +56,14 @@ jobs:
           path: ${{ github.workspace }}/release
       - name: Get commit messages
         run: |
-          # 获取最近的提交信息（仅提交主题）
-          try{
-            $PREV_TAG = git describe --tags --abbrev=0
-          }catch{
-            $PREV_TAG = ""
-          }
+          # 获取最近的提交信息（仅提交主题）         
+          $PREV_TAG = git describe --tags --abbrev=0         
           if ([string]::IsNullOrWhiteSpace($PREV_TAG)) {
             $LOGS = git log --pretty=format:"- %s"
           } else {
             $LOGS = git log "$PREV_TAG.." --pretty=format:"- %s"
-          }
+          }          
           echo "COMMITS=$LOGS" >> $env:GITHUB_ENV
-
-          # 或者获取更详细的日志（包含哈希、作者、日期）
-          # COMMIT_MESSAGES= git log --pretty=format:"%h %s %ad %an" --reverse --date=short
-          # echo "COMMIT_MESSAGES=$COMMITT_MESSAGES" >> $GITHUB_ENV
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -82,7 +74,6 @@ jobs:
           release_name: Release ${{ github.event.inputs.tag_name || github.ref_name }}
           body: |
             Release notes for ${{ github.event.inputs.tag_name || github.ref_name }}
-            
             ${{ env.COMMITS }}
           draft: false
           prerelease: false

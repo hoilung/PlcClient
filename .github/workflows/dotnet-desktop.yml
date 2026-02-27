@@ -55,11 +55,11 @@ jobs:
       - name: Get commit messages
         run: |
           # 获取最近的提交信息（仅提交主题）
-          COMMIT_MESSAGES=$(git log --pretty=format:"%s" --reverse)
-          echo "COMMIT_MESSAGES=$COMMIT_MESSAGES" >> $GITHUB_ENV
+          COMMIT_MESSAGES = git log -1 --pretty=format:"%s"
+          echo "COMMIT_MESSAGES=$COMMIT_MESSAGES" >> $env:GITHUB_ENV
 
           # 或者获取更详细的日志（包含哈希、作者、日期）
-          # COMMIT_MESSAGES=$(git log --pretty=format:"%h %s %ad %an" --reverse --date=short)
+          # COMMIT_MESSAGES= git log --pretty=format:"%h %s %ad %an" --reverse --date=short
           # echo "COMMIT_MESSAGES=$COMMITT_MESSAGES" >> $GITHUB_ENV
       - name: Create GitHub Release
         id: create_release

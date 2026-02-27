@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using NewLife.Reflection;
 using NewLife;
 using System.Linq;
+using System.Text.RegularExpressions;
 namespace PlcClient.Handler
 {
     internal class ListViewHandler
@@ -145,6 +146,27 @@ namespace PlcClient.Handler
 
             // Perform the sort with these new sort options.
             this.listView.Sort();
+        }
+
+        public long IPv4ToLong(string ip)
+        {
+            long result = 0;
+            if (string.IsNullOrEmpty(ip))
+                return result;            
+            string[] parts = ip.Split('.');
+            if (parts.Length != 4)
+                return ip.GetHashCode();
+            foreach (string part in parts)
+            {
+                ushort val;
+                if (!ushort.TryParse(part, out val) || val < 0 || val > 255)
+                {
+                    //throw new ArgumentException("Invalid IP address part");
+                    continue;
+                }
+                result = (result << 8) | val;
+            }
+            return result;
         }
     }
 

@@ -47,7 +47,7 @@ namespace PlcClient.Controls
         {
             if (deviceHandler.IsStart)
             {
-                deviceHandler.Stop();                
+                deviceHandler.Stop();
                 btn_find.Text = "开始搜索";
                 return;
             }
@@ -89,7 +89,7 @@ namespace PlcClient.Controls
                 AddDeviceData(hk);
             }
             catch (Exception ex)
-            {                
+            {
                 XTrace.Log.Error("大华查找设备错误 {0}", ex);
                 //deviceHandler.DeviceReceice -= DH_DeviceReceice;
                 //MessageBox.Show(ex.Message, "大华查找设备错误");
@@ -168,6 +168,10 @@ namespace PlcClient.Controls
                     {
                         value = value ?? "";
                         row.SubItems.Add(value.ToString());
+                        if (lv_data.Columns[j].Name == nameof(HKProbeMatch.IPv4Address))
+                        {
+                            row.SubItems[j].Tag = listViewHandler.IPv4ToLong(value.ToString());
+                        }
                     }
                 }
                 row.SubItems[0].Tag = lv_data.Items.Count;

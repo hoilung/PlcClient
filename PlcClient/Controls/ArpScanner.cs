@@ -49,6 +49,7 @@ namespace PlcClient.Controls
             base.OnLoad(e);
         }
 
+
         private void btn_scan_Click(object sender, System.EventArgs e)
         {
             if (btn_scan.Text == "取消扫描")
@@ -72,7 +73,7 @@ namespace PlcClient.Controls
             if (port < 0 || port > 65535)
             {
                 port = 0;
-            }          
+            }
             ArpHandler.Instance.PingIP(list, port, (pe) =>
             {
                 lv_data.Invoke(new MethodInvoker(() =>
@@ -91,6 +92,7 @@ namespace PlcClient.Controls
                         row.BackColor = Color.LightGreen;
                     }
                     row.SubItems.AddRange(pe);
+                    row.SubItems[1].Tag = listViewHandler.IPv4ToLong(pe[0]);
                     //if (lv_data.Items.Count % 10 == 0)
                     //{
                     //    lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);

@@ -50,10 +50,9 @@ namespace PlcClient.Handler
             listviewX = (ListViewItem)x;
             listviewY = (ListViewItem)y;
 
-            if(ColumnToSort>listviewX.SubItems.Count|| ColumnToSort > listviewY.SubItems.Count)
-            {
-                return 0;
-            }
+            if (ColumnToSort > listviewX.SubItems.Count-1) return 0;
+            if (ColumnToSort > listviewY.SubItems.Count-1) return 0;
+                
 
             if (listviewX.SubItems[ColumnToSort].Tag != null && listviewY.SubItems[ColumnToSort].Tag != null)
                 compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Tag, listviewY.SubItems[ColumnToSort].Tag);

@@ -1,5 +1,6 @@
 ﻿using NewLife.Log;
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace PlcClient
@@ -14,7 +15,7 @@ namespace PlcClient
         {
             //XTrace.LogPath = Application.StartupPath + "\\Logs";
             //XTrace.UseConsole();
-          
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;

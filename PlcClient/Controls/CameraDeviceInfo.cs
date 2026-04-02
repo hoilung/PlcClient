@@ -13,6 +13,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -186,7 +188,7 @@ namespace PlcClient.Controls
                     {
                         this.DownloadPackage();
                         return;
-                    }
+                    }                    
                     var frm = new Form();
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.Text = "视频预览 " + device.IPAddress;
@@ -278,10 +280,12 @@ namespace PlcClient.Controls
                 var clienthandler = new HttpClientHandler()
                 {
                     PreAuthenticate = true,
-                    Credentials = credCache
-                };
+                    Credentials = credCache,                    
+                    
+                };                
                 using (var http = new HttpClient(clienthandler))
                 {
+                    http.DefaultRequestHeaders.AcceptCharset.Add(new StringWithQualityHeaderValue("UTF-8"));
                     http.Timeout = TimeSpan.FromSeconds(5);
                     foreach (var device in this.listViewHandler.Data)
                     {
@@ -307,7 +311,8 @@ namespace PlcClient.Controls
                             device.State = resp.StatusCode.ToString();
                             if (resp.IsSuccessStatusCode)
                             {
-                                var text = await resp.Content.ReadAsStringAsync();
+                                var bys = await resp.Content.ReadAsByteArrayAsync();
+                                var text = Encoding.UTF8.GetString(bys);
                                 var info = text.ToXmlDictionary();
                                 //TODO:解析xml获取设备信息
                                 if (info.TryGetValue("deviceName", out string val))

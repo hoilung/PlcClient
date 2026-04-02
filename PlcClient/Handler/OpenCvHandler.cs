@@ -1,4 +1,5 @@
 ﻿using NewLife.Log;
+using Opc.Ua;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -62,7 +64,7 @@ namespace PlcClient.Handler
                     this._backgroundWorker.ReportProgress(0, _currentFrame);
                 }
                 Thread.Sleep(_sleepTime);
-            }
+            }            
             e.Cancel = true;
         }
 
@@ -122,6 +124,8 @@ namespace PlcClient.Handler
             }
             return rst;
         }
+
+
 
 
     }

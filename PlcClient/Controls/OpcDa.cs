@@ -223,7 +223,7 @@ namespace PlcClient.Controls
                         return;
                     }
                     btn_sub.Text = "取消订阅";
-                    Opc.CreateSubscription("default", 1000);
+                    Opc.CreateSubscription("default", 250);
                     Opc.SubDataChange += Opc_SubDataChange;
                     OnMsg("已开启数据订阅，变更数据自动刷新");
                     var subList = new List<PointItem>();

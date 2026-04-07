@@ -39,6 +39,25 @@ namespace PlcClient.Controls
             tbx_type.SelectedIndex = 0;
             this.Dock = this.tableLayoutPanel1.Dock = this.listView1.Dock = DockStyle.Fill;
 
+            this.listView1.DoubleClick += ListView1_DoubleClick;
+
+        }
+
+        private void ListView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.listView1.SelectedIndices.Count > 0)
+            {
+                var index = this.listView1.SelectedIndices[0];
+                if (index >= 0 && index < listViewHandler.ItemCount)
+                {
+                    var row = listViewHandler[index];
+                    if (File.Exists(row.VideoScreen))
+                    {
+                        //打开文件夹
+                        Process.Start("explorer.exe", $"/select,{row.VideoScreen}");
+                    }
+                }
+            }
         }
 
         protected override void OnLoad(EventArgs e)
@@ -57,6 +76,7 @@ namespace PlcClient.Controls
             }
             //this.listView1.VirtualListSize = this._cameraDeviceInfoModels.Count;
             this.listViewHandler.LoadAdd(_cameraDeviceInfoModels);
+            this.listView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private void btn_execute_Click(object sender, EventArgs e)
@@ -188,7 +208,7 @@ namespace PlcClient.Controls
                     {
                         this.DownloadPackage();
                         return;
-                    }                    
+                    }
                     var frm = new Form();
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.Text = "视频预览 " + device.IPAddress;
@@ -236,7 +256,7 @@ namespace PlcClient.Controls
                     {
                         rtsp = $"rtsp://{device.UserName}:{device.Password}@{device.IPAddress}/Streaming/Channels/101";
                     }
-                    var savePath = Path.Combine(dir, $"{device.IPAddress}.png");
+                    var savePath = Path.Combine(dir, $"{device.IPAddress}.jpg");
 
                     var result = string.Empty;
                     if (File.Exists(FFMPEG))
@@ -280,9 +300,9 @@ namespace PlcClient.Controls
                 var clienthandler = new HttpClientHandler()
                 {
                     PreAuthenticate = true,
-                    Credentials = credCache,                    
-                    
-                };                
+                    Credentials = credCache,
+
+                };
                 using (var http = new HttpClient(clienthandler))
                 {
                     http.DefaultRequestHeaders.AcceptCharset.Add(new StringWithQualityHeaderValue("UTF-8"));

@@ -109,12 +109,31 @@ namespace PlcClient.Handler
                 {
                     using (Mat frame = new Mat())
                     {
-                        if (capture.Read(frame))
+                        int time = Convert.ToInt32(Math.Round(1000 / capture.Fps));
+                        
+                        int pixelCount = 0;
+                        Mat outframe = new Mat();
+                        while (capture.Read(frame))
                         {
-                            Cv2.ImWrite(savePath, frame);
-                            capture.Release();
-                            rst = savePath;
+                            Task.Delay(time).Wait();
+                            if (pixelCount > 5)
+                                break;
+                            //二值化
+                            Cv2.CvtColor(frame, outframe, ColorConversionCodes.BGR2GRAY);
+                            Cv2.Threshold(outframe, outframe, 127, 255, ThresholdTypes.Binary);
+                            Scalar mean, stddev;
+                            Cv2.MeanStdDev(outframe, out mean, out stddev);
+                            if (stddev.Val0 < 10)
+                            {
+                                pixelCount++;                                
+                                continue;
+                            }
+                            break;
                         }
+                        outframe.Release();
+                        Cv2.ImWrite(savePath, frame, new ImageEncodingParam(ImwriteFlags.JpegQuality, 90));
+                        capture.Release();
+                        rst = savePath;
                     }
                 }
             }

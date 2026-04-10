@@ -1,6 +1,8 @@
 ﻿using HL.OpcUa;
+using NewLife.Reflection;
 using Newtonsoft.Json;
 using Opc.Ua;
+using Opc.Ua.Client;
 using PlcClient.Handler;
 using PlcClient.Model;
 using System;
@@ -10,6 +12,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace PlcClient.Controls
 {
@@ -31,7 +34,7 @@ namespace PlcClient.Controls
         private void ChangeState(bool state)
         {
             btn_open.Enabled = !state;
-            btn_close.Enabled = btn_view.Enabled = state;
+            btn_sub.Enabled= btn_close.Enabled = btn_view.Enabled = state;
         }
 
         private void cbx_verfly_SelectedIndexChanged(object sender, EventArgs e)
@@ -83,6 +86,8 @@ namespace PlcClient.Controls
                     return;
                 }
             }
+
+
             lv_data.BeginUpdate();
             var lvItem = new ListViewItem(lv_data.Items.Count.ToString());
             lvItem.Tag = node;
@@ -95,8 +100,14 @@ namespace PlcClient.Controls
             lvItem.SubItems.Add(node.Value.ToString());
             lvItem.SubItems.Add(node.NodeId.ToString());
             lvItem.SubItems.Add(_cacheType[node.DataType]);
+            if (node.Value.Value is Opc.Ua.DataValue dataval)
+            {
+                lvItem.SubItems.Add(dataval.StatusCode.ToString());
+                lvItem.SubItems.Add(dataval.ServerTimestamp.ToString());
+            }
             lvItem.SubItems.Add(_cacheAccessLevel[node.AccessLevel]);
-            lvItem.SubItems.Add(node.Description?.ToString());
+            lvItem.SubItems.Add(node.Description?.ToString());            
+        
             lv_data.Items.Add(lvItem);
             lv_data.EndUpdate();
         }
@@ -145,6 +156,7 @@ namespace PlcClient.Controls
             {
                 OpcUaDriver.Dispose();
                 ChangeState(false);
+                this.dic_subscriptions.Clear();
             }
         }
 
@@ -154,11 +166,12 @@ namespace PlcClient.Controls
             {
                 MessageBox.Show("请先浏览节点", "提示");
                 return;
-            };
-            if(!OpcUaDriver.Session.Connected)
+            }
+            ;
+            if (!OpcUaDriver.Session.Connected)
             {
                 MessageBox.Show("连接已经断开，请重新连接", "提示");
-                return;            
+                return;
             }
             var list = new List<PointItem>();
             for (int i = 0; i < lv_data.Items.Count; i++)
@@ -171,13 +184,13 @@ namespace PlcClient.Controls
             try
             {
                 stopwatch.Restart();
-                var dic = OpcUaDriver.Read(list.ToArray());
+                var dic = OpcUaDriver.Read(list.ToArray());                               
                 stopwatch.Stop();
                 OnMsg($"刷新节点数量：{list.Count} 个，耗时：{stopwatch.ElapsedMilliseconds} ms");
                 lv_data.BeginUpdate();
+
                 for (int i = 0; i < lv_data.Items.Count; i++)
                 {
-
                     var item = lv_data.Items[i];
                     if (dic.TryGetValue(item.Text, out var value))
                     {
@@ -226,6 +239,101 @@ namespace PlcClient.Controls
                 contextMenuStrip_lv.Show(lv_data, e.X, e.Y);
                 return;
             }
+        }
+
+        private Dictionary<string, Subscription> dic_subscriptions = new Dictionary<string, Subscription>();
+
+        private void sub(Session m_session, string key, string[] tags, Action<string, MonitoredItem, IEncodeable> callback)
+        {
+            Subscription m_subscription = new Subscription(m_session.DefaultSubscription);
+
+            m_subscription.PublishingEnabled = true;
+            m_subscription.PublishingInterval = 500;
+            m_subscription.KeepAliveCount = uint.MaxValue;
+            m_subscription.LifetimeCount = uint.MaxValue;
+            m_subscription.MaxNotificationsPerPublish = uint.MaxValue;
+            m_subscription.Priority = 100;
+            m_subscription.DisplayName = key;
+
+
+            for (int i = 0; i < tags.Length; i++)
+            {
+                var item = new MonitoredItem
+                {
+                    StartNodeId = new NodeId(tags[i]),
+                    AttributeId = Attributes.Value,
+                    DisplayName = tags[i],
+                    SamplingInterval = 100,
+                };
+                item.Notification += (MonitoredItem monitoredItem, MonitoredItemNotificationEventArgs args) =>
+                {
+                    callback?.Invoke(key, monitoredItem, args.NotificationValue);
+                };
+                m_subscription.AddItem(item);
+            }
+
+            m_session.AddSubscription(m_subscription);
+            m_subscription.Create();
+
+            lock (dic_subscriptions)
+            {
+                if (dic_subscriptions.ContainsKey(key))
+                {
+                    // remove
+                    dic_subscriptions[key].Delete(true);
+                    m_session.RemoveSubscription(dic_subscriptions[key]);
+                    dic_subscriptions[key].Dispose();
+                    dic_subscriptions[key] = m_subscription;
+                }
+                else
+                {
+                    dic_subscriptions.Add(key, m_subscription);
+                }
+            }
+        }
+
+        private void btn_sub_Click(object sender, EventArgs e)
+        {
+            if(!OpcUaDriver.Session.Connected)
+            {
+                MessageBox.Show("请先连接OPCUA服务器", "提示");
+            }
+            if (dic_subscriptions.Count > 0)
+            {
+                foreach(var dic in dic_subscriptions)
+                {
+                    OpcUaDriver.Session.RemoveSubscription(dic.Value);
+                }
+                btn_sub.Text= "订阅数据";
+                dic_subscriptions.Clear();
+                return;
+            }
+            btn_sub.Text = "取消订阅";
+            var lst = new List<string>();
+            foreach (ListViewItem item in this.lv_data.Items)
+            {
+                lst.Add(item.SubItems[3].Text);
+            }
+            this.sub(OpcUaDriver.Session, "default", lst.ToArray(), (key, monitoredItem, notificationValue) =>
+            {
+                if (notificationValue is Opc.Ua.MonitoredItemNotification monitoredItemNotification)
+                {
+                    var val = monitoredItemNotification.Value;
+                    var nodeid = monitoredItem.DisplayName;
+                    this.lv_data.Invoke(() =>
+                    {
+                        var find = this.lv_data.FindItemWithText(nodeid, true, 0);
+                        if (find != null)
+                        {
+                            find.SubItems[2].Text = val.ToString();
+                            find.SubItems[5].Text = val.StatusCode.ToString();
+                            find.SubItems[6].Text = val.ServerTimestamp.ToString();
+                        }
+                    });
+                }
+
+            });
+
         }
     }
 }

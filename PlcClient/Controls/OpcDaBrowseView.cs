@@ -21,7 +21,23 @@ namespace PlcClient.Controls
             InitializeComponent();
             tableLayoutPanel1.Dock = this.statusStrip1.Dock = this.tv_nodes.Dock = DockStyle.Fill;
             tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
+            tv_nodes.BeforeExpand += Tv_nodes_BeforeExpand;
             opc = Opc;
+        }
+
+        private void Tv_nodes_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0].Text == "loading...")
+            {
+                e.Node.Nodes.Clear();
+                var itemid = e.Node.Tag as Opc.Da.BrowseElement;
+                if (itemid != null && itemid.HasChildren)
+                {
+                    GetTreeNode(e.Node, opc.Server);
+                    return;
+                }
+
+            }
         }
 
         protected override void OnLoad(EventArgs e)
@@ -35,7 +51,7 @@ namespace PlcClient.Controls
         {
             var rootNode = new TreeNode("根目录");
             try
-            {
+            {                
                 GetTreeNode(rootNode, opc.Server);
             }
             catch (Exception ex)
@@ -57,7 +73,7 @@ namespace PlcClient.Controls
             }
             var itemid = e.Node.Tag as Opc.Da.BrowseElement;
             if (itemid == null)
-                return;
+                return;           
             if (itemid.Properties == null && !itemid.IsItem)
             {
                 toolStripStatusLabel1.Text = itemid.ItemName + " 当前节点不支持读取";
@@ -112,11 +128,11 @@ namespace PlcClient.Controls
             {
                 var node = nodes[i];
                 var treeNode = pNode.Nodes.Add(node.Name);
-                treeNode.Tag = node;// new Opc.ItemIdentifier { ItemName = node.ItemName, ItemPath = node.ItemPath };
-                if (node.HasChildren)
-                {
-                    GetTreeNode(treeNode, server);
-                }
+                treeNode.Tag = node;// new Opc.ItemIdentifier { ItemName = node.ItemName, ItemPath = node.ItemPath };                                                                
+                treeNode.ToolTipText = node.ItemPath;
+                if( node.HasChildren)
+                    treeNode.Nodes.Add(new TreeNode("loading..."));
+                
             }
 
         }

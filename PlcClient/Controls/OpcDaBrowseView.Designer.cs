@@ -40,6 +40,7 @@
             // 
             this.tv_nodes.Location = new System.Drawing.Point(3, 3);
             this.tv_nodes.Name = "tv_nodes";
+            this.tv_nodes.ShowNodeToolTips = true;
             this.tv_nodes.Size = new System.Drawing.Size(319, 237);
             this.tv_nodes.TabIndex = 0;
             // 

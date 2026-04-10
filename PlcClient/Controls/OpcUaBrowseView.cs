@@ -18,7 +18,21 @@ namespace PlcClient.Controls
             this.tableLayoutPanel1.Dock = this.statusStrip1.Dock = this.tv_nodes.Dock = DockStyle.Fill;
             this.driver = driver;
             tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
+            tv_nodes.BeforeExpand += Tv_nodes_BeforeExpand;
 
+        }
+
+        private void Tv_nodes_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0].Text == "loading...")
+            {                
+                e.Node.Nodes.Clear();
+                var item = e.Node.Tag as ReferenceDescription;
+                if (item != null && item.NodeClass != NodeClass.Variable)
+                {
+                    this.GetTreeNode(e.Node, ExpandedNodeId.ToNodeId(item.NodeId,null));
+                }
+            }
         }
 
         private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -95,17 +109,16 @@ namespace PlcClient.Controls
             var list = driver.GetReferenceDescriptionCollection(nodeId);
             if (list == null || list.Count == 0)
                 return;
+
             foreach (var item in list)
             {
                 var node = pNode.Nodes.Add(item.DisplayName.Text);
-                if (item.NodeClass != NodeClass.Variable)
-                {
-                    node.Collapse();
-                }
                 node.Tag = item;
+
                 if (item.NodeClass != NodeClass.Variable)
                 {
-                    GetTreeNode(node, ExpandedNodeId.ToNodeId(item.NodeId, null));
+                    node.Nodes.Add(new TreeNode("loading..."));
+                    //GetTreeNode(node, ExpandedNodeId.ToNodeId(item.NodeId, null));
                 }
             }
         }

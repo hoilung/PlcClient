@@ -241,6 +241,7 @@ namespace PlcClient.Controls
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "订阅操作失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Opc.CancelSubscription("default");
             }
         }
         private void Opc_SubDataChange(object sender, SubDataChangeEventArgs e)

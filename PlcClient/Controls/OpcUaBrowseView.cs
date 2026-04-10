@@ -25,20 +25,42 @@ namespace PlcClient.Controls
         private void Tv_nodes_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0].Text == "loading...")
-            {                
+            {
                 e.Node.Nodes.Clear();
                 var item = e.Node.Tag as ReferenceDescription;
                 if (item != null && item.NodeClass != NodeClass.Variable)
                 {
-                    this.GetTreeNode(e.Node, ExpandedNodeId.ToNodeId(item.NodeId,null));
+                    this.GetTreeNode(e.Node, ExpandedNodeId.ToNodeId(item.NodeId, null));
+                }
+            }
+        }
+
+        private void findChliditem(TreeNode treeNode)
+        {
+            if (treeNode.Nodes.Count == 0) { return; }
+            foreach (TreeNode node2 in treeNode.Nodes)
+            {
+                var item = node2.Tag as ReferenceDescription;
+                if (item == null)
+                {
+                    return;
+                }
+                var nodeid = (NodeId)item.NodeId;
+                var node = driver.Session.ReadNode(nodeid);
+                if (node is Opc.Ua.VariableNode valnode)
+                {
+                    valnode.Value = driver.Session.ReadValue(nodeid);
+                    toolStripStatusLabel1.Text = $"预览节点：{valnode.DisplayName} 编号：{valnode.NodeId} 类型：{valnode.NodeClass} 值：{valnode.Value}";
+                    DataRefresh?.Invoke(valnode);
                 }
             }
         }
 
         private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (tv_nodes.SelectedNode == null || tv_nodes.SelectedNode.Nodes.Count > 0)
+            if (tv_nodes.SelectedNode.Nodes.Count > 0)
             {
+                findChliditem(e.Node);
                 return;
             }
 
@@ -64,7 +86,7 @@ namespace PlcClient.Controls
                 var nodeid = (NodeId)item.NodeId;
                 var node = driver.Session.ReadNode(nodeid);
                 if (node is Opc.Ua.VariableNode valnode)
-                {
+                {                    
                     valnode.Value = driver.Session.ReadValue(nodeid);
                     toolStripStatusLabel1.Text = $"预览节点：{valnode.DisplayName} 编号：{valnode.NodeId} 类型：{valnode.NodeClass} 值：{valnode.Value}";
                     DataRefresh?.Invoke(valnode);

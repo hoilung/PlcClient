@@ -21,8 +21,31 @@ namespace PlcClient.Controls
             InitializeComponent();
             tableLayoutPanel1.Dock = this.statusStrip1.Dock = this.tv_nodes.Dock = DockStyle.Fill;
             tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
-            tv_nodes.BeforeExpand += Tv_nodes_BeforeExpand;
+            tv_nodes.BeforeExpand += Tv_nodes_BeforeExpand;            
             opc = Opc;
+        }
+
+        private void findChliditem(TreeNode treeNode)
+        {
+            if (treeNode.Nodes.Count == 0) { return; }
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                var itemid = node.Tag as Opc.Da.BrowseElement;
+                if (itemid == null || itemid.HasChildren)
+                    continue;
+                var item = new OPCDAItem();
+                item.Name = itemid.Name;
+                item.Address = itemid.ItemName;
+
+                item.ValueType = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(1)).Value as Type;
+                item.Value = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(2)).Value;
+                item.Quality = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(3)).Value.ToString();
+                item.Time = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(4)).Value.ToString();
+
+                //toolStripStatusLabel1.Text = $"添加节点：{item.Address} 节点值：{item.Value}";
+                DataRefresh?.Invoke(item);
+                //}
+            }
         }
 
         private void Tv_nodes_BeforeExpand(object sender, TreeViewCancelEventArgs e)
@@ -51,7 +74,7 @@ namespace PlcClient.Controls
         {
             var rootNode = new TreeNode("根目录");
             try
-            {                
+            {
                 GetTreeNode(rootNode, opc.Server);
             }
             catch (Exception ex)
@@ -69,19 +92,20 @@ namespace PlcClient.Controls
         {
             if (tv_nodes.SelectedNode.Nodes.Count > 0)
             {
+                findChliditem(e.Node);
                 return;
             }
             var itemid = e.Node.Tag as Opc.Da.BrowseElement;
             if (itemid == null)
-                return;           
+                return;
             if (itemid.Properties == null && !itemid.IsItem)
             {
                 toolStripStatusLabel1.Text = itemid.ItemName + " 当前节点不支持读取";
                 return;
             }
-            if(itemid.Properties==null)
+            if (itemid.Properties == null)
             {
-                toolStripStatusLabel1.Text = itemid.ItemName + " 当前节点读取失败";                
+                toolStripStatusLabel1.Text = itemid.ItemName + " 当前节点读取失败";
                 return;
             }
 
@@ -119,7 +143,6 @@ namespace PlcClient.Controls
             BrowseFilters.ReturnPropertyValues = true;
             BrowseFilters.ReturnAllProperties = true;
             var nodes = server.Browse(itemID, BrowseFilters, out Opc.Da.BrowsePosition position);
-
             if (nodes == null)
             {
                 return;
@@ -130,9 +153,9 @@ namespace PlcClient.Controls
                 var treeNode = pNode.Nodes.Add(node.Name);
                 treeNode.Tag = node;// new Opc.ItemIdentifier { ItemName = node.ItemName, ItemPath = node.ItemPath };                                                                
                 treeNode.ToolTipText = node.ItemPath;
-                if( node.HasChildren)
+                if (node.HasChildren)
                     treeNode.Nodes.Add(new TreeNode("loading..."));
-                
+
             }
 
         }

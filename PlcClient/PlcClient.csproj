@@ -209,6 +209,7 @@
     <Compile Include="Model\OPCDAItem.cs" />
     <Compile Include="Model\DeviceDiscover\HKProbeMatch.cs" />
     <Compile Include="Model\OpcDaVM.cs" />
+    <Compile Include="Model\OpcUaVM.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\AllenBradley.resx">

@@ -309,17 +309,18 @@ namespace PlcClient.Handler
             {
                 return base.ToDataTable();
             }
-            DataTable dt = new DataTable();
-            for (int i = 0; this.listView.Columns.Count > i; i++)
+            DataTable dt = new DataTable();      
+            foreach (var property in _properties)
             {
-                dt.Columns.Add(this.listView.Columns[i].Text);
+                dt.Columns.Add(property.Name, property.PropertyType);
             }
-            foreach (ListViewItem item in this._itemCache.Values)
+
+            foreach (var item in this._dataCache)
             {
                 var row = dt.NewRow();
-                for (int j = 0; j < dt.Columns.Count; j++)
+                foreach (var property in _properties)
                 {
-                    row[dt.Columns[j].ColumnName] = item.SubItems[j].Text;
+                    row[property.Name] = property.GetValue(item);
                 }
                 dt.Rows.Add(row);
             }

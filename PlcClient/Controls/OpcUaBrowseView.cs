@@ -58,7 +58,7 @@ namespace PlcClient.Controls
 
         private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (tv_nodes.SelectedNode.Nodes.Count > 0)
+            if (e.Node.Nodes.Count > 0)
             {
                 findChliditem(e.Node);
                 return;

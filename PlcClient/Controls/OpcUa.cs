@@ -27,7 +27,7 @@ namespace PlcClient.Controls
             cbx_verfly.SelectedIndex = 0;
             tbx_ip.Text = GetLocalIP();
             lvwHandler = new ListViewHandler(lv_data);
-            lvwHandler.ColuminSort();
+            //lvwHandler.ColuminSort();
             ChangeState(false);
         }
 
@@ -248,7 +248,7 @@ namespace PlcClient.Controls
             Subscription m_subscription = new Subscription(m_session.DefaultSubscription);
 
             m_subscription.PublishingEnabled = true;
-            m_subscription.PublishingInterval = 500;
+            m_subscription.PublishingInterval = 250;
             m_subscription.KeepAliveCount = uint.MaxValue;
             m_subscription.LifetimeCount = uint.MaxValue;
             m_subscription.MaxNotificationsPerPublish = uint.MaxValue;

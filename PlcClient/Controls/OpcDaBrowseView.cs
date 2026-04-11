@@ -4,6 +4,7 @@ using PlcClient.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
@@ -21,7 +22,7 @@ namespace PlcClient.Controls
             InitializeComponent();
             tableLayoutPanel1.Dock = this.statusStrip1.Dock = this.tv_nodes.Dock = DockStyle.Fill;
             tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
-            tv_nodes.BeforeExpand += Tv_nodes_BeforeExpand;            
+            tv_nodes.BeforeExpand += Tv_nodes_BeforeExpand;
             opc = Opc;
         }
 
@@ -52,7 +53,7 @@ namespace PlcClient.Controls
         {
             if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0].Text == "loading...")
             {
-                e.Node.Nodes.Clear();
+
                 var itemid = e.Node.Tag as Opc.Da.BrowseElement;
                 if (itemid != null && itemid.HasChildren)
                 {
@@ -90,7 +91,7 @@ namespace PlcClient.Controls
 
         private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (tv_nodes.SelectedNode.Nodes.Count > 0)
+            if (e.Node.Nodes.Count > 0)
             {
                 findChliditem(e.Node);
                 return;
@@ -142,22 +143,30 @@ namespace PlcClient.Controls
             }
             BrowseFilters.ReturnPropertyValues = true;
             BrowseFilters.ReturnAllProperties = true;
-            var nodes = server.Browse(itemID, BrowseFilters, out Opc.Da.BrowsePosition position);
-            if (nodes == null)
-            {
-                return;
-            }
-            for (var i = 0; i < nodes.Length; i++)
-            {
-                var node = nodes[i];
-                var treeNode = pNode.Nodes.Add(node.Name);
-                treeNode.Tag = node;// new Opc.ItemIdentifier { ItemName = node.ItemName, ItemPath = node.ItemPath };                                                                
-                treeNode.ToolTipText = node.ItemPath;
-                if (node.HasChildren)
-                    treeNode.Nodes.Add(new TreeNode("loading..."));
 
-            }
+            Task.Factory.StartNew(() =>
+            {
+                var nodes = server.Browse(itemID, BrowseFilters, out Opc.Da.BrowsePosition position);
+                tv_nodes.Invoke(() =>
+                {
+                    tv_nodes.BeginUpdate();
+                    for (var i = 0; i < nodes.Length; i++)
+                    {
+                        var node = nodes[i];
+                        var treeNode = pNode.Nodes.Add(node.Name);
+                        treeNode.Tag = node;// new Opc.ItemIdentifier { ItemName = node.ItemName, ItemPath = node.ItemPath };                                                                
+                        treeNode.ToolTipText = node.ItemPath;
+                        if (node.HasChildren)
+                            treeNode.Nodes.Add(new TreeNode("loading..."));
 
+                    }
+                    if (pNode.Nodes.Count > 0 && pNode.Nodes[0].Text == "loading...")
+                    {
+                        pNode.Nodes.RemoveAt(0);
+                    }
+                    tv_nodes.EndUpdate();
+                });
+            });
         }
     }
 }

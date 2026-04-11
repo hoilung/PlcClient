@@ -8,8 +8,10 @@ using PlcClient.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
@@ -19,13 +21,16 @@ namespace PlcClient.Controls
         private OpcCom.ServerEnumerator m_discovery = new OpcCom.ServerEnumerator();
 
         private OpcDaDriver Opc;
-        private ListViewHandler lvwHandler;
+        private ListViewHandler<Model.OpcDaVM> lvwHandler;
+        private Dictionary<string, int> _cache = new Dictionary<string, int>();
         public OpcDa()
         {
             InitializeComponent();
             tbx_ip.Text = GetLocalIP();
-            lvwHandler = new ListViewHandler(lv_data);
-            lvwHandler.ColuminSort();
+            lv_data.Columns.Clear();
+            lvwHandler = new ListViewHandler<OpcDaVM>(lv_data);
+            lvwHandler.SetupVirtualMode();
+            //lvwHandler.ColuminSort();
             Opc = new OpcDaDriver();
             ChangeState(false);
         }
@@ -91,7 +96,7 @@ namespace PlcClient.Controls
                     MessageBox.Show("非有效的IP地址", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                var result = ping.Send(ip, 500);
+                var result = ping.Send(ip, 250);
                 if (result.Status != IPStatus.Success)
                 {
                     if (MessageBox.Show($"{ip}\r\n网络PING疑似不通,是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
@@ -140,6 +145,7 @@ namespace PlcClient.Controls
             browseView.DataRefresh += BrowseView_DataRefresh;
             tagForm.Controls.Add(browseView);
             tagForm.ShowDialog();
+            
 
         }
 
@@ -147,32 +153,26 @@ namespace PlcClient.Controls
         {
             if (lv_data.Items.Count > 0)
             {
-                var find = lv_data.FindItemWithText(opcdaItem.Address, true, 0);
-                if (find != null)
+
+                if (_cache.TryGetValue(opcdaItem.Address, out int index))
                 {
-                    find.SubItems[3].Text = opcdaItem.Value.ToString();
-                    find.SubItems[4].Text = opcdaItem.Quality;
-                    find.SubItems[5].Text = opcdaItem.Time;
+                    lvwHandler[index].Value = opcdaItem.Value.ToString();
+                    lvwHandler[index].Quality = opcdaItem.Quality;
+                    lvwHandler[index].Time = opcdaItem.Time;
                     return;
                 }
             }
-
-
-            lv_data.BeginUpdate();
-            var subItem = new ListViewItem(lv_data.Items.Count.ToString());
-            subItem.Tag = opcdaItem;
-            if (lv_data.Items.Count % 2 == 0)
+            int id = lvwHandler.DataCount;
+            _cache[opcdaItem.Address] = id;
+            lvwHandler.Add(new OpcDaVM
             {
-                subItem.BackColor = Color.AliceBlue;
-            }
-            subItem.SubItems[0].Tag = lv_data.Items.Count;
-            subItem.SubItems.Add(opcdaItem.Address);
-            subItem.SubItems.Add(opcdaItem.ValueType.Name);
-            subItem.SubItems.Add(opcdaItem.Value.ToString());
-            subItem.SubItems.Add(opcdaItem.Quality);
-            subItem.SubItems.Add(opcdaItem.Time);
-            lv_data.Items.Add(subItem);
-            lv_data.EndUpdate();
+                ID = id,
+                Tag = opcdaItem.Address,
+                DataType = opcdaItem.ValueType.Name,
+                Value = opcdaItem.Value.ToString(),
+                Quality = opcdaItem.Quality,
+                Time = opcdaItem.Time
+            });
 
         }
         private void btn_read_Click(object sender, EventArgs e)
@@ -198,7 +198,7 @@ namespace PlcClient.Controls
                     ShowToolTip("读取失败", tbx_tag_value);
                 }
 
-                OnMsg($"OPC DA Tag: {tagName}, Value: {items[0].Value??"NULL"}, Quality: {items[0].Quality}, Timestamp: {items[0].Timestamp}]");
+                OnMsg($"OPC DA Tag: {tagName}, Value: {items[0].Value ?? "NULL"}, Quality: {items[0].Quality}, Timestamp: {items[0].Timestamp}]");
             }
         }
 
@@ -226,16 +226,17 @@ namespace PlcClient.Controls
                     Opc.CreateSubscription("default", 250);
                     Opc.SubDataChange += Opc_SubDataChange;
                     OnMsg("已开启数据订阅，变更数据自动刷新");
-                    var subList = new List<PointItem>();
-                    for (int i = 0; i < lv_data.Items.Count; i++)
-                    {
-                        if (lv_data.Items[i].Tag is PointItem item)
-                        {
-                            subList.Add(item);
-                        }
+                    //var subList = new List<PointItem>();
+                    //for (int i = 0; i < lv_data.Items.Count; i++)
+                    //{
+                    //    if (lv_data.Items[i].Tag is PointItem item)
+                    //    {
+                    //        subList.Add(item);
+                    //    }
 
-                    }
-                    Opc.AddItemSubscription("default", subList.ToArray());
+                    //}
+                    var sublist = lvwHandler.Data.Select(m => new PointItem() { Address = m.Tag }).ToArray();
+                    Opc.AddItemSubscription("default", sublist);
                 }
             }
             catch (Exception ex)
@@ -246,30 +247,44 @@ namespace PlcClient.Controls
         }
         private void Opc_SubDataChange(object sender, SubDataChangeEventArgs e)
         {
-            lv_data.Invoke(new Action(() =>
+
+            try
             {
-                try
+                lv_data.Invoke(new Action(() =>
                 {
-                    lv_data.BeginUpdate();
-                    for (int i = 0; i < e.Results.Length; i++)
+                    foreach (var item in e.Results)
                     {
-                        var item = e.Results[i];
-                        var subItem = lv_data.FindItemWithText(item.ItemName, true, 0);
-                        if (subItem != null)
+                        if (_cache.TryGetValue(item.ItemName, out int index))
                         {
-                            subItem.SubItems[3].Text = item.Value?.ToString();
-                            subItem.SubItems[4].Text = item.Quality.ToString();
-                            subItem.SubItems[5].Text = item.Timestamp.ToString();
+                            if (item.Value != null)
+                                lvwHandler[index].Value = item.Value.ToString();
+                            lvwHandler[index].Quality = item.Quality.ToString();
+                            lvwHandler[index].Time = item.Timestamp.ToString();
+
                         }
                     }
-                    lv_data.EndUpdate();
-                }
-                catch (Exception)
-                {
+                    lv_data.Invalidate();
+                    //lv_data.BeginUpdate();
+                    //for (int i = 0; i < e.Results.Length; i++)
+                    //{
+                    //    var item = e.Results[i];
+                    //    var subItem = lv_data.FindItemWithText(item.ItemName, true, 0);
+                    //    if (subItem != null)
+                    //    {
+                    //        subItem.SubItems[3].Text = item.Value?.ToString();
+                    //        subItem.SubItems[4].Text = item.Quality.ToString();
+                    //        subItem.SubItems[5].Text = item.Timestamp.ToString();
+                    //    }
+                    //}
+                    //lv_data.EndUpdate();
+                }));
+            }
+            catch (Exception ex)
+            {
+                XTrace.WriteException(ex);
+            }
 
-                }
 
-            }));
 
         }
 
@@ -285,7 +300,10 @@ namespace PlcClient.Controls
                 MenuStrip_lv.Show(lv_data, e.X, e.Y);
                 return;
             }
-            tbx_tag.Text = lv_data.SelectedItems[0].SubItems[1].Text;
+            var index = lv_data.SelectedIndices[0];
+            var val = lvwHandler[index];
+            tbx_tag.Text = val.Tag;
+            //tbx_tag.Text = lv_data.SelectedItems[0].SubItems[1].Text;
 
         }
 
@@ -301,7 +319,9 @@ namespace PlcClient.Controls
             {
                 btn_sub_Click(sender, e);
             }
-            lv_data.Items.Clear();
+            _cache.Clear();
+            lvwHandler.Clear();
+            //lv_data.Items.Clear();
             OnMsg("清空列表");
         }
 
@@ -314,18 +334,18 @@ namespace PlcClient.Controls
             }
 
             var list = new List<Opc.Da.Item>();
-            for (int i = 0; i < lv_data.Items.Count; i++)
+
+            for (int i = 0; i < lvwHandler.DataCount; i++)
             {
-                if (lv_data.Items[i].Tag is OPCDAItem item)
-                {
-                    list.Add(item.ParseItem());
-                }
+                list.Add(new Opc.Da.Item() { ItemName = lvwHandler[i].Tag });
             }
+
             stopwatch.Restart();
             var items = Opc.Server.Read(list.ToArray());
             stopwatch.Stop();
             Opc_SubDataChange(null, new SubDataChangeEventArgs { Results = items });
             OnMsg($"刷新列表数据 {list.Count}个，用时：{stopwatch.Elapsed.TotalMilliseconds.ToString("0.000ms")}");
+
         }
 
         private void chk_enablewrite_CheckedChanged(object sender, EventArgs e)

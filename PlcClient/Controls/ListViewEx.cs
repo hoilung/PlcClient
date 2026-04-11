@@ -13,6 +13,7 @@ namespace PlcClient.Controls
         {
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             this.SetStyle(ControlStyles.EnableNotifyMessage, true);
+            UpdateStyles();
         }
     }
 }

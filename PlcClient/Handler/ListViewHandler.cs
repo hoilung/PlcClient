@@ -1,16 +1,16 @@
 ﻿using MiniExcelLibs;
+using NewLife;
+using NewLife.Reflection;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Text;
-using System.Windows.Forms;
-
-
-using NewLife.Reflection;
-using NewLife;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 namespace PlcClient.Handler
 {
     internal class ListViewHandler
@@ -30,48 +30,7 @@ namespace PlcClient.Handler
         /// <returns>成功返回路径，不成功或取消返回empty</returns>
         public string ExportSCV(string fileprefix = "")
         {
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Save File(*.csv)|*.csv";
-            fileDialog.Title = "保存文件";
-            fileDialog.RestoreDirectory = true;
-            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            fileDialog.DefaultExt = "csv";
-            fileDialog.FileName = fileprefix + System.DateTime.Now.ToString("_yyyy-MM-dd_ffff");
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                //stringBuilder.AppendLine("序号,内存区,地址,数据类型,数值");
-                for (int i = 0; i < listView.Columns.Count; i++)
-                {
-                    if (i == listView.Columns.Count - 1)
-                    {
-                        stringBuilder.AppendFormat("{0}\r\n", listView.Columns[i].Text);
-                        break;
-                    }
-                    stringBuilder.AppendFormat("{0},", listView.Columns[i].Text);
-                }
-
-                for (int i = 0; i < listView.Items.Count; i++)
-                {
-                    var item = listView.Items[i];
-
-                    for (int j = 0; j < item.SubItems.Count; j++)
-                    {
-                        if (j == item.SubItems.Count - 1)
-                        {
-                            stringBuilder.AppendFormat("{0}\r\n", item.SubItems[j].Text);
-                            break;
-                        }
-                        stringBuilder.AppendFormat("{0},", item.SubItems[j].Text);
-                    }
-                }
-
-                File.WriteAllText(fileDialog.FileName, stringBuilder.ToString(), Encoding.Default);
-                return fileDialog.FileName;
-                //this.OnMsg($"保存文件：{fileDialog.FileName}");
-                //MessageBox.Show("保存文件成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            return string.Empty;
+            return ExportExcel(fileprefix);
         }
 
         public string ExportExcel(string fileprefix = "")
@@ -117,7 +76,7 @@ namespace PlcClient.Handler
             }
             return dt;
         }
-        public void ColuminSort()
+        public virtual void ColuminSort()
         {
             this.listView.ListViewItemSorter = lvwColumnSorter;
             this.listView.ColumnClick += ListView_ColumnClick;
@@ -152,7 +111,7 @@ namespace PlcClient.Handler
         {
             long result = 0;
             if (string.IsNullOrEmpty(ip))
-                return result;            
+                return result;
             string[] parts = ip.Split('.');
             if (parts.Length != 4)
                 return ip.GetHashCode();
@@ -193,20 +152,71 @@ namespace PlcClient.Handler
 
         public ListViewHandler(ListView listView) : base(listView) { }
 
+        private PropertyInfo[] _properties;
         public virtual void SetupVirtualMode()
         {
             this.listView.VirtualMode = true;
             this.listView.RetrieveVirtualItem += ListView_RetrieveVirtualItem;
+            this.listView.CacheVirtualItems += ListView_CacheVirtualItems;
             this.listView.VirtualListSize = this._dataCache.Count;
 
-            var kv = typeof(T).GetProperties();
-            foreach (var item in kv)
+            _properties = typeof(T).GetProperties();
+            foreach (var item in _properties)
             {
                 var displayName = item.GetDisplayName() ?? item.Name;
                 this.listView.Columns.Add(new ColumnHeader { Name = item.Name, Text = displayName, Width = 60 });
             }
             //this.listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+
+        public override void ColuminSort()
+        {
+            this.listView.ColumnClick += ListView_ColumnClick;
+        }
+
+        private void ListView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (this._properties == null || e.Column >= _properties.Length)
+                return;
+            var property = this._properties[e.Column];
+            if (property.PropertyType == typeof(int))
+            {
+                this._dataCache.Sort((item1, item2) => Comparer<int>.Default.Compare((int)property.GetValue(item1), (int)property.GetValue(item2)));
+            }
+            else if (property.PropertyType == typeof(float))
+            {
+                this._dataCache.Sort((item1, item2) => Comparer<float>.Default.Compare((float)property.GetValue(item1), (float)property.GetValue(item2)));
+            }
+            else if (property.PropertyType == typeof(double))
+            {
+                this._dataCache.Sort((item1, item2) => Comparer<double>.Default.Compare((double)property.GetValue(item1), (double)property.GetValue(item2)));
+            }
+            else if (property.PropertyType == typeof(string))
+            {
+                this._dataCache.Sort((item1, item2) => Comparer<string>.Default.Compare((string)property.GetValue(item1), (string)property.GetValue(item2)));
+            }
+            else
+            {
+                this._dataCache.Sort((item1, item2) => Comparer.Default.Compare(property.GetValue(item1), property.GetValue(item2)));
+            }
+
+            this.listView.VirtualListSize = this._dataCache.Count;
+            this.listView.Invalidate();
+        }
+
+        private void ListView_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
+        {
+            for (int index = e.StartIndex; index <= e.EndIndex; index++)
+            {
+                if (!_itemCache.ContainsKey(index))
+                {
+                    var item = _dataCache[index];
+                    var listViewItem = CreateListViewItem(index);
+                    _itemCache[index] = listViewItem;
+                }
+            }
+        }
+
         private void ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
 
@@ -217,31 +227,27 @@ namespace PlcClient.Handler
                     item = CreateListViewItem(e.ItemIndex);
                     _itemCache[e.ItemIndex] = item;
                 }
-                UpdateListViewItem(item, e.ItemIndex);
+                else
+                {
+                    UpdateListViewItem(item, e.ItemIndex);
+                }
                 e.Item = item;
+
             }
         }
 
         private ListViewItem CreateListViewItem(int index)
         {
-            ListViewItem item = new ListViewItem();
-            var data = this._dataCache[index];
-            item.Tag = data;
-            var kv = data.GetType().GetProperties().ToDictionary(m => m.Name, m => m.GetValue(data));
-            for (int i = 0; i < this.listView.Columns.Count; i++)
-            {
-                if (i == 0)
-                    item.Text = kv[this.listView.Columns[i].Name].ToString();
-                else
-                {
-                    item.SubItems.Add(new ListViewItem.ListViewSubItem()
-                    {
-                        Tag = kv[this.listView.Columns[i].Name],
-                        Text = kv[this.listView.Columns[i].Name].ToString()
-                    });
-                }
-            }
 
+            var data = this._dataCache[index];
+
+            var subitems = _properties.Select(m => new ListViewItem.ListViewSubItem()
+            {
+                Name = m.Name,
+                Text = m.GetValue(data)?.ToString()
+            });
+            var item = new ListViewItem(subitems.ToArray(), -1);
+            item.Tag = data;
             return item;
         }
 
@@ -253,16 +259,9 @@ namespace PlcClient.Handler
             }
             var data = this._dataCache[index];
             item.Tag = data;
-            var kv = data.GetType().GetProperties().ToDictionary(m => m.Name, m => m.GetValue(data));
-            for (int i = 0; i < this.listView.Columns.Count; i++)
+            foreach (var property in _properties)
             {
-                if (i == 0)
-                    item.Text = kv[this.listView.Columns[i].Name].ToString();
-                else
-                {
-                    item.SubItems[i].Tag = kv[this.listView.Columns[i].Name];
-                    item.SubItems[i].Text = kv[this.listView.Columns[i].Name].ToString();
-                }
+                item.SubItems[property.Name].Text = property.GetValue(data)?.ToString();
             }
 
         }

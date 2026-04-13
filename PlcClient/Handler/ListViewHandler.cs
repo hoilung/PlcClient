@@ -283,6 +283,7 @@ namespace PlcClient.Handler
         }
         public void Clear()
         {
+            this._itemCache.Clear();
             this._dataCache.Clear();
             this.listView.VirtualListSize = this._dataCache.Count;
         }

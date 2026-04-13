@@ -145,7 +145,7 @@ namespace PlcClient.Controls
             browseView.DataRefresh += BrowseView_DataRefresh;
             tagForm.Controls.Add(browseView);
             tagForm.ShowDialog();
-            
+
 
         }
 
@@ -254,7 +254,7 @@ namespace PlcClient.Controls
                 {
                     foreach (var item in e.Results)
                     {
-                        if (_cache.TryGetValue(item.ItemName, out int index))
+                        if (_cache.TryGetValue(item.ItemName, out int index) && index < lvwHandler.DataCount)
                         {
                             if (item.Value != null)
                                 lvwHandler[index].Value = item.Value.ToString();
@@ -263,20 +263,7 @@ namespace PlcClient.Controls
 
                         }
                     }
-                    lv_data.Invalidate();
-                    //lv_data.BeginUpdate();
-                    //for (int i = 0; i < e.Results.Length; i++)
-                    //{
-                    //    var item = e.Results[i];
-                    //    var subItem = lv_data.FindItemWithText(item.ItemName, true, 0);
-                    //    if (subItem != null)
-                    //    {
-                    //        subItem.SubItems[3].Text = item.Value?.ToString();
-                    //        subItem.SubItems[4].Text = item.Quality.ToString();
-                    //        subItem.SubItems[5].Text = item.Timestamp.ToString();
-                    //    }
-                    //}
-                    //lv_data.EndUpdate();
+                    lv_data.Invalidate();                  
                 }));
             }
             catch (Exception ex)

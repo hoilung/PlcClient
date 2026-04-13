@@ -19,14 +19,16 @@ namespace PlcClient.Controls
     public partial class OpcUa : BaseControl
     {
         private readonly OpcUaDriver OpcUaDriver;
-        private ListViewHandler lvwHandler;
+        private ListViewHandler<OpcUaVM> lvwHandler;
         public OpcUa()
         {
             InitializeComponent();
             OpcUaDriver = new OpcUaDriver();
             cbx_verfly.SelectedIndex = 0;
             tbx_ip.Text = GetLocalIP();
-            lvwHandler = new ListViewHandler(lv_data);
+            lv_data.Columns.Clear();
+            lvwHandler = new ListViewHandler<OpcUaVM>(lv_data);
+            lvwHandler.SetupVirtualMode();
             //lvwHandler.ColuminSort();
             ChangeState(false);
         }
@@ -34,7 +36,7 @@ namespace PlcClient.Controls
         private void ChangeState(bool state)
         {
             btn_open.Enabled = !state;
-            btn_sub.Enabled= btn_close.Enabled = btn_view.Enabled = state;
+            btn_sub.Enabled = btn_close.Enabled = btn_view.Enabled = state;
         }
 
         private void cbx_verfly_SelectedIndexChanged(object sender, EventArgs e)
@@ -62,6 +64,7 @@ namespace PlcClient.Controls
 
         private Dictionary<NodeId, string> _cacheType = null;
         private Dictionary<byte, string> _cacheAccessLevel = null;
+        private Dictionary<string, int> _cacheData = new Dictionary<string, int>();
         private void BrowseView_DataRefresh(VariableNode node)
         {
 
@@ -79,37 +82,60 @@ namespace PlcClient.Controls
 
             if (lv_data.Items.Count > 0)
             {
-                var find = lv_data.FindItemWithText(node.NodeId.ToString(), true, 0);
-                if (find != null)
+
+                //var find = lv_data.FindItemWithText(node.NodeId.ToString(), true, 0);
+                //if (find != null)
+                //{
+                //    find.SubItems[2].Text = node.Value.ToString();
+                //    return;
+                //}
+                if (_cacheData.TryGetValue(node.NodeId.ToString(), out var index) && index < lvwHandler.ItemCount)
                 {
-                    find.SubItems[2].Text = node.Value.ToString();
+                    lvwHandler[index].Value = node.Value.ToString();
                     return;
                 }
+
             }
 
 
-            lv_data.BeginUpdate();
-            var lvItem = new ListViewItem(lv_data.Items.Count.ToString());
-            lvItem.Tag = node;
-            if (lv_data.Items.Count % 2 == 0)
-            {
-                lvItem.BackColor = Color.AliceBlue;
-            }
-            lvItem.SubItems[0].Tag = lv_data.Items.Count;
-            lvItem.SubItems.Add(node.DisplayName?.ToString());
-            lvItem.SubItems.Add(node.Value.ToString());
-            lvItem.SubItems.Add(node.NodeId.ToString());
-            lvItem.SubItems.Add(_cacheType[node.DataType]);
+            //lv_data.BeginUpdate();
+            //var lvItem = new ListViewItem(lv_data.Items.Count.ToString());
+            //lvItem.Tag = node;
+            //if (lv_data.Items.Count % 2 == 0)
+            //{
+            //    lvItem.BackColor = Color.AliceBlue;
+            //}
+            //lvItem.SubItems[0].Tag = lv_data.Items.Count;
+            //lvItem.SubItems.Add(node.DisplayName?.ToString());
+            //lvItem.SubItems.Add(node.Value.ToString());
+            //lvItem.SubItems.Add(node.NodeId.ToString());
+            //lvItem.SubItems.Add(_cacheType[node.DataType]);
+            //if (node.Value.Value is Opc.Ua.DataValue dataval)
+            //{
+            //    lvItem.SubItems.Add(dataval.StatusCode.ToString());
+            //    lvItem.SubItems.Add(dataval.ServerTimestamp.ToString());
+            //}
+            //lvItem.SubItems.Add(_cacheAccessLevel[node.AccessLevel]);
+            //lvItem.SubItems.Add(node.Description?.ToString());            
+
+            //lv_data.Items.Add(lvItem);
+            //lv_data.EndUpdate();
+            var vm = new OpcUaVM();
+            vm.ID = lv_data.Items.Count;
+            vm.DisplayName = node.DisplayName?.ToString();
+            vm.Value = node.Value.ToString();
+            vm.NodeId = node.NodeId.ToString();
+            vm.DataType = _cacheType[node.DataType];
             if (node.Value.Value is Opc.Ua.DataValue dataval)
             {
-                lvItem.SubItems.Add(dataval.StatusCode.ToString());
-                lvItem.SubItems.Add(dataval.ServerTimestamp.ToString());
+                vm.StatusCode = dataval.StatusCode.ToString();
+                vm.ServerTimestamp = dataval.ServerTimestamp.ToString();
             }
-            lvItem.SubItems.Add(_cacheAccessLevel[node.AccessLevel]);
-            lvItem.SubItems.Add(node.Description?.ToString());            
-        
-            lv_data.Items.Add(lvItem);
-            lv_data.EndUpdate();
+            vm.AccessLevel = _cacheAccessLevel[node.AccessLevel];
+            vm.Description = node.Description?.ToString();
+            lvwHandler.Add(vm);
+            _cacheData[vm.NodeId] = vm.ID;
+
         }
 
         private void btn_open_Click(object sender, EventArgs e)
@@ -173,42 +199,29 @@ namespace PlcClient.Controls
                 MessageBox.Show("连接已经断开，请重新连接", "提示");
                 return;
             }
-            var list = new List<PointItem>();
-            for (int i = 0; i < lv_data.Items.Count; i++)
-            {
-                if (lv_data.Items[i].Tag is VariableNode node)
-                {
-                    list.Add(new PointItem() { Name = lv_data.Items[i].Text, Address = node.NodeId.ToString() });
-                }
-            }
             try
             {
                 stopwatch.Restart();
-                var dic = OpcUaDriver.Read(list.ToArray());                               
+                var dic = OpcUaDriver.ReadNodes(lvwHandler.Data.Select(m => m.NodeId).ToArray());
                 stopwatch.Stop();
-                OnMsg($"刷新节点数量：{list.Count} 个，耗时：{stopwatch.ElapsedMilliseconds} ms");
-                lv_data.BeginUpdate();
+                OnMsg($"刷新节点数量：{lvwHandler.DataCount} 个，耗时：{stopwatch.ElapsedMilliseconds} ms");
 
-                for (int i = 0; i < lv_data.Items.Count; i++)
+                if (lvwHandler.DataCount != dic.Length)
+                    return;
+                for (int i = 0; i < lvwHandler.DataCount; i++)
                 {
-                    var item = lv_data.Items[i];
-                    if (dic.TryGetValue(item.Text, out var value))
+                    var nodeid = lvwHandler[i].NodeId;
+                    var val = dic[i];
+                    if (this._cacheData.TryGetValue(nodeid, out var index) && index < lvwHandler.DataCount)
                     {
-                        if (value == null)
-                        {
-                            value = "null";
-                        }
-                        if (value.GetType().IsArray)
-                        {
-                            item.SubItems[2].Text = JsonConvert.SerializeObject(value);
-                            continue;
-                        }
-                        item.SubItems[2].Text = value.ToString();
+                        this.lvwHandler[index].Value = val.ToString();
+                        this.lvwHandler[index].StatusCode = val.StatusCode.ToString();
+                        this.lvwHandler[index].ServerTimestamp = val.ServerTimestamp.ToString();
                     }
-
                 }
-                lv_data.EndUpdate();
 
+                lv_data.Invalidate();
+              
             }
             catch (Exception ex)
             {
@@ -224,7 +237,8 @@ namespace PlcClient.Controls
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lv_data.Items.Clear();
+            lvwHandler.Clear();
+            _cacheData.Clear();
         }
 
         private void lv_data_MouseClick(object sender, MouseEventArgs e)
@@ -252,7 +266,7 @@ namespace PlcClient.Controls
             m_subscription.KeepAliveCount = uint.MaxValue;
             m_subscription.LifetimeCount = uint.MaxValue;
             m_subscription.MaxNotificationsPerPublish = uint.MaxValue;
-            m_subscription.Priority = 100;
+            m_subscription.Priority = 255;
             m_subscription.DisplayName = key;
 
 
@@ -294,27 +308,24 @@ namespace PlcClient.Controls
 
         private void btn_sub_Click(object sender, EventArgs e)
         {
-            if(!OpcUaDriver.Session.Connected)
+            if (!OpcUaDriver.Session.Connected)
             {
                 MessageBox.Show("请先连接OPCUA服务器", "提示");
             }
             if (dic_subscriptions.Count > 0)
             {
-                foreach(var dic in dic_subscriptions)
+                foreach (var dic in dic_subscriptions)
                 {
                     OpcUaDriver.Session.RemoveSubscription(dic.Value);
                 }
-                btn_sub.Text= "订阅数据";
+                btn_sub.Text = "订阅数据";
                 dic_subscriptions.Clear();
                 return;
             }
             btn_sub.Text = "取消订阅";
-            var lst = new List<string>();
-            foreach (ListViewItem item in this.lv_data.Items)
-            {
-                lst.Add(item.SubItems[3].Text);
-            }
-            this.sub(OpcUaDriver.Session, "default", lst.ToArray(), (key, monitoredItem, notificationValue) =>
+
+            var lst = lvwHandler.Data.Select(m => m.NodeId).ToArray();
+            this.sub(OpcUaDriver.Session, "default", lst, (key, monitoredItem, notificationValue) =>
             {
                 if (notificationValue is Opc.Ua.MonitoredItemNotification monitoredItemNotification)
                 {
@@ -322,13 +333,14 @@ namespace PlcClient.Controls
                     var nodeid = monitoredItem.DisplayName;
                     this.lv_data.Invoke(() =>
                     {
-                        var find = this.lv_data.FindItemWithText(nodeid, true, 0);
-                        if (find != null)
+                        if (this._cacheData.TryGetValue(nodeid, out var index) && index < lvwHandler.DataCount)
                         {
-                            find.SubItems[2].Text = val.ToString();
-                            find.SubItems[5].Text = val.StatusCode.ToString();
-                            find.SubItems[6].Text = val.ServerTimestamp.ToString();
+                            this.lvwHandler[index].Value = val.ToString();
+                            this.lvwHandler[index].StatusCode = val.StatusCode.ToString();
+                            this.lvwHandler[index].ServerTimestamp = val.ServerTimestamp.ToString();
                         }
+                        this.lv_data.Invalidate();
+
                     });
                 }
 

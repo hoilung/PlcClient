@@ -40,8 +40,6 @@
             this.cbx_verfly = new System.Windows.Forms.ComboBox();
             this.btn_close = new System.Windows.Forms.Button();
             this.btn_open = new System.Windows.Forms.Button();
-            this.tbx_port = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.tbx_ip = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -76,8 +74,6 @@
             this.groupBox1.Controls.Add(this.cbx_verfly);
             this.groupBox1.Controls.Add(this.btn_close);
             this.groupBox1.Controls.Add(this.btn_open);
-            this.groupBox1.Controls.Add(this.tbx_port);
-            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tbx_ip);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -129,7 +125,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(334, 23);
+            this.label3.Location = new System.Drawing.Point(315, 23);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 9;
@@ -182,31 +178,13 @@
             this.btn_open.UseVisualStyleBackColor = true;
             this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
             // 
-            // tbx_port
-            // 
-            this.tbx_port.Location = new System.Drawing.Point(206, 19);
-            this.tbx_port.MaxLength = 5;
-            this.tbx_port.Name = "tbx_port";
-            this.tbx_port.Size = new System.Drawing.Size(100, 21);
-            this.tbx_port.TabIndex = 5;
-            this.tbx_port.Text = "49320";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(171, 23);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "端口";
-            // 
             // tbx_ip
             // 
             this.tbx_ip.Location = new System.Drawing.Point(65, 19);
             this.tbx_ip.Name = "tbx_ip";
-            this.tbx_ip.Size = new System.Drawing.Size(100, 21);
+            this.tbx_ip.Size = new System.Drawing.Size(241, 21);
             this.tbx_ip.TabIndex = 3;
-            this.tbx_ip.Text = "127.0.0.1";
+            this.tbx_ip.Text = "opc.tcp://127.0.0.1:49320/";
             // 
             // label1
             // 
@@ -346,8 +324,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox tbx_ip;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbx_port;
         private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.Button btn_open;
         private System.Windows.Forms.ComboBox cbx_verfly;

@@ -30,7 +30,7 @@ namespace PlcClient.Controls
             lv_data.Columns.Clear();
             lvwHandler = new ListViewHandler<OpcDaVM>(lv_data);
             lvwHandler.SetupVirtualMode();
-            //lvwHandler.ColuminSort();
+            //lvwHandler.ColuminSort();            
             Opc = new OpcDaDriver();
             ChangeState(false);
         }

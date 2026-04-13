@@ -25,10 +25,10 @@ namespace PlcClient.Controls
             InitializeComponent();
             OpcUaDriver = new OpcUaDriver();
             cbx_verfly.SelectedIndex = 0;
-            tbx_ip.Text = GetLocalIP();
+            tbx_ip.Text =tbx_ip.Text.Replace("127.0.0.1",GetLocalIP());
             lv_data.Columns.Clear();
             lvwHandler = new ListViewHandler<OpcUaVM>(lv_data);
-            lvwHandler.SetupVirtualMode();
+            lvwHandler.SetupVirtualMode();            
             //lvwHandler.ColuminSort();
             ChangeState(false);
         }
@@ -140,18 +140,18 @@ namespace PlcClient.Controls
 
         private void btn_open_Click(object sender, EventArgs e)
         {
-            var ip = tbx_ip.Text.Trim();
-            var port = tbx_port.Text.Trim();
-
-
-            if (!Regex.IsMatch(ip, AppConfig.IPVerdify) || !Regex.IsMatch(port, AppConfig.NumVerdify))
-            {
-                MessageBox.Show("无效的IP地址或端口", "提示");
-                return;
-            }
-            var opcAddress = $"opc.tcp://{ip}:{port}";
+            var opcAddress = tbx_ip.Text.Trim(); //$"opc.tcp://{ip}:{port}";
             try
             {
+                var url = new Uri(opcAddress);
+                var ip = url.Host;
+                var port = url.Port.ToString();
+
+                if (!Regex.IsMatch(ip, AppConfig.IPVerdify) || !Regex.IsMatch(port, AppConfig.NumVerdify))
+                {
+                    MessageBox.Show("无效的IP地址或端口", "提示");
+                    return;
+                }
                 if (cbx_verfly.SelectedIndex == 1)
                 {
                     var user = tbx_user.Text.Trim();

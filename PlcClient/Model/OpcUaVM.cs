@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,5 +26,7 @@ namespace PlcClient.Model
         public string AccessLevel { get; set; }
 
         public string Description { get; set; }
+        
+        public string Tag { get;  set; }
     }
 }

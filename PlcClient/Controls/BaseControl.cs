@@ -82,7 +82,7 @@ namespace PlcClient.Controls
             {
                 IPS = Dns.GetHostAddresses(Dns.GetHostName()).ToArray();
             }
-            return IPS.Where(m => m.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).Select(m => m.ToString()).OrderByDescending(m => m).ToArray();
+            return IPS.Where(m => m.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).Select(m => m.ToString()).ToArray();
 
         }
         public string GetLocalIP()

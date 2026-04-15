@@ -314,7 +314,7 @@
       <Version>1.0.3</Version>
     </PackageReference>
     <PackageReference Include="HL.OpcUa">
-      <Version>1.0.3</Version>
+      <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="HL.S7netplus.Extensions">
       <Version>1.0.3</Version>

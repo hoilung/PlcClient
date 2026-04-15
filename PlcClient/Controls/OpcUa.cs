@@ -1,34 +1,31 @@
 ﻿using HL.OpcUa;
 using NewLife.Reflection;
-using Newtonsoft.Json;
 using Opc.Ua;
 using Opc.Ua.Client;
 using PlcClient.Handler;
 using PlcClient.Model;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Input;
 
 namespace PlcClient.Controls
 {
     public partial class OpcUa : BaseControl
     {
-        private readonly OpcUaDriver OpcUaDriver;
+        private UaClient OpcUaDriver;
         private ListViewHandler<OpcUaVM> lvwHandler;
         public OpcUa()
         {
             InitializeComponent();
-            OpcUaDriver = new OpcUaDriver();
+            //OpcUaDriver = new UaClient();
             cbx_verfly.SelectedIndex = 0;
-            tbx_ip.Text =tbx_ip.Text.Replace("127.0.0.1",GetLocalIP());
+            tbx_ip.Text = tbx_ip.Text.Replace("127.0.0.1", GetLocalIP());
             lv_data.Columns.Clear();
             lvwHandler = new ListViewHandler<OpcUaVM>(lv_data);
-            lvwHandler.SetupVirtualMode();            
+            lvwHandler.SetupVirtualMode();
             //lvwHandler.ColuminSort();
             ChangeState(false);
         }
@@ -62,16 +59,16 @@ namespace PlcClient.Controls
             tagForm.ShowDialog();
         }
 
-        private Dictionary<NodeId, string> _cacheType = null;
+        private Dictionary<uint, string> _cacheType = null;
         private Dictionary<byte, string> _cacheAccessLevel = null;
         private Dictionary<string, int> _cacheData = new Dictionary<string, int>();
-        private void BrowseView_DataRefresh(VariableNode node)
+        private void BrowseView_DataRefresh(VariableNode node, string tag)
         {
 
             if (_cacheType == null)
             {
-                var fs = typeof(DataTypeIds).GetFields();
-                _cacheType = fs.ToDictionary(m => (m.GetValue(null) as NodeId), m => m.Name);
+                var fs = typeof(Opc.Ua.DataTypes).GetFields(); //DataTypes  DataTypeIds
+                _cacheType = fs.ToDictionary(m => (uint)m.GetValue(null), m => m.Name);
             }
             if (_cacheAccessLevel == null)
             {
@@ -82,13 +79,6 @@ namespace PlcClient.Controls
 
             if (lv_data.Items.Count > 0)
             {
-
-                //var find = lv_data.FindItemWithText(node.NodeId.ToString(), true, 0);
-                //if (find != null)
-                //{
-                //    find.SubItems[2].Text = node.Value.ToString();
-                //    return;
-                //}
                 if (_cacheData.TryGetValue(node.NodeId.ToString(), out var index) && index < lvwHandler.ItemCount)
                 {
                     lvwHandler[index].Value = node.Value.ToString();
@@ -97,35 +87,20 @@ namespace PlcClient.Controls
 
             }
 
-
-            //lv_data.BeginUpdate();
-            //var lvItem = new ListViewItem(lv_data.Items.Count.ToString());
-            //lvItem.Tag = node;
-            //if (lv_data.Items.Count % 2 == 0)
-            //{
-            //    lvItem.BackColor = Color.AliceBlue;
-            //}
-            //lvItem.SubItems[0].Tag = lv_data.Items.Count;
-            //lvItem.SubItems.Add(node.DisplayName?.ToString());
-            //lvItem.SubItems.Add(node.Value.ToString());
-            //lvItem.SubItems.Add(node.NodeId.ToString());
-            //lvItem.SubItems.Add(_cacheType[node.DataType]);
-            //if (node.Value.Value is Opc.Ua.DataValue dataval)
-            //{
-            //    lvItem.SubItems.Add(dataval.StatusCode.ToString());
-            //    lvItem.SubItems.Add(dataval.ServerTimestamp.ToString());
-            //}
-            //lvItem.SubItems.Add(_cacheAccessLevel[node.AccessLevel]);
-            //lvItem.SubItems.Add(node.Description?.ToString());            
-
-            //lv_data.Items.Add(lvItem);
-            //lv_data.EndUpdate();
             var vm = new OpcUaVM();
             vm.ID = lv_data.Items.Count;
+            vm.Tag = tag;
             vm.DisplayName = node.DisplayName?.ToString();
             vm.Value = node.Value.ToString();
             vm.NodeId = node.NodeId.ToString();
-            vm.DataType = _cacheType[node.DataType];
+            if (_cacheType.ContainsKey((uint)node.DataType.Identifier))
+            {
+                vm.DataType = _cacheType[(uint)node.DataType.Identifier];
+            }
+            else
+            {
+                vm.DataType = node.DataType.Identifier.ToString();
+            }
             if (node.Value.Value is Opc.Ua.DataValue dataval)
             {
                 vm.StatusCode = dataval.StatusCode.ToString();
@@ -152,6 +127,11 @@ namespace PlcClient.Controls
                     MessageBox.Show("无效的IP地址或端口", "提示");
                     return;
                 }
+
+                OpcUaDriver = new UaClient(url);
+                OpcUaDriver.Options.DefaultMonitorInterval = 250;
+                OpcUaDriver.Options.SubscriptionKeepAliveCount = 10;
+                OpcUaDriver.Options.SubscriptionLifetimeCount = 1000;
                 if (cbx_verfly.SelectedIndex == 1)
                 {
                     var user = tbx_user.Text.Trim();
@@ -161,12 +141,18 @@ namespace PlcClient.Controls
                         MessageBox.Show("请输入有效的OPCUA用户或密码", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-                    OpcUaDriver.UserIdentity = new UserIdentity(user, pass);
+                    OpcUaDriver.Options.UserIdentity = new UserIdentity(user, pass);
                 }
 
-                OpcUaDriver.Open(opcAddress);
-                OnMsg("连接成功 " + opcAddress);
-                ChangeState(true);
+                OpcUaDriver.Open();
+
+                if (OpcUaDriver.Session.Connected)
+                {
+                    OnMsg("连接成功 " + opcAddress);
+                    ChangeState(true);
+                    return;
+                }
+                ChangeState(false);
             }
             catch (Exception ex)
             {
@@ -178,12 +164,10 @@ namespace PlcClient.Controls
 
         private void btn_close_Click(object sender, EventArgs e)
         {
-            if (OpcUaDriver.Session != null && OpcUaDriver.Session.Connected)
-            {
-                OpcUaDriver.Dispose();
-                ChangeState(false);
-                this.dic_subscriptions.Clear();
-            }
+
+            OpcUaDriver.Dispose();
+            ChangeState(false);
+
         }
 
         private void RefreshToolStripMenuItem_Click(object sender, EventArgs e)
@@ -202,7 +186,7 @@ namespace PlcClient.Controls
             try
             {
                 stopwatch.Restart();
-                var dic = OpcUaDriver.ReadNodes(lvwHandler.Data.Select(m => m.NodeId).ToArray());
+                var dic = OpcUaDriver.ReadNodes(lvwHandler.Data.Where(m => !string.IsNullOrEmpty(m.Tag)).Select(m => m.NodeId).ToArray());
                 stopwatch.Stop();
                 OnMsg($"刷新节点数量：{lvwHandler.DataCount} 个，耗时：{stopwatch.ElapsedMilliseconds} ms");
 
@@ -221,7 +205,7 @@ namespace PlcClient.Controls
                 }
 
                 lv_data.Invalidate();
-              
+
             }
             catch (Exception ex)
             {
@@ -254,97 +238,137 @@ namespace PlcClient.Controls
                 return;
             }
         }
-
-        private Dictionary<string, Subscription> dic_subscriptions = new Dictionary<string, Subscription>();
-
-        private void sub(Session m_session, string key, string[] tags, Action<string, MonitoredItem, IEncodeable> callback)
+        public void Monitor<T>(Session session, string[] tags, Action<string, ReadEvent<T>, Action> callback)
         {
-            Subscription m_subscription = new Subscription(m_session.DefaultSubscription);
 
-            m_subscription.PublishingEnabled = true;
-            m_subscription.PublishingInterval = 250;
-            m_subscription.KeepAliveCount = uint.MaxValue;
-            m_subscription.LifetimeCount = uint.MaxValue;
-            m_subscription.MaxNotificationsPerPublish = uint.MaxValue;
-            m_subscription.Priority = 255;
-            m_subscription.DisplayName = key;
-
-
-            for (int i = 0; i < tags.Length; i++)
+            Subscription sub = new Subscription
             {
-                var item = new MonitoredItem
-                {
-                    StartNodeId = new NodeId(tags[i]),
-                    AttributeId = Attributes.Value,
-                    DisplayName = tags[i],
-                    SamplingInterval = 100,
-                };
-                item.Notification += (MonitoredItem monitoredItem, MonitoredItemNotificationEventArgs args) =>
-                {
-                    callback?.Invoke(key, monitoredItem, args.NotificationValue);
-                };
-                m_subscription.AddItem(item);
-            }
-
-            m_session.AddSubscription(m_subscription);
-            m_subscription.Create();
-
-            lock (dic_subscriptions)
+                PublishingInterval = OpcUaDriver.Options.DefaultMonitorInterval,
+                PublishingEnabled = true,
+                LifetimeCount = OpcUaDriver.Options.SubscriptionLifetimeCount,
+                KeepAliveCount = OpcUaDriver.Options.SubscriptionKeepAliveCount,
+                DisplayName = "default",
+                Priority = byte.MaxValue
+            };
+            foreach (var tag in tags)
             {
-                if (dic_subscriptions.ContainsKey(key))
+                UaNode uaNode = OpcUaDriver.FindNode(tag);
+                MonitoredItem monitoredItem = new MonitoredItem
                 {
-                    // remove
-                    dic_subscriptions[key].Delete(true);
-                    m_session.RemoveSubscription(dic_subscriptions[key]);
-                    dic_subscriptions[key].Dispose();
-                    dic_subscriptions[key] = m_subscription;
-                }
-                else
+                    StartNodeId = uaNode.NodeId,
+                    AttributeId = 13u,
+                    DisplayName = tag,
+                    SamplingInterval = OpcUaDriver.Options.DefaultMonitorInterval
+                };
+                sub.AddItem(monitoredItem);
+                monitoredItem.Notification += delegate (MonitoredItem s, MonitoredItemNotificationEventArgs e)
                 {
-                    dic_subscriptions.Add(key, m_subscription);
-                }
+                    MonitoredItemNotification monitoredItemNotification = (MonitoredItemNotification)e.NotificationValue;
+                    object value = monitoredItemNotification.Value.WrappedValue.Value;
+                    Action arg = delegate
+                    {
+                        sub.RemoveItems(sub.MonitoredItems);
+                        sub.Delete(silent: true);
+                        session.RemoveSubscription(sub);
+                        sub.Dispose();
+                    };
+                    ReadEvent<T> readEvent = new ReadEvent<T>
+                    {
+                        Value = (T)value,
+                        SourceTimestamp = monitoredItemNotification.Value.SourceTimestamp,
+                        ServerTimestamp = monitoredItemNotification.Value.ServerTimestamp
+                    };
+                    if (StatusCode.IsGood(monitoredItemNotification.Value.StatusCode))
+                    {
+                        readEvent.Quality = Quality.Good;
+                    }
+
+                    if (StatusCode.IsBad(monitoredItemNotification.Value.StatusCode))
+                    {
+                        readEvent.Quality = Quality.Bad;
+                    }
+
+                    callback(uaNode.NodeId, readEvent, arg);
+                };
             }
+            session.AddSubscription(sub);
+            sub.Create();
+            sub.ApplyChanges();
+
         }
 
+        private CancellationTokenSource _cancelTokenSourceSub = new CancellationTokenSource();
         private void btn_sub_Click(object sender, EventArgs e)
         {
-            if (!OpcUaDriver.Session.Connected)
+            if (OpcUaDriver.Status == OpcStatus.NotConnected)
             {
                 MessageBox.Show("请先连接OPCUA服务器", "提示");
-            }
-            if (dic_subscriptions.Count > 0)
-            {
-                foreach (var dic in dic_subscriptions)
-                {
-                    OpcUaDriver.Session.RemoveSubscription(dic.Value);
-                }
-                btn_sub.Text = "订阅数据";
-                dic_subscriptions.Clear();
                 return;
             }
+            if (btn_sub.Text == "取消订阅")
+            {
+                _cancelTokenSourceSub.Cancel();
+                return;
+            }
+            _cancelTokenSourceSub = new CancellationTokenSource();
+            _cancelTokenSourceSub.Token.Register(() =>
+            {
+                btn_sub.Text = "订阅数据";
+            });
+
             btn_sub.Text = "取消订阅";
 
-            var lst = lvwHandler.Data.Select(m => m.NodeId).ToArray();
-            this.sub(OpcUaDriver.Session, "default", lst, (key, monitoredItem, notificationValue) =>
+            var lst = lvwHandler.Data.Where(m => !string.IsNullOrEmpty(m.Tag)).Select(m => m.Tag).ToArray();
+
+            this.Monitor<object>(OpcUaDriver.Session, lst, (nodeId, result, unsub) =>
             {
-                if (notificationValue is Opc.Ua.MonitoredItemNotification monitoredItemNotification)
+                if (_cancelTokenSourceSub.IsCancellationRequested)
                 {
-                    var val = monitoredItemNotification.Value;
-                    var nodeid = monitoredItem.DisplayName;
-                    this.lv_data.Invoke(() =>
-                    {
-                        if (this._cacheData.TryGetValue(nodeid, out var index) && index < lvwHandler.DataCount)
-                        {
-                            this.lvwHandler[index].Value = val.ToString();
-                            this.lvwHandler[index].StatusCode = val.StatusCode.ToString();
-                            this.lvwHandler[index].ServerTimestamp = val.ServerTimestamp.ToString();
-                        }
-                        this.lv_data.Invalidate();
-
-                    });
+                    unsub.Invoke();
+                    return;
                 }
-
+                this.lv_data.Invoke(() =>
+                {
+                    if (this._cacheData.TryGetValue(nodeId, out var index) && index < lvwHandler.DataCount)
+                    {
+                        this.lvwHandler[index].Value = result.Value?.ToString();
+                        this.lvwHandler[index].StatusCode = result.Quality.ToString();
+                        this.lvwHandler[index].ServerTimestamp = result.ServerTimestamp.ToString();
+                    }
+                    this.lv_data.Invalidate();
+                });
             });
+            //foreach (var item in lst)
+            //{
+            //    try
+            //    {
+            //        OpcUaDriver.FindNode(item.Tag);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message, "节点不存在");
+            //        continue;
+            //    }
+            //    OpcUaDriver.Monitor<object>(item.Tag, (result, unsub) =>
+            //    {
+            //        if (_cancelTokenSourceSub.IsCancellationRequested)
+            //        {
+            //            unsub.Invoke();
+            //            return;
+            //        }
+            //        this.lv_data.Invoke(() =>
+            //        {
+            //            if (this._cacheData.TryGetValue(item.NodeId, out var index) && index < lvwHandler.DataCount)
+            //            {
+            //                this.lvwHandler[index].Value = result.Value?.ToString();
+            //                this.lvwHandler[index].StatusCode = result.Quality.ToString();
+            //                this.lvwHandler[index].ServerTimestamp = result.ServerTimestamp.ToString();
+            //            }
+            //            this.lv_data.Invalidate();
+            //        });
+
+            //    });
+            //}
 
         }
     }

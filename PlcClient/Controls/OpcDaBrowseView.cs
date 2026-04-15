@@ -53,12 +53,10 @@ namespace PlcClient.Controls
         {
             if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0].Text == "loading...")
             {
-
                 var itemid = e.Node.Tag as Opc.Da.BrowseElement;
                 if (itemid != null && itemid.HasChildren)
                 {
-                    GetTreeNode(e.Node, opc.Server);
-                    return;
+                    GetTreeNode(e.Node, opc.Server);                    
                 }
 
             }

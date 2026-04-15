@@ -184,7 +184,7 @@
             this.tbx_ip.Name = "tbx_ip";
             this.tbx_ip.Size = new System.Drawing.Size(241, 21);
             this.tbx_ip.TabIndex = 3;
-            this.tbx_ip.Text = "opc.tcp://127.0.0.1:49320/";
+            this.tbx_ip.Text = "opc.tcp://127.0.0.1:4840/";
             // 
             // label1
             // 

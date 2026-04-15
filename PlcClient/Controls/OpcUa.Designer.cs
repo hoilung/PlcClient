@@ -30,11 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_sub = new System.Windows.Forms.Button();
-            this.btn_view = new System.Windows.Forms.Button();
+            this.pl_cert = new System.Windows.Forms.Panel();
+            this.tbx_cert_path = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.tbx_user = new System.Windows.Forms.TextBox();
             this.tbx_pass = new System.Windows.Forms.TextBox();
             this.cbx_verfly = new System.Windows.Forms.ComboBox();
@@ -42,7 +42,8 @@
             this.btn_open = new System.Windows.Forms.Button();
             this.tbx_ip = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btn_sub = new System.Windows.Forms.Button();
+            this.btn_view = new System.Windows.Forms.Button();
             this.lv_data = new PlcClient.Controls.ListViewEx();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -55,20 +56,27 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip_lv = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.RefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbx_val = new System.Windows.Forms.TextBox();
+            this.btn_read = new System.Windows.Forms.Button();
+            this.tbx_tag = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.pl_cert.SuspendLayout();
             this.contextMenuStrip_lv.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btn_sub);
-            this.groupBox1.Controls.Add(this.btn_view);
+            this.groupBox1.Controls.Add(this.pl_cert);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.tbx_user);
             this.groupBox1.Controls.Add(this.tbx_pass);
             this.groupBox1.Controls.Add(this.cbx_verfly);
@@ -79,30 +87,37 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(710, 79);
+            this.groupBox1.Size = new System.Drawing.Size(953, 79);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "OPC UA 设置";
             // 
-            // btn_sub
+            // pl_cert
             // 
-            this.btn_sub.Location = new System.Drawing.Point(555, 45);
-            this.btn_sub.Name = "btn_sub";
-            this.btn_sub.Size = new System.Drawing.Size(75, 23);
-            this.btn_sub.TabIndex = 12;
-            this.btn_sub.Text = "订阅数据";
-            this.btn_sub.UseVisualStyleBackColor = true;
-            this.btn_sub.Click += new System.EventHandler(this.btn_sub_Click);
+            this.pl_cert.Controls.Add(this.tbx_cert_path);
+            this.pl_cert.Controls.Add(this.label3);
+            this.pl_cert.Location = new System.Drawing.Point(312, 41);
+            this.pl_cert.Name = "pl_cert";
+            this.pl_cert.Size = new System.Drawing.Size(543, 30);
+            this.pl_cert.TabIndex = 13;
             // 
-            // btn_view
+            // tbx_cert_path
             // 
-            this.btn_view.Location = new System.Drawing.Point(474, 45);
-            this.btn_view.Name = "btn_view";
-            this.btn_view.Size = new System.Drawing.Size(75, 23);
-            this.btn_view.TabIndex = 12;
-            this.btn_view.Text = "浏览节点";
-            this.btn_view.UseVisualStyleBackColor = true;
-            this.btn_view.Click += new System.EventHandler(this.btn_view_Click);
+            this.tbx_cert_path.Location = new System.Drawing.Point(59, 5);
+            this.tbx_cert_path.Name = "tbx_cert_path";
+            this.tbx_cert_path.ReadOnly = true;
+            this.tbx_cert_path.Size = new System.Drawing.Size(241, 21);
+            this.tbx_cert_path.TabIndex = 2;
+            this.tbx_cert_path.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbx_cert_path_MouseClick);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(5, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "签名证书";
             // 
             // label5
             // 
@@ -121,15 +136,6 @@
             this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 10;
             this.label4.Text = "用户";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(315, 23);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 12);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "连接方式";
             // 
             // tbx_user
             // 
@@ -151,8 +157,9 @@
             this.cbx_verfly.FormattingEnabled = true;
             this.cbx_verfly.Items.AddRange(new object[] {
             "匿名登录",
-            "用户验证"});
-            this.cbx_verfly.Location = new System.Drawing.Point(393, 19);
+            "用户验证",
+            "签名证书"});
+            this.cbx_verfly.Location = new System.Drawing.Point(312, 19);
             this.cbx_verfly.Name = "cbx_verfly";
             this.cbx_verfly.Size = new System.Drawing.Size(75, 20);
             this.cbx_verfly.TabIndex = 8;
@@ -160,7 +167,7 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(393, 45);
+            this.btn_close.Location = new System.Drawing.Point(474, 18);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 7;
@@ -170,7 +177,7 @@
             // 
             // btn_open
             // 
-            this.btn_open.Location = new System.Drawing.Point(312, 45);
+            this.btn_open.Location = new System.Drawing.Point(393, 18);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
             this.btn_open.TabIndex = 6;
@@ -195,16 +202,25 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "IP地址";
             // 
-            // groupBox2
+            // btn_sub
             // 
-            this.groupBox2.Controls.Add(this.lv_data);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 79);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(710, 351);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "数据列表";
+            this.btn_sub.Location = new System.Drawing.Point(636, 19);
+            this.btn_sub.Name = "btn_sub";
+            this.btn_sub.Size = new System.Drawing.Size(75, 23);
+            this.btn_sub.TabIndex = 12;
+            this.btn_sub.Text = "订阅数据";
+            this.btn_sub.UseVisualStyleBackColor = true;
+            this.btn_sub.Click += new System.EventHandler(this.btn_sub_Click);
+            // 
+            // btn_view
+            // 
+            this.btn_view.Location = new System.Drawing.Point(555, 19);
+            this.btn_view.Name = "btn_view";
+            this.btn_view.Size = new System.Drawing.Size(75, 23);
+            this.btn_view.TabIndex = 12;
+            this.btn_view.Text = "浏览节点";
+            this.btn_view.UseVisualStyleBackColor = true;
+            this.btn_view.Click += new System.EventHandler(this.btn_view_Click);
             // 
             // lv_data
             // 
@@ -224,7 +240,7 @@
             this.lv_data.HideSelection = false;
             this.lv_data.Location = new System.Drawing.Point(3, 17);
             this.lv_data.Name = "lv_data";
-            this.lv_data.Size = new System.Drawing.Size(704, 331);
+            this.lv_data.Size = new System.Drawing.Size(947, 317);
             this.lv_data.TabIndex = 0;
             this.lv_data.UseCompatibleStateImageBehavior = false;
             this.lv_data.View = System.Windows.Forms.View.Details;
@@ -277,10 +293,11 @@
             // 
             this.contextMenuStrip_lv.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RefreshToolStripMenuItem,
+            this.copyToolStripMenuItem,
             this.excelToolStripMenuItem,
             this.clearToolStripMenuItem});
             this.contextMenuStrip_lv.Name = "contextMenuStrip1";
-            this.contextMenuStrip_lv.Size = new System.Drawing.Size(146, 70);
+            this.contextMenuStrip_lv.Size = new System.Drawing.Size(146, 92);
             // 
             // RefreshToolStripMenuItem
             // 
@@ -289,6 +306,13 @@
             this.RefreshToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.RefreshToolStripMenuItem.Text = "刷新数据";
             this.RefreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.copyToolStripMenuItem.Text = "复制选择";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // excelToolStripMenuItem
             // 
@@ -304,17 +328,84 @@
             this.clearToolStripMenuItem.Text = "清空列表";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.tbx_val);
+            this.groupBox3.Controls.Add(this.btn_sub);
+            this.groupBox3.Controls.Add(this.btn_read);
+            this.groupBox3.Controls.Add(this.btn_view);
+            this.groupBox3.Controls.Add(this.tbx_tag);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Location = new System.Drawing.Point(0, 79);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(953, 54);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "数据查询";
+            // 
+            // tbx_val
+            // 
+            this.tbx_val.Location = new System.Drawing.Point(394, 20);
+            this.tbx_val.Name = "tbx_val";
+            this.tbx_val.ReadOnly = true;
+            this.tbx_val.Size = new System.Drawing.Size(155, 21);
+            this.tbx_val.TabIndex = 13;
+            // 
+            // btn_read
+            // 
+            this.btn_read.Location = new System.Drawing.Point(312, 19);
+            this.btn_read.Name = "btn_read";
+            this.btn_read.Size = new System.Drawing.Size(75, 23);
+            this.btn_read.TabIndex = 2;
+            this.btn_read.Text = "读取";
+            this.btn_read.UseVisualStyleBackColor = true;
+            this.btn_read.Click += new System.EventHandler(this.btn_read_Click);
+            // 
+            // tbx_tag
+            // 
+            this.tbx_tag.Location = new System.Drawing.Point(65, 21);
+            this.tbx_tag.Name = "tbx_tag";
+            this.tbx_tag.Size = new System.Drawing.Size(241, 21);
+            this.tbx_tag.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(30, 24);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(23, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Tag";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.lv_data);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(0, 133);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(953, 337);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "数据列表";
+            // 
             // OpcUa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Name = "OpcUa";
+            this.Size = new System.Drawing.Size(953, 470);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.pl_cert.ResumeLayout(false);
+            this.pl_cert.PerformLayout();
             this.contextMenuStrip_lv.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -329,11 +420,9 @@
         private System.Windows.Forms.ComboBox cbx_verfly;
         private System.Windows.Forms.TextBox tbx_user;
         private System.Windows.Forms.TextBox tbx_pass;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btn_view;
-        private System.Windows.Forms.GroupBox groupBox2;
         private ListViewEx lv_data;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_lv;
         private System.Windows.Forms.ToolStripMenuItem RefreshToolStripMenuItem;
@@ -349,5 +438,15 @@
         private System.Windows.Forms.Button btn_sub;
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ColumnHeader columnHeader9;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbx_tag;
+        private System.Windows.Forms.Button btn_read;
+        private System.Windows.Forms.TextBox tbx_cert_path;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel pl_cert;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.TextBox tbx_val;
     }
 }

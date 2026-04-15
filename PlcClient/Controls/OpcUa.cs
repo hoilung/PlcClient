@@ -6,6 +6,7 @@ using PlcClient.Handler;
 using PlcClient.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -20,7 +21,7 @@ namespace PlcClient.Controls
         public OpcUa()
         {
             InitializeComponent();
-            //OpcUaDriver = new UaClient();
+            pl_cert.Location = new System.Drawing.Point(6, 43);
             cbx_verfly.SelectedIndex = 0;
             tbx_ip.Text = tbx_ip.Text.Replace("127.0.0.1", GetLocalIP());
             lv_data.Columns.Clear();
@@ -39,6 +40,11 @@ namespace PlcClient.Controls
         private void cbx_verfly_SelectedIndexChanged(object sender, EventArgs e)
         {
             tbx_user.Enabled = tbx_pass.Enabled = cbx_verfly.SelectedIndex != 0;
+            pl_cert.Visible = cbx_verfly.SelectedIndex == 2;
+            if (pl_cert.Visible)
+            {
+                tbx_cert_path_MouseClick(null, null);
+            }
         }
 
         private void btn_view_Click(object sender, EventArgs e)
@@ -237,6 +243,13 @@ namespace PlcClient.Controls
                 contextMenuStrip_lv.Show(lv_data, e.X, e.Y);
                 return;
             }
+            if (lv_data.SelectedIndices.Count > 0 && lvwHandler.DataCount > 0)
+            {
+                var index = lv_data.SelectedIndices[0];
+                tbx_tag.Text = lvwHandler[index].Tag;
+                tbx_tag.Tag = lvwHandler[index];
+            }
+
         }
         public void Monitor<T>(Session session, string[] tags, Action<string, ReadEvent<T>, Action> callback)
         {
@@ -338,38 +351,68 @@ namespace PlcClient.Controls
                     this.lv_data.Invalidate();
                 });
             });
-            //foreach (var item in lst)
-            //{
-            //    try
-            //    {
-            //        OpcUaDriver.FindNode(item.Tag);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message, "节点不存在");
-            //        continue;
-            //    }
-            //    OpcUaDriver.Monitor<object>(item.Tag, (result, unsub) =>
-            //    {
-            //        if (_cancelTokenSourceSub.IsCancellationRequested)
-            //        {
-            //            unsub.Invoke();
-            //            return;
-            //        }
-            //        this.lv_data.Invoke(() =>
-            //        {
-            //            if (this._cacheData.TryGetValue(item.NodeId, out var index) && index < lvwHandler.DataCount)
-            //            {
-            //                this.lvwHandler[index].Value = result.Value?.ToString();
-            //                this.lvwHandler[index].StatusCode = result.Quality.ToString();
-            //                this.lvwHandler[index].ServerTimestamp = result.ServerTimestamp.ToString();
-            //            }
-            //            this.lv_data.Invalidate();
-            //        });
+        }
 
-            //    });
-            //}
+        private void tbx_cert_path_MouseClick(object sender, MouseEventArgs e)
+        {
+            //打开文件选择器
+            var openDiaglog = new OpenFileDialog();
+            openDiaglog.Filter = "证书文件(*.der;*.cer)|*.der;*.cer";
+            openDiaglog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            openDiaglog.Title = "选择证书文件";
+            openDiaglog.RestoreDirectory = true;
+            openDiaglog.CheckFileExists = true;
+            openDiaglog.CheckPathExists = true;
+            openDiaglog.Multiselect = false;
+            tbx_cert_path.ResetText();
+            if (openDiaglog.ShowDialog() == DialogResult.OK)
+            {
+                tbx_cert_path.Text = openDiaglog.FileName;
+            }
 
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvwHandler.ItemCount > 0)
+            {
+                var one = lvwHandler.Items.Where(m => m.Selected).FirstOrDefault();
+                if (one != null && one.Tag != null)
+                {
+                    Clipboard.SetText(one.Tag.ToString());
+                    this.OnMsg("复制成功");
+                }
+            }
+        }
+
+        private void btn_read_Click(object sender, EventArgs e)
+        {
+            var tag = tbx_tag.Text.Trim();
+            if (string.IsNullOrEmpty(tag))
+            {
+                return;
+            }
+            if (this.OpcUaDriver != null && this.OpcUaDriver.Status == OpcStatus.Connected)
+            {
+                try
+                {
+                    var sw = new Stopwatch();
+                    var nodeid = this.OpcUaDriver.FindNode(tag);
+                    sw.Start();
+                    var nodeval = this.OpcUaDriver.ReadNode(nodeid.NodeId);
+                    sw.Stop();
+                    if (nodeval != null)
+                    {
+                        tbx_val.Text = nodeval.Value.ToString();
+                    }
+                    this.OnMsg($"读取成功 Tag:{nodeid.Tag} value:{tbx_val.Text} 用时:{sw.ElapsedMilliseconds}ms");
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "读取节点失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

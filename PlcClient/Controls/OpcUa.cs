@@ -1,4 +1,5 @@
 ﻿using HL.OpcUa;
+using Microsoft.VisualBasic.ApplicationServices;
 using NewLife.Reflection;
 using Opc.Ua;
 using Opc.Ua.Client;
@@ -7,6 +8,7 @@ using PlcClient.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -34,7 +36,7 @@ namespace PlcClient.Controls
         private void ChangeState(bool state)
         {
             btn_open.Enabled = !state;
-            btn_sub.Enabled = btn_close.Enabled = btn_view.Enabled = state;
+            btn_read.Enabled = btn_sub.Enabled = btn_close.Enabled = btn_view.Enabled = state;
         }
 
         private void cbx_verfly_SelectedIndexChanged(object sender, EventArgs e)
@@ -149,6 +151,16 @@ namespace PlcClient.Controls
                     }
                     OpcUaDriver.Options.UserIdentity = new UserIdentity(user, pass);
                 }
+                else if (cbx_verfly.SelectedIndex == 2)
+                {
+                    string certPath = tbx_cert_path.Text.Trim();
+                    if (string.IsNullOrEmpty(certPath) || !File.Exists(certPath))
+                    {
+                        MessageBox.Show("非有效的签名证书文件", "无效的签名证书", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }                    
+                    OpcUaDriver.Options.ApplicationCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(certPath);
+                }
 
                 OpcUaDriver.Open();
 
@@ -163,7 +175,7 @@ namespace PlcClient.Controls
             catch (Exception ex)
             {
                 OnMsg("连接失败 " + opcAddress);
-                MessageBox.Show(ex.Message, "连接失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message+"\r\n"+ex.InnerException.Message, "连接失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -399,13 +411,14 @@ namespace PlcClient.Controls
                     var sw = new Stopwatch();
                     var nodeid = this.OpcUaDriver.FindNode(tag);
                     sw.Start();
-                    var nodeval = this.OpcUaDriver.ReadNode(nodeid.NodeId);
+                    var nodeval = this.OpcUaDriver.ReadNode(nodeid.NodeId);                    
                     sw.Stop();
                     if (nodeval != null)
                     {
                         tbx_val.Text = nodeval.Value.ToString();
                     }
-                    this.OnMsg($"读取成功 Tag:{nodeid.Tag} value:{tbx_val.Text} 用时:{sw.ElapsedMilliseconds}ms");
+                    this.OnMsg($"OPC UA Tag:{nodeid.Tag} Value: {tbx_val.Text} StatusCode: {nodeval.StatusCode} 耗时: {sw.ElapsedMilliseconds}ms");
+                    
 
                 }
                 catch (Exception ex)

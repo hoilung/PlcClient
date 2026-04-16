@@ -7,6 +7,7 @@ using PlcClient.Handler;
 using PlcClient.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -164,14 +165,17 @@ namespace PlcClient.Controls
             }
             int id = lvwHandler.DataCount;
             _cache[opcdaItem.Address] = id;
-            lvwHandler.Add(new OpcDaVM
+            lv_data.Invoke(() =>
             {
-                ID = id,
-                Tag = opcdaItem.Address,
-                DataType = opcdaItem.ValueType.Name,
-                Value = opcdaItem.Value.ToString(),
-                Quality = opcdaItem.Quality,
-                Time = opcdaItem.Time
+                lvwHandler.Add(new OpcDaVM
+                {
+                    ID = id,
+                    Tag = opcdaItem.Address,
+                    DataType = opcdaItem.ValueType.Name,
+                    Value = opcdaItem.Value.ToString(),
+                    Quality = opcdaItem.Quality,
+                    Time = opcdaItem.Time
+                });
             });
 
         }
@@ -185,7 +189,10 @@ namespace PlcClient.Controls
                 return;
             }
             tbx_tag_value.ResetText();
+            var sw = new Stopwatch();
+            sw.Start();
             var items = Opc.Server.Read(new[] { new Opc.Da.Item { ItemName = tagName } });
+            sw.Stop();
             if (items != null)
             {
                 if (items[0].Value != null)
@@ -198,7 +205,7 @@ namespace PlcClient.Controls
                     ShowToolTip("读取失败", tbx_tag_value);
                 }
 
-                OnMsg($"OPC DA Tag: {tagName}, Value: {items[0].Value ?? "NULL"}, Quality: {items[0].Quality}, Timestamp: {items[0].Timestamp}]");
+                OnMsg($"OPC DA Tag: {tagName}, Value: {items[0].Value ?? "NULL"}, Quality: {items[0].Quality}, Timestamp: {items[0].Timestamp} 耗时: {sw.ElapsedMilliseconds}ms");
             }
         }
 
@@ -263,7 +270,7 @@ namespace PlcClient.Controls
 
                         }
                     }
-                    lv_data.Invalidate();                  
+                    lv_data.Invalidate();
                 }));
             }
             catch (Exception ex)

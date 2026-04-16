@@ -157,8 +157,7 @@
             this.cbx_verfly.FormattingEnabled = true;
             this.cbx_verfly.Items.AddRange(new object[] {
             "匿名登录",
-            "用户验证",
-            "签名证书"});
+            "用户验证"});
             this.cbx_verfly.Location = new System.Drawing.Point(312, 19);
             this.cbx_verfly.Name = "cbx_verfly";
             this.cbx_verfly.Size = new System.Drawing.Size(75, 20);

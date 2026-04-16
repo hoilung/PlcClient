@@ -152,6 +152,7 @@ namespace PlcClient.Controls
 
         private void BrowseView_DataRefresh(OPCDAItem opcdaItem)
         {
+
             if (lv_data.Items.Count > 0)
             {
 
@@ -163,20 +164,19 @@ namespace PlcClient.Controls
                     return;
                 }
             }
+
             int id = lvwHandler.DataCount;
             _cache[opcdaItem.Address] = id;
-            lv_data.Invoke(() =>
+            lvwHandler.Add(new OpcDaVM
             {
-                lvwHandler.Add(new OpcDaVM
-                {
-                    ID = id,
-                    Tag = opcdaItem.Address,
-                    DataType = opcdaItem.ValueType.Name,
-                    Value = opcdaItem.Value.ToString(),
-                    Quality = opcdaItem.Quality,
-                    Time = opcdaItem.Time
-                });
+                ID = id,
+                Tag = opcdaItem.Address,
+                DataType = opcdaItem.ValueType.Name,
+                Value = opcdaItem.Value.ToString(),
+                Quality = opcdaItem.Quality,
+                Time = opcdaItem.Time
             });
+
 
         }
         private void btn_read_Click(object sender, EventArgs e)

@@ -73,7 +73,16 @@ namespace PlcClient.Controls
                 if (result != null)
                 {
                     this.propertyGrid1.SelectedObject = result;
-                    toolStripStatusLabel1.Text = $"添加节点：{readItem.ItemName} 节点值：{result.Value}";
+                    var msg = $"标签：{readItem.ItemName} ";
+                    if (e.Node.Nodes.Count == 0 && itemid.IsItem)
+                    {
+                        msg += $"节点值：{result.Value} ";
+                    }
+                    if (e.Node.Nodes.Count > 0 && e.Node.IsExpanded)
+                    {
+                        msg += $"节点数：{e.Node.Nodes.Count}";
+                    }
+                    toolStripStatusLabel1.Text = msg;
                 }
 
             }
@@ -105,37 +114,35 @@ namespace PlcClient.Controls
         private void AddView(List<BrowseElement> items)
         {
             if (items.Count == 0) return;
-            var readItems = items.Select(m => new Item { ItemName = m.ItemName }).ToArray();
+            var lst = items.Select(m => new Item { ItemName = m.ItemName }).ToList();
             Task.Factory.StartNew(() =>
             {
-                var result = opc.Server.Read(readItems);
-                foreach (var itemid in result)
+                int pageSize = 500;
+                int page = 1;
+                while (page <= lst.Count / pageSize + 1)
                 {
-                    var item = new OPCDAItem();
-                    item.Name = itemid.ItemName;
-                    item.Address = itemid.ItemName;                    
-                    item.Value = itemid.Value;
-                    item.ValueType=itemid.Value.GetType();
-                    item.Quality = itemid.Quality.ToString();
-                    item.Time = itemid.Timestamp.ToString();
-                    DataRefresh?.Invoke(item);
+                    var readItems = lst.Skip((page - 1) * pageSize).Take(pageSize).ToArray();
+                    var result = opc.Server.Read(readItems);
+                    page++;
+                    if (result != null)
+                    {
+                        foreach (var itemid in result)
+                        {
+                            var item = new OPCDAItem();
+                            item.Name = itemid.ItemName;
+                            item.Address = itemid.ItemName;
+                            item.Value = itemid.Value;
+                            item.ValueType = itemid.Value.GetType();
+                            item.Quality = itemid.Quality.ToString();
+                            item.Time = itemid.Timestamp.ToString();
+                            this.Invoke(() =>
+                            {
+                                DataRefresh?.Invoke(item);
+                            });
+                        }
+                    }
                 }
-
-
             });
-            //foreach (var itemid in items)
-            //{
-            //    var item = new OPCDAItem();
-            //    item.Name = itemid.Name;
-            //    item.Address = itemid.ItemName;
-
-            //    item.ValueType = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(1)).Value as Type;
-            //    item.Value = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(2)).Value;
-            //    item.Quality = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(3)).Value.ToString();
-            //    item.Time = itemid.Properties.FirstOrDefault(m => m.ID == new Opc.Da.PropertyID(4)).Value.ToString();
-            //    DataRefresh?.Invoke(item);
-
-            //}
         }
 
 
@@ -162,6 +169,7 @@ namespace PlcClient.Controls
                 tv_nodes.Invoke(() =>
                 {
                     tv_nodes.BeginUpdate();
+
                     if (nodes != null)
                     {
                         for (var i = 0; i < nodes.Length; i++)

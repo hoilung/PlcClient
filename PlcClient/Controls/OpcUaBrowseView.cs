@@ -40,12 +40,12 @@ namespace PlcClient.Controls
         }
         private void Tv_nodes_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if(!e.Node.IsExpanded)
-                Tv_nodes_BeforeExpand(null, new TreeViewCancelEventArgs(e.Node, false,TreeViewAction.ByMouse));
+            //if(!e.Node.IsExpanded)
+            //    Tv_nodes_BeforeExpand(null, new TreeViewCancelEventArgs(e.Node, false,TreeViewAction.ByMouse));
 
             var item = e.Node.Tag as UaNode;
             if (item != null)
-            {                
+            {
                 var nodeid = new NodeId(item.NodeId);
                 var node = driver.Session.ReadNode(nodeid);
                 if (node is Opc.Ua.VariableNode valnode)
@@ -62,16 +62,17 @@ namespace PlcClient.Controls
         private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             var node = e.Node.Tag as UaNode;
+            if (node == null) return;
             if (node != null)
             {
-                toolStripStatusLabel1.Text = $"查看节点：{node.Name} 编号：{node.NodeId} 类型：{node.NodeClass} 节点数：{e.Node.Nodes.Count}";                
+                toolStripStatusLabel1.Text = $"查看节点：{node.Name} 编号：{node.NodeId} 类型：{node.NodeClass} 节点数：{e.Node.Nodes.Count}";
             }
             var nodes = new List<UaNode>();
             if (e.Node.Nodes.Count == 0 && node.NodeClass == NodeClass.Variable.ToString())
             {
                 nodes.Add(node);
             }
-            else if(!e.Node.IsExpanded)
+            else if (!e.Node.IsExpanded)
             {
                 foreach (TreeNode node2 in e.Node.Nodes)
                 {
@@ -85,27 +86,33 @@ namespace PlcClient.Controls
 
         private void AddView(List<UaNode> items)
         {
-            foreach (UaNode item in items)
+            Task.Factory.StartNew(() =>
             {
-                if (item != null && item.NodeClass == NodeClass.Variable.ToString())
+                foreach (UaNode item in items)
                 {
-                    try
+                    if (item != null && item.NodeClass == NodeClass.Variable.ToString())
                     {
-                        driver.FindNode(item.Tag);
-                        var nodeid = new NodeId(item.NodeId);// (NodeId)item.NodeId;
-                        var readnode = driver.Session.ReadNode(nodeid);
-                        if (readnode is Opc.Ua.VariableNode valnode)
+                        try
                         {
-                            valnode.Value = driver.Session.ReadValue(nodeid);                            
-                            DataRefresh?.Invoke(valnode, item.Tag);
+                            var find = driver.FindNode(item.Tag);
+                            var nodeid = new NodeId(find.NodeId);// (NodeId)item.NodeId;
+                            var readnode = driver.Session.ReadNode(nodeid);
+                            if (readnode is Opc.Ua.VariableNode valnode)
+                            {
+                                valnode.Value = driver.Session.ReadValue(nodeid);
+                                this.Invoke(() =>
+                                {
+                                    DataRefresh?.Invoke(valnode, item.Tag);
+                                });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            XTrace.WriteException(ex);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        XTrace.WriteException(ex);
-                    }
                 }
-            }
+            });
         }
 
         protected override void OnLoad(EventArgs e)
@@ -149,8 +156,8 @@ namespace PlcClient.Controls
                         foreach (var item in list)
                         {
                             var node = pNode.Nodes.Add(item.Name);
-                            node.Tag = item;                                                        
-                            node.Nodes.Add(new TreeNode("loading..."));                                                        
+                            node.Tag = item;
+                            node.Nodes.Add(new TreeNode("loading..."));
                         }
                         if (pNode.Nodes.Count > 0 && pNode.Nodes[0].Text == "loading...")
                         {

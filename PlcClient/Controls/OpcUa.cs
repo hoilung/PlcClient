@@ -136,7 +136,7 @@ namespace PlcClient.Controls
                     return;
                 }
 
-                OpcUaDriver = new UaClient(url);
+                OpcUaDriver = new UaClient(url);                
                 OpcUaDriver.Options.DefaultMonitorInterval = 250;
                 OpcUaDriver.Options.SubscriptionKeepAliveCount = 10;
                 OpcUaDriver.Options.SubscriptionLifetimeCount = 1000;

@@ -21,7 +21,7 @@ namespace PlcClient.Controls
         {
             InitializeComponent();
             tableLayoutPanel1.Dock = this.propertyGrid1.Dock = this.statusStrip1.Dock = this.tv_nodes.Dock = DockStyle.Fill;
-            tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
+            //tv_nodes.NodeMouseDoubleClick += Tv_nodes_NodeMouseDoubleClick;
             tv_nodes.BeforeExpand += Tv_nodes_BeforeExpand;
             tv_nodes.NodeMouseClick += Tv_nodes_NodeMouseClick;
             opc = Opc;
@@ -64,60 +64,67 @@ namespace PlcClient.Controls
 
         private void Tv_nodes_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var itemid = e.Node.Tag as Opc.Da.BrowseElement;
-            if (itemid != null)
+            var select_node = tv_nodes.SelectedNode;
+            if (select_node.Nodes.Count == 1 && select_node.Nodes[0].Text == "loading...")
+                return;
+
+            var itemid = select_node.Tag as Opc.Da.BrowseElement;
+            if (itemid == null)
             {
-                this.propertyGrid1.SelectedObject = itemid;
+                return;
+            }
+            if (e.Button == MouseButtons.Right) //菜单
+            {                   
+                addToolStripMenuItem.Enabled = itemid.IsItem;                
+                addAllToolStripMenuItem.Enabled = !itemid.IsItem;
+
+                addAllToolStripMenuItem.ToolTipText = itemid.ItemName;
+                addToolStripMenuItem.ToolTipText = itemid.ItemName;
+             
+                contextMenuStrip1.Show(tv_nodes, e.Location);
+                return;
+            }
+            if (!itemid.IsItem)
+            {
+                toolStripStatusLabel1.Text = $"标签：{itemid.ItemName} 节点数：{select_node.Nodes.Count}";
+                return;
+            }
+
+
+            Task.Factory.StartNew(() =>
+            {
                 var readItem = new Item { ItemName = itemid.ItemName };
                 var result = this.opc.Server.Read(new[] { readItem })[0];
                 if (result != null)
                 {
-                    this.propertyGrid1.SelectedObject = result;
-                    var msg = $"标签：{readItem.ItemName} ";
-                    if (e.Node.Nodes.Count == 0 && itemid.IsItem)
+                    this.Invoke(() =>
                     {
-                        msg += $"节点值：{result.Value} ";
-                    }
-                    if (e.Node.Nodes.Count > 0 && e.Node.IsExpanded)
-                    {
-                        msg += $"节点数：{e.Node.Nodes.Count}";
-                    }
-                    toolStripStatusLabel1.Text = msg;
+                        this.propertyGrid1.SelectedObject = result;
+                        var msg = $"标签：{readItem.ItemName} ";
+                        if (select_node.Nodes.Count == 0 && itemid.IsItem)
+                        {
+                            msg += $"节点值：{result.Value} ";
+                        }
+                        if (select_node.Nodes.Count > 0)
+                        {
+                            msg += $"节点数：{select_node.Nodes.Count}";
+                        }
+                        toolStripStatusLabel1.Text = msg;
+                    });
                 }
+            });
 
-            }
-        }
-        private void Tv_nodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            var nodes = new List<BrowseElement>();
-            if (e.Node.Nodes.Count > 0 && !e.Node.IsExpanded)
-            {
-                foreach (TreeNode node in e.Node.Nodes)
-                {
-                    var itemid = node.Tag as Opc.Da.BrowseElement;
-                    if (itemid != null && itemid.IsItem)
-                        nodes.Add(itemid);
-                }
-            }
-            else
-            {
-                var itemid = e.Node.Tag as Opc.Da.BrowseElement;
-                if (itemid != null && itemid.IsItem)
-                {
-                    nodes.Add(itemid);
-                }
-            }
-            AddView(nodes);
 
         }
+
 
         private void AddView(List<BrowseElement> items)
         {
             if (items.Count == 0) return;
-            var lst = items.Select(m => new Item { ItemName = m.ItemName }).ToList();
+            var lst = items.Select(m => new Item { ItemName = m.ItemName, ItemPath = m.ItemPath }).ToList();
             Task.Factory.StartNew(() =>
             {
-                int pageSize = 500;
+                int pageSize = 100;
                 int page = 1;
                 while (page <= lst.Count / pageSize + 1)
                 {
@@ -164,7 +171,7 @@ namespace PlcClient.Controls
 
             Task.Factory.StartNew(() =>
             {
-                var nodes = server.Browse(itemID, new BrowseFilters(), out Opc.Da.BrowsePosition position);
+                var nodes = server.Browse(itemID, BrowseFilters, out Opc.Da.BrowsePosition position);
 
                 tv_nodes.Invoke(() =>
                 {
@@ -177,7 +184,7 @@ namespace PlcClient.Controls
                             var node = nodes[i];
                             var treeNode = pNode.Nodes.Add(node.Name);
                             treeNode.Tag = node;// new Opc.ItemIdentifier { ItemName = node.ItemName, ItemPath = node.ItemPath };                                                                
-                            treeNode.ToolTipText = "双击添加子项或当前项到列表";
+                            //treeNode.ToolTipText = "双击添加子项或当前项到列表";
                             if (node.HasChildren)
                                 treeNode.Nodes.Add(new TreeNode("loading..."));
 
@@ -190,6 +197,40 @@ namespace PlcClient.Controls
                     tv_nodes.EndUpdate();
                 });
             });
+        }
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var select_node = tv_nodes.SelectedNode;
+            var nodes = new List<BrowseElement>();
+            var itemid = select_node.Tag as Opc.Da.BrowseElement;
+            if (itemid != null && itemid.IsItem)
+            {
+                nodes.Add(itemid);
+            }
+
+            AddView(nodes);
+        }
+
+        private void addAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var select_node = tv_nodes.SelectedNode;
+            var nodes = new List<BrowseElement>();
+
+            foreach (TreeNode node in select_node.Nodes)
+            {
+                if (node.Nodes.Count > 0)
+                    continue;
+                var itemid = node.Tag as Opc.Da.BrowseElement;
+                if (itemid != null && itemid.IsItem)
+                    nodes.Add(itemid);
+            }
+            if (nodes.Count == 0)
+            {
+                toolStripStatusLabel1.Text = "没有可添加的项";
+                return;
+            }
+            AddView(nodes);
         }
     }
 }

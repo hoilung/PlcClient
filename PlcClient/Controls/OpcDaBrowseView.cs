@@ -26,6 +26,8 @@ namespace PlcClient.Controls
             tv_nodes.NodeMouseClick += Tv_nodes_NodeMouseClick;
             opc = Opc;
         }
+
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -64,6 +66,7 @@ namespace PlcClient.Controls
 
         private void Tv_nodes_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            tv_nodes.SelectedNode = e.Node;
             var select_node = tv_nodes.SelectedNode;
             if (select_node.Nodes.Count == 1 && select_node.Nodes[0].Text == "loading...")
                 return;
@@ -74,13 +77,13 @@ namespace PlcClient.Controls
                 return;
             }
             if (e.Button == MouseButtons.Right) //菜单
-            {                   
-                addToolStripMenuItem.Enabled = itemid.IsItem;                
+            {
+                addToolStripMenuItem.Enabled = itemid.IsItem;
                 addAllToolStripMenuItem.Enabled = !itemid.IsItem;
 
                 addAllToolStripMenuItem.ToolTipText = itemid.ItemName;
                 addToolStripMenuItem.ToolTipText = itemid.ItemName;
-             
+
                 contextMenuStrip1.Show(tv_nodes, e.Location);
                 return;
             }
@@ -168,34 +171,47 @@ namespace PlcClient.Controls
             }
             //BrowseFilters.ReturnPropertyValues = true;
             //BrowseFilters.ReturnAllProperties = true;
-
+            BrowseFilters.MaxElementsReturned = 100;
             Task.Factory.StartNew(() =>
             {
                 var nodes = server.Browse(itemID, BrowseFilters, out Opc.Da.BrowsePosition position);
-
-                tv_nodes.Invoke(() =>
+                do
                 {
-                    tv_nodes.BeginUpdate();
-
-                    if (nodes != null)
+                    if (!this.IsHandleCreated)
+                        break;
+                    tv_nodes.Invoke(() =>
                     {
-                        for (var i = 0; i < nodes.Length; i++)
+                        tv_nodes.BeginUpdate();
+
+                        if (nodes != null)
                         {
-                            var node = nodes[i];
-                            var treeNode = pNode.Nodes.Add(node.Name);
-                            treeNode.Tag = node;// new Opc.ItemIdentifier { ItemName = node.ItemName, ItemPath = node.ItemPath };                                                                
-                            //treeNode.ToolTipText = "双击添加子项或当前项到列表";
-                            if (node.HasChildren)
-                                treeNode.Nodes.Add(new TreeNode("loading..."));
-
+                            for (var i = 0; i < nodes.Length; i++)
+                            {
+                                var node = nodes[i];
+                                var treeNode = pNode.Nodes.Add(node.Name);
+                                treeNode.Tag = node;// new Opc.ItemIdentifier { ItemName = node.ItemName, ItemPath = node.ItemPath };                                                                
+                                                    //treeNode.ToolTipText = "双击添加子项或当前项到列表";
+                                if (node.HasChildren)
+                                    treeNode.Nodes.Add(new TreeNode("loading..."));
+                            }
                         }
-                    }
-                    if (pNode.Nodes.Count > 0 && pNode.Nodes[0].Text == "loading...")
-                    {
-                        pNode.Nodes.RemoveAt(0);
-                    }
-                    tv_nodes.EndUpdate();
-                });
+                        if (pNode.Nodes.Count > 0 && pNode.Nodes[0].Text == "loading...")
+                        {
+                            pNode.Nodes.RemoveAt(0);
+                        }
+
+                        pNode.ToolTipText = "节点已加载 " + pNode.Nodes.Count + " 个 \r\n" + pNode.FullPath;
+                        if (position == null)
+                        {
+                            pNode.ToolTipText = $"节点已加载完成 共计：{pNode.Nodes.Count} 个\r\n" + pNode.FullPath;
+                        }
+
+                        tv_nodes.EndUpdate();
+
+                    });
+                    if (position != null)
+                        nodes = server.BrowseNext(ref position);
+                } while (position != null);
             });
         }
 

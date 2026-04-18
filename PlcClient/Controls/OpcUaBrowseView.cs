@@ -41,6 +41,7 @@ namespace PlcClient.Controls
         }
         private void Tv_nodes_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            tv_nodes.SelectedNode = e.Node;
             var selectNode = tv_nodes.SelectedNode;
             if (selectNode.Nodes.Count == 1 && selectNode.Nodes[0].Text == "loading...")
                 return;

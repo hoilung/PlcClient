@@ -19,7 +19,8 @@ namespace PlcClient.Controls
 {
     public partial class OpcDa : BaseControl
     {
-        private OpcCom.ServerEnumerator m_discovery = new OpcCom.ServerEnumerator();
+        //private OpcRcw.ServerEnumerator mm = new OpcRcw.ServerEnumerator();
+        private OpcCom.ServerEnumerator2 m_discovery = new OpcCom.ServerEnumerator2();
 
         private OpcDaDriver Opc;
         private ListViewHandler<Model.OpcDaVM> lvwHandler;
@@ -105,13 +106,15 @@ namespace PlcClient.Controls
                         return;
                     }
                 }
-                var server = m_discovery.GetAvailableServers(Specification.COM_DA_20, ip, new ConnectData(new System.Net.NetworkCredential()));
+                var server = m_discovery.GetServerDescriptions(Specification.COM_DA_20, ip, new ConnectData(new System.Net.NetworkCredential()));
+                //var server = m_discovery.GetAvailableServers(Specification.COM_DA_20, ip, new ConnectData(new System.Net.NetworkCredential()));
                 cbx_servername.Items.Clear();
+
                 if (server != null)
                 {
                     for (int i = 0; i < server.Length; i++)
                     {
-                        cbx_servername.Items.Add(server[i].Url.Path.Split('/')[0]);
+                        cbx_servername.Items.Add(server[i].ProgId);
                     }
                     cbx_servername.SelectedIndex = 0;
                     OnMsg($"OpcDa 2.0 服务器名称获取成功,{ip} 数量 {server.Length} 个");

@@ -1,6 +1,7 @@
 ﻿using NetTools;
 using NewLife;
 using PlcClient.Handler;
+using PlcClient.Model.DeviceDiscover;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -26,25 +27,26 @@ namespace PlcClient.Controls
 
         protected override void OnLoad(EventArgs e)
         {
-            var list = new List<string>();
-            var ni = NetworkInterface.GetAllNetworkInterfaces();
-            foreach (NetworkInterface ni2 in ni)
-            {
-                if (ni2.NetworkInterfaceType == NetworkInterfaceType.Ethernet && ni2.OperationalStatus == OperationalStatus.Up)
-                {
-                    var ip = ni2.GetIPProperties();
-                    if (ip.UnicastAddresses.Count > 0)
-                    {
-                        var ipv4 = ip.UnicastAddresses.FirstOrDefault(m => m.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
-                        if (ipv4 != null)
-                        {
-                            list.Add($"{ipv4.Address}/{ipv4.IPv4Mask}");
-                        }
-                    }
-                }
-            }
-            this.cbx_ip.Items.AddRange(list.ToArray());
-            if (list.Count > 0)
+            //var list = new List<string>();
+            //var ni = NetworkInterface.GetAllNetworkInterfaces();
+            //foreach (NetworkInterface ni2 in ni)
+            //{
+            //    if (ni2.NetworkInterfaceType == NetworkInterfaceType.Ethernet && ni2.OperationalStatus == OperationalStatus.Up)
+            //    {
+            //        var ip = ni2.GetIPProperties();
+            //        foreach (var ipv4 in ip.UnicastAddresses)
+            //        {
+            //            if(ipv4.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            //            {
+            //                list.Add($"{ipv4.Address}/{ipv4.IPv4Mask}");
+            //            }                        
+            //        }
+
+            //    }
+            //}
+            var list = base.GetLocalAllIP().Select(m => $"{m}/255.255.255.0").ToArray();
+            this.cbx_ip.Items.AddRange(list);
+            if (list.Length > 0)
                 cbx_ip.SelectedIndex = 0;
             base.OnLoad(e);
         }

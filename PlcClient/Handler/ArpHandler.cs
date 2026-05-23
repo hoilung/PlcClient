@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -65,26 +66,35 @@ namespace PlcClient.Handler
                 MessageBox.Show(ex.Message, "扫描错误");
             }
         }
-        bool IsPrivateNetwork3(string ipv4Address)
-        {
-            if (IPAddress.TryParse(ipv4Address, out var ip))
-            {
-                byte[] ipBytes = ip.GetAddressBytes();
-                if (ipBytes[0] == 10) return true;
-                if (ipBytes[0] == 172 && ipBytes[1] >= 16 && ipBytes[1] <= 31) return true;
-                if (ipBytes[0] == 192 && ipBytes[1] == 168) return true;
-            }
-            return false;
-        }
+
         bool IsPrivateNetwork3(IPAddress ipv4Address)
         {
-            if (ipv4Address != null)
+            if (ipv4Address == null)
+                return false;
+
+            // 如果是 IPv6，检查是否为私有地址
+            if (ipv4Address.AddressFamily == AddressFamily.InterNetworkV6)
             {
-                byte[] ipBytes = ipv4Address.GetAddressBytes();
-                if (ipBytes[0] == 10) return true;
-                if (ipBytes[0] == 172 && ipBytes[1] >= 16 && ipBytes[1] <= 31) return true;
-                if (ipBytes[0] == 192 && ipBytes[1] == 168) return true;
+                return ipv4Address.IsIPv6LinkLocal || ipv4Address.IsIPv6SiteLocal;
             }
+            if (ipv4Address.AddressFamily != AddressFamily.InterNetwork)
+                return false;
+            byte[] ipBytes = ipv4Address.GetAddressBytes();
+            // 10.0.0.0/8 - RFC 1918
+            if (ipBytes[0] == 10) return true;
+
+            // 172.16.0.0/12 - RFC 1918
+            if (ipBytes[0] == 172 && ipBytes[1] >= 16 && ipBytes[1] <= 31) return true;
+
+            // 192.168.0.0/16 - RFC 1918
+            if (ipBytes[0] == 192 && ipBytes[1] == 168) return true;
+
+            // 127.0.0.0/8 - Loopback
+            if (ipBytes[0] == 127) return true;
+
+            // 169.254.0.0/16 - Link-local
+            if (ipBytes[0] == 169 && ipBytes[1] == 254) return true;
+
             return false;
         }
 
@@ -109,7 +119,7 @@ namespace PlcClient.Handler
                                 {
                                     if (num > 3) break;
                                     var pingTask = await ping.SendPingAsync(ip, 1000);
-                                    result = pingTask.Status==IPStatus.Success?IPStatus.Success:IPStatus.TimedOut;
+                                    result = pingTask.Status == IPStatus.Success ? IPStatus.Success : IPStatus.TimedOut;
                                     num++;
                                 }
                             }
@@ -204,17 +214,54 @@ namespace PlcClient.Handler
             {
                 return un_device;
             }
-            if (_deviceOUI.TryGetValue(mac.Substring(0, 8), out var result))
-                return result;
+            var mac2 = mac.Replace("-", ":");
+            foreach (var len in lenSet)
+            {
+                //var key_int = MacToInt(mac.Substring(0, len));
+                if (_deviceOUI.TryGetValue(mac2.Substring(0, len), out var result))
+                    return result;
+            }
             return un_device;
         }
 
+
+
+        /// <summary>
+        /// 将MAC地址字符串转换为ulong整数
+        /// </summary>
+        /// <param name="macStr">MAC地址字符串，支持冒号、连字符分隔</param>
+        /// <returns>MAC地址对应的64位整数</returns>
+        public static ulong MacToInt(string macStr)
+        {
+            // 移除所有分隔符（冒号、连字符）并转为大写
+            string macClean = Regex.Replace(macStr, "[:-]", "").ToUpper();
+
+            // 将十六进制字符串转换为ulong
+            return Convert.ToUInt64(macClean, 16);
+        }
+
+        private HashSet<int> lenSet = new HashSet<int>();
         private Dictionary<string, string> GetDeviceOUI()
         {
-            // var sss = Properties.Resources.oui.Split('\r').Select(m => m.Split('|')).GroupBy(m => m[0]).Where(m => m.Count() > 1).ToList();
+            var kv = new Dictionary<string, string>();
+            var lines = Properties.Resources.oui.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var line = lines[i].Trim();
+                var parts = line.Split(new[] { ',' }, count: 2);
+                var key = parts[0].Split('/')[0];
+                var value = parts[1].Trim('"');                
+                try
+                {
+                    kv.Add(key, value);                    
+                }
+                catch (Exception)
+                {
 
-
-            return Properties.Resources.oui.Split('\r').Select(m => m.Split('|')).ToDictionary(m => m[0].Trim(), m => m[1].Trim(), StringComparer.OrdinalIgnoreCase);
+                }
+            }
+            lenSet = kv.Keys.GroupBy(m => m.Length).OrderByDescending(m => m.Count()).Select(m => m.Key).ToHashSet();
+            return kv;
         }
     }
 }

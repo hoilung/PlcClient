@@ -185,7 +185,7 @@
       <DependentUpon>SiemensPLC.cs</DependentUpon>
     </Compile>
     <Compile Include="Handler\ArpHandler.cs" />
-    <Compile Include="Handler\ServerEnumerator2.cs" />
+    <Compile Include="Handler\ServerEnumerator1.cs" />
     <Compile Include="Handler\DeviceHandler.cs" />
     <Compile Include="Handler\DirectoryHelper.cs" />
     <Compile Include="Handler\ListViewColumnSorter.cs" />

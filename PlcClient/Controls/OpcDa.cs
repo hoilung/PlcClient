@@ -20,11 +20,13 @@ namespace PlcClient.Controls
     public partial class OpcDa : BaseControl
     {
         //private OpcRcw.ServerEnumerator mm = new OpcRcw.ServerEnumerator();
-        private OpcCom.ServerEnumerator2 m_discovery = new OpcCom.ServerEnumerator2();
+        private OpcCom.ServerEnumerator1 m_discovery = new OpcCom.ServerEnumerator1();
 
         private OpcDaDriver Opc;
         private ListViewHandler<Model.OpcDaVM> lvwHandler;
         private Dictionary<string, int> _cache = new Dictionary<string, int>();
+
+        private Dictionary<string, Specification> comDa = new Dictionary<string, Specification>();      
         public OpcDa()
         {
             InitializeComponent();
@@ -35,6 +37,17 @@ namespace PlcClient.Controls
             //lvwHandler.ColuminSort();            
             Opc = new OpcDaDriver();
             ChangeState(false);
+
+            comDa.Add("1.0", Specification.COM_DA_10);
+            comDa.Add("2.0", Specification.COM_DA_20);
+            comDa.Add("3.0", Specification.COM_DA_30);
+            var bs=new BindingSource();
+            bs.DataSource=comDa;
+            cbx_com.DataSource = bs;
+            cbx_com.DisplayMember = "Key";
+            cbx_com.ValueMember = "Value";
+            cbx_com.SelectedIndex = 1;
+            
         }
 
 
@@ -106,7 +119,9 @@ namespace PlcClient.Controls
                         return;
                     }
                 }
-                var server = m_discovery.GetServerDescriptions(Specification.COM_DA_20, ip, new ConnectData(new System.Net.NetworkCredential()));
+                
+                var comda = (Specification)cbx_com.SelectedValue;                
+                var server = m_discovery.GetAvailableServers2(comda, ip, new ConnectData(new System.Net.NetworkCredential()));
                 //var server = m_discovery.GetAvailableServers(Specification.COM_DA_20, ip, new ConnectData(new System.Net.NetworkCredential()));
                 cbx_servername.Items.Clear();
 
@@ -117,11 +132,11 @@ namespace PlcClient.Controls
                         cbx_servername.Items.Add(server[i].ProgId);
                     }
                     cbx_servername.SelectedIndex = 0;
-                    OnMsg($"OpcDa 2.0 服务器名称获取成功,{ip} 数量 {server.Length} 个");
+                    OnMsg($"OPC {comda} 服务名称获取成功,{ip} 数量 {server.Length} 个");
                 }
                 else
                 {
-                    OnMsg($"OpcDa 2.0 服务器名称获取失败,{ip}");
+                    OnMsg($"OPC {comda} 服务名称获取失败,{ip}");
                 }
             }
             catch (Exception ex)

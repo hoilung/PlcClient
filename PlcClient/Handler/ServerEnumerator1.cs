@@ -1,10 +1,6 @@
-﻿
-using NewLife.Model;
+﻿using NewLife.Model;
 using Opc;
-using Opc.Ae;
-using Opc.Da;
-using Opc.Dx;
-using Opc.Hda;
+using Opc.Ua;
 using OpcRcw;
 using OpcRcw.Comn;
 using System;
@@ -16,15 +12,15 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace OpcCom
 {
-    public class ServerEnumerator2 : IDiscovery, IDisposable
+    public partial class ServerEnumerator1 : IDiscovery, IDisposable
     {
-        private IOPCServerList2 m_server;
+        private IOPCServerList m_server;
 
         private string m_host;
 
         private const string ProgID = "OPC.ServerList.1";
 
-        private static readonly Guid CLSID;
+        private static readonly Guid CLSID = new Guid("13486D51-4821-11D2-A494-3CB306C10000");
 
         public void Dispose()
         {
@@ -45,15 +41,15 @@ namespace OpcCom
             lock (this)
             {
                 NetworkCredential credential = connectData?.GetCredential(null, null);
-                m_server = (IOPCServerList2)Interop.CreateInstance(CLSID, host, credential);
+                m_server = (IOPCServerList)Interop.CreateInstance(CLSID, host, credential);
                 m_host = host;
                 try
                 {
                     ArrayList arrayList = new ArrayList();
                     Guid guid = new Guid(specification.ID);
-                    IOPCEnumGUID ppenumClsid = null;
+                    object ppenumClsid = null;//IEnumGUID
                     m_server.EnumClassesOfCategories(1, new Guid[1] { guid }, 0, null, out ppenumClsid);
-                    Guid[] array = ReadClasses(ppenumClsid);
+                    Guid[] array = ReadClasses((IEnumGUID)ppenumClsid);
                     Interop.ReleaseServer(ppenumClsid);
                     ppenumClsid = null;
                     Guid[] array2 = array;
@@ -107,7 +103,7 @@ namespace OpcCom
             lock (this)
             {
                 NetworkCredential credential = connectData?.GetCredential(null, null);
-                m_server = (IOPCServerList2)Interop.CreateInstance(CLSID, host, credential);
+                m_server = (IOPCServerList)Interop.CreateInstance(CLSID, host, credential);
                 m_host = host;
                 Guid clsid;
                 try
@@ -129,47 +125,7 @@ namespace OpcCom
             }
         }
 
-        public ServerDescription[] GetServerDescriptions(Specification specification)
-        {
-            return GetServerDescriptions(specification, null, null);
-        }
-
-        public ServerDescription[] GetServerDescriptions(Specification specification, string host, ConnectData connectData)
-        {
-            lock (this)
-            {
-                NetworkCredential credential = connectData?.GetCredential(null, null);
-                m_server = (IOPCServerList2)Interop.CreateInstance(CLSID, host, credential);
-                m_host = host;
-                try
-                {
-                    ArrayList arrayList = new ArrayList();
-                    Guid guid = new Guid(specification.ID);
-                    IOPCEnumGUID ppenumClsid = null;
-                    m_server.EnumClassesOfCategories(1, new Guid[1] { guid }, 0, null, out ppenumClsid);
-                    Guid[] array = ReadClasses(ppenumClsid);
-                    Interop.ReleaseServer(ppenumClsid);
-                    Guid[] array2 = array;
-                    foreach (Guid clsid in array2)
-                    {
-                        arrayList.Add(ReadServerDetails(clsid));
-                    }
-                    return (ServerDescription[])arrayList.ToArray(typeof(ServerDescription));
-
-                }
-                catch (Exception)
-                {
-                    return new ServerDescription[0];
-                }
-                finally
-                {
-                    Interop.ReleaseServer(m_server);
-                    m_server = null;
-                }
-            }
-        }
-
-        private Guid[] ReadClasses(IOPCEnumGUID enumerator)
+        private Guid[] ReadClasses(IEnumGUID enumerator)
         {
             ArrayList arrayList = new ArrayList();
             int pceltFetched = 0;
@@ -247,15 +203,15 @@ namespace OpcCom
             {
                 string ppszProgID = null;
                 string ppszUserType = null;
-                string ppszVerIndProgID = null;
-                m_server.GetClassDetails(ref clsid, out ppszProgID, out ppszUserType, out ppszVerIndProgID);
+                //string ppszVerIndProgID = null;
+                m_server.GetClassDetails(ref clsid, out ppszProgID, out ppszUserType);
+                //if (ppszVerIndProgID != null)
+                //{
+                //    uRL.Path = string.Format("{0}/{1}", ppszVerIndProgID, "{" + clsid.ToString() + "}");
+                //}
                 if (ppszProgID != null)
                 {
                     uRL.Path = string.Format("{0}/{1}", ppszProgID, "{" + clsid.ToString() + "}");
-                }
-                else if (ppszVerIndProgID != null)
-                {
-                    uRL.Path = string.Format("{0}/{1}", ppszVerIndProgID, "{" + clsid.ToString() + "}");
                 }
             }
             catch (Exception)
@@ -271,32 +227,63 @@ namespace OpcCom
 
             return uRL;
         }
+    }
 
+    public partial class ServerEnumerator1
+    {
+        public ServerDescription[] GetAvailableServers2(Specification specification)
+        {
+            return GetAvailableServers2(specification, null, null);
+        }
+
+        public ServerDescription[] GetAvailableServers2(Specification specification, string host, ConnectData connectData)
+        {
+            lock (this)
+            {
+                NetworkCredential credential = connectData?.GetCredential(null, null);
+                m_server = (IOPCServerList)Interop.CreateInstance(CLSID, host, credential);
+                m_host = host;
+                try
+                {
+                    object ppenumClsid = null;
+                    Guid guid = new Guid(specification.ID);
+                    m_server.EnumClassesOfCategories(1, new Guid[1] { guid }, 0, null, out ppenumClsid);
+                    var list = ReadClasses((IEnumGUID)ppenumClsid);
+                    Interop.ReleaseServer(ppenumClsid);
+                    ppenumClsid = null;
+                    ServerDescription[] array = new ServerDescription[list.Length];
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        array[i] = ReadServerDetails(list[i]);
+                    }
+                    return array;
+                }
+                finally
+                {
+                    Interop.ReleaseServer(m_server);
+                    m_server = null;
+                }
+            }
+        }
         private ServerDescription ReadServerDetails(Guid clsid)
         {
             ServerDescription serverDescription = new ServerDescription();
-            serverDescription.HostName = this.m_host;
+            serverDescription.HostName = m_host;
             serverDescription.Clsid = clsid;
+            string ppszProgID = null;
             try
             {
-                string ppszProgID = null;
                 string ppszUserType = null;
-                string ppszVerIndProgID = null;
-                m_server.GetClassDetails(ref clsid, out ppszProgID, out ppszUserType, out ppszVerIndProgID);
-
-                serverDescription.ProgId = ppszProgID;
-                serverDescription.VersionIndependentProgId = ppszVerIndProgID;
+                m_server.GetClassDetails(ref clsid, out ppszProgID, out ppszUserType);
                 serverDescription.Description = ppszUserType;
             }
             catch
             {
-
+                ppszProgID = null;
             }
+
+            serverDescription.ProgId = ppszProgID;
             return serverDescription;
-        }
-        static ServerEnumerator2()
-        {
-            CLSID = new Guid("13486D51-4821-11D2-A494-3CB306C10000");
         }
     }
 }

@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbx_com = new System.Windows.Forms.ComboBox();
             this.btn_getname = new System.Windows.Forms.Button();
             this.cbx_servername = new System.Windows.Forms.ComboBox();
             this.btn_close = new System.Windows.Forms.Button();
@@ -66,6 +67,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbx_com);
             this.groupBox1.Controls.Add(this.btn_getname);
             this.groupBox1.Controls.Add(this.cbx_servername);
             this.groupBox1.Controls.Add(this.btn_close);
@@ -81,9 +83,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "OPC DA 设置";
             // 
+            // cbx_com
+            // 
+            this.cbx_com.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_com.FormattingEnabled = true;
+            this.cbx_com.Location = new System.Drawing.Point(441, 19);
+            this.cbx_com.Name = "cbx_com";
+            this.cbx_com.Size = new System.Drawing.Size(74, 20);
+            this.cbx_com.TabIndex = 9;
+            // 
             // btn_getname
             // 
-            this.btn_getname.Location = new System.Drawing.Point(439, 18);
+            this.btn_getname.Location = new System.Drawing.Point(521, 18);
             this.btn_getname.Name = "btn_getname";
             this.btn_getname.Size = new System.Drawing.Size(75, 23);
             this.btn_getname.TabIndex = 8;
@@ -101,7 +112,7 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(603, 18);
+            this.btn_close.Location = new System.Drawing.Point(685, 18);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 5;
@@ -111,7 +122,7 @@
             // 
             // btn_open
             // 
-            this.btn_open.Location = new System.Drawing.Point(522, 18);
+            this.btn_open.Location = new System.Drawing.Point(604, 18);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
             this.btn_open.TabIndex = 4;
@@ -122,17 +133,17 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(149, 23);
+            this.label2.Location = new System.Drawing.Point(161, 23);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 2;
-            this.label2.Text = "服务器名";
+            this.label2.Text = "服务名";
             // 
             // tbx_ip
             // 
             this.tbx_ip.Location = new System.Drawing.Point(43, 19);
             this.tbx_ip.Name = "tbx_ip";
-            this.tbx_ip.Size = new System.Drawing.Size(100, 21);
+            this.tbx_ip.Size = new System.Drawing.Size(112, 21);
             this.tbx_ip.TabIndex = 1;
             this.tbx_ip.Text = "127.0.0.1";
             // 
@@ -379,5 +390,6 @@
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.Button btn_write;
         private System.Windows.Forms.CheckBox chk_enablewrite;
+        private System.Windows.Forms.ComboBox cbx_com;
     }
 }

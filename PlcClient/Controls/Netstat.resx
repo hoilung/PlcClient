@@ -120,14 +120,10 @@
   <metadata name="ping.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="richTextBox1.Text" xml:space="preserve">
-    <value>软件使用免责声明
-
-使用本软件即代表您同意以下条款：
-
-1. 本软件‌仅用于技术测试、开发学习与模拟研究‌，禁止在任何生产环境、正式业务场景及非测试场景中使用，禁止用于任何商业用途。
-2. 本软件处于开发测试阶段，可能存在功能缺陷、安全漏洞等未发现问题，使用者需自行承担使用过程中的所有风险。
-3. 因使用本软件产生的任何直接或间接损失，包括但不限于数据丢失、系统损坏、业务中断等，软件开发者不承担任何责任。
-4. 严禁将本软件用于违反国家法律法规、侵犯第三方合法权益的活动，违规使用产生的一切法律责任由使用者自行承担。</value>
-  </data>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>98, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>210, 17</value>
+  </metadata>
 </root>

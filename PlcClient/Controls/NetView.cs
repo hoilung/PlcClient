@@ -19,6 +19,7 @@ namespace PlcClient.Controls
             this.net2Server1.Msg += Net_Msg;
             this.webClient1.Msg += Net_Msg;
             this.webSocketServer1.Msg += Net_Msg;
+            this.netstat1.Msg += Net_Msg;
         }     
 
         private void Net_Msg(string obj)

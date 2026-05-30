@@ -1,7 +1,6 @@
 ﻿using HL.Object.Extensions;
 using HL.OpcDa;
 using NewLife.Log;
-using NewLife.Reflection;
 using Opc;
 using PlcClient.Handler;
 using PlcClient.Model;
@@ -12,7 +11,6 @@ using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
@@ -25,12 +23,14 @@ namespace PlcClient.Controls
         private OpcDaDriver Opc;
         private ListViewHandler<Model.OpcDaVM> lvwHandler;
         private Dictionary<string, int> _cache = new Dictionary<string, int>();
-
-        private Dictionary<string, Specification> comDa = new Dictionary<string, Specification>();      
+        private Dictionary<string, Specification> comDa = new Dictionary<string, Specification>();
+        private List<KeyValuePair<string, Server>> serverData = new List<KeyValuePair<string, Server>>();
+        private BindingSource serverBindingSource = new BindingSource();
         public OpcDa()
         {
             InitializeComponent();
-            tbx_ip.Text = GetLocalIP();
+            cbx_ip.Items.AddRange(GetLocalAllIP());
+            cbx_ip.SelectedIndex = 0;
             lv_data.Columns.Clear();
             lvwHandler = new ListViewHandler<OpcDaVM>(lv_data);
             lvwHandler.SetupVirtualMode();
@@ -41,19 +41,50 @@ namespace PlcClient.Controls
             comDa.Add("1.0", Specification.COM_DA_10);
             comDa.Add("2.0", Specification.COM_DA_20);
             comDa.Add("3.0", Specification.COM_DA_30);
-            var bs=new BindingSource();
-            bs.DataSource=comDa;
+            var bs = new BindingSource();
+            bs.DataSource = comDa;
             cbx_com.DataSource = bs;
             cbx_com.DisplayMember = "Key";
             cbx_com.ValueMember = "Value";
             cbx_com.SelectedIndex = 1;
-            
+            //server            
+            serverBindingSource.DataSource = serverData;
+            cbx_servername.DataSource = serverBindingSource;
+            cbx_servername.DisplayMember = "Key";
+            cbx_servername.ValueMember = "Value";
+            cbx_servername.DrawMode = DrawMode.OwnerDrawFixed;
+            cbx_servername.DrawItem += (s, e) =>
+            {
+                // 绘制背景
+                e.DrawBackground();
+
+                //  绘制列表项目
+                e.Graphics.DrawString(serverData[e.Index].Key, e.Font, Brushes.Black, e.Bounds);
+
+                //  将高亮的列表项目的文字传递到toolTip1(之前建立ToolTip的一个实例)
+                if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+                {
+                    if (cbx_servername.SelectedIndex >= 0 && cbx_servername.SelectedValue is Server item)
+                    {
+                        var tooltipText = $"名称：{item.Name}\n地址：{item.Url?.ToString() ?? "未知"}";
+                        _comboBoxToolTip.Show(tooltipText, cbx_servername, e.Bounds.X + e.Bounds.Width,
+                            e.Bounds.Y + e.Bounds.Height);
+                    }
+                }
+
+                e.DrawFocusRectangle();
+            };
+            cbx_servername.DropDownClosed += (s, d) =>
+            {
+                _comboBoxToolTip.Hide(cbx_servername);
+            };
+          
         }
 
-
+        private readonly ToolTip _comboBoxToolTip = new ToolTip();
         private void btn_open_Click(object sender, EventArgs e)
         {
-            var ip = tbx_ip.Text.Trim();
+            var ip = cbx_ip.Text.Trim();
             var name = cbx_servername.Text.Trim();
             if (!Regex.IsMatch(ip, AppConfig.IPVerdify) || string.IsNullOrEmpty(name))
             {
@@ -71,6 +102,10 @@ namespace PlcClient.Controls
             string opcAddress = $"opcda://{ip}/{name}";
             try
             {
+                if (cbx_servername.SelectedValue is Server server)
+                {
+                    opcAddress = server.Url.ToString();
+                }
                 Opc.Open(opcAddress);
                 ChangeState(Opc.Server.IsConnected);
                 OnMsg($"OpcDa连接{(Opc.Server.IsConnected ? "成功" : "失败")} {opcAddress}");
@@ -105,7 +140,7 @@ namespace PlcClient.Controls
         {
             try
             {
-                var ip = tbx_ip.Text.Trim();
+                var ip = cbx_ip.Text.Trim();
                 if (!Regex.IsMatch(ip, AppConfig.IPVerdify))
                 {
                     MessageBox.Show("非有效的IP地址", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -119,18 +154,41 @@ namespace PlcClient.Controls
                         return;
                     }
                 }
-                
-                var comda = (Specification)cbx_com.SelectedValue;                
-                var server = m_discovery.GetAvailableServers2(comda, ip, new ConnectData(new System.Net.NetworkCredential()));
-                //var server = m_discovery.GetAvailableServers(Specification.COM_DA_20, ip, new ConnectData(new System.Net.NetworkCredential()));
-                cbx_servername.Items.Clear();
-
+                var nc = new System.Net.NetworkCredential();
+                if (!GetLocalAllIP().Contains(ip)) //非本地ip的提示设置网络凭证
+                {
+                    if (MessageBox.Show("是否设置NetworkCredential", "NetworkCredential", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        //new form
+                        var form = new Form();
+                        form.Size = new Size(400, 200);
+                        form.StartPosition = FormStartPosition.CenterParent;
+                        form.MinimizeBox = false;
+                        form.MaximizeBox = false;
+                        form.FormBorderStyle = FormBorderStyle.FixedSingle;
+                        var opcDaCredential = new OpcDaCredential();
+                        form.Controls.Add(opcDaCredential);
+                        if (form.ShowDialog(this) == DialogResult.Yes)
+                        {
+                            var model = opcDaCredential.GetModel();
+                            nc.UserName = model.UserName;
+                            nc.Password = model.Password;
+                            nc.Domain = model.Domain;
+                        }
+                    }
+                }
+                var comda = (Specification)cbx_com.SelectedValue;
+                var server = m_discovery.GetAvailableServers(comda, ip, new ConnectData(nc));
+                serverData.Clear();
                 if (server != null)
                 {
-                    for (int i = 0; i < server.Length; i++)
+                    foreach (var item in server)
                     {
-                        cbx_servername.Items.Add(server[i].ProgId);
+                        XTrace.Log.Info(item.Url.ToString());
+                        serverData.Add(new KeyValuePair<string, Server>(item.Url.Path.Split('/')[0], item));
                     }
+                    serverBindingSource.ResetBindings(false);
+                    //(cbx_servername.DataSource as BindingSource).ResetBindings(false);
                     cbx_servername.SelectedIndex = 0;
                     OnMsg($"OPC {comda} 服务名称获取成功,{ip} 数量 {server.Length} 个");
                 }
@@ -141,7 +199,8 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show("提示：非本地服务器请尝试一下方案\r\n1. 添加或同步windows凭证\r\n2. 以指定opc账号运行软件" + ex.Message, "获取服务器名称失败");
+                XTrace.WriteException(ex);
+                MessageBox.Show($"提示：非本地服务请尝试一下方案\r\n1. 添加或同步windows凭证\r\n2. 以指定opc账号运行软件\r\n{ex.Message}", "获取服务器名称失败");
             }
 
         }
@@ -251,15 +310,7 @@ namespace PlcClient.Controls
                     Opc.CreateSubscription("default", 250);
                     Opc.SubDataChange += Opc_SubDataChange;
                     OnMsg("已开启数据订阅，变更数据自动刷新");
-                    //var subList = new List<PointItem>();
-                    //for (int i = 0; i < lv_data.Items.Count; i++)
-                    //{
-                    //    if (lv_data.Items[i].Tag is PointItem item)
-                    //    {
-                    //        subList.Add(item);
-                    //    }
 
-                    //}
                     var sublist = lvwHandler.Data.Select(m => new PointItem() { Address = m.Tag }).ToArray();
                     Opc.AddItemSubscription("default", sublist);
                 }

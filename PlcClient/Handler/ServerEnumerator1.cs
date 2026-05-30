@@ -231,12 +231,12 @@ namespace OpcCom
 
     public partial class ServerEnumerator1
     {
-        public ServerDescription[] GetAvailableServers2(Specification specification)
+        public ServerDescription[] GetServerDescriptions(Specification specification)
         {
-            return GetAvailableServers2(specification, null, null);
+            return GetServerDescriptions(specification, null, null);
         }
 
-        public ServerDescription[] GetAvailableServers2(Specification specification, string host, ConnectData connectData)
+        public ServerDescription[] GetServerDescriptions(Specification specification, string host, ConnectData connectData)
         {
             lock (this)
             {

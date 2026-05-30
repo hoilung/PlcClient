@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PLCSafeConfirm));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.cbx_isread = new System.Windows.Forms.CheckBox();
             this.btn_cancel = new System.Windows.Forms.Button();
@@ -41,18 +42,19 @@
             this.richTextBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.richTextBox1.Location = new System.Drawing.Point(3, 3);
             this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(444, 147);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "注意事项：\n1. 本软件仅限于测试学习模拟使用。\n2. 真实生产环境可能复杂多变，请谨慎使用！！！\n3. 真实生产环境涉及安全问题，请谨慎使用！！！";
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // cbx_isread
             // 
             this.cbx_isread.AutoSize = true;
             this.cbx_isread.Location = new System.Drawing.Point(3, 156);
             this.cbx_isread.Name = "cbx_isread";
-            this.cbx_isread.Size = new System.Drawing.Size(264, 16);
+            this.cbx_isread.Size = new System.Drawing.Size(300, 16);
             this.cbx_isread.TabIndex = 1;
-            this.cbx_isread.Text = "我已经阅读以上内容，我是专业的，我要使用";
+            this.cbx_isread.Text = "我已经阅读以上内容，我具备专业的能力，我要使用";
             this.cbx_isread.UseVisualStyleBackColor = true;
             // 
             // btn_cancel

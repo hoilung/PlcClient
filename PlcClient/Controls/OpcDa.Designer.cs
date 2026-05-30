@@ -30,13 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbx_ip = new System.Windows.Forms.ComboBox();
             this.cbx_com = new System.Windows.Forms.ComboBox();
             this.btn_getname = new System.Windows.Forms.Button();
             this.cbx_servername = new System.Windows.Forms.ComboBox();
             this.btn_close = new System.Windows.Forms.Button();
             this.btn_open = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tbx_ip = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_BrowseView = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -59,6 +58,7 @@
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.export_ExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -67,13 +67,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbx_ip);
             this.groupBox1.Controls.Add(this.cbx_com);
             this.groupBox1.Controls.Add(this.btn_getname);
             this.groupBox1.Controls.Add(this.cbx_servername);
             this.groupBox1.Controls.Add(this.btn_close);
             this.groupBox1.Controls.Add(this.btn_open);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.tbx_ip);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
@@ -82,6 +82,14 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "OPC DA 设置";
+            // 
+            // cbx_ip
+            // 
+            this.cbx_ip.FormattingEnabled = true;
+            this.cbx_ip.Location = new System.Drawing.Point(43, 19);
+            this.cbx_ip.Name = "cbx_ip";
+            this.cbx_ip.Size = new System.Drawing.Size(112, 20);
+            this.cbx_ip.TabIndex = 10;
             // 
             // cbx_com
             // 
@@ -112,7 +120,7 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(685, 18);
+            this.btn_close.Location = new System.Drawing.Point(683, 18);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 5;
@@ -122,30 +130,13 @@
             // 
             // btn_open
             // 
-            this.btn_open.Location = new System.Drawing.Point(604, 18);
+            this.btn_open.Location = new System.Drawing.Point(602, 18);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
             this.btn_open.TabIndex = 4;
             this.btn_open.Text = "连接";
             this.btn_open.UseVisualStyleBackColor = true;
             this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(161, 23);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "服务名";
-            // 
-            // tbx_ip
-            // 
-            this.tbx_ip.Location = new System.Drawing.Point(43, 19);
-            this.tbx_ip.Name = "tbx_ip";
-            this.tbx_ip.Size = new System.Drawing.Size(112, 21);
-            this.tbx_ip.TabIndex = 1;
-            this.tbx_ip.Text = "127.0.0.1";
             // 
             // label1
             // 
@@ -198,7 +189,7 @@
             // 
             // btn_write
             // 
-            this.btn_write.Location = new System.Drawing.Point(522, 20);
+            this.btn_write.Location = new System.Drawing.Point(521, 20);
             this.btn_write.Name = "btn_write";
             this.btn_write.Size = new System.Drawing.Size(75, 23);
             this.btn_write.TabIndex = 7;
@@ -341,6 +332,15 @@
             this.clearlistToolStripMenuItem.Text = "清空列表";
             this.clearlistToolStripMenuItem.Click += new System.EventHandler(this.clearlistToolStripMenuItem_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(161, 23);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "服务名";
+            // 
             // OpcDa
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -362,11 +362,9 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox tbx_ip;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.Button btn_open;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
         private ListViewEx lv_data;
         private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -391,5 +389,7 @@
         private System.Windows.Forms.Button btn_write;
         private System.Windows.Forms.CheckBox chk_enablewrite;
         private System.Windows.Forms.ComboBox cbx_com;
+        private System.Windows.Forms.ComboBox cbx_ip;
+        private System.Windows.Forms.Label label2;
     }
 }

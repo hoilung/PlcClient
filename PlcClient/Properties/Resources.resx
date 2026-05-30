@@ -118,40 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ab.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ab_tip" xml:space="preserve">
-    <value>说明：
-当前协议：CIP
-1、批量读取，一行一个地址
-2、必须指定标签对应的PLC地址类型
-3、地址和PLC类型用tab键盘隔开
-4、数组型标签用中括号加下标取第几个
-5、BOOL数组类型不支持单个下标读取
-
-参考系统DI、DO点数组读取
-
-Local:1:I.Data bool
-Local:1:O.Data bool
-
-参考标签/PLC类型示例如下：
-
-B	Bool
-C	Int
-D	DInt
-F	Real
-C1[1]	Int
-F1[1]	Real</value>
-  </data>
-  <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="DaHua" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DaHua.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
-  <data name="ge" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ge.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="tv_struct" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\struct.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ge_tip" xml:space="preserve">
     <value>说明：
@@ -179,26 +150,38 @@ AQ601
 R500	REAL
 M500	DWORD</value>
   </data>
-  <data name="hikvision" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hikvision.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
-  </data>
-  <data name="Internet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Internet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Internet Explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Internet Explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="onvif" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\onvif.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
+  <data name="Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Root_Server" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Root Server.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Trash_Can" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Trash Can.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="onvif_device_service" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\onvif_device_service.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
-  <data name="opc" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\opc.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Internet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Internet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="oui" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oui.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="Puzzle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Puzzle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Done" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Done.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -219,17 +202,40 @@ DB2.DBW200	Int
 DB3.DBD300	Real
 DB3.DBD400	DWord</value>
   </data>
-  <data name="Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Video_Call" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Video Call.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Root_Server" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Root Server.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Services" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Services.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Search_in_List" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Search in List.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ab.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="siemens" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\siemens.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="hikvision" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hikvision.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="ab_tip" xml:space="preserve">
+    <value>说明：
+当前协议：CIP
+1、批量读取，一行一个地址
+2、必须指定标签对应的PLC地址类型
+3、地址和PLC类型用tab键盘隔开
+4、数组型标签用中括号加下标取第几个
+5、BOOL数组类型不支持单个下标读取
+
+参考系统DI、DO点数组读取
+
+Local:1:I.Data bool
+Local:1:O.Data bool
+
+参考标签/PLC类型示例如下：
+
+B	Bool
+C	Int
+D	DInt
+F	Real
+C1[1]	Int
+F1[1]	Real</value>
   </data>
   <data name="smz_tip" xml:space="preserve">
     <value>说明：
@@ -255,8 +261,8 @@ DB3.DBD400	DWord</value>
  | DWord	| UInt32(UInt)	|
  |------------------------------|</value>
   </data>
-  <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Search_in_List" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Search in List.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RSTP_TPL" xml:space="preserve">
     <value>RTSP协议参考地址格式,请选择对应品牌修改对应IP的【账号】:【密码】后使用
@@ -297,25 +303,43 @@ DB3.DBD400	DWord</value>
 子码流：rtsp://username:password@IP:554/mpeg4cif</value>
     <comment>rtsp格式说明</comment>
   </data>
-  <data name="Thin_Client" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Thin Client.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Trash_Can" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Trash Can.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ge.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="XLS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\XLS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tv_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\array.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="tv_struct" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\struct.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="siemens" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\siemens.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Share" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Share.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Internet Explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Internet Explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Thin_Client" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Thin Client.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tv_tag" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tag.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Video_Call" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Video Call.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="opc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\opc.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="XLS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\XLS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="oui" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oui.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Opened Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Opened Folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -103,6 +103,18 @@
     <Compile Include="Controls\DeviceDiscover.Designer.cs">
       <DependentUpon>DeviceDiscover.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Netstat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Netstat.Designer.cs">
+      <DependentUpon>Netstat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OpcDaCredential.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OpcDaCredential.Designer.cs">
+      <DependentUpon>OpcDaCredential.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\VideoView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -185,6 +197,7 @@
       <DependentUpon>SiemensPLC.cs</DependentUpon>
     </Compile>
     <Compile Include="Handler\ArpHandler.cs" />
+    <Compile Include="Handler\ProcessHandler.cs" />
     <Compile Include="Handler\ServerEnumerator1.cs" />
     <Compile Include="Handler\DeviceHandler.cs" />
     <Compile Include="Handler\DirectoryHelper.cs" />
@@ -230,6 +243,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DeviceDiscover.resx">
       <DependentUpon>DeviceDiscover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Netstat.resx">
+      <DependentUpon>Netstat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OpcDaCredential.resx">
+      <DependentUpon>OpcDaCredential.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\VideoView.resx">
       <DependentUpon>VideoView.cs</DependentUpon>
@@ -365,7 +384,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <Content Include="Resources\Close.png" />
+    <Content Include="Resources\Copy.png" />
     <Content Include="Resources\DaHua.txt" />
+    <Content Include="Resources\Done.png" />
+    <Content Include="Resources\Internet Explorer.png" />
+    <None Include="Resources\Puzzle.png" />
+    <None Include="Resources\Opened Folder.png" />
+    <Content Include="Resources\Search.png" />
+    <Content Include="Resources\Services.png" />
+    <Content Include="Resources\Settings.png" />
+    <Content Include="Resources\Share.png" />
     <None Include="Resources\Video Call.png" />
     <None Include="Resources\oui.txt" />
     <None Include="Resources\onvif_device_service.xml" />

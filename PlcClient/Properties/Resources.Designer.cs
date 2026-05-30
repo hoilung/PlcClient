@@ -102,6 +102,16 @@ namespace PlcClient.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Close {
+            get {
+                object obj = ResourceManager.GetObject("Close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Copy {
             get {
                 object obj = ResourceManager.GetObject("Copy", resourceCulture);
@@ -115,6 +125,16 @@ namespace PlcClient.Properties {
         internal static string DaHua {
             get {
                 return ResourceManager.GetString("DaHua", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Done {
+            get {
+                object obj = ResourceManager.GetObject("Done", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -224,20 +244,30 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 28-6F-B9|Nokia Shanghai Bell Co., Ltd.
-        ///08-EA-44|Extreme Networks Headquarters
-        ///F4-EA-B5|Extreme Networks Headquarters
-        ///B8-7C-F2|Extreme Networks Headquarters
-        ///E0-A1-29|Extreme Networks Headquarters
-        ///A8-C6-47|Extreme Networks Headquarters
-        ///A4-73-AB|Extreme Networks Headquarters
-        ///0C-9B-78|Extreme Networks Headquarters
-        ///A4-C7-F6|Extreme Networks Headquarters
-        ///B4-2D-56|Extreme Networks Headquarters
-        ///88-7E-25|Extreme Networks Headquarters
-        ///00-19-77|Extreme Networks Headquarters
-        ///38-E2-CA|Katun Corporation
-        ///B0-5 [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Opened_Folder {
+            get {
+                object obj = ResourceManager.GetObject("Opened Folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 oui,manufacturer
+        ///28:6F:B9,&quot;Nokia Shanghai Bell Co., Ltd.&quot;
+        ///08:EA:44,Extreme Networks Headquarters
+        ///F4:EA:B5,Extreme Networks Headquarters
+        ///B8:7C:F2,Extreme Networks Headquarters
+        ///E0:A1:29,Extreme Networks Headquarters
+        ///A8:C6:47,Extreme Networks Headquarters
+        ///A4:73:AB,Extreme Networks Headquarters
+        ///0C:9B:78,Extreme Networks Headquarters
+        ///A4:C7:F6,Extreme Networks Headquarters
+        ///B4:2D:56,Extreme Networks Headquarters
+        ///88:7E:25,Extreme Networks Headquarters
+        ///00:19:77,Extreme Networks Headquarters
+        ///38:E2:CA,Kat [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string oui {
             get {
@@ -273,6 +303,16 @@ namespace PlcClient.Properties {
         internal static System.Drawing.Bitmap Play {
             get {
                 object obj = ResourceManager.GetObject("Play", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Puzzle {
+            get {
+                object obj = ResourceManager.GetObject("Puzzle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -323,9 +363,49 @@ namespace PlcClient.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap Search {
+            get {
+                object obj = ResourceManager.GetObject("Search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Search_in_List {
             get {
                 object obj = ResourceManager.GetObject("Search_in_List", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Services {
+            get {
+                object obj = ResourceManager.GetObject("Services", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Settings {
+            get {
+                object obj = ResourceManager.GetObject("Settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Share {
+            get {
+                object obj = ResourceManager.GetObject("Share", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

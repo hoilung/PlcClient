@@ -18,9 +18,8 @@ namespace PlcClient
         public Main()
         {
             InitializeComponent();
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-
-            this.Text = this.ProductName + " v" + this.ProductVersion;
+            tableLayoutPanel1.Dock = DockStyle.Fill;                        
+            this.Text = string.Format("{0} - v{1} - {2} - {3}", this.ProductName, this.ProductVersion, Environment.Is64BitProcess?"x64":"x86", Handler.ProcessHandler.Instance.IsAdministrator ? "以管理员身份运行" : "以非管理员身份运行");
             this.Load += Form1_Load;
             this.StartPosition = FormStartPosition.CenterScreen;
 

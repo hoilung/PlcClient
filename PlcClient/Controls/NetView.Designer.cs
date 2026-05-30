@@ -36,15 +36,18 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.net2Server1 = new PlcClient.Controls.Net2Server();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.webClient1 = new PlcClient.Controls.WebClient();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.webSocketServer1 = new PlcClient.Controls.WebSocketServer();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.netstat1 = new PlcClient.Controls.Netstat();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.webClient1 = new PlcClient.Controls.WebClient();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -53,6 +56,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImageList = this.imageList1;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -131,6 +135,27 @@
             this.tabPage3.Text = "Web客户端";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // webClient1
+            // 
+            this.webClient1.Address = "ws://127.0.0.1:7000/ws";
+            this.webClient1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webClient1.Location = new System.Drawing.Point(3, 3);
+            this.webClient1.Name = "webClient1";
+            this.webClient1.SendCount = 1;
+            this.webClient1.SendData = "Hello!";
+            this.webClient1.SendInterval = 1000;
+            this.webClient1.Size = new System.Drawing.Size(696, 397);
+            this.webClient1.TabIndex = 0;
+            this.webClient1.TypeCodes = new System.TypeCode[] {
+        System.TypeCode.Boolean,
+        System.TypeCode.Byte,
+        System.TypeCode.Int16,
+        System.TypeCode.Int32,
+        System.TypeCode.Single,
+        System.TypeCode.Double,
+        System.TypeCode.UInt16,
+        System.TypeCode.UInt32};
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.webSocketServer1);
@@ -169,33 +194,33 @@
         System.TypeCode.UInt16,
         System.TypeCode.UInt32};
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.netstat1);
+            this.tabPage5.ImageIndex = 2;
+            this.tabPage5.Location = new System.Drawing.Point(4, 23);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(702, 403);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "网络进程";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // netstat1
+            // 
+            this.netstat1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.netstat1.Location = new System.Drawing.Point(3, 3);
+            this.netstat1.Name = "netstat1";
+            this.netstat1.Size = new System.Drawing.Size(696, 397);
+            this.netstat1.TabIndex = 0;
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "Thin Client.png");
             this.imageList1.Images.SetKeyName(1, "Root Server.png");
-            // 
-            // webClient1
-            // 
-            this.webClient1.Address = "ws://127.0.0.1:7000/ws";
-            this.webClient1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webClient1.Location = new System.Drawing.Point(3, 3);
-            this.webClient1.Name = "webClient1";
-            this.webClient1.SendCount = 1;
-            this.webClient1.SendData = "Hello!";
-            this.webClient1.SendInterval = 1000;
-            this.webClient1.Size = new System.Drawing.Size(696, 397);
-            this.webClient1.TabIndex = 0;
-            this.webClient1.TypeCodes = new System.TypeCode[] {
-        System.TypeCode.Boolean,
-        System.TypeCode.Byte,
-        System.TypeCode.Int16,
-        System.TypeCode.Int32,
-        System.TypeCode.Single,
-        System.TypeCode.Double,
-        System.TypeCode.UInt16,
-        System.TypeCode.UInt32};
+            this.imageList1.Images.SetKeyName(2, "Services.png");
             // 
             // NetView
             // 
@@ -208,6 +233,7 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -224,5 +250,7 @@
         private System.Windows.Forms.TabPage tabPage4;
         private WebSocketServer webSocketServer1;
         private WebClient webClient1;
+        private System.Windows.Forms.TabPage tabPage5;
+        private Netstat netstat1;
     }
 }

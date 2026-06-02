@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
@@ -131,7 +132,7 @@ namespace PlcClient.Handler
 
                         }
                     }
-                    else
+                    else if (processName== "System")
                     {
                         nci.Description = "核心系统进程";
                     }
@@ -140,6 +141,88 @@ namespace PlcClient.Handler
             }
 
             return list;
+        }
+        public List<ProcessPortInfo> GetTcpConnectionsUsingNetworkInfo(NetStatEnum netStatEnum = NetStatEnum.TCPConnect)
+        {
+            var connections = new List<ProcessPortInfo>();
+            int id = 0;
+
+            try
+            {
+                var properties = IPGlobalProperties.GetIPGlobalProperties();
+
+                if (netStatEnum == NetStatEnum.TCPConnect)
+                {
+                    // 获取活动的 TCP 连接
+                    var tcpConnections = properties.GetActiveTcpConnections();
+
+                    foreach (var conn in tcpConnections)
+                    {
+                        var connectionInfo = new ProcessPortInfo
+                        {
+                            ID = ++id,
+                            Protocol = "TCP",
+                            LocalAddress = $"{conn.LocalEndPoint.Address}:{conn.LocalEndPoint.Port}",
+                            RemoteAddress = $"{conn.RemoteEndPoint?.Address?.ToString() ?? "0.0.0.0"}:{conn.RemoteEndPoint?.Port ?? 0}",
+                            State = conn.State.ToString(),
+                            ProcessId = 0, // NetworkInformation 不提供 PID 信息
+                            ProcessName = "N/A", // 不提供进程信息
+                            ProcessPath = "N/A", // 不提供进程路径
+                            CreatedTime = "N/A", // 不提供创建时间
+                            Description = "非管理员运行显示进程信息"
+                        };
+
+                        connections.Add(connectionInfo);
+                    }
+                }
+
+                if (netStatEnum == NetStatEnum.TCPListen || netStatEnum == NetStatEnum.TCPConnect)
+                {
+                    // 获取监听的 TCP 端口
+                    var listeners = properties.GetActiveTcpListeners();
+
+                    foreach (var listener in listeners)
+                    {
+                        var listenerInfo = new ProcessPortInfo
+                        {
+                            ID = ++id,
+                            Protocol = "TCP",
+                            LocalAddress = $"{listener.Address}:{listener.Port}",
+                            RemoteAddress = "0.0.0.0:0", // 监听端口没有远程地址
+                            State = "LISTENING",
+                            ProcessId = 0, // NetworkInformation 不提供 PID 信息
+                            ProcessName = "N/A", // 不提供进程信息
+                            ProcessPath = "N/A", // 不提供进程路径
+                            CreatedTime = "N/A", // 不提供创建时间
+                            Description = "非管理员运行不显示进程信息"
+                        };
+
+                        connections.Add(listenerInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XTrace.WriteException(ex);
+                // 返回空列表或记录错误信息
+                var errorInfo = new ProcessPortInfo
+                {
+                    ID = ++id,
+                    Protocol = "ERROR",
+                    LocalAddress = "N/A",
+                    RemoteAddress = "N/A",
+                    State = "ERROR",
+                    ProcessId = 0,
+                    ProcessName = "API Error",
+                    ProcessPath = "N/A",
+                    CreatedTime = "N/A",
+                    Description = $"获取网络连接信息失败: {ex.Message}"
+                };
+
+                connections.Add(errorInfo);
+            }
+
+            return connections;
         }
 
 

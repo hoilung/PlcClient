@@ -41,17 +41,23 @@ namespace PlcClient.Controls
                     contextMenuStrip1.Show(listViewEx1, e.X, e.Y);
                 }
             };
+            if (!ProcessHandler.Instance.IsAdministrator)
+            {
+                this.toolStripCheckBox1.Enabled = false;
+                this.toolStripCheckBox1.ToolTipText = "非管理员运行无法查看进程信息";
+            }
 
         }
 
         private void ts_btn_search_Click(object sender, EventArgs e)
         {
             viewHandler.Clear();
+            var isAdmin = toolStripCheckBox1.Checked;
             if (ts_cbx_type.ComboBox.SelectedValue is NetStatEnum _type)
             {
                 Task.Factory.StartNew(() =>
                 {
-                    var list = Handler.ProcessHandler.Instance.GetListenPort(_type);
+                    var list = isAdmin ? Handler.ProcessHandler.Instance.GetListenPort(_type) : Handler.ProcessHandler.Instance.GetTcpConnectionsUsingNetworkInfo(_type);
                     this.Invoke(() =>
                     {
                         viewHandler.LoadAdd(list);
@@ -109,7 +115,7 @@ namespace PlcClient.Controls
                         var item = viewHandler[id].ProcessPath;
                         if (!item.IsNullOrEmpty() && File.Exists(item))
                         {
-                            Process.Start("explorer.exe",$"/select,{item}");                           
+                            Process.Start("explorer.exe", $"/select,{item}");
 
                         }
                     }

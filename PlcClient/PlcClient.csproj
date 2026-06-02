@@ -115,6 +115,9 @@
     <Compile Include="Controls\OpcDaCredential.Designer.cs">
       <DependentUpon>OpcDaCredential.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ToolStripCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\VideoView.cs">
       <SubType>UserControl</SubType>
     </Compile>

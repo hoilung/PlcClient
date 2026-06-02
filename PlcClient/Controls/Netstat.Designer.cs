@@ -36,6 +36,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ts_btn_export = new System.Windows.Forms.ToolStripButton();
             this.ts_btn_clear = new System.Windows.Forms.ToolStripButton();
+            this.toolStripCheckBox1 = new PlcClient.Controls.ToolStripCheckBox();
             this.listViewEx1 = new PlcClient.Controls.ListViewEx();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyselectrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +54,7 @@
             this.ts_cbx_type,
             this.ts_btn_search,
             this.toolStripSeparator1,
+            this.toolStripCheckBox1,
             this.ts_btn_export,
             this.ts_btn_clear});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -105,6 +107,13 @@
             this.ts_btn_clear.Size = new System.Drawing.Size(76, 22);
             this.ts_btn_clear.Text = "清空列表";
             this.ts_btn_clear.Click += new System.EventHandler(this.ts_btn_clear_Click);
+            // 
+            // toolStripCheckBox1
+            // 
+            this.toolStripCheckBox1.Checked = false;
+            this.toolStripCheckBox1.Name = "toolStripCheckBox1";
+            this.toolStripCheckBox1.Size = new System.Drawing.Size(79, 22);
+            this.toolStripCheckBox1.Text = "显示进程";
             // 
             // listViewEx1
             // 
@@ -184,5 +193,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem copyselectrowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openselectrowToolStripMenuItem;
+        private ToolStripCheckBox toolStripCheckBox1;
     }
 }

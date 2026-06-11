@@ -22,6 +22,7 @@ namespace PlcClient.Controls
             tbx_username.DataBindings.Add("Text", this.Model, nameof(this.Model.UserName));
             tbx_password.DataBindings.Add("Text", this.Model, nameof(this.Model.Password));
             tbx_domain.DataBindings.Add("Text", this.Model, nameof(this.Model.Domain));
+            tbx_username.Focus();
         }
         protected override void OnLoad(EventArgs e)
         {

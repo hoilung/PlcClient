@@ -61,7 +61,7 @@
             this.tbx_domain.Location = new System.Drawing.Point(96, 93);
             this.tbx_domain.Name = "tbx_domain";
             this.tbx_domain.Size = new System.Drawing.Size(126, 21);
-            this.tbx_domain.TabIndex = 2;
+            this.tbx_domain.TabIndex = 3;
             // 
             // tbx_password
             // 
@@ -75,7 +75,7 @@
             this.tbx_username.Location = new System.Drawing.Point(96, 29);
             this.tbx_username.Name = "tbx_username";
             this.tbx_username.Size = new System.Drawing.Size(126, 21);
-            this.tbx_username.TabIndex = 2;
+            this.tbx_username.TabIndex = 1;
             // 
             // label3
             // 
@@ -109,7 +109,7 @@
             this.btn_ok.Location = new System.Drawing.Point(245, 91);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(75, 23);
-            this.btn_ok.TabIndex = 0;
+            this.btn_ok.TabIndex = 4;
             this.btn_ok.Text = "确定";
             this.btn_ok.UseVisualStyleBackColor = true;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);

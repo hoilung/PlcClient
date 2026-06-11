@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -78,7 +79,7 @@ namespace PlcClient.Controls
             {
                 _comboBoxToolTip.Hide(cbx_servername);
             };
-          
+
         }
 
         private readonly ToolTip _comboBoxToolTip = new ToolTip();
@@ -113,7 +114,7 @@ namespace PlcClient.Controls
             catch (Exception ex)
             {
                 XTrace.WriteException(ex);
-                MessageBox.Show(ex.Message, "连接服务器失败");
+                MessageBox.Show($"{ex.Message}\r\n\r\n{ex.InnerException.Message}", "连接服务器失败",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
@@ -154,13 +155,20 @@ namespace PlcClient.Controls
                         return;
                     }
                 }
-                var nc = new System.Net.NetworkCredential();
-                if (!GetLocalAllIP().Contains(ip)) //非本地ip的提示设置网络凭证
+                Server[] servers = null;
+                var comda = (Specification)cbx_com.SelectedValue;
+                try
                 {
-                    if (MessageBox.Show("是否设置NetworkCredential", "NetworkCredential", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    servers = m_discovery.GetAvailableServers(comda, ip, null);
+                }
+                catch (Exception ex)
+                {
+                    if (MessageBox.Show($"{ex.Message}\r\n是否尝试设置NetworkCredential", "NetworkCredential", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     {
+                        var nc = new System.Net.NetworkCredential();
                         //new form
                         var form = new Form();
+                        form.Text = "IDENTITY";
                         form.Size = new Size(400, 200);
                         form.StartPosition = FormStartPosition.CenterParent;
                         form.MinimizeBox = false;
@@ -175,14 +183,13 @@ namespace PlcClient.Controls
                             nc.Password = model.Password;
                             nc.Domain = model.Domain;
                         }
+                        servers = m_discovery.GetAvailableServers(comda, ip, new ConnectData(nc));
                     }
-                }
-                var comda = (Specification)cbx_com.SelectedValue;
-                var server = m_discovery.GetAvailableServers(comda, ip, new ConnectData(nc));
+                }                
                 serverData.Clear();
-                if (server != null)
+                if (servers != null && servers.Length > 0)
                 {
-                    foreach (var item in server)
+                    foreach (var item in servers)
                     {
                         XTrace.Log.Info(item.Url.ToString());
                         serverData.Add(new KeyValuePair<string, Server>(item.Url.Path.Split('/')[0], item));
@@ -190,7 +197,7 @@ namespace PlcClient.Controls
                     serverBindingSource.ResetBindings(false);
                     //(cbx_servername.DataSource as BindingSource).ResetBindings(false);
                     cbx_servername.SelectedIndex = 0;
-                    OnMsg($"OPC {comda} 服务名称获取成功,{ip} 数量 {server.Length} 个");
+                    OnMsg($"OPC {comda} 服务名称获取成功,{ip} 数量 {servers.Length} 个");
                 }
                 else
                 {

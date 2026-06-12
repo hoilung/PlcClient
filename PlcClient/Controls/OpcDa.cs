@@ -114,7 +114,7 @@ namespace PlcClient.Controls
             catch (Exception ex)
             {
                 XTrace.WriteException(ex);
-                MessageBox.Show($"{ex.Message}\r\n\r\n{ex.InnerException.Message}", "连接服务器失败",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show($"{ex.Message}\r\n\r\n{ex.InnerException.Message}", "连接服务器失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -163,7 +163,7 @@ namespace PlcClient.Controls
                 }
                 catch (Exception ex)
                 {
-                    if (MessageBox.Show($"{ex.Message}\r\n是否尝试设置NetworkCredential", "NetworkCredential", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    if (!GetLocalAllIP().Contains(ip) && MessageBox.Show($"{ex.Message}\r\n是否尝试设置NetworkCredential", "NetworkCredential", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     {
                         var nc = new System.Net.NetworkCredential();
                         //new form
@@ -184,8 +184,9 @@ namespace PlcClient.Controls
                             nc.Domain = model.Domain;
                         }
                         servers = m_discovery.GetAvailableServers(comda, ip, new ConnectData(nc));
+                        cbx_servername.Tag=nc;
                     }
-                }                
+                }
                 serverData.Clear();
                 if (servers != null && servers.Length > 0)
                 {

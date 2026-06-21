@@ -164,5 +164,22 @@ namespace PlcClient
             frm_about.ShowDialog(this);
 
         }
+
+        private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm_about = new Form();
+            frm_about.StartPosition = FormStartPosition.CenterParent;
+            frm_about.Text = "检查更新";
+            frm_about.ShowIcon = false;
+            frm_about.Size = new Size(470, 300);
+            frm_about.MaximizeBox = false;
+            frm_about.MinimizeBox = false;
+            frm_about.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            UpdateDialog updateDialog = new UpdateDialog();
+            updateDialog.Dock = DockStyle.Fill;
+            frm_about.Controls.Add(updateDialog);
+            frm_about.ShowDialog(this);
+        }
     }
 }

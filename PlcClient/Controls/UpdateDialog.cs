@@ -216,7 +216,7 @@ namespace PlcClient.Controls
                 {
                     if (latestRelease != null)
                     {
-                        if (!IsUpdateAvailable(latestRelease) && latestRelease.assets.Length > 0 && !string.IsNullOrEmpty(latestRelease.assets[0].browser_download_url))
+                        if (IsUpdateAvailable(latestRelease) && latestRelease.assets.Length > 0 && !string.IsNullOrEmpty(latestRelease.assets[0].browser_download_url))
                         {
                             rtb_body.Text = latestRelease.body;
                             btn_update.Enabled = true;

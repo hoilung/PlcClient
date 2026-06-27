@@ -324,6 +324,8 @@ namespace PlcClient.Controls
             progressBar1.Value = 0;
             for (int i = 0; i < tbx_num.Value; i++)
             {
+                if (!this.plc.Connected)
+                    break;
                 mutli_read();
                 progressBar1.PerformStep();
                 Delay((int)this.tbx_time.Value);

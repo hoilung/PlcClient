@@ -204,6 +204,8 @@ namespace PlcClient.Controls
             progressBar1.Value = 0;
             for (int j = 0; j < tbx_num.Value; j++)
             {
+                if (!SRTP.Connected)
+                    break;
                 stopwatch.Restart();
                 if ((int)numericUpDown1.Value > 0)
                     SRTP.ReadMultipleVars(array.ToArray(), (int)numericUpDown1.Value);

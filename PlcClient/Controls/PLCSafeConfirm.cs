@@ -11,8 +11,8 @@ namespace PlcClient.Controls
         {
             InitializeComponent();
 
-            cbx_isread.Text += $"（安全码：{AppConfig.Instance.SafeCode}）";
-            this.tbx_pwd.Enabled = btn_ok.Enabled = false;
+            lb_safe.Text += AppConfig.Instance.SafeCode;
+            lb_safe.Visible=this.tbx_pwd.Enabled = btn_ok.Enabled = false;
             this.cbx_isread.CheckedChanged += Cbx_isread_CheckedChanged;
 
             this.btn_ok.Click += Btn_ok_Click;
@@ -39,7 +39,8 @@ namespace PlcClient.Controls
 
         private void Cbx_isread_CheckedChanged(object sender, EventArgs e)
         {
-            this.tbx_pwd.Enabled = btn_ok.Enabled = cbx_isread.Checked;
+            lb_safe.Visible=this.tbx_pwd.Enabled = btn_ok.Enabled = cbx_isread.Checked;
+
         }
     }
 }

@@ -35,6 +35,7 @@
             this.tbx_pwd = new System.Windows.Forms.TextBox();
             this.btn_ok = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.lb_safe = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -50,16 +51,16 @@
             // cbx_isread
             // 
             this.cbx_isread.AutoSize = true;
-            this.cbx_isread.Location = new System.Drawing.Point(3, 156);
+            this.cbx_isread.Location = new System.Drawing.Point(5, 156);
             this.cbx_isread.Name = "cbx_isread";
-            this.cbx_isread.Size = new System.Drawing.Size(300, 16);
+            this.cbx_isread.Size = new System.Drawing.Size(408, 16);
             this.cbx_isread.TabIndex = 1;
-            this.cbx_isread.Text = "我已经阅读以上内容，我具备专业的能力，我要使用";
+            this.cbx_isread.Text = "已仔细阅读并完全同意上述全部免责条款，我具备专业的能力，我要使用";
             this.cbx_isread.UseVisualStyleBackColor = true;
             // 
             // btn_cancel
             // 
-            this.btn_cancel.Location = new System.Drawing.Point(345, 200);
+            this.btn_cancel.Location = new System.Drawing.Point(345, 210);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_cancel.TabIndex = 2;
@@ -68,14 +69,14 @@
             // 
             // tbx_pwd
             // 
-            this.tbx_pwd.Location = new System.Drawing.Point(62, 202);
+            this.tbx_pwd.Location = new System.Drawing.Point(62, 210);
             this.tbx_pwd.Name = "tbx_pwd";
             this.tbx_pwd.Size = new System.Drawing.Size(196, 21);
             this.tbx_pwd.TabIndex = 3;
             // 
             // btn_ok
             // 
-            this.btn_ok.Location = new System.Drawing.Point(264, 200);
+            this.btn_ok.Location = new System.Drawing.Point(264, 210);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(75, 23);
             this.btn_ok.TabIndex = 2;
@@ -85,16 +86,26 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 205);
+            this.label1.Location = new System.Drawing.Point(3, 215);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 4;
             this.label1.Text = "安全码：";
             // 
+            // lb_safe
+            // 
+            this.lb_safe.AutoSize = true;
+            this.lb_safe.Location = new System.Drawing.Point(3, 186);
+            this.lb_safe.Name = "lb_safe";
+            this.lb_safe.Size = new System.Drawing.Size(65, 12);
+            this.lb_safe.TabIndex = 4;
+            this.lb_safe.Text = "安全码：  ";
+            // 
             // PLCSafeConfirm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lb_safe);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbx_pwd);
             this.Controls.Add(this.btn_ok);
@@ -102,7 +113,7 @@
             this.Controls.Add(this.cbx_isread);
             this.Controls.Add(this.richTextBox1);
             this.Name = "PLCSafeConfirm";
-            this.Size = new System.Drawing.Size(450, 264);
+            this.Size = new System.Drawing.Size(452, 264);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,5 +127,6 @@
         private System.Windows.Forms.TextBox tbx_pwd;
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lb_safe;
     }
 }

@@ -7,6 +7,10 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using NewLife.Serialization;
+using NewLife.Data;
+using System.Linq;
+using HL.Object.Extensions;
 namespace PlcClient.Controls
 {
     public partial class WebSocketServer : BaseControl
@@ -77,12 +81,12 @@ namespace PlcClient.Controls
                 }
                 else if (ServerMode == "HTTP")
                 {
-                    Server.Map(ServerUrl, () => SendMessage);
-                    
-                }                
+                    Server.Map(ServerUrl, HttpHandler);
+                }
                 Server.Start();
                 cbx_mode.Enabled = cbx_ip.Enabled = tbx_port.Enabled = tbx_path.Enabled = btn_start.Enabled = false;
                 btn_stop.Enabled = true;
+                ReceiveMessage = $"{ServerMode.ToLower()}://{ServerIP};{ServerPort}{ServerUrl}";
             }
             catch (Exception ex)
             {
@@ -91,6 +95,64 @@ namespace PlcClient.Controls
 
 
         }
+        public void HttpHandler(IHttpContext content)
+        {
+            content.Response.SetResult(this.SendMessage);
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"http://{content.Request.Host}{content.Request.RequestUri}\n");
+            sb.AppendLine("[HTTP Headers]");
+            sb.AppendLine("Path:" + content.Path);
+            sb.AppendLine("Method:" + content.Request.Method);
+            foreach (var header in content.Request.Headers)
+            {
+                sb.AppendLine(header.Key + ":" + header.Value);
+            }
+            var querykv = content.Request.RequestUri.ToString().Split("?")[1]?.Split('&').ToDictionary(kv => kv.Split('=')[0], kv => kv.Split('=')[1] ?? "");
+            sb.AppendLine();
+            sb.AppendLine("[HTTP QueryString]");
+            foreach (var kv in querykv)
+            {
+                sb.AppendLine(kv.Key + " = " + kv.Value);
+            }
+            sb.AppendLine();
+            sb.AppendLine("[HTTP Body]");
+            if (content.Request.ContentType.Contains("x-www-form-urlencoded") || content.Request.ContentType.Contains("form-data"))
+            {
+                foreach (var kv in content.Parameters)
+                {
+                    if (querykv.ContainsKey(kv.Key))
+                        continue;
+                    var val = kv.Value;
+                    if (val is FormFile file)
+                    {
+                        val = file.FileName;
+                    }
+                    sb.AppendLine(kv.Key + " = " + val);
+                }
+            }
+            else
+            {
+                sb.AppendLine(content.Request.Body.ToStr());
+            }
+
+            if (content.Request.Files != null && content.Request.Files.Count() > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine("[HTTP Files]");
+                foreach (var file in content.Request.Files)
+                {
+                    var filename = "tmp/upload/" + file.FileName;
+                    if (!System.IO.Directory.Exists("tmp/upload")) System.IO.Directory.CreateDirectory("tmp/upload");
+                    file.SaveToFile(filename);
+                    sb.AppendLine($"文件：{file.FileName} 大小：{file.Length} 类型：{file.ContentType} 路径：{filename}");
+                }
+            }
+            this.Invoke(() =>
+            {
+                this.ReceiveMessage = sb.ToString();
+            });
+        }
+
         private IDictionary<string, WebSocket> _clients = new Dictionary<string, WebSocket>();
         public void WebSocketHandler(IHttpContext content)
         {

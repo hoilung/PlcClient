@@ -34,9 +34,9 @@
             this.ts_cbx_type = new System.Windows.Forms.ToolStripComboBox();
             this.ts_btn_search = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripCheckBox1 = new PlcClient.Controls.ToolStripCheckBox();
             this.ts_btn_export = new System.Windows.Forms.ToolStripButton();
             this.ts_btn_clear = new System.Windows.Forms.ToolStripButton();
-            this.toolStripCheckBox1 = new PlcClient.Controls.ToolStripCheckBox();
             this.listViewEx1 = new PlcClient.Controls.ListViewEx();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyselectrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,28 +59,28 @@
             this.ts_btn_clear});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(618, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(618, 26);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(56, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(56, 23);
             this.toolStripLabel1.Text = "查询类型";
             // 
             // ts_cbx_type
             // 
             this.ts_cbx_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ts_cbx_type.Name = "ts_cbx_type";
-            this.ts_cbx_type.Size = new System.Drawing.Size(121, 25);
+            this.ts_cbx_type.Size = new System.Drawing.Size(121, 26);
             // 
             // ts_btn_search
             // 
             this.ts_btn_search.Image = global::PlcClient.Properties.Resources.Search_in_List;
             this.ts_btn_search.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ts_btn_search.Name = "ts_btn_search";
-            this.ts_btn_search.Size = new System.Drawing.Size(76, 22);
+            this.ts_btn_search.Size = new System.Drawing.Size(76, 23);
             this.ts_btn_search.Text = "开始查询";
             this.ts_btn_search.ToolTipText = "非管理员权限查询不显示进程路径";
             this.ts_btn_search.Click += new System.EventHandler(this.ts_btn_search_Click);
@@ -88,15 +88,22 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 26);
+            // 
+            // toolStripCheckBox1
+            // 
+            this.toolStripCheckBox1.Checked = false;
+            this.toolStripCheckBox1.Name = "toolStripCheckBox1";
+            this.toolStripCheckBox1.Size = new System.Drawing.Size(77, 23);
+            this.toolStripCheckBox1.Text = "显示进程";
             // 
             // ts_btn_export
             // 
             this.ts_btn_export.Image = global::PlcClient.Properties.Resources.XLS;
             this.ts_btn_export.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ts_btn_export.Name = "ts_btn_export";
-            this.ts_btn_export.Size = new System.Drawing.Size(76, 22);
-            this.ts_btn_export.Text = "导出列表";
+            this.ts_btn_export.Size = new System.Drawing.Size(76, 23);
+            this.ts_btn_export.Text = "导出表格";
             this.ts_btn_export.Click += new System.EventHandler(this.ts_btn_export_Click);
             // 
             // ts_btn_clear
@@ -104,16 +111,9 @@
             this.ts_btn_clear.Image = global::PlcClient.Properties.Resources.Trash_Can;
             this.ts_btn_clear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ts_btn_clear.Name = "ts_btn_clear";
-            this.ts_btn_clear.Size = new System.Drawing.Size(76, 22);
+            this.ts_btn_clear.Size = new System.Drawing.Size(76, 23);
             this.ts_btn_clear.Text = "清空列表";
             this.ts_btn_clear.Click += new System.EventHandler(this.ts_btn_clear_Click);
-            // 
-            // toolStripCheckBox1
-            // 
-            this.toolStripCheckBox1.Checked = false;
-            this.toolStripCheckBox1.Name = "toolStripCheckBox1";
-            this.toolStripCheckBox1.Size = new System.Drawing.Size(79, 22);
-            this.toolStripCheckBox1.Text = "显示进程";
             // 
             // listViewEx1
             // 

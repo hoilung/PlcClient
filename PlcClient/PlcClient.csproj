@@ -97,11 +97,23 @@
     <Compile Include="Controls\CameraDeviceInfo.Designer.cs">
       <DependentUpon>CameraDeviceInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DeviceDiscover.cs">
+    <Compile Include="Controls\CameraDiscovery.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DeviceDiscover.Designer.cs">
-      <DependentUpon>DeviceDiscover.cs</DependentUpon>
+    <Compile Include="Controls\CameraDiscovery.Designer.cs">
+      <DependentUpon>CameraDiscovery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DeviceScan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DeviceScan.Designer.cs">
+      <DependentUpon>DeviceScan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LLDPScan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LLDPScan.Designer.cs">
+      <DependentUpon>LLDPScan.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Netstat.cs">
       <SubType>UserControl</SubType>
@@ -114,6 +126,10 @@
     </Compile>
     <Compile Include="Controls\OpcDaCredential.Designer.cs">
       <DependentUpon>OpcDaCredential.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PnDcpScan.cs" />
+    <Compile Include="Controls\PnDcpScan.Designer.cs">
+      <DependentUpon>PnDcpScan.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ToolStripCheckBox.cs">
       <SubType>Component</SubType>
@@ -207,6 +223,7 @@
     </Compile>
     <Compile Include="Handler\ArpHandler.cs" />
     <Compile Include="Handler\ProcessHandler.cs" />
+    <Compile Include="Handler\DeviceDiscovery.cs" />
     <Compile Include="Handler\ServerEnumerator1.cs" />
     <Compile Include="Handler\DeviceHandler.cs" />
     <Compile Include="Handler\DirectoryHelper.cs" />
@@ -228,6 +245,7 @@
     <Compile Include="Model\AppConfig.cs" />
     <Compile Include="Model\DeviceDiscover\DHDevInfo.cs" />
     <Compile Include="Model\DeviceDiscover\Onvif.cs" />
+    <Compile Include="Model\DeviceDiscover\ProfinetDcp.cs" />
     <Compile Include="Model\DisplayCustomAttribute.cs" />
     <Compile Include="Model\OPCDAItem.cs" />
     <Compile Include="Model\DeviceDiscover\HKProbeMatch.cs" />
@@ -250,14 +268,23 @@
     <EmbeddedResource Include="Controls\CameraDeviceInfo.resx">
       <DependentUpon>CameraDeviceInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DeviceDiscover.resx">
-      <DependentUpon>DeviceDiscover.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\CameraDiscovery.resx">
+      <DependentUpon>CameraDiscovery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DeviceScan.resx">
+      <DependentUpon>DeviceScan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LLDPScan.resx">
+      <DependentUpon>LLDPScan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Netstat.resx">
       <DependentUpon>Netstat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OpcDaCredential.resx">
       <DependentUpon>OpcDaCredential.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PnDcpScan.resx">
+      <DependentUpon>PnDcpScan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UpdateDialog.resx">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
@@ -371,6 +398,9 @@
     </PackageReference>
     <PackageReference Include="SharpCompress">
       <Version>0.49.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpPcap">
+      <Version>6.3.1</Version>
     </PackageReference>
     <PackageReference Include="System.Net.Http">
       <Version>4.3.4</Version>

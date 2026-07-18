@@ -11,10 +11,10 @@ using System.Windows.Forms;
 
 namespace PlcClient.Controls
 {
-    public partial class DeviceDiscover : BaseControl
+    public partial class CameraDiscovery : BaseControl
     {
 
-        public DeviceDiscover()
+        public CameraDiscovery()
         {
             InitializeComponent();
             groupBox1.Dock = lv_data.Dock = tableLayoutPanel1.Dock = DockStyle.Fill;

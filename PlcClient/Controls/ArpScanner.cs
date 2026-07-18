@@ -19,7 +19,7 @@ namespace PlcClient.Controls
         {
             InitializeComponent();
 
-            groupBox1.Dock = tableLayoutPanel1.Dock = lv_data.Dock = System.Windows.Forms.DockStyle.Fill;
+            groupBox1.Dock = tableLayoutPanel1.Dock = lv_data.Dock =System.Windows.Forms.DockStyle.Fill;
             listViewHandler = new ListViewHandler(this.lv_data);
             listViewHandler.ColuminSort();
 

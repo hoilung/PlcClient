@@ -33,7 +33,7 @@ namespace PlcClient
         private void Init()
         {
             var tabs = new TabControl();
-            tabs.SuspendLayout();
+            tabs.SuspendLayout();            
             //tabs.TabPages.Clear();
             tabs.Height = 650;
             tabs.Dock = DockStyle.Fill;
@@ -92,7 +92,7 @@ namespace PlcClient
             var tab_dd = new TabPage();
             tab_dd.Text = "监控搜索";
             tab_dd.ImageIndex = 5;
-            DeviceDiscover deviceDiscover = new DeviceDiscover();
+            CameraDiscovery deviceDiscover = new CameraDiscovery();
             deviceDiscover.Dock = DockStyle.Fill;
             deviceDiscover.Msg += call_Msg;
             tab_dd.Controls.Add(deviceDiscover);
@@ -100,7 +100,7 @@ namespace PlcClient
             var tab_arp = new TabPage();
             tab_arp.Text = "设备扫描";
             tab_arp.ImageIndex = 6;
-            ArpScanner scanner = new ArpScanner();
+            var scanner = new DeviceScan();
             scanner.Dock = DockStyle.Fill;
             scanner.Msg += call_Msg;
             tab_arp.Controls.Add(scanner);

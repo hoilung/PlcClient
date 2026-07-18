@@ -59,20 +59,22 @@
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImageList = this.imageList1;
+            this.tabControl1.ItemSize = new System.Drawing.Size(100, 25);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(710, 430);
+            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.netClient1);
             this.tabPage1.ImageIndex = 0;
-            this.tabPage1.Location = new System.Drawing.Point(4, 23);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(702, 403);
+            this.tabPage1.Size = new System.Drawing.Size(702, 397);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "网络客户端";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -82,7 +84,7 @@
             this.netClient1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.netClient1.Location = new System.Drawing.Point(3, 3);
             this.netClient1.Name = "netClient1";
-            this.netClient1.Size = new System.Drawing.Size(696, 397);
+            this.netClient1.Size = new System.Drawing.Size(696, 391);
             this.netClient1.TabIndex = 0;
             this.netClient1.TypeCodes = new System.TypeCode[] {
         System.TypeCode.Boolean,
@@ -98,10 +100,10 @@
             // 
             this.tabPage2.Controls.Add(this.net2Server1);
             this.tabPage2.ImageIndex = 1;
-            this.tabPage2.Location = new System.Drawing.Point(4, 23);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(702, 403);
+            this.tabPage2.Size = new System.Drawing.Size(702, 397);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "网络服务端";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -111,7 +113,7 @@
             this.net2Server1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.net2Server1.Location = new System.Drawing.Point(3, 3);
             this.net2Server1.Name = "net2Server1";
-            this.net2Server1.Size = new System.Drawing.Size(696, 397);
+            this.net2Server1.Size = new System.Drawing.Size(696, 391);
             this.net2Server1.TabIndex = 0;
             this.net2Server1.TypeCodes = new System.TypeCode[] {
         System.TypeCode.Boolean,
@@ -127,10 +129,10 @@
             // 
             this.tabPage3.Controls.Add(this.webClient1);
             this.tabPage3.ImageIndex = 0;
-            this.tabPage3.Location = new System.Drawing.Point(4, 23);
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(702, 403);
+            this.tabPage3.Size = new System.Drawing.Size(702, 397);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Web客户端";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -144,7 +146,7 @@
             this.webClient1.SendCount = 1;
             this.webClient1.SendData = "Hello!";
             this.webClient1.SendInterval = 1000;
-            this.webClient1.Size = new System.Drawing.Size(696, 397);
+            this.webClient1.Size = new System.Drawing.Size(696, 391);
             this.webClient1.TabIndex = 0;
             this.webClient1.TypeCodes = new System.TypeCode[] {
         System.TypeCode.Boolean,
@@ -160,10 +162,10 @@
             // 
             this.tabPage4.Controls.Add(this.webSocketServer1);
             this.tabPage4.ImageIndex = 1;
-            this.tabPage4.Location = new System.Drawing.Point(4, 23);
+            this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(702, 403);
+            this.tabPage4.Size = new System.Drawing.Size(702, 397);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Web服务端";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -182,7 +184,7 @@
             this.webSocketServer1.ServerMode = "WebSocket";
             this.webSocketServer1.ServerPort = 7000;
             this.webSocketServer1.ServerUrl = "/ws";
-            this.webSocketServer1.Size = new System.Drawing.Size(696, 397);
+            this.webSocketServer1.Size = new System.Drawing.Size(696, 391);
             this.webSocketServer1.TabIndex = 0;
             this.webSocketServer1.TypeCodes = new System.TypeCode[] {
         System.TypeCode.Boolean,
@@ -198,10 +200,10 @@
             // 
             this.tabPage5.Controls.Add(this.netstat1);
             this.tabPage5.ImageIndex = 2;
-            this.tabPage5.Location = new System.Drawing.Point(4, 23);
+            this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(702, 403);
+            this.tabPage5.Size = new System.Drawing.Size(702, 397);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "网络进程";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -211,8 +213,17 @@
             this.netstat1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.netstat1.Location = new System.Drawing.Point(3, 3);
             this.netstat1.Name = "netstat1";
-            this.netstat1.Size = new System.Drawing.Size(696, 397);
+            this.netstat1.Size = new System.Drawing.Size(696, 391);
             this.netstat1.TabIndex = 0;
+            this.netstat1.TypeCodes = new System.TypeCode[] {
+        System.TypeCode.Boolean,
+        System.TypeCode.Byte,
+        System.TypeCode.Int16,
+        System.TypeCode.Int32,
+        System.TypeCode.Single,
+        System.TypeCode.Double,
+        System.TypeCode.UInt16,
+        System.TypeCode.UInt32};
             // 
             // imageList1
             // 

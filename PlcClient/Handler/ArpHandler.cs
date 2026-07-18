@@ -208,7 +208,7 @@ namespace PlcClient.Handler
             return BitConverter.ToString(macAddr);//.Replace("-", ":");
         }
 
-        private string GetDeviceInfoForMac(string mac)
+        public string GetDeviceInfoForMac(string mac)
         {
             if (mac == un_mac)
             {

@@ -273,7 +273,7 @@ namespace PlcClient.Handler
                                     string _value_port = null;
                                     if (portIdTlv.SubType == PortSubType.MacAddress && portIdTlv.SubTypeValue is PhysicalAddress)
                                     {
-                                        _value_port = BitConverter.ToString(tlv.Bytes);
+                                        _value_port = BitConverter.ToString((portIdTlv.SubTypeValue as PhysicalAddress).GetAddressBytes());
                                     }
                                     else if (portIdTlv.SubType == PortSubType.NetworkAddress && portIdTlv.SubTypeValue is NetworkAddress)
                                     {

@@ -17,6 +17,10 @@ namespace PlcClient.Controls
             InitializeComponent();
             this.tabControl1.Dock = DockStyle.Fill;
             arpScanner1.Dock = pnDcpScan1.Dock = lldpScan1.Dock = DockStyle.Fill;
+            this.arpScanner1.Msg += OnMsg;
+            this.pnDcpScan1.Msg += OnMsg;
+            this.lldpScan1.Msg += OnMsg;
         }
+
     }
 }

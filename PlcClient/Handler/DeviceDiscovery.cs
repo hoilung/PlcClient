@@ -1,8 +1,5 @@
-﻿using HL.Object.Extensions;
-using NewLife;
-using PacketDotNet;
+﻿using PacketDotNet;
 using PacketDotNet.Lldp;
-using PlcClient.Model;
 using PlcClient.Model.DeviceDiscover;
 using SharpPcap;
 using SharpPcap.LibPcap;
@@ -10,9 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Mail;
 using System.Net.NetworkInformation;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +16,8 @@ namespace PlcClient.Handler
 {
     public partial class DeviceDiscovery
     {
+        public static string DOWNLOAD_NPCAP_PATH = "https://npcap.com/dist/npcap-1.88.exe";
+
         public static ProfinetDcpDevice ParseIdentifyResponse(byte[] pnioPacket)
         {
             var device = new ProfinetDcpDevice();
@@ -82,18 +79,17 @@ namespace PlcClient.Handler
             return device;
         }
 
-        public static async Task FindDevices(string localIpAddress, Action<ProfinetDcpDevice> onDeviceFound = null, CancellationToken token = default)
+        public static async Task FindDevices(string networkName, Action<ProfinetDcpDevice> onDeviceFound = null, CancellationToken token = default)
         {
 
 
             Console.WriteLine("### PROFINET DCP Device Scanner (SharpPcap v5+ Version) ###");
 
-            var device = LibPcapLiveDeviceList.Instance.FirstOrDefault(d =>
-                d.Addresses.Any(a => a.Addr?.ipAddress?.ToString() == localIpAddress));
+            var device = LibPcapLiveDeviceList.Instance.FirstOrDefault(d => d.Description == networkName);
 
             if (device == null)
             {
-                Console.WriteLine($"[错误] 找不到 IP 地址为 {localIpAddress} 的网络接口。");
+                Console.WriteLine($"[错误] 找不到 IP 地址为 {networkName} 的网络接口。");
                 return;
             }
 
@@ -213,6 +209,8 @@ namespace PlcClient.Handler
 
             return ethernetPacket.Bytes;
         }
+
+
     }
 
     public partial class DeviceDiscovery

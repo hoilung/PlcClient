@@ -1,7 +1,11 @@
-﻿using PlcClient.Handler;
+﻿using NewLife.Log;
+using PlcClient.Handler;
 using PlcClient.Model;
 using SharpPcap.LibPcap;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,14 +51,53 @@ namespace PlcClient.Controls
 
         private void btn_start_Click(object sender, System.EventArgs e)
         {
-            var ip = cbx_ip.Text;
-            if (cbx_ip.Tag.ToString() == "device")
+            
+            if (cbx_ip.Tag.ToString() == "ip")
             {
-                var device = LibPcapLiveDeviceList.Instance.FirstOrDefault(m => m.Description == ip);
-                if (device != null)
+                try
                 {
-                    ip = device.Addresses.First(m => m.Addr != null && m.Addr.ipAddress != null).Addr.ipAddress.ToString();
+                    Clipboard.SetText(DeviceDiscovery.DOWNLOAD_NPCAP_PATH);
+                    if (MessageBox.Show($"1. 无法加载网卡缺少必要的组件，请先下载并且安装后使用\r\n2. 已经复制下载地址到剪贴板，是否自动下载？否则请手动浏览器下载", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    {
+                        Task.Run(async () =>
+                        {
+                            string savePath = Path.Combine(Directory.GetCurrentDirectory(), "tmp", $"pncap_{DateTimeOffset.Now.ToUnixTimeSeconds()}.exe");
+                            if (!File.Exists(savePath))
+                            {
+                                await new OpenCvHandler().DownloadAsync(DeviceDiscovery.DOWNLOAD_NPCAP_PATH, savePath, (progress) =>
+                                {
+                                    this.Invoke(() =>
+                                    {
+                                        this.OnMsg($"下载网络组件 {progress}%");
+                                    });
+                                });
+                            }
+                            this.Invoke(() =>
+                            {
+                                this.OnMsg("下载网络组件完成，尝试安装");
+                            });
+                            //#管理员方式执行软件
+                            if (File.Exists(savePath))
+                            {
+                                var process = new Process();
+                                process.StartInfo.FileName = savePath;
+                                //process.StartInfo.Arguments = "/S"; // 静默安装参数
+                                process.StartInfo.Verb = "runas";   // 请求管理员权限！
+
+                                process.Start();
+                                process.WaitForExit(); // 等待安装完成
+
+                                this.OnMsg("Npcap 安装完成。为了使驱动生效，请重新启动本程序。");
+                            }
+                        });
+                    }
                 }
+                catch (Exception ex)
+                {
+                    XTrace.WriteException(ex);
+                    MessageBox.Show("下载安装或运行网络组件失败，请手动下载或安装!");
+                }
+                return;
             }
             if (cancellationTokenSource != null && !cancellationTokenSource.IsCancellationRequested)
             {
@@ -69,7 +112,8 @@ namespace PlcClient.Controls
                     this.btn_start.Text = "开始查找";
                 });
             });
-            this.btn_start.Text = "取消查找";            
+            this.btn_start.Text = "取消查找";
+            var ip = cbx_ip.Text;
             Task.Run(async () =>
             {
                 await Handler.DeviceDiscovery.FindDevices(ip, (info) =>

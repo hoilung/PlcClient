@@ -62,7 +62,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(783, 415);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "TCP/ARP";
+            this.tabPage1.Text = "TCP/IMCP";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // arpScanner1
@@ -98,6 +98,15 @@
             this.pnDcpScan1.Name = "pnDcpScan1";
             this.pnDcpScan1.Size = new System.Drawing.Size(686, 368);
             this.pnDcpScan1.TabIndex = 0;
+            this.pnDcpScan1.TypeCodes = new System.TypeCode[] {
+        System.TypeCode.Boolean,
+        System.TypeCode.Byte,
+        System.TypeCode.Int16,
+        System.TypeCode.Int32,
+        System.TypeCode.Single,
+        System.TypeCode.Double,
+        System.TypeCode.UInt16,
+        System.TypeCode.UInt32};
             // 
             // tabPage3
             // 
@@ -116,6 +125,15 @@
             this.lldpScan1.Name = "lldpScan1";
             this.lldpScan1.Size = new System.Drawing.Size(624, 325);
             this.lldpScan1.TabIndex = 0;
+            this.lldpScan1.TypeCodes = new System.TypeCode[] {
+        System.TypeCode.Boolean,
+        System.TypeCode.Byte,
+        System.TypeCode.Int16,
+        System.TypeCode.Int32,
+        System.TypeCode.Single,
+        System.TypeCode.Double,
+        System.TypeCode.UInt16,
+        System.TypeCode.UInt32};
             // 
             // DeviceScan
             // 

@@ -127,7 +127,9 @@
     <Compile Include="Controls\OpcDaCredential.Designer.cs">
       <DependentUpon>OpcDaCredential.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PnDcpScan.cs" />
+    <Compile Include="Controls\PnDcpScan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\PnDcpScan.Designer.cs">
       <DependentUpon>PnDcpScan.cs</DependentUpon>
     </Compile>
@@ -244,13 +246,16 @@
     </Compile>
     <Compile Include="Model\AppConfig.cs" />
     <Compile Include="Model\DeviceDiscover\DHDevInfo.cs" />
+    <Compile Include="Model\DeviceDiscover\LLDPDevice.cs" />
     <Compile Include="Model\DeviceDiscover\Onvif.cs" />
-    <Compile Include="Model\DeviceDiscover\ProfinetDcp.cs" />
+    <Compile Include="Model\DeviceDiscover\ProfinetDcpDevice.cs" />
     <Compile Include="Model\DisplayCustomAttribute.cs" />
+    <Compile Include="Model\LLDPDeviceVM.cs" />
     <Compile Include="Model\OPCDAItem.cs" />
     <Compile Include="Model\DeviceDiscover\HKProbeMatch.cs" />
     <Compile Include="Model\OpcDaVM.cs" />
     <Compile Include="Model\OpcUaVM.cs" />
+    <Compile Include="Model\PnDcpDeviceVM.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\AllenBradley.resx">

@@ -58,6 +58,7 @@
             // 
             // listViewEx1
             // 
+            this.listViewEx1.FullRowSelect = true;
             this.listViewEx1.GridLines = true;
             this.listViewEx1.HideSelection = false;
             this.listViewEx1.Location = new System.Drawing.Point(3, 28);
@@ -128,7 +129,7 @@
             this.groupBox1.Size = new System.Drawing.Size(665, 416);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "发现设备 Profinet DCP";
+            this.groupBox1.Text = "设备发现 Profinet DCP";
             // 
             // PnDcpScan
             // 

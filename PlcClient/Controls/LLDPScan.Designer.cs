@@ -31,7 +31,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.cbx_ip = new System.Windows.Forms.ToolStripComboBox();
             this.btn_start = new System.Windows.Forms.ToolStripButton();
             this.btn_export = new System.Windows.Forms.ToolStripButton();
             this.btn_clear = new System.Windows.Forms.ToolStripButton();
@@ -60,7 +60,7 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
-            this.toolStripComboBox1,
+            this.cbx_ip,
             this.btn_start,
             this.btn_export,
             this.btn_clear});
@@ -76,10 +76,10 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(43, 22);
             this.toolStripLabel1.Text = "网卡IP";
             // 
-            // toolStripComboBox1
+            // cbx_ip
             // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            this.cbx_ip.Name = "cbx_ip";
+            this.cbx_ip.Size = new System.Drawing.Size(121, 25);
             // 
             // btn_start
             // 
@@ -88,6 +88,7 @@
             this.btn_start.Name = "btn_start";
             this.btn_start.Size = new System.Drawing.Size(76, 22);
             this.btn_start.Text = "开始查找";
+            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // btn_export
             // 
@@ -96,6 +97,7 @@
             this.btn_export.Name = "btn_export";
             this.btn_export.Size = new System.Drawing.Size(76, 22);
             this.btn_export.Text = "导出表格";
+            this.btn_export.Click += new System.EventHandler(this.btn_export_Click);
             // 
             // btn_clear
             // 
@@ -104,9 +106,11 @@
             this.btn_clear.Name = "btn_clear";
             this.btn_clear.Size = new System.Drawing.Size(76, 22);
             this.btn_clear.Text = "清空列表";
+            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
             // 
             // listViewEx1
             // 
+            this.listViewEx1.FullRowSelect = true;
             this.listViewEx1.GridLines = true;
             this.listViewEx1.HideSelection = false;
             this.listViewEx1.Location = new System.Drawing.Point(3, 28);
@@ -124,7 +128,7 @@
             this.groupBox1.Size = new System.Drawing.Size(678, 377);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "发现设备 LLDP";
+            this.groupBox1.Text = "设备发现 LLDP";
             // 
             // LLDPScan
             // 
@@ -147,7 +151,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ToolStripComboBox cbx_ip;
         private System.Windows.Forms.ToolStripButton btn_start;
         private System.Windows.Forms.ToolStripButton btn_export;
         private System.Windows.Forms.ToolStripButton btn_clear;

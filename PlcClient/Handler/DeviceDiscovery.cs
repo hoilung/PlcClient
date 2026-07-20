@@ -1,4 +1,8 @@
-﻿using PacketDotNet;
+﻿using HL.Object.Extensions;
+using NewLife;
+using PacketDotNet;
+using PacketDotNet.Lldp;
+using PlcClient.Model;
 using PlcClient.Model.DeviceDiscover;
 using SharpPcap;
 using SharpPcap.LibPcap;
@@ -6,14 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace PlcClient.Handler
 {
-    public class DeviceDiscovery
+    public partial class DeviceDiscovery
     {
         public static ProfinetDcpDevice ParseIdentifyResponse(byte[] pnioPacket)
         {
@@ -76,8 +82,10 @@ namespace PlcClient.Handler
             return device;
         }
 
-        public static void FindDevices(string localIpAddress, int timeoutSeconds = 5,Action<ProfinetDcpDevice> onDeviceFound = null)
+        public static async Task FindDevices(string localIpAddress, Action<ProfinetDcpDevice> onDeviceFound = null, CancellationToken token = default)
         {
+
+
             Console.WriteLine("### PROFINET DCP Device Scanner (SharpPcap v5+ Version) ###");
 
             var device = LibPcapLiveDeviceList.Instance.FirstOrDefault(d =>
@@ -95,7 +103,8 @@ namespace PlcClient.Handler
             var discoveredMacs = new HashSet<string>();
 
             // 修正: OnPacketArrival 事件处理
-            device.OnPacketArrival += (sender, e) => {
+            device.OnPacketArrival += (sender, e) =>
+            {
                 // 使用 PacketDotNet.Packet.ParsePacket 来解析原始数据
                 try
                 {
@@ -141,14 +150,29 @@ namespace PlcClient.Handler
             };
 
             device.Open(DeviceModes.Promiscuous, 1000);
+            //过滤profinet
+            device.Filter = "ether proto 0x8892"; // <-- 正确的过滤条件是 ether proto 0x8892
             device.StartCapture();
 
             Console.WriteLine("\n发送 DCP Identify Request 广播...");
             byte[] dcpRequestFrame = BuildDcpIdentifyRequestFrame(device.MacAddress);
             device.SendPacket(dcpRequestFrame);
 
-            Console.WriteLine($"等待 {timeoutSeconds} 秒以接收响应...");
-            Thread.Sleep(timeoutSeconds * 1000);
+            if (token == default)
+            {
+                token = new CancellationTokenSource(TimeSpan.FromSeconds(60)).Token;
+            }
+            int waitSecond = 0;
+            while (!token.IsCancellationRequested)
+            {
+                await Task.Delay(1000, token);
+                waitSecond++;
+                if (waitSecond % 30 == 0)
+                {
+                    //长时间情况下，每隔30s发一次
+                    device.SendPacket(dcpRequestFrame);
+                }
+            }
 
             device.StopCapture();
             device.Close();
@@ -189,5 +213,120 @@ namespace PlcClient.Handler
 
             return ethernetPacket.Bytes;
         }
+    }
+
+    public partial class DeviceDiscovery
+    {
+
+        public static async Task FindDevicesLLDP(string networkName, Action<LLDPDevice> action, CancellationToken token = default)
+        {
+            var device = LibPcapLiveDeviceList.Instance.FirstOrDefault(m => m.Description == networkName);
+            if (device == null)
+            {
+                return;
+            }
+            var discoveredMacs = new HashSet<string>();
+
+            device.OnPacketArrival += (s, e) =>
+            {
+                var packet = Packet.ParsePacket(e.GetPacket().LinkLayerType, e.GetPacket().Data);
+                //var aaa=ParseLLDP(packet.PayloadData);                
+                var ethernetPacket = packet.Extract<EthernetPacket>();
+                if (ethernetPacket != null && ethernetPacket.Type == EthernetType.Lldp)
+                {
+                    var mac = BitConverter.ToString(ethernetPacket.SourceHardwareAddress.GetAddressBytes());
+                    if (!discoveredMacs.Add(mac))
+                        return;
+
+                    var lldpPacket = packet.Extract<LldpPacket>();
+                    if (lldpPacket != null)
+                    {
+                        var lldpDevice = new LLDPDevice();
+                        lldpDevice.MacAddress = ethernetPacket.SourceHardwareAddress;
+                        foreach (var tlv in lldpPacket.TlvCollection)
+                        {
+                            switch (tlv.Type)
+                            {
+                                case TlvType.ChassisId:
+                                    var chassisIdTlv = (ChassisIdTlv)tlv;
+                                    string _value_id = null;
+
+                                    if (chassisIdTlv.SubType == ChassisSubType.MacAddress)
+                                    {
+                                        _value_id = BitConverter.ToString(chassisIdTlv.MACAddress.GetAddressBytes());
+                                    }
+                                    else if (chassisIdTlv.SubType == ChassisSubType.NetworkAddress)
+                                    {
+                                        _value_id = chassisIdTlv.NetworkAddress.Address.ToString();
+                                    }
+                                    else if (chassisIdTlv.SubTypeValue is byte[])
+                                    {
+                                        _value_id = Encoding.ASCII.GetString(chassisIdTlv.SubTypeValue as byte[]);
+                                    }
+                                    else
+                                    {
+                                        _value_id = chassisIdTlv.ToString();
+                                    }
+
+                                    lldpDevice.ChassisId = $"SubType = {chassisIdTlv.SubType}, Id: {_value_id}";
+                                    break;
+                                case TlvType.PortId:
+                                    var portIdTlv = ((PortIdTlv)tlv);
+                                    string _value_port = null;
+                                    if (portIdTlv.SubType == PortSubType.MacAddress && portIdTlv.SubTypeValue is PhysicalAddress)
+                                    {
+                                        _value_port = BitConverter.ToString(tlv.Bytes);
+                                    }
+                                    else if (portIdTlv.SubType == PortSubType.NetworkAddress && portIdTlv.SubTypeValue is NetworkAddress)
+                                    {
+                                        _value_port = (portIdTlv.SubTypeValue as NetworkAddress).Address.ToString();
+                                    }
+                                    else if (portIdTlv.SubTypeValue is byte[])
+                                    {
+                                        _value_port = Encoding.ASCII.GetString(portIdTlv.SubTypeValue as byte[]);
+                                    }
+                                    else
+                                    {
+                                        _value_port = portIdTlv.ToString();
+                                    }
+                                    lldpDevice.PortId = $"SubType = {portIdTlv.SubType}, Id: {_value_port}";
+                                    break;
+                                case TlvType.TimeToLive:
+                                    lldpDevice.TimeToLive = ((TimeToLiveTlv)tlv).Seconds;
+                                    break;
+                                case TlvType.PortDescription:
+                                    lldpDevice.PortDescription = ((PortDescriptionTlv)tlv).Value;
+                                    break;
+                                case TlvType.SystemName:
+                                    lldpDevice.SystemName = ((SystemNameTlv)tlv).Name;
+                                    break;
+                                case TlvType.SystemDescription:
+                                    lldpDevice.SystemDescription = ((SystemDescriptionTlv)tlv).Description;
+                                    break;
+                                case TlvType.ManagementAddress:
+                                    lldpDevice.ManagementAddress = ((ManagementAddressTlv)tlv).Address.Address;
+                                    break;
+                            }
+                        }
+                        action?.Invoke(lldpDevice);
+                    }
+                }
+            };
+            device.Open(DeviceModes.Promiscuous, 1000);
+            //过滤lldp协议的类型            
+            device.Filter = "ether proto 0x88cc";
+            device.StartCapture();
+            if (token == default)
+            {
+                token = new CancellationTokenSource(TimeSpan.FromSeconds(60)).Token;
+            }
+            while (!token.IsCancellationRequested)
+            {
+                await Task.Delay(1000, token);
+            }
+            device.StopCapture();
+            device.Close();
+        }
+
     }
 }

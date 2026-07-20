@@ -1,58 +1,23 @@
 ﻿using PlcClient.Handler;
-using PlcClient.Model.DeviceDiscover;
+using PlcClient.Model;
 using SharpPcap.LibPcap;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PlcClient.Controls
 {
-    public class ProfinetDcpDeviceVM
-    {
-        [DisplayName("#")]
-        public int ID { get; set; }
-        
-        public string MacAddress { get; set; }
-        
-        public string NameOfStation { get; set; }
-        
-        public string IpAddress { get; set; }
-        
-        public string SubnetMask { get; set; }
-        
-        public string DefaultGateway { get; set; }
 
-        [DisplayName("OUI")]
-        public string Description { get; set; }
-        public static ProfinetDcpDeviceVM Form(ProfinetDcpDevice vm)
-        {
-            var item= new ProfinetDcpDeviceVM
-            {
-                MacAddress = BitConverter.ToString(vm.MacAddress.GetAddressBytes()),
-                NameOfStation = vm.NameOfStation,
-                IpAddress = vm.IpAddress.ToString(),
-                SubnetMask = vm.SubnetMask.ToString(),
-                DefaultGateway = vm.DefaultGateway.ToString()
-            };
-            item.Description= ArpHandler.Instance.GetDeviceInfoForMac(item.MacAddress);
-
-            return item;
-
-        }
-    }
     public partial class PnDcpScan : BaseControl
     {
-        ListViewHandler<ProfinetDcpDeviceVM> listViewHandler;
+        ListViewHandler<PnDcpDeviceVM> listViewHandler;
         public PnDcpScan()
         {
             InitializeComponent();
             this.listViewEx1.Dock = this.tableLayoutPanel1.Dock = groupBox1.Dock = DockStyle.Fill;
-            this.listViewHandler = new ListViewHandler<ProfinetDcpDeviceVM>(this.listViewEx1);
+            this.listViewHandler = new ListViewHandler<PnDcpDeviceVM>(this.listViewEx1);
             //this.listViewHandler.ColuminSort();
             this.listViewHandler.SetupVirtualMode();
             this.listViewHandler.listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -78,6 +43,7 @@ namespace PlcClient.Controls
 
             return GetLocalAllIP();
         }
+        private CancellationTokenSource cancellationTokenSource;
 
         private void btn_start_Click(object sender, System.EventArgs e)
         {
@@ -90,24 +56,31 @@ namespace PlcClient.Controls
                     ip = device.Addresses.First(m => m.Addr != null && m.Addr.ipAddress != null).Addr.ipAddress.ToString();
                 }
             }
-            Task.Run(() =>
+            if (cancellationTokenSource != null && !cancellationTokenSource.IsCancellationRequested)
+            {
+                cancellationTokenSource.Cancel();
+                return;
+            }
+            cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.Token.Register(() =>
             {
                 this.Invoke(() =>
                 {
-                    this.btn_start.Enabled = !this.btn_start.Enabled;
+                    this.btn_start.Text = "开始查找";
                 });
-                Handler.DeviceDiscovery.FindDevices(ip, 5, (info) =>
+            });
+            this.btn_start.Text = "取消查找";            
+            Task.Run(async () =>
+            {
+                await Handler.DeviceDiscovery.FindDevices(ip, (info) =>
                 {
-                    this.Invoke(() => {
-                        var vm = ProfinetDcpDeviceVM.Form(info);
-                        vm.ID = listViewHandler.DataCount;                        
+                    this.Invoke(() =>
+                    {
+                        var vm = PnDcpDeviceVM.Form(info);
+                        vm.ID = listViewHandler.DataCount;
                         listViewHandler.Add(vm);
                     });
-                });
-                this.Invoke(() =>
-                {
-                    this.btn_start.Enabled = !this.btn_start.Enabled;                    
-                });
+                },cancellationTokenSource.Token);
             });
         }
 

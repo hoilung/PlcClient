@@ -57,21 +57,21 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.cbx_reply = new System.Windows.Forms.CheckBox();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.cbx_reply = new System.Windows.Forms.CheckBox();
             this.nd_num = new System.Windows.Forms.NumericUpDown();
             this.nd_step = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nd_num)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nd_step)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -137,7 +137,7 @@
             this.tbx_port.MaxLength = 5;
             this.tbx_port.Name = "tbx_port";
             this.tbx_port.Size = new System.Drawing.Size(50, 25);
-            this.tbx_port.Text = "7979";
+            this.tbx_port.Text = "8000";
             // 
             // toolStripSeparator2
             // 
@@ -374,6 +374,15 @@
             this.panel1.Size = new System.Drawing.Size(170, 186);
             this.panel1.TabIndex = 4;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(84, 72);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "次数";
+            // 
             // cbx_reply
             // 
             this.cbx_reply.AutoSize = true;
@@ -383,27 +392,6 @@
             this.cbx_reply.TabIndex = 14;
             this.cbx_reply.Text = "自动回复";
             this.cbx_reply.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btn_clearCallback);
-            this.panel2.Controls.Add(this.cbx_time);
-            this.panel2.Controls.Add(this.cbx_string);
-            this.panel2.Controls.Add(this.cbx_hex);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(621, 195);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(170, 187);
-            this.panel2.TabIndex = 5;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(84, 72);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "次数";
             // 
             // nd_num
             // 
@@ -458,6 +446,18 @@
             this.label1.TabIndex = 17;
             this.label1.Text = "ms/次间隔";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btn_clearCallback);
+            this.panel2.Controls.Add(this.cbx_time);
+            this.panel2.Controls.Add(this.cbx_string);
+            this.panel2.Controls.Add(this.cbx_hex);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(621, 195);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(170, 187);
+            this.panel2.TabIndex = 5;
+            // 
             // Net2Server
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -475,10 +475,10 @@
             this.groupBox3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nd_num)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nd_step)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

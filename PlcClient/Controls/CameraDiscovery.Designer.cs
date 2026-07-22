@@ -109,7 +109,7 @@
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(56, 22);
-            this.toolStripLabel1.Text = "设备厂家";
+            this.toolStripLabel1.Text = "设备协议";
             // 
             // cbx_deviceType
             // 
@@ -129,6 +129,7 @@
             this.btn_find.Name = "btn_find";
             this.btn_find.Size = new System.Drawing.Size(76, 22);
             this.btn_find.Text = "开始搜索";
+            this.btn_find.ToolTipText = "开始搜索会自动每隔30s搜索一次";
             this.btn_find.Click += new System.EventHandler(this.btn_find_Click);
             // 
             // toolStripSeparator1
@@ -183,26 +184,26 @@
             this.copyRTSPaddressToolStripMenuItem,
             this.showDeviceNameToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 110);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(158, 88);
             // 
             // openWebBrowserToolStripMenuItem
             // 
             this.openWebBrowserToolStripMenuItem.Image = global::PlcClient.Properties.Resources.Internet_Explorer;
             this.openWebBrowserToolStripMenuItem.Name = "openWebBrowserToolStripMenuItem";
-            this.openWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
+            this.openWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
             this.openWebBrowserToolStripMenuItem.Text = "打开浏览器";
             this.openWebBrowserToolStripMenuItem.Click += new System.EventHandler(this.openWebBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(154, 6);
             // 
             // copyRTSPaddressToolStripMenuItem
             // 
             this.copyRTSPaddressToolStripMenuItem.Image = global::PlcClient.Properties.Resources.Copy;
             this.copyRTSPaddressToolStripMenuItem.Name = "copyRTSPaddressToolStripMenuItem";
-            this.copyRTSPaddressToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
+            this.copyRTSPaddressToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
             this.copyRTSPaddressToolStripMenuItem.Text = "复制RTSP地址";
             this.copyRTSPaddressToolStripMenuItem.Click += new System.EventHandler(this.copyRTSPaddressToolStripMenuItem_Click);
             // 
@@ -210,7 +211,7 @@
             // 
             this.showDeviceNameToolStripMenuItem1.Image = global::PlcClient.Properties.Resources.Video_Call;
             this.showDeviceNameToolStripMenuItem1.Name = "showDeviceNameToolStripMenuItem1";
-            this.showDeviceNameToolStripMenuItem1.Size = new System.Drawing.Size(184, 26);
+            this.showDeviceNameToolStripMenuItem1.Size = new System.Drawing.Size(157, 26);
             this.showDeviceNameToolStripMenuItem1.Text = "查看设备信息";
             this.showDeviceNameToolStripMenuItem1.Click += new System.EventHandler(this.showDeviceNameToolStripMenuItem1_Click);
             // 
@@ -224,12 +225,12 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "网络监控设备搜索";
             // 
-            // DeviceDiscover
+            // CameraDiscovery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Name = "DeviceDiscover";
+            this.Name = "CameraDiscovery";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);

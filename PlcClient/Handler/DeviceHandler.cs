@@ -1,4 +1,7 @@
 ﻿using NewLife;
+using NewLife.Data;
+using NewLife.Net;
+using NewLife.Xml;
 using Newtonsoft.Json;
 using Opc.Da;
 using PlcClient.Model.DeviceDiscover;
@@ -11,6 +14,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Xml.Serialization;
 
 namespace PlcClient.Handler
@@ -25,23 +29,20 @@ namespace PlcClient.Handler
         public IPEndPoint From { get; private set; }
         public string Message { get; private set; }
     }
+    public enum CameraProtocol
+    {
+        HK,
+        DH,
+        ONVIF,
+    }
 
     public class DeviceHandler : Onvif
     {
         public bool IsStart { get; private set; }
+        public CameraProtocol CameraProtocol { get; set; }
         private CancellationTokenSource CancellationTokenSource;
-        private IPEndPoint endPoint;
-        private UdpClient udpClient;
-        private string localIP;
-        private Queue<DeviceEventArgs> _message = new Queue<DeviceEventArgs>();
-
         public event EventHandler<DeviceEventArgs> DeviceReceice;
 
-
-        public void SetLocalIP(string ip)
-        {
-            this.localIP = ip;
-        }
 
         protected virtual void OnBroadcastReceice(DeviceEventArgs e)
         {
@@ -58,46 +59,16 @@ namespace PlcClient.Handler
         {
             //读取message 序列化为 对象
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            var obj = (T)xmlSerializer.Deserialize(new StringReader(message));
+            var obj = (T)xmlSerializer.Deserialize(new StringReader(message));            
             return obj;
         }
-
-        #region 海康设备发现
-
-        /// <summary>
-        /// 海康设备查找
-        /// 广播地址：239.255.255.250
-        /// 广播地址：239.255.255.250
-        /// 端口：37020
-        /// </summary>
-        /// <param name="localIp">当前网段ip</param>
-        public void HKDeviceFind()
+        public HKProbeMatch HKUnpack(string message)
         {
-            // 发送广播消息
-
-            string message = Properties.Resources.hikvision.Replace("{uuid}", Guid.NewGuid().ToString());
-            var multicast = new IPEndPoint(IPAddress.Parse("239.255.255.250"), 37020);//自有协议
-            SendMsg(message, multicast);
-            SendMsg(message, multicast);
+           return message.ToXmlEntity<HKProbeMatch>();
         }
 
-        #endregion
+        #region Onvif设备解包
 
-        #region Onvif设备查找
-        /// <summary>
-        /// 网络设备查找(基于onvif协议)
-        /// 广播地址：239.255.255.250
-        /// 广播地址：239.255.255.255
-        /// 端口：3702
-        /// </summary>
-        public void OnvifDeviceFind()
-        {
-            string message = Properties.Resources.onvif.Replace("{uuid}", Guid.NewGuid().ToString());
-            var multicast = new IPEndPoint(IPAddress.Parse("239.255.255.250"), 3702);//Onvif协议
-            var multicast2 = new IPEndPoint(IPAddress.Parse("239.255.255.255"), 3702);
-            SendMsg(message, multicast);
-            SendMsg(message, multicast2);
-        }
 
         /// <summary>
         /// 宇视设备查找，数据解包
@@ -131,32 +102,7 @@ namespace PlcClient.Handler
 
         #endregion
 
-        #region 大华设备发现
-        /// <summary>
-        /// 大华网络设备发现
-        /// 广播地址：239.255.255.251
-        /// 端口：37810，已激活的
-        /// 端口：5050，可能是未激活的，暂无测试
-        /// </summary>
-        public void DaHuaDeviceFind()
-        {
-            // hex
-            //20000000444849500000000000000000490000000000000049000000000000007b20226d6574686f6422203a20224448446973636f7665722e736561726368222c2022706172616d7322203a207b20226d616322203a2022222c2022756e6922203a2031207d207d0a
-            //    DHIP        I       I       { "method" : "DHDiscover.search", "params" : { "mac" : "", "uni" : 1 } }
-            //
-            //var hex = Properties.Resources.DaHua
-            //var msg_by = new List<byte>();
-            //for (int i = 0; i < hex.Length; i += 2)
-            //{
-            //    var b = Convert.ToByte(hex[i].ToString() + hex[i + 1].ToString(), 16);
-            //    msg_by.Add(b);
-            //}
-            var base64 = Properties.Resources.DaHua.ToBase64();
-            var message = Encoding.UTF8.GetString(base64);
-            var multicast = new IPEndPoint(IPAddress.Parse("239.255.255.251"), 37810);//自有协议
-            SendMsg(message, multicast);
-            SendMsg(message, multicast);
-        }
+        #region 大华设备解包
 
         public HKProbeMatch DaHuaUnpack(string message)
         {
@@ -169,7 +115,7 @@ namespace PlcClient.Handler
 
         #endregion
 
-        public void Start(Action findAction = null)
+        public void Start()
         {
             this.IsStart = true;
             this.CancellationTokenSource = new CancellationTokenSource();
@@ -177,114 +123,75 @@ namespace PlcClient.Handler
             {
                 this.IsStart = false;
             });
+            var ips = new List<string>();
+            var msg_tpl = string.Empty;
+            switch (this.CameraProtocol)
+            {
+                case CameraProtocol.HK:
+                    /// 海康设备查找
+                    /// 广播地址：239.255.255.250
+                    /// 广播地址：239.255.255.250
+                    /// 端口：37020
+                    ips.Add("udp://239.255.255.250:37020");
+                    if (System.Net.Sockets.Socket.OSSupportsIPv6)
+                        ips.Add("udp://[ff02::c]:37020");
+                    msg_tpl = Properties.Resources.hikvision;
+                    break;
+                case CameraProtocol.DH:
+                    /// 大华网络设备发现
+                    /// 广播地址：239.255.255.251
+                    /// 端口：37810，已激活的
+                    /// 端口：5050，可能是未激活的，暂无测试
+                    ips.Add("udp://239.255.255.251:37810");
+                    if (System.Net.Sockets.Socket.OSSupportsIPv6)
+                        ips.Add("udp://[ff02::c]:37810");
+                    var base64 = Properties.Resources.DaHua.ToBase64();
+                    msg_tpl = Encoding.UTF8.GetString(base64);
+                    break;
+                case CameraProtocol.ONVIF:
+                    /// 网络设备查找(基于onvif协议)
+                    /// 广播地址：239.255.255.250
+                    /// 广播地址：239.255.255.255
+                    /// 端口：3702
+                    ips.Add("udp://239.255.255.250:3702");
+                    ips.Add("udp://239.255.255.255:3702");
+                    msg_tpl = Properties.Resources.onvif.Replace("{uuid}", Guid.NewGuid().ToString());
+                    break;
+            }
+            this.IsStart = true;
             Task.Run(async () =>
             {
-                while (!this.CancellationTokenSource.IsCancellationRequested)
+                var clients = new List<ISocketClient>();
+                foreach (string adr in ips)
                 {
-                    if (!this._message.Any())
-                    {
-                        await Task.Delay(200);
-                        continue;
-                    }
-                    var _msg = _message.Dequeue();
-                    OnBroadcastReceice(_msg);
+                    var uri = new NewLife.Net.NetUri(adr);
+                    var udp = uri.CreateRemote();
+#if DEBUG
+                    udp.Port = uri.Port;
+#endif
+                    udp.Received += Client_Received;
+                    clients.Add(udp);
                 }
-
-            }, this.CancellationTokenSource.Token);
-            Task.Run(() =>
-            {
-                endPoint = new IPEndPoint(IPAddress.Parse(localIP), 0);
-                udpClient = new UdpClient(endPoint);
-                //udpClient.JoinMulticastGroup(IPAddress.Parse("239.255.255.250"));
-                //udpClient.JoinMulticastGroup(IPAddress.Parse("239.255.255.251"));
-                //udpClient.JoinMulticastGroup(IPAddress.Parse("239.255.255.255"));
-                while (!CancellationTokenSource.IsCancellationRequested)
+                while (!CancellationTokenSource.IsCancellationRequested && msg_tpl != string.Empty)
                 {
-                    var ar = udpClient.BeginReceive(new AsyncCallback(ReceiveBroadcast), null);
-                    ar.AsyncWaitHandle.WaitOne();
+                    var message = msg_tpl.Replace("{uuid}", Guid.NewGuid().ToString());
+                    foreach (var client in clients)
+                    {
+                        client.Send(message);
+                    }
+                    await Task.Delay(30*1000, CancellationTokenSource.Token);
                 }
             }, CancellationTokenSource.Token);
-            if (findAction != null)
-            {
-                //定时发送广播
-                Task.Run(async () =>
-                {
-                    //await Task.Delay(200);
-                    int delay = 0;
-                    while (!this.CancellationTokenSource.IsCancellationRequested)
-                    {
-                        findAction.Invoke();
-                        while (!this.CancellationTokenSource.IsCancellationRequested)
-                        {                            
-                            await Task.Delay(1000);
-                            delay++;
-                            if (delay > 60)
-                            {
-                                break;
-                            }
-                        }
-                        delay = 0;
-                    }
-                    Console.WriteLine("设备发现结束");
-                }, this.CancellationTokenSource.Token);
-
-            }
-            OnSendProcess();
         }
 
-        private void ReceiveBroadcast(IAsyncResult ar)
+        private void Client_Received(object sender, ReceivedEventArgs e)
         {
-            if (CancellationTokenSource.IsCancellationRequested)
-                return;
-            //var udpClient = (UdpClient)ar.AsyncState;
-            //if (udpClient != null)
-            //{
-            var remoteEP = new IPEndPoint(IPAddress.Any, 0);
-            // 获取接收到的数据包
-            var receivedData = udpClient.EndReceive(ar, ref remoteEP);
-            // 解码数据包以提取消息内容
-            string message = Encoding.UTF8.GetString(receivedData);
-            // 处理收到的消息内容
-            //OnBroadcastReceice(new DeviceEventArgs(remoteEP, message));
-            _message.Enqueue(new DeviceEventArgs(remoteEP, message));
-            //}
+            var message = e.Packet.ToStr();
+            OnBroadcastReceice(new DeviceEventArgs(e.Remote, message));
         }
-
         public void Stop()
         {
             this.CancellationTokenSource.Cancel();
-            _message.Clear();
-            _sendQueue.Clear();
-            udpClient.Close();
         }
-
-        private void SendMsg(string message, IPEndPoint ep)
-        {
-            _sendQueue.Enqueue(new KeyValuePair<IPEndPoint, string>(ep, message));//将消息加入队列(发送消息))
-        }
-
-        private Queue<KeyValuePair<IPEndPoint, string>> _sendQueue = new Queue<KeyValuePair<IPEndPoint, string>>();
-        protected virtual void OnSendProcess()
-        {
-            Task.Run(async () =>
-            {
-                while (!this.CancellationTokenSource.IsCancellationRequested)
-                {
-                    if (this._sendQueue.Count == 0 || this.udpClient == null)
-                    {
-                        await Task.Delay(200);
-                        continue;
-                    }
-
-                    var kv = this._sendQueue.Dequeue();
-                    udpClient.Send(Encoding.UTF8.GetBytes(kv.Value), kv.Value.Length, kv.Key);
-
-                }
-            }, this.CancellationTokenSource.Token);
-        }
-
-
-
-
     }
 }

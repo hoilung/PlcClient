@@ -147,7 +147,7 @@
             this.tbx_remotePort.MaxLength = 5;
             this.tbx_remotePort.Name = "tbx_remotePort";
             this.tbx_remotePort.Size = new System.Drawing.Size(50, 25);
-            this.tbx_remotePort.Text = "7979";
+            this.tbx_remotePort.Text = "8000";
             // 
             // toolStripSeparator2
             // 

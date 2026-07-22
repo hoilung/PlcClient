@@ -181,11 +181,34 @@ namespace PlcClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;Probe&gt;&lt;Uuid&gt;{uuid}&lt;/Uuid&gt;&lt;Types&gt;inquiry&lt;/Types&gt;&lt;/Probe&gt; 的本地化字符串。
+        ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;Probe&gt;&lt;Uuid&gt;{{uuid}}&lt;/Uuid&gt;&lt;Types&gt;inquiry&lt;/Types&gt;&lt;ResponseMode&gt;2&lt;/ResponseMode&gt;&lt;/Probe&gt; 的本地化字符串。
         /// </summary>
         internal static string hikvision {
             get {
                 return ResourceManager.GetString("hikvision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 分类,前缀,说明,示例
+        ///摄像机,DS-2CD,通用网络摄像机,DS-2CD2T47G2-L
+        ///摄像机,DS-2DE,网络球机(PTZ),DS-2DE4223IW-DE
+        ///摄像机,DS-2DF,网络高速球机/智能球机/激光球机,DS-2DF6C404MX-T
+        ///摄像机,DS-2TD,热成像摄像机,DS-2TD2617B-10/PA
+        ///摄像机,DS-2CE,同轴高清摄像机(HDCVI),DS-2CE56D0T-IT3
+        ///摄像机,DS-2CA,模拟摄像机,DS-2CA202D-IR
+        ///摄像机,iDS-,AI智能摄像机,iDS-2CD7A26FWD-V3
+        ///摄像机,DS-MH,移动布控球/便携摄像机,DS-MH1218A
+        ///摄像机,DS-2CD8,全景/多目摄像机,DS-2CD8A85F
+        ///摄像机,DS-2CD2T,通用红外筒形网络摄像机,DS-2CD2T86F-L
+        ///摄像机,DS-2CD7,AI智能网络摄像机,DS-2CD7027FWD/FE-A
+        ///摄像机,DS-2CD86,全景/多目摄像机,DS-2CD8686F-IZS
+        ///摄像机,DS-2CD8A,全景/多目摄像机,DS-2CD8A86F-IZS
+        ///摄像机,D [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string hk_device_type {
+            get {
+                return ResourceManager.GetString("hk_device_type", resourceCulture);
             }
         }
         

@@ -13,7 +13,7 @@ namespace PlcClient.Controls
 {
     public partial class CameraDiscovery : BaseControl
     {
-
+        private Dictionary<string, string> hk_device_type = new Dictionary<string, string>();
         public CameraDiscovery()
         {
             InitializeComponent();
@@ -26,11 +26,12 @@ namespace PlcClient.Controls
             var attr = Model.DeviceDiscover.HKProbeMatch.GetDisplayCustoms().Where(m => m.Order > 0).OrderBy(m => m.Order).ToArray();
             for (int i = 0; i < attr.Length; i++)
             {
-                lv_data.Columns.Add(attr[i].DataMember, attr[i].Name);
+                lv_data.Columns.Add(attr[i].DataMember, attr[i].Name, 80);
             }
             listViewHandler = new Handler.ListViewHandler(this.lv_data);
             listViewHandler.ColuminSort();
             this.lv_data.MouseClick += Lv_data_MouseClick;
+            hk_device_type = Properties.Resources.hk_device_type.Split(new[] { Environment.NewLine }, options: StringSplitOptions.RemoveEmptyEntries).Select(m => m.Split(',')).Where(m => m.Length == 4).Skip(1).ToDictionary(m => m[1], m => m[2]);
         }
 
         private void Lv_data_MouseClick(object sender, MouseEventArgs e)
@@ -52,117 +53,86 @@ namespace PlcClient.Controls
                 return;
             }
             btn_find.Text = "停止搜索";
-
             try
             {
-                deviceHandler.SetLocalIP(tbx_ip.Text);
                 switch (cbx_deviceType.Text)
                 {
                     case "海康":
-                        deviceHandler.DeviceReceice += HK_DeviceReceice;
-                        deviceHandler.Start(() => deviceHandler.HKDeviceFind());
+                        deviceHandler.CameraProtocol = CameraProtocol.HK;
                         break;
                     case "大华":
-                        //deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
-                        deviceHandler.DeviceReceice += DH_DeviceReceice;
-                        deviceHandler.Start(() => deviceHandler.DaHuaDeviceFind());
+                        deviceHandler.CameraProtocol = CameraProtocol.DH;
                         break;
                     case "ONVIF":
-                        //deviceHandler = new Handler.DeviceHandler(tbx_ip.Text);
-                        deviceHandler.DeviceReceice += Onvif_DeviceReceice;
-                        deviceHandler.Start(() => deviceHandler.OnvifDeviceFind());
+                        deviceHandler.CameraProtocol = CameraProtocol.ONVIF;
                         break;
                 }
+                deviceHandler.DeviceReceice += DeviceHandler_DeviceReceice;
+                deviceHandler.Start();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("请勿开启同类型软件避免端口占用\r\n" + ex.Message, "查找设备错误");
-
             }
         }
-
-        private void DH_DeviceReceice(object sender, DeviceEventArgs e)
+        private void DeviceHandler_DeviceReceice(object sender, DeviceEventArgs e)
         {
             try
             {
-                var hk = deviceHandler.DaHuaUnpack(e.Message);
-                AddDeviceData(hk);
-            }
-            catch (Exception ex)
-            {
-                XTrace.Log.Error("大华查找设备错误 {0}", ex);
-                //deviceHandler.DeviceReceice -= DH_DeviceReceice;
-                //MessageBox.Show(ex.Message, "大华查找设备错误");
-                OnMsg("大华查找设备错误," + ex.Message);
-            }
-        }
-
-        private void Onvif_DeviceReceice(object sender, DeviceEventArgs e)
-        {
-            try
-            {
-                var hk = deviceHandler.OnvifUnpack(e.Message);
-
-                //var xml_info = await deviceHandler.GetDeviceInformation(hk.OnvifAddress, "admin", "xxct111111");
-                //var info = deviceHandler.XmlUnpack<Envelope>(xml_info);
-                //var xml_net = await deviceHandler.GetNetworkInterfaces(hk.OnvifAddress, "admin", "xxct111111");
-                //var net = deviceHandler.XmlUnpack<Envelope>(xml_net);   
-
-                AddDeviceData(hk);
-            }
-            catch (Exception ex)
-            {
-                XTrace.Log.Error("Onvif查找设备错误 {0}", ex);
-                //deviceHandler.DeviceReceice -= Onvif_DeviceReceice;
-                //MessageBox.Show(ex.Message, "Onvif查找设备错误");
-                OnMsg("Onvif查找设备错误," + ex.Message);
-            }
-        }
-
-
-        private void HK_DeviceReceice(object sender, Handler.DeviceEventArgs e)
-        {
-            if (sender is Handler.DeviceHandler hander && e.Message != null)
-            {
-                try
+                if (string.IsNullOrEmpty(e.Message))
+                    return;
+                if (deviceHandler.CameraProtocol == CameraProtocol.HK)
                 {
                     if (!e.Message.Contains("</ProbeMatch>"))
                         return;
-
-                    var hk = hander.XmlUnpack<HKProbeMatch>(e.Message);
+                    var hk = deviceHandler.HKUnpack(e.Message);
                     AddDeviceData(hk);
                 }
-                catch (Exception ex)
+                if (deviceHandler.CameraProtocol == CameraProtocol.DH)
                 {
-                    XTrace.Log.Error("海康查找设备错误 {0}, {1}", ex, e.Message);
-                    //deviceHandler.DeviceReceice -= HK_DeviceReceice;
-                    //MessageBox.Show(ex.Message, "海康查找设备错误");
-                    OnMsg("海康查找设备错误," + ex.Message);
+                    var dh = deviceHandler.DaHuaUnpack(e.Message);
+                    AddDeviceData(dh);
                 }
+                if (deviceHandler.CameraProtocol == CameraProtocol.ONVIF)
+                {
+                    var onvif = deviceHandler.OnvifUnpack(e.Message);
+                    AddDeviceData(onvif);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                XTrace.Log.Error("查找摄像头设备错误 {0},{1}", ex,e.Message);
+                OnMsg("查找摄像头设备错误," + ex.Message);
             }
         }
-
         private void AddDeviceData(HKProbeMatch hk)
         {
             if (hk == null)
             {
                 return;
             }
-            else if (hKProbeMatches.ContainsKey(hk.IPv4Address))
+            if (hKProbeMatches.ContainsKey(hk.MAC))
             {
                 return;
             }
+            var info = hk_device_type.Keys.FirstOrDefault(m => hk.DeviceDescription.StartsWith(m));
+            if (info != null)
+            {
+                hk.DeviceType = $"{hk_device_type[info]}";
+            }
+            hk.DeviceSN = hk.DeviceSN.Length > 9 ? hk.DeviceSN.Substring(hk.DeviceSN.Length - 9) : hk.DeviceSN;
 
-            hKProbeMatches.Add(hk.IPv4Address, hk);
+            hKProbeMatches.Add(hk.MAC, hk);
             lv_data.Invoke(() =>
             {
                 var row = lv_data.Items.Add(lv_data.Items.Count.ToString());
                 row.Tag = hk;
+                if (lv_data.Items.Count % 2 == 0)
+                    row.BackColor = Color.AliceBlue;
                 var item = hk.GetObjectMap();
                 for (int j = 1; j < lv_data.Columns.Count; j++)
                 {
-                    if (j % 2 == 0)
-                        row.BackColor = Color.AliceBlue;
 
                     if (item.TryGetValue(lv_data.Columns[j].Name, out var value))
                     {
@@ -175,7 +145,6 @@ namespace PlcClient.Controls
                     }
                 }
                 row.SubItems[0].Tag = lv_data.Items.Count;
-                //lv_data.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             });
         }
 

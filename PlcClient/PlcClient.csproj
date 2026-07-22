@@ -438,6 +438,7 @@
     <Content Include="Resources\Copy.png" />
     <Content Include="Resources\DaHua.txt" />
     <Content Include="Resources\Done.png" />
+    <Content Include="Resources\hk_device_type.txt" />
     <Content Include="Resources\Internet Explorer.png" />
     <None Include="Resources\Puzzle.png" />
     <None Include="Resources\Opened Folder.png" />

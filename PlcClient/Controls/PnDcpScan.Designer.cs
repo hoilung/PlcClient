@@ -108,8 +108,8 @@
             this.btn_export.Image = global::PlcClient.Properties.Resources.XLS;
             this.btn_export.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_export.Name = "btn_export";
-            this.btn_export.Size = new System.Drawing.Size(81, 22);
-            this.btn_export.Text = "导出Excel";
+            this.btn_export.Size = new System.Drawing.Size(76, 22);
+            this.btn_export.Text = "导出表格";
             this.btn_export.Click += new System.EventHandler(this.btn_export_Click);
             // 
             // btn_clear

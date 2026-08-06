@@ -19,7 +19,7 @@ namespace PlcClient.Controls
 {
     public partial class SiemensBase : BaseControl
     {
-        private const string _addressVerdify = @"^((DB\d+\.DB[BWDX]\d+(\.[0-7])?$)|(V[BWDX]\d+(\.[0-7])?$)|([IEQAOM][BWD]\d+$)|([IEQAOM]\d+\.[0-7]$)|([TZC]\d+$))$";//西门子plc地址验证
+        private const string _addressVerdify = @"^((DB\d+\.DB[BWDX]\d+(\.[0-7])?$)|([V]\d+\.[0-7]$)|([IEQAOMV][BWD]\d+$)|([IEQAOM]\d+\.[0-7]$)|([TZC]\d+$))$";//西门子plc地址验证
 
 
         public CpuType CpuType { get; set; }
@@ -39,6 +39,10 @@ namespace PlcClient.Controls
             tbx_value.ReadOnly = true;
             lvwHandler = new ListViewHandler(this.lv_data);
             lvwHandler.ColuminSort();
+            tbx_adr.KeyPress += (s, e) =>
+             {
+                 e.KeyChar = Convert.ToChar(e.KeyChar.ToString().ToUpper());
+             };
         }
 
         private void SiemensBase_Disposed(object sender, EventArgs e)
@@ -102,9 +106,7 @@ namespace PlcClient.Controls
             this.btn_open.Enabled = !state;
             //cbx_type.Enabled = state;
 
-            btn_add.Enabled = btn_readAll.Enabled = state;
-
-
+            btn_add.Enabled = btn_readAll.Enabled = state;           
         }
 
         private void btn_clearTbx_Click(object sender, EventArgs e)
@@ -187,7 +189,7 @@ namespace PlcClient.Controls
 
         private void btn_read_Click(object sender, EventArgs e)
         {
-            var address = tbx_adr.Text.Trim().ToUpper();
+            var address = tbx_adr.Text.Trim();
             if (string.IsNullOrWhiteSpace(address) || !Regex.IsMatch(address, _addressVerdify))
             {
                 MessageBox.Show($"{address} 无效的地址");

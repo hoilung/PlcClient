@@ -65,6 +65,11 @@ namespace PlcClient.Controls
             tbx_value.ReadOnly = !chk_enablewrite.Checked;
 
             tbx_address.Text = Properties.Resources.ge_tip;
+
+            tbx_addressOne.KeyPress += (s, e) =>
+            {
+                e.KeyChar = Convert.ToChar(e.KeyChar.ToString().ToUpper());
+            };
         }
         private void Radio_CheckedChanged(object sender, EventArgs e)
         {
@@ -84,6 +89,7 @@ namespace PlcClient.Controls
             //lb_address.Visible = cbx_changetype.Visible = btn_changetype.Visible = state && lv_data.SelectedItems.Count > 0;
 
             tbx_ip.ReadOnly = tbx_port.ReadOnly = state;
+
         }
 
         private void btn_open_Click(object sender, EventArgs e)

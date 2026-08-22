@@ -102,7 +102,7 @@ namespace PlcClient.Controls
             }
             catch (Exception ex)
             {
-                XTrace.Log.Error("查找摄像头设备错误 {0},{1}", ex,e.Message);
+                XTrace.Log.Error("查找摄像头设备错误 {0},{1}", ex, e.Message);
                 OnMsg("查找摄像头设备错误," + ex.Message);
             }
         }
@@ -162,7 +162,6 @@ namespace PlcClient.Controls
             lv_data.Items.Clear();
             hKProbeMatches.Clear();
         }
-
         private void openWebBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -171,12 +170,41 @@ namespace PlcClient.Controls
                 if (hk == null) { return; }
                 var url = string.Format("http://{0}:{1}", hk.IPv4Address, hk.HttpPort);
                 if (string.IsNullOrEmpty(url)) { return; }
-                System.Diagnostics.Process.Start(url);
+
+                //是否打开系统默认浏览器，否则将以内置IE浏览器打开
+                if (MessageBox.Show("是否打开系统默认浏览器，否则以兼容模式打开内置IE浏览器", url, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(url);
+                    return;
+                }
+
+                var frm_about = new Form();
+                frm_about.StartPosition = FormStartPosition.CenterParent;
+                frm_about.Text = "about";
+                frm_about.ShowIcon = false;
+                frm_about.Size = new Size(800, 600);
+                //frm_about.MaximizeBox = false;
+                frm_about.MinimizeBox = false;
+                frm_about.FormBorderStyle = FormBorderStyle.Sizable;
+
+                WebBrowser webBrowser = new WebBrowser()
+                {
+                    Dock = DockStyle.Fill,
+                    ScriptErrorsSuppressed = false,
+                };
+                webBrowser.Navigated += (s, ee) =>
+                {
+                    frm_about.Text = webBrowser.Url.ToString();
+                };
+                frm_about.Controls.Add(webBrowser);
+                webBrowser.Navigate(url);
+                webBrowser.Show();
+                frm_about.ShowDialog(this);
             }
             catch (Exception ex)
             {
                 XTrace.WriteException(ex);
-                MessageBox.Show(ex.Message, "打开网页错误");
+                MessageBox.Show(ex.Message, "打开浏览器失败");
             }
         }
 
@@ -239,5 +267,7 @@ namespace PlcClient.Controls
                 MessageBox.Show(ex.Message, "查看设备信息错误");
             }
         }
+
+
     }
 }

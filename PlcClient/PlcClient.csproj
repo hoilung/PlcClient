@@ -109,6 +109,12 @@
     <Compile Include="Controls\DeviceScan.Designer.cs">
       <DependentUpon>DeviceScan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ENIPScan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ENIPScan.Designer.cs">
+      <DependentUpon>ENIPScan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LLDPScan.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -250,6 +256,7 @@
     <Compile Include="Model\DeviceDiscover\Onvif.cs" />
     <Compile Include="Model\DeviceDiscover\ProfinetDcpDevice.cs" />
     <Compile Include="Model\DisplayCustomAttribute.cs" />
+    <Compile Include="Model\ENIPDeviceVM.cs" />
     <Compile Include="Model\LLDPDeviceVM.cs" />
     <Compile Include="Model\OPCDAItem.cs" />
     <Compile Include="Model\DeviceDiscover\HKProbeMatch.cs" />
@@ -278,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DeviceScan.resx">
       <DependentUpon>DeviceScan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ENIPScan.resx">
+      <DependentUpon>ENIPScan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LLDPScan.resx">
       <DependentUpon>LLDPScan.cs</DependentUpon>

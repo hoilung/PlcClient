@@ -20,6 +20,7 @@ namespace PlcClient.Controls
             this.arpScanner1.Msg += OnMsg;
             this.pnDcpScan1.Msg += OnMsg;
             this.lldpScan1.Msg += OnMsg;
+            this.enipScan1.Msg += OnMsg;
         }
 
     }

@@ -35,10 +35,13 @@
             this.pnDcpScan1 = new PlcClient.Controls.PnDcpScan();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.lldpScan1 = new PlcClient.Controls.LLDPScan();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.enipScan1 = new PlcClient.Controls.ENIPScan();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -46,6 +49,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.ItemSize = new System.Drawing.Size(90, 20);
             this.tabControl1.Location = new System.Drawing.Point(22, 13);
             this.tabControl1.Name = "tabControl1";
@@ -135,6 +139,33 @@
         System.TypeCode.UInt16,
         System.TypeCode.UInt32};
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.enipScan1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 24);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(783, 415);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "ENIP";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // enipScan1
+            // 
+            this.enipScan1.Location = new System.Drawing.Point(17, 24);
+            this.enipScan1.Name = "enipScan1";
+            this.enipScan1.Size = new System.Drawing.Size(702, 364);
+            this.enipScan1.TabIndex = 0;
+            this.enipScan1.TypeCodes = new System.TypeCode[] {
+        System.TypeCode.Boolean,
+        System.TypeCode.Byte,
+        System.TypeCode.Int16,
+        System.TypeCode.Int32,
+        System.TypeCode.Single,
+        System.TypeCode.Double,
+        System.TypeCode.UInt16,
+        System.TypeCode.UInt32};
+            // 
             // DeviceScan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -146,6 +177,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -159,5 +191,7 @@
         private ArpScanner arpScanner1;
         private PnDcpScan pnDcpScan1;
         private LLDPScan lldpScan1;
+        private System.Windows.Forms.TabPage tabPage4;
+        private ENIPScan enipScan1;
     }
 }

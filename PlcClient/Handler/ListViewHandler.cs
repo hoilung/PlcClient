@@ -4,6 +4,7 @@ using NewLife.Reflection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -163,6 +164,9 @@ namespace PlcClient.Handler
             _properties = typeof(T).GetProperties();
             foreach (var item in _properties)
             {
+                var read = item.GetCustomAttribute<ReadOnlyAttribute>();
+                if (read != null && read.IsReadOnly)
+                    continue;
                 var displayName = item.GetDisplayName() ?? item.Name;
                 this.listView.Columns.Add(new ColumnHeader { Name = item.Name, Text = displayName, Width = 60 });
             }
@@ -241,7 +245,7 @@ namespace PlcClient.Handler
 
             var data = this._dataCache[index];
 
-            var subitems = _properties.Select(m => new ListViewItem.ListViewSubItem()
+            var subitems = _properties.Where(m => this.listView.Columns.ContainsKey(m.Name)).Select(m => new ListViewItem.ListViewSubItem()
             {
                 Name = m.Name,
                 Text = m.GetValue(data)?.ToString()
@@ -261,6 +265,8 @@ namespace PlcClient.Handler
             item.Tag = data;
             foreach (var property in _properties)
             {
+                if (!listView.Columns.ContainsKey(property.Name))
+                    continue;
                 item.SubItems[property.Name].Text = property.GetValue(data)?.ToString();
             }
 
@@ -310,19 +316,25 @@ namespace PlcClient.Handler
             {
                 return base.ToDataTable();
             }
-            DataTable dt = new DataTable();      
+            DataTable dt = new DataTable();
             foreach (var property in _properties)
             {
+                if (!listView.Columns.ContainsKey(property.Name))
+                    continue;
                 dt.Columns.Add(property.Name, property.PropertyType);
             }
 
             foreach (var item in this._dataCache)
             {
                 var row = dt.NewRow();
-                foreach (var property in _properties)
+                foreach (var col in dt.Columns)
                 {
-                    row[property.Name] = property.GetValue(item);
-                }
+                    var property = _properties.FirstOrDefault(m => m.Name == col.ToString());
+                    if (property != null)
+                    {
+                        row[col.ToString()] = property.GetValue(item);
+                    }
+                }               
                 dt.Rows.Add(row);
             }
             return dt;

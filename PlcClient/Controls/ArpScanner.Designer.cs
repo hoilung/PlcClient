@@ -59,7 +59,7 @@
             this.groupBox1.Size = new System.Drawing.Size(729, 371);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "设备扫描 TCP/IMCP";
+            this.groupBox1.Text = "设备扫描 IMCP/TCP";
             // 
             // tableLayoutPanel1
             // 

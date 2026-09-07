@@ -18,14 +18,14 @@ namespace PlcClient.Controls
         public ENIPScan()
         {
             InitializeComponent();
-            this.Dock = groupBox1.Dock = listViewEx1.Dock = DockStyle.Fill;
+            this.Dock = groupBox1.Dock = tableLayoutPanel1.Dock = listViewEx1.Dock = DockStyle.Fill;
             listViewHandler = new ListViewHandler<ENIPDeviceVM>(this.listViewEx1);
             listViewHandler.SetupVirtualMode();
             listViewHandler.listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
+            this.cbx_ips.Items.Add("0.0.0.0");
+            cbx_ips.SelectedIndex = 0;
             this.cbx_ips.Items.AddRange(GetLocalAllIP());
-            if (cbx_ips.Items.Count > 0)
-                cbx_ips.SelectedIndex = 0;
+
 
         }
         private byte[] identity = new byte[] {
@@ -35,6 +35,7 @@ namespace PlcClient.Controls
                             };
 
         private CancellationTokenSource cancellationTokenSource;
+        private HashSet<string> _cacheDevice = new HashSet<string>();
         private void btn_start_Click(object sender, EventArgs e)
         {
             try
@@ -52,40 +53,25 @@ namespace PlcClient.Controls
                         btn_start.Text = "开始查找";
                     });
                 });
+                _cacheDevice.Clear();
                 btn_start.Text = "取消查找";
-
+                var ip = cbx_ips.Text;
                 Task.Run(async () =>
                 {
                     var allip = GetLocalAllIP();
                     string url = $"udp://255.255.255.255:44818";
                     NetUri net = new NetUri(url);
-                    var list = new List<ISocketClient>();
-                    foreach (var ip in allip)
-                    {
-                        var client = net.CreateRemote();
-                        client.Received += Client_Received;
-                        client.Local.Address = IPAddress.Parse(ip);
-                        if (client.Open())
-                        {
-                            list.Add(client);
-                        }
-                    }
-                    
+                    var client = net.CreateRemote();
+                    client.Received += Client_Received;
+                    client.Local.Address = IPAddress.Parse(ip);
+                    int num = 1;
                     while (!cancellationTokenSource.IsCancellationRequested)
-                    {                        
-                        foreach (var client in list)
-                        {
-                            client.Send(identity);
-                        }
-                        await Task.Delay(10 * 1000, cancellationTokenSource.Token);
-                        break;
-                    }
-                    foreach (var client in list)
                     {
-                        client.Close("");
+                        client.Send(identity);
+                        await Task.Delay(10 * 1000, cancellationTokenSource.Token);
                     }
+                    client.Close("");
                     cancellationTokenSource.Cancel();
-
                 }, cancellationTokenSource.Token);
             }
             catch (Exception ex)
@@ -96,13 +82,22 @@ namespace PlcClient.Controls
 
         private void Client_Received(object sender, ReceivedEventArgs e)
         {
+            var address = e.Remote.Address.ToString();
             var data = e.Packet.GetSpan();
+            if (_cacheDevice.Contains(address) || data.Length < 24)
+            {
+                return;
+            }
             long content = BitConverter.ToInt64(data.ToArray(), 14);
             if (content == 0x006d6f4d6948)
             {
-                var vm = ENIPDeviceVM.Parse(data.ToArray(), e.Remote.Address.ToString());
+                var vm = ENIPDeviceVM.Parse(data.ToArray(), address);
+                if (vm == null)
+                    return;
+                _cacheDevice.Add(address);
                 this.Invoke(() =>
                 {
+                    this.OnMsg($"发现设备 {address},总计{_cacheDevice.Count}个");
                     vm.ID = listViewHandler.DataCount + 1;
                     listViewHandler.Add(vm);
                 });

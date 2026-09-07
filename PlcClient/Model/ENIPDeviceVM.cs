@@ -1575,6 +1575,7 @@ namespace PlcClient.Model
         [ReadOnly(true)]
         public uint EncapsulationVersion { get; set; }
         public string IPAddress { get; set; }
+        [ReadOnly(true)]
         public uint VendorID { get; set; }
         public string Vendor { get; set; }
         public uint DeviceID { get; set; }
@@ -1596,7 +1597,7 @@ namespace PlcClient.Model
         }
         public static string GetDevice(uint device_id)
         {
-            if(Devices.ContainsKey(device_id))
+            if (Devices.ContainsKey(device_id))
                 return Devices[device_id];
             return "Unknown";
         }
@@ -1605,6 +1606,8 @@ namespace PlcClient.Model
         {
             var vm = new ENIPDeviceVM();
             vm.Length = BitConverter.ToUInt16(data, 28);
+            if (vm.Length != data.Length - 30)
+                return null;
             vm.EncapsulationVersion = BitConverter.ToUInt16(data, 30);
             uint longip = BitConverter.ToUInt32(data, 36);
             if (ipAddress != null)

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.listViewEx1 = new PlcClient.Controls.ListViewEx();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -37,12 +38,13 @@
             this.btn_export = new System.Windows.Forms.ToolStripButton();
             this.btn_clear = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.listViewEx1);
+            this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Controls.Add(this.toolStrip1);
             this.groupBox1.Location = new System.Drawing.Point(35, 24);
             this.groupBox1.Name = "groupBox1";
@@ -51,14 +53,26 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "设备发现 EtherNet/IP";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.listViewEx1, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 63);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(543, 256);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
             // listViewEx1
             // 
             this.listViewEx1.FullRowSelect = true;
             this.listViewEx1.GridLines = true;
             this.listViewEx1.HideSelection = false;
-            this.listViewEx1.Location = new System.Drawing.Point(6, 45);
+            this.listViewEx1.Location = new System.Drawing.Point(3, 3);
             this.listViewEx1.Name = "listViewEx1";
-            this.listViewEx1.Size = new System.Drawing.Size(585, 274);
+            this.listViewEx1.Size = new System.Drawing.Size(537, 250);
             this.listViewEx1.TabIndex = 1;
             this.listViewEx1.UseCompatibleStateImageBehavior = false;
             this.listViewEx1.View = System.Windows.Forms.View.Details;
@@ -88,7 +102,7 @@
             this.cbx_ips.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_ips.Name = "cbx_ips";
             this.cbx_ips.Size = new System.Drawing.Size(121, 25);
-            this.cbx_ips.ToolTipText = "查找当前所有网段";
+            this.cbx_ips.ToolTipText = "查找当前网段设备";
             // 
             // btn_start
             // 
@@ -126,6 +140,7 @@
             this.Size = new System.Drawing.Size(748, 395);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -142,5 +157,6 @@
         private System.Windows.Forms.ToolStripButton btn_export;
         private System.Windows.Forms.ToolStripButton btn_clear;
         private ListViewEx listViewEx1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

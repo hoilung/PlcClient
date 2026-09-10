@@ -36,7 +36,10 @@ namespace PlcClient.Controls
 
             this.btn_close.Enabled = false;
         }
-
+        private void cbx_mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lb_localPort.Visible = tbx_localPort.Visible = cbx_mode.Text == "UDP";
+        }
         private void Cbx_code_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -66,6 +69,11 @@ namespace PlcClient.Controls
             {
                 NetUri net = new NetUri(address);
                 _client = net.CreateRemote();
+                _client.Local.Address = System.Net.IPAddress.Parse(cbx_localip.Text);
+                if (cbx_mode.Text == "UDP")
+                {
+                    _client.Local.Port = tbx_localPort.Text.ToInt();
+                }
                 //_client.Log = null;
                 _client.Received += _client_Received;
                 _client.Opened += _client_Opened;
@@ -98,10 +106,10 @@ namespace PlcClient.Controls
                 btn_close.Enabled = true;
             }));
             OnMsg($"连接成功 本地：{_client.Local}=>远程：{_client.Remote}");
-        }        
+        }
         private void _client_Received(object sender, ReceivedEventArgs e)
         {
-            
+
             tbx_received.Invoke(new Action(() =>
             {
                 if (cbx_time.Checked)
@@ -109,19 +117,19 @@ namespace PlcClient.Controls
                     tbx_received.AppendText(DateTime.Now.ToString("[HH:mm:ss.fff] ") + e.Remote + Environment.NewLine);
                 }
                 int start = tbx_received.Text.Length;
-                
+
                 if (cbx_string.Checked)
                 {
                     tbx_received.AppendText(e.Packet.ToStr(cbx_code.Tag as Encoding));
                 }
                 if (cbx_hex.Checked)
                 {
-                    if(cbx_string.Checked)
+                    if (cbx_string.Checked)
                         tbx_received.AppendText(Environment.NewLine);
                     tbx_received.AppendText(e.Packet.ToHex(-1, " "));
                 }
                 if (e.Packet.Length > 0)
-                {  
+                {
                     tbx_received.SelectionStart = start;
                     tbx_received.SelectionLength = tbx_received.Text.Length;
                     var rgb = Enumerable.Range(1, 254).OrderBy(m => Guid.NewGuid()).Take(3).ToArray();
@@ -214,5 +222,7 @@ namespace PlcClient.Controls
                 }
             }
         }
+
+
     }
 }

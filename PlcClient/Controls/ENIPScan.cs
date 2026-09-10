@@ -1,4 +1,5 @@
 ﻿using NewLife;
+using NewLife.Data;
 using NewLife.Log;
 using NewLife.Net;
 using PlcClient.Handler;
@@ -28,6 +29,10 @@ namespace PlcClient.Controls
 
 
         }
+        
+        //0x63,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        //0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        //0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
         private byte[] identity = new byte[] {
                                 0x63,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
                                 0x00,0x00,0x00,0x00,0xfa,0x00,0x48,0x69,
@@ -83,15 +88,15 @@ namespace PlcClient.Controls
         private void Client_Received(object sender, ReceivedEventArgs e)
         {
             var address = e.Remote.Address.ToString();
-            var data = e.Packet.GetSpan();
+            var data = e.Packet.ReadBytes();
             if (_cacheDevice.Contains(address) || data.Length < 24)
             {
                 return;
             }
-            long content = BitConverter.ToInt64(data.ToArray(), 14);
+            long content = BitConverter.ToInt64(data, 14);
             if (content == 0x006d6f4d6948)
             {
-                var vm = ENIPDeviceVM.Parse(data.ToArray(), address);
+                var vm = ENIPDeviceVM.Parse(data, address);
                 if (vm == null)
                     return;
                 _cacheDevice.Add(address);

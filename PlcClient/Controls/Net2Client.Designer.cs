@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
-            this.cbx_localip = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cbx_mode = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            this.cbx_localip = new System.Windows.Forms.ToolStripComboBox();
+            this.lb_localPort = new System.Windows.Forms.ToolStripLabel();
+            this.tbx_localPort = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.cbx_remoteIp = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel6 = new System.Windows.Forms.ToolStripLabel();
             this.tbx_remotePort = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_conn = new System.Windows.Forms.ToolStripButton();
@@ -74,13 +76,15 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel5,
-            this.cbx_localip,
             this.toolStripLabel1,
             this.cbx_mode,
+            this.toolStripLabel5,
+            this.cbx_localip,
+            this.lb_localPort,
+            this.tbx_localPort,
             this.toolStripLabel3,
             this.cbx_remoteIp,
-            this.toolStripLabel2,
+            this.toolStripLabel6,
             this.tbx_remotePort,
             this.toolStripSeparator2,
             this.btn_conn,
@@ -90,9 +94,26 @@
             this.cbx_code});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(842, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(976, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(32, 22);
+            this.toolStripLabel1.Text = "协议";
+            // 
+            // cbx_mode
+            // 
+            this.cbx_mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_mode.DropDownWidth = 121;
+            this.cbx_mode.Items.AddRange(new object[] {
+            "TCP",
+            "UDP"});
+            this.cbx_mode.Name = "cbx_mode";
+            this.cbx_mode.Size = new System.Drawing.Size(75, 25);
+            this.cbx_mode.SelectedIndexChanged += new System.EventHandler(this.cbx_mode_SelectedIndexChanged);
             // 
             // toolStripLabel5
             // 
@@ -108,21 +129,19 @@
             this.cbx_localip.Name = "cbx_localip";
             this.cbx_localip.Size = new System.Drawing.Size(121, 25);
             // 
-            // toolStripLabel1
+            // lb_localPort
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(32, 22);
-            this.toolStripLabel1.Text = "模式";
+            this.lb_localPort.Name = "lb_localPort";
+            this.lb_localPort.Size = new System.Drawing.Size(56, 22);
+            this.lb_localPort.Text = "本地端口";
             // 
-            // cbx_mode
+            // tbx_localPort
             // 
-            this.cbx_mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_mode.DropDownWidth = 121;
-            this.cbx_mode.Items.AddRange(new object[] {
-            "TCP",
-            "UDP"});
-            this.cbx_mode.Name = "cbx_mode";
-            this.cbx_mode.Size = new System.Drawing.Size(75, 25);
+            this.tbx_localPort.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
+            this.tbx_localPort.MaxLength = 5;
+            this.tbx_localPort.Name = "tbx_localPort";
+            this.tbx_localPort.Size = new System.Drawing.Size(50, 25);
+            this.tbx_localPort.Text = "8080";
             // 
             // toolStripLabel3
             // 
@@ -135,11 +154,11 @@
             this.cbx_remoteIp.Name = "cbx_remoteIp";
             this.cbx_remoteIp.Size = new System.Drawing.Size(120, 25);
             // 
-            // toolStripLabel2
+            // toolStripLabel6
             // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(56, 22);
-            this.toolStripLabel2.Text = "远程端口";
+            this.toolStripLabel6.Name = "toolStripLabel6";
+            this.toolStripLabel6.Size = new System.Drawing.Size(56, 22);
+            this.toolStripLabel6.Text = "远程端口";
             // 
             // tbx_remotePort
             // 
@@ -428,7 +447,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.toolStrip1);
             this.Name = "Net2Client";
-            this.Size = new System.Drawing.Size(842, 430);
+            this.Size = new System.Drawing.Size(976, 430);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -449,7 +468,7 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripLabel lb_localPort;
         private System.Windows.Forms.ToolStripTextBox tbx_remotePort;
         private System.Windows.Forms.ToolStripButton btn_conn;
         private System.Windows.Forms.ToolStripButton btn_close;
@@ -481,5 +500,7 @@
         private System.Windows.Forms.NumericUpDown nd_num;
         private System.Windows.Forms.NumericUpDown nd_step;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel6;
+        private System.Windows.Forms.ToolStripTextBox tbx_localPort;
     }
 }
